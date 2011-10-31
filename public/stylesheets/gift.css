@@ -1,0 +1,53 @@
+div.picture {
+	float: left;
+	margin: 5px;
+}
+
+div.picture img {
+	border: 1px solid #CFCFCF;
+	padding: 1px;
+}
+
+div.price {
+	margin: 10px;
+	font-size: 1.2em;
+}
+
+div.basic_information {
+	margin-left: 145px;
+}
+
+div#fast_login_form table td.button_bar {
+	margin: 0px;
+	padding: 0px;
+}
+
+div.gift {
+	clear: left;
+	margin-bottom: 30px;
+	border-top: 1px solid #CFCFCF;
+}
+
+div.gift:first-child {
+	border-top: none;
+}
+
+div#gift_photos div.photo {
+	float: left;
+	margin: 0px 2px;
+	width: 128px;
+	text-align: center;
+}
+
+div#gift_photos table.layouter {
+	width: 700px;
+}
+
+div#gift_photos table.layouter td{
+	text-align: center;
+}
+
+div#gift_description pre {
+	margin: 10px 20px;
+	line-height: 1.5em;
+}

@@ -1,0 +1,430 @@
+<% page_title h(localized_description(@layoutable, :name)) + '─' + _('Layout Maps'), true
+   use_remote_dialog
+   include_js_file 'yui/menu', 'xnavi_map'
+   include_css_file 'menu', 'layout_maps' %>                                     
+
+<script src="<%= layout_maps_path(layoutable_type(@layoutable), @layoutable.id) + '.js' %>"></script>
+
+<% content_for 'page_scripts' do -%>
+var xnavi_map;         
+
+var flag_add_hot_spot = false; 
+
+var panel;
+
+var current_map_id=<%= @layout_maps[0].id %>;
+
+var hot_spot_tree;
+
+var current_layout_map;                             
+
+var cmb_layout_map;     
+
+var operation = null;
+
+var inner_hot_spot_loaded = {};
+
+var current_category_id;
+
+var hot_spot_to_add = null;
+
+var layout_map_selector;
+
+var pe_close_layout_map_selector;
+
+function init_xnavi_map() {     
+    current_layout_map = layout_maps[0]; 
+
+	xnavi_map = new XNaviMap('xnavi_map', {
+    	viewport_width: 510,
+		viewport_height: 300,
+		zoom_level: current_layout_map.zoom_levels
+	});         
+	
+	var slide_control = new SlideControl(xnavi_map);
+	xnavi_map.add_control (slide_control);
+
+	xnavi_map.add_event_listener('click', function(event) {  
+		if (operation != null) {
+			operation.call (xnavi_map, event);
+		}
+	});                                                      
+	
+	xnavi_map.add_event_listener('click_marker', function(event) {
+		show_hot_spot (this.options.hot_spot_id );
+		xnavi_map.highlight_marker(this);
+	});                              
+	
+	<% if current_is_admin? -%>
+		xnavi_map.enable_move_marker ();          
+		xnavi_map.add_event_listener('marker_moved', function(event) {
+			new Ajax.Request('/layout_map/' + current_map_id + '/positions/' + this.options.position_id + '.js;move', 
+				{	method : 'post',
+				    parameters : { x : event.map_x, y: event.map_y } 
+				} );
+		});
+	<% end -%>    
+	
+	xnavi_map.goto_center();
+	
+	show_markers();
+	
+	search_position_on_layout_map(current_map_id) 
+}                                                    
+
+	function init_page() {                   
+		init_xnavi_map();
+	
+		panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+	
+		layout_map_selector = new YAHOO.widget.Menu("layout_map_selector", 
+														{ context:["current_layout_map_name", "tl", "bl"],
+														  visible:false,
+														  zIndex: 2000} );
+	    layout_map_selector.render ();
+	}
+
+    function init_tool_bar () {
+	}                 
+	
+	function new_hot_spot (event) {
+		change_button_picture('but_new_hot_spot', '/images/new_hot_spot.jpg');
+		dialog.retrieve_remote_form(
+			'/hot_spots/' + <%= @layoutable.id %> + '/inner_hot_spots/new', 
+			{
+				parameters: {layout_map_id: current_map_id,
+				 			 x: event.map_x,
+				 			 y: event.map_y}
+			});
+		operation = null;
+	}                   
+	
+	function add_hot_spot_to_map (event) {
+		operation = null;
+		if (hot_spot_to_add) {
+			new_position (event.map_x, event.map_y, hot_spot_to_add);
+			hot_spot_to_add = null;
+		} else {
+			panel.retrieve(
+				'<%= search_for_add_hot_spot_inner_hot_spots_path(@layoutable.id) %>',
+				{
+					parameters: {layout_map_id: current_map_id,
+							     x: event.map_x,
+							     y: event.map_y },
+					method: 'post'
+				});
+		}
+	}
+	
+	function show_markers() {
+		new Ajax.Request('/layout_map/' + current_map_id + '/positions.js', {method:'get'});
+	}
+
+	function delete_hot_spot_node(id) {
+		var node = hot_spot_tree.getNodeByProperty('hot_spot_id', id);       
+		if (node) {
+			var parent_node = node.parent;
+			hot_spot_tree.removeNode(node); 
+			if (parent_node.childrenRendered)
+				parent_node.refresh();
+		}
+	}
+	
+	function show_hot_spot(id) {
+		new Ajax.Updater(
+			'inner_hot_spot_detail',
+			'/hot_spots/' + <%= @layoutable.id %> + '/inner_hot_spots/' + id,
+			{method: 'get'});
+	}                
+	
+	function show_position (layout_map_id, hot_spot_id, x, y) {
+		if (layout_map_id != current_map_id) {  
+			change_layout_map_by_id(layout_map_id, false);
+		}
+		xnavi_map.set_position(x, y);  
+		
+		var marker = xnavi_map.get_marker_by_property_value('hot_spot_id', hot_spot_id);
+		if (marker) {
+			xnavi_map.highlight_marker(marker);
+		}
+		show_hot_spot(hot_spot_id);
+	}                                       
+	
+	function find_layout_map_by_id(id) {
+		for (var i=0; i < layout_maps.length; ++i ) {
+			if (layout_maps[i].id == id)
+				return layout_maps[i];
+		}                             
+		return null;
+	}
+	
+	function toggle_marker_visible(check_box) {
+		xnavi_map.set_marker_visible_by_property_value('root_category_id', check_box.value, check_box.checked);
+	}                      
+	
+	function edit_hot_spot(id) {
+	    dialog.retrieve_remote_form('/hot_spots/' + id + '/edit');
+	}
+	
+	function hot_spot_modified(id) {
+		new Ajax.Request(
+			'/hot_spots/' + id + '.js;refresh_tree_node_and_marker',
+			{ method: 'get' }
+		);
+	}                  
+	
+	function refresh_hot_spot_marker(id, tooltip, icon) {
+		var marker = xnavi_map.get_marker_by_property_value('hot_spot_id', id);
+		marker.set_tooltip(tooltip);
+		marker.set_icon(icon);
+	}            
+	
+	function change_layout_map_by_id(id, need_clear_search_result) {
+		if (id != current_layout_map.id) {
+			var new_map = find_layout_map_by_id(id);
+			$('current_layout_map_name').innerHTML = new_map.name;
+			xnavi_map.change_layout_map(new_map);
+			current_map_id = new_map.id;
+			xnavi_map.clear_markers();
+			current_layout_map = new_map;          
+			show_markers();
+			if (need_clear_search_result) {
+				search_position_on_layout_map(current_map_id) 
+			}
+		}
+//		layout_map_selector.hide();
+	}
+	
+	function clear_search_result () {
+		$('search_result').innerHTML = '';
+	}
+	
+	function handleSubmit () {
+		this.submit();
+	}   
+	
+	function handleCancel () {
+		this.cancel();
+	}       
+	
+	function add_hot_spot (id, x, y, options) {
+		hot_spot_of_layout_map(id, x, y, options);
+	}                      
+	
+	function hot_spot_of_layout_map(id, x, y, options) {
+		xnavi_map.add_marker(x,y, options);
+	}        
+
+	function new_position (x, y, hot_spot_id) {
+		new Ajax.Request ('/layout_map/' + current_map_id + '/positions',  
+							  { parameters : {	'position[x]': x, 
+												'position[y]': y,
+												'position[hot_spot_id]' : hot_spot_id 
+										 	 },
+								method: 'post' } 
+						 );
+	}
+	
+	function change_button_picture(button, pic_url) {
+	}
+	
+	function on_new_hot_spot () {
+		operation = new_hot_spot;
+	}
+	
+	function show_category(id) {
+		var params = {};
+		if (id) {
+			params = { hot_spot_category_id: id};
+		}
+		new Ajax.Request('<%= formatted_search_layout_maps_path(class_name_for_url(@layoutable), @layoutable, :js) %>', 
+			{ parameters: params,
+			  method: 'post' })
+	}
+	
+	function search_position_on_layout_map(id) {
+		new Ajax.Request('<%= formatted_search_layout_maps_path(class_name_for_url(@layoutable), @layoutable, :js) %>', 
+			{ parameters: {layout_map_id : id},
+			  method: 'post' })
+	}
+
+	function toggle_button(but, selected) {
+		if (selected) {
+			$(but).removeClassName("toggle_button");
+			$(but).addClassName("toggle_button_selected");
+		} else {
+			$(but).removeClassName("toggle_button_selected");
+			$(but).addClassName("toggle_button");			
+		}
+	}
+	
+	function remove_inner_hot_spot(id, root_cat_id) {
+		var ele = $('ele_HotSpot_' + id);
+		if (ele)
+			ele.remove ();
+		
+		var marker = xnavi_map.get_marker_by_property_value('hot_spot_id', id);
+		if (marker)
+			xnavi_map.remove_marker (marker);
+		$('hot_spot_detail').innerHTML= "";
+		
+		var count = $$('div#hot_spot_list_' + root_cat_id + ' tr.hot_spot_row').length;
+		$('count_cat_' + root_cat_id).innerHTML = count;
+	}
+	
+	function mark_position(hot_spot_id) {
+		hot_spot_to_add = hot_spot_id;
+		operation = add_hot_spot_to_map;
+	}
+	
+	
+	function show_layout_map_selector () {
+		if (layout_maps.length > 1  ) {
+			layout_map_selector.show();
+		}
+	}
+	
+	function to_search () {
+		dialog.retrieve_remote_form('<%= to_search_layout_maps_path(class_name_for_url(@layoutable), @layoutable)%>', {method:'get'})
+	}
+	
+	function show_category_navigator () {
+		new Ajax.Updater('category_navigator', '<%= category_navigator_layout_maps_path(class_name_for_url(@layoutable), @layoutable)%>', {method: 'get'});
+	}
+	
+	function remove_inner_hot_spot(hot_spot_id, cat_id) {
+		var marker = xnavi_map.get_marker_by_property_value('hot_spot_id', hot_spot_id);
+		if (marker) {
+			xnavi_map.remove_marker(marker);
+		}
+		show_category_navigator();
+		$('inner_hot_spot_detail').innerHTML = '';
+	}
+<% end -%>        
+        
+<div class="navigation_bar">
+	<div class="tools">
+			<%= link_to_function _('Search'), "to_search()" %>
+			<% if @current_user -%>
+			<%= link_to_function _('Mark Hot Spot'), 'on_new_hot_spot()', :id => 'but_new_hot_spot', :title=>_('Click on the map to create a new hot spot at that position.') %>
+			<%= link_to_function _('Add Hot Spot'), 'operation = add_hot_spot_to_map', :id => 'but_add_hot_spot', :title=>_('Click on the map and add an already exists hot spot.') %>
+			<% end -%>
+			<% if current_is_admin? -%>
+				<%= link_to _('Manage Layout Maps'), manage_layout_maps_path(@layoutable) %>
+			<% end -%>
+	</div>
+	<%= category_path_str @layoutable.hot_spot_category, true %>&nbsp;&gt;&nbsp;
+	<%= link_to h(localized_description(@layoutable, :name)), layoutable_detail(@layoutable) %>&nbsp;&gt;&nbsp;
+	<%= _('Layout Maps')%>&nbsp;&gt;&nbsp;
+	<span id="current_layout_map_name" onmouseover="show_layout_map_selector()"><%= h(localized_description(@layout_maps[0].name, :name)) %></span>
+	
+</div>
+
+<div id="main_function_content">
+	<div id="hot_spot_information_area">
+		<div class="hot_spot_picture">
+			<%= picture_tag_for_hot_spot @layoutable %>
+		</div>
+		
+		<div id="basic_information">
+			<table class="layoutter" width="99%">
+				<tr>
+					<td width="20px"><%= image_tag 'address.gif', :title=>s_('HotSpot|Address')%></td>
+					<td width="*"><%= h(localized_description(@layoutable, :address)) %></td>
+				</tr>
+				<tr>
+					<td><label><%= image_tag 'op_time.gif', :title=>s_('HotSpot|Operation time') %><label></label>
+					<td><pre class="article"><%= h(localized_description(@layoutable, :operation_time))%></pre></td>
+				</tr>
+				<tr>
+					<td><label><%= image_tag 'price_memo.gif', :title=>s_('HotSpot|Price memo') %><label></label>
+					<td><pre class="article"><%= h(@layoutable.price_memo)%></pre></td>
+				</tr>
+				<tr>
+					<td><label><%= image_tag 'park_slot.gif', :title=>s_('HotSpot|Parking slot') %></label></td>
+					<td><%= user_friendly_code :parking_slot, @layoutable.parking_slot %></td>
+				</tr>
+			</table>
+		</div>
+		
+		<h3><%= s_('HotSpot|Introduction')%></h3>
+		<p class="introduction">
+			<%= truncate(h(localized_description(@layoutable, :introduction)), 150) %>
+		</p>
+		
+		<div class="detail_info_link">
+			<%= link_to _('Detail Information...'), @layoutable %>
+		</div>
+	</div>
+	
+	<div id="map_panel">
+		<div id="category_navigator">
+			<% for cat in hot_spot_categories_for_layout_maps_of(@layoutable) -%>
+				<%= link_to_function h(localized_description(cat, :name)), "show_category('#{cat.id}')"%>&nbsp;
+			<% end %>
+		</div>
+		<div id="xnavi_map">
+		</div>
+	</div>
+</div>
+
+<div id="search_result_panel" class="section">
+	<div class="head">
+		<h3><%= _('Search Result')%></h3>
+	</div>
+	
+	<div class="body" id="search_result">
+		
+	</div>
+</div>
+
+<div id="inner_hot_spot_detail" class="section">
+</div>
+
+<div id="inner_hot_spots">
+	<div class="navigation_bar">
+		<div class="tools">
+			<%= link_to _('All'), hot_spot_inner_hot_spots_path(@layoutable)%>
+		</div>
+		<%= _('Inner Hot Spots')%>
+	</div>
+	
+	<div class="body">
+		<% for hot_spot in @layoutable.random_inner_hot_spots(14) -%>
+			<div class="hot_spot_simple">
+				<div class="hot_spot_picture">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<td>
+								<%= large_picture_tag_for_hot_spot hot_spot %>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<p class="hot_spot_name"><%= link_to_function h(localized_description(hot_spot, :name)), "show_hot_spot(#{hot_spot.id})" %></p>
+			</div>
+		<% end -%>
+		<div style="clear:both;">
+		</div>
+	</div>
+</div>
+
+<div id="panel">
+	<div class="hd" id="panel_head">
+		
+	</div>
+	
+	<div class="bd" id="panel_body">
+		
+	</div>
+</div>
+
+<div id="layout_map_selector" class="yuimenu" style="visibility: hidden">
+	<div class="bd">
+		<ul>
+			<% for map in @layout_maps -%>
+				<li class="yuimenuitem"><%= link_to_function h(localized_description(map, :name)), "change_layout_map_by_id(#{map.id}, true)", :class=>'yuimenuitemlabel' %></li>
+			<% end -%>
+		</ul>
+	</div>
+</div>

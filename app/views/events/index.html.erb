@@ -1,0 +1,39 @@
+<% page_title h(localized_description(@vendor, :name)) + '─' + _('Events'), true 
+   side_menu 'events'
+   include_css_file 'event' -%>
+
+<% content_for :page_scripts do -%>
+function show_events_on_date(date) {
+	new Ajax.Updater ('event_list', 
+		'<%= on_date_events_path(class_name_for_url(@vendor), @vendor.id) %>', 
+		{ method: 'get',
+		  parameters: { date: date} }
+		 );
+}
+
+function show_month(date) {
+	new Ajax.Updater ('calendar', 
+		'<%= show_month_events_path(class_name_for_url(@vendor), @vendor.id)%>',
+		{ method: 'get',
+		  parameters: {date : date}
+		});
+}
+
+<% end -%>
+
+<div class="navigation_bar">
+	<div class="tools">
+		<% if @vendor.can_publish_event? @current_user -%>
+			<%= link_to image_tag('new.gif', :alt=>_('Publish new event information.')), new_event_path(class_name_for_url(@vendor), @vendor), :title=>_('Publish new event information.') %>
+		<% end -%>
+	</div>
+	<%= link_to h(localized_description(@vendor, :name)), @vendor %>&nbsp;&gt;&nbsp;<%= _("Events")%>
+</div>
+
+<div id="main_function_content">
+	<div id="event_list">
+		<%= render :partial=>'event', :collection=>@events %>	
+
+		<%= remote_page_navigator :update=>'event_list' %>
+	</div>
+</div>

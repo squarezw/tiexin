@@ -1,0 +1,19 @@
+<% @page_title = h(@folder.name) 
+   @css_files = ['article']
+   side_menu side_menu_for_member(@member) -%>
+
+<p>
+	<%= link_to image_tag('rss.gif') + _(' of this folder'), formatted_member_folder_path(@member, @folder, :rss), :target => '_blank' %>
+</p>
+
+<div class="button_bar">
+<%= link_to _(%q/User's Home/), member_path(@member), :class => :button %>
+<%= link_to _('All Folders'), member_folders_path(@member), :class=>:button %>
+<% if @member == @current_user and @current_user.is_merchant -%>
+	<%= link_to _('Write Article'), new_member_folder_article_path(@member, @folder), :class=>:button %>
+<% end -%>
+</div>
+
+<%= render :partial=>'articles/article_summary', :collection=>@articles %>
+
+<%= page_navigator @articles %>

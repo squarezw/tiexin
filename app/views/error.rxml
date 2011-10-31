@@ -1,0 +1,3 @@
+xml.result(:code => flash[:notice]) do 
+  xml.error_message @error_message if @error_message
+end

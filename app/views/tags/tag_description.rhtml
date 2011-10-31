@@ -1,0 +1,9 @@
+<div class="header">
+    <h3><%=_("Descriptions of tag %{tag}") % {:tag => @tag} %></h3>
+</div>
+<div class="body">
+	<%= render :partial=>'hot_spot_tag', :collection=>@hot_spot_tags %>
+</div>
+<div class="foot">
+<%= remote_page_navigator @hot_spot_tags, "tag_main","get" %>
+</div>

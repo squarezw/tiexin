@@ -1,0 +1,41 @@
+<% @page_title = _('Folders')
+   use_remote_dialog
+   side_menu side_menu_for_member(@member) -%>
+
+<% content_for :page_scripts do -%>
+function new_folder () {
+	dialog.retrieve_remote_form ('<%= new_member_folder_path @member%>');
+}
+
+function edit_folder (id) {
+	dialog.retrieve_remote_form("/members/<%= @member.id %>/folders/" + id + "/edit");
+}
+
+function delete_folder (id) {
+	if (confirm ('<%= _('Are you sure?')%>')) {
+		new Ajax.Request ("/members/<%= @member.id %>/folders/" + id,
+			{ method: 'delete' });
+	}
+}
+<% end -%>
+
+<div class="button_bar">
+	<%= link_to _(%q/User's Home/), member_path(@member), :class => :button %>
+	<% if @member == @current_user -%>
+		<%= link_to_function _('New'), "new_folder()", :class => :button %>
+	<% end -%>
+</div>
+
+<table class="data_list">
+<tbody id="folder_table">
+	<tr>
+		<th width="*"><%= s_('Folder|Name')%></th>
+		<th width="10%"><%= s_('Folder|Articles count') %></th>
+		<% if @member == @current_user -%>
+			<th width="20%"><%= _('Operations')%></th>
+		<% end -%>
+	</tr>
+	
+	<%= render :partial=>'folder', :collection => @folders %>
+</tbody>
+</table>

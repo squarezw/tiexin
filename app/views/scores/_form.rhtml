@@ -1,0 +1,14 @@
+<table class="form_container">
+  <tr>
+    <td width="20%"><label><%= s_('HotSpot|Quality Score')%></label></td>
+    <td><%= select :hot_spot_score, :quality, options_for_codes(HotSpotScore::QUALITY_LEVELS, :quality_level),{:selected => HotSpotScore::QUALITY_LEVELS.first}%></td>
+    <td><label class="required"><%= s_('HotSpot|Service Score')%></label></td>
+    <td><%= select :hot_spot_score, :service, options_for_codes(HotSpotScore::SERVICE_LEVELS, :service_level),{:selected => HotSpotScore::SERVICE_LEVELS.first}%></td>
+  </tr>
+  <tr>
+    <td width="15%"><label><%= s_('HotSpot|Environment Score')%></label></td>
+    <td><%= select :hot_spot_score, :environment, options_for_codes(HotSpotScore::ENVIRONMENT_LEVELS, :environment_level),{:selected => HotSpotScore::ENVIRONMENT_LEVELS.first} %></td>
+    <td><label><%= s_('HotSpot|Price Score')%></label></td>
+    <td><%= select :hot_spot_score, :price, options_for_codes(HotSpotScore::PRICE_LEVELS, :price_level),{:selected => HotSpotScore::PRICE_LEVELS.first} %></td>
+  </tr>    
+</table>

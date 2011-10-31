@@ -1,0 +1,46 @@
+div#photo_list {
+	margin: 10px auto;
+}                   
+
+div#photo_list div.photo {
+	float: left;
+	width: 150px;
+	height: 230px;
+	text-align: center;  
+	border: 1px solid #564D3C;
+	margin: 10px 2px;             
+	padding-top: 5px;
+	overflow: auto;
+}               
+
+div.owner_uploaded {
+	background-color: #F5CBFD;
+}
+
+div.photo div.photo_thumb {
+	width: 128px;
+	height: 128px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	text-align: center;
+}                     
+
+div.photo_thumb img{
+	vertical-align: middle;
+}                 
+
+div.photo div.head {
+	text-align: right;
+	padding: 2px 5px;
+}                   
+
+div.photo div.head a {
+	text-decoration: none;
+}
+
+div.photo div.head a:hover {
+	color: black;
+}
+
+

@@ -1,0 +1,24 @@
+<% page_title _('Manage Campaigns') 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_campaign_path, :class=>:button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('Campaign|Name')%></th>
+		<th width="20%"><%= s_('Campaign|Bonus')%></th>
+		<th width="10%"><%= s_('Campaign|Trigger')%></th>
+		<th width="12%"><%= s_('Campaign|Expire date')%></th>
+	</tr>
+	<% for campaign in @campaigns -%>
+	<tr>
+		<td><%= link_to h(campaign.name), admin_campaign_path(campaign) %></td>
+		<td><%= _('Experience') %>:<%= campaign.bonus_experience ? campaign.bonus_experience : 0 %><br/>
+			<%= _('Credit') %>:<%= campaign.bonus_credit ? campaign.bonus_credit : 0 %></td>
+		<td><%= user_friendly_code :campaign_trigger, campaign.trigger %></td>
+		<td><%= format_date campaign.expire_date %></td>
+	</tr>
+	<% end -%>
+</table>

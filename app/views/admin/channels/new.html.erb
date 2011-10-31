@@ -1,0 +1,8 @@
+<% page_title _('New Channel')
+   side_menu 'master_data' -%>
+
+<%= error_messages_for :channel %>
+
+<% form_for :channel, @channel, :url=>admin_channels_path, :html=>{:multipart=>true} do |f| %>
+<%= render :partial=>'form', :object=>f %>
+<% end -%>

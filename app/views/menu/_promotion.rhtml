@@ -1,0 +1,13 @@
+<div class="section">
+	<div class="header">
+		<h3><%= _("Promotion")%></h3>
+	</div>
+	
+	<div class="body">
+                <%=render :partial =>"/promotions/promotion_hot_spot_category"%>
+	</div>
+
+        <div class="foot">
+		<%= link_to _('All...'), hot_spot_category_promotions_path(@hot_spot_category) %>
+	</div>
+</div>

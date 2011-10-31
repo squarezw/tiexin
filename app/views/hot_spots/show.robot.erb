@@ -1,0 +1,99 @@
+<% page_title h(localized_description(@hot_spot.hot_spot_category, :name)) + '-' + h(localized_description(@hot_spot, :name))
+   page_keyword @hot_spot.hot_spot_category.keywords_array
+   page_keyword h(localized_description(@hot_spot.brand, :name)) if @hot_spot.brand
+   page_keyword (@hot_spot.hot_spot_tags.collect { |tag| tag.tag })
+ -%>
+
+<h1><%= h(localized_description(@hot_spot, :name))%></h1>
+<h3><%= link_to h(localized_description(@hot_spot.city, :name)), city_path(@hot_spot.city)%>, <%= link_to h(localized_description(@hot_spot.hot_spot_category, :name)), city_hot_spot_category_path(@hot_spot.city, @hot_spot.hot_spot_category)%></h3>
+
+<% if @hot_spot.brand -%>
+<p><%= _('Brand')%>:<%= link_to h(localized_description(@hot_spot.brand, :name)), brand_path(@hot_spot.brand_id)%></p>
+<% end %>
+
+<% if @hot_spot.owner -%>
+<p><%= _('Owner')%>:<%= link_to h(@hot_spot.owner.nick_name), show_member_path(@hot_spot.owner)%></p>
+<% end %>
+
+<dl>
+	<dt><%= s_('HotSpot|Address')%></dt>
+	<dd><%= h(localized_description(@hot_spot, :address))%></dd>
+	
+	<% if @hot_spot.container -%>
+	<dt><%= _('Located in')%></dt>
+	<dd><%= link_to h(localized_description(@hot_spot.container, :name)), hot_spot_path(@hot_spot.container)%>, <%= h(localized_description(@hot_spot.container, :address))%></dd>
+	<% end -%>
+	
+	<dt><%= s_('HotSpot|Phone number')%></dt>
+	<dd><%= h(@hot_spot.phone_number)%></dd>
+	
+	<dt><%= s_('HotSpot|Operation time')%></dt>
+	<dd><%= h(localized_description(@hot_spot, :operation_time))%></dd>
+	
+	<dt><%= s_('HotSpot|Price memo')%></dt>
+	<dd><%= h(@hot_spot.price_memo)%></dd>
+	
+	<dt><%= s_('HotSpot|Parking slot')%></dt>
+	<dd><%= user_friendly_code :parking_slot, @hot_spot.parking_slot %></dd>
+	
+	<dt><%= s_('Hot Spot Tags')%></dt>
+	<dd><%= (@hot_spot.hot_spot_tags.collect {|tag| tag.tag }).uniq.join(',') %></dd>
+	
+	<dt><%= s_('HotSpot|Introduction')%></dt>
+	<dd><%= effective_hot_spot_introduction(@hot_spot) %></dd>
+</dl>
+
+<% if @hot_spot.hot_spot_category.is_traffic_stop? -%>
+<h3><%= _('Pass Through Traffic Line') %></h3>
+<ul>
+	<% for line in @hot_spot.traffic_lines -%>
+	<li><%= link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})"%></li>
+	<% end -%>
+</ul>
+<% end -%>
+
+<div id="comments">
+	<h3><%= _('Comments')%></h3>
+	<% @hot_spot.latest_comments.each do |comment| %>
+	<div>
+		<p><%= link_to comment.member.nick_name, show_member_path(comment.member) %></p>
+		<pre class="article"><%= bbcodeize(h(comment.content))%></pre>
+	</div>
+	<% end %>
+</div>
+
+<div id="inner_hot_spots">
+	<h3><%= _('Inner Hot Spots')%></h3>
+	<ul>
+	<% @hot_spot.hot_spots.each do |hot_spot| -%>
+		<li>[<%= link_to h(localized_description(hot_spot.hot_spot_category, :name)), city_hot_spot_category_path(hot_spot.city_id, hot_spot.hot_spot_category)%>]<%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot)%></li>
+	<% end -%>
+	</ul>
+</div>
+
+<div id="articles">
+	<h3><%= _('Articles')%></h3>
+	<ul>
+		<% @hot_spot.articles.latest_articles.each do |article| -%>
+			<li><%= article.member.nick_name %>:<%= link_to article.subject, member_article_path(article.member, article)%>
+		<% end -%>
+	</ul>
+</div>
+
+<div id="products">
+	<h3><%= _('Products')%></h3>
+		<% @hot_spot.products.each do |product| -%>
+			<p><%= link_to h(localized_description(product, :name)), product_path(class_name_for_url(@hot_spot), @hot_spot, product)%></p>
+			<p><%= truncate h(localized_description(product, :introduction)), 300 %></p>
+			
+		<% end -%>
+	</ul>
+</div>
+
+<div id="events">
+	<h3><%= _('Events') %></h3>
+	<% @hot_spot.effective_events.each do |event| -%>
+		<h4><%=link_to h(localized_description(event, :summary)), event_path(class_name_for_url(event.vendor), event.vendor, event)%>(<%= date_range_str event.begin_date, event.end_date %>)</h4>
+		<pre class="article"><%= truncate(h(strip_bbcode(localized_description(event, :content))), 100) %></pre>
+	<% end -%>
+</div>

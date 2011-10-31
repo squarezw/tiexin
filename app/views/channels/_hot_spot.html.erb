@@ -1,0 +1,26 @@
+<div class="hot_spot">
+	<% if hot_spot.score_count > 0 -%>
+		<div class="score_area">
+			<div class="score_image"><%=hot_spot_score_stars(hot_spot.score)%></div>
+			<p><%=_('score')%>:<%=format('%.1f',hot_spot.score)%></p>
+			<p><%=_('quality')%>:<%=format('%.1f',hot_spot.quality_score)%></p>
+			<p><%=_('service')%>:<%=format('%.1f',hot_spot.service_score)%></p>
+			<p><%=_('environment')%>:<%=format('%.1f',hot_spot.environment_score)%></p>
+			<p><%=_('price')%>:<%=format('%.1f',hot_spot.price_score)%></p>
+			<p><%=_('persons')%>:<%=hot_spot.score_count%></p>
+		</div>
+	<% end -%>
+	
+	<h3><%= link_to_function h(localized_description(hot_spot, :name)), "show_hot_spot_marker(#{hot_spot.id}, 0)" %></h3>
+	<div class="small_hot_spot_picture">
+		<%= small_picture_tag_for_hot_spot hot_spot %>
+	</div>
+	
+	<div class="introduction">
+		<%= truncate(h(effective_hot_spot_introduction(hot_spot)), 70) %>
+		<div class="detail_link"><%= link_to _('Detail...'), hot_spot_path(hot_spot), :target=>'_blank'%></div>
+	</div>
+</div>
+
+
+

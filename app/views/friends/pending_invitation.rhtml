@@ -1,0 +1,4 @@
+<% page_title _('Pending Invitation') 
+   side_menu side_menu_for_member(@member) %>
+
+<p class="introduction"><%= _('You request to add "%{name}" to your friend list. This request are waiting to be agreed. ') % { :name=>@friend.member.nick_name }  %></p>

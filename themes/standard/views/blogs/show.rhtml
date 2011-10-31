@@ -1,0 +1,12 @@
+<% @page_title = _('Home Page')
+@side_menu = 'main'
+%>
+<% for article in @articles -%>
+<div class="atomentry">
+  <%= render :partial => "/articles/article", :object => article %>
+  <%#= link_to article, _("Read more") + "..." if article.extended? %>
+  <p class="meta"><%#= article_links article %></p>
+</div>
+<% end -%>
+
+<p id="pagination"><%= will_paginate @articles %></p>

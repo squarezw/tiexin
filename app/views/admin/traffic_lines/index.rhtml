@@ -1,0 +1,39 @@
+<% @page_title=_('Traffic Lines') 
+   @side_menu='master_data' -%>
+
+<% form_tag search_manage_traffic_lines_path, :method=>:get do  -%>
+<table class="form_container" width="70%">
+	<tr>
+		<td width="25%"><label><%= s_('TrafficLine|Name') %></label></td>
+		<td><%= text_field_tag :keyword, params[:keyword], :size=>50%></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Search')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_traffic_line_path, :class => :button %>
+</div>
+<table class="data_list" width="98%">
+	<tr>
+		<th><%= s_('TrafficLine|Name')%></th>
+		<th><%= s_('TrafficLine|Line type')%></th>
+		<th><%= _('Operation')%></th>
+	</tr>
+<% for line in @lines -%>
+	<tr>
+		<td><%= link_to h(localized_description(line, :name)), manage_traffic_line_path(line) %></td>
+		<td><%= user_friendly_code(:traffic_type, line.line_type)%></td>
+		<td><%= link_to _('Show'), manage_traffic_line_path(line) %>
+			<%= link_to _('Edit'), edit_manage_traffic_line_path(line)%>
+                       <%= link_to _('Delete'), manage_traffic_line_path(line), :confirm => _('Are you sure?'), :method => :delete %>
+		</td>
+	</tr>
+<% end -%>
+</table>
+<%= page_navigator @lines, nil, :params=>params %>

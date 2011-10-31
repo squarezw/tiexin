@@ -1,0 +1,16 @@
+<% @page_title = _('Picture')
+@side_menu = ['main']
+%>
+<div class="picture_full">
+	<% if @picture.photo -%>
+			<%= link_to image_tag(@picture.photo.normal.url), @picture.photo.url, :target=>'blank' %>
+	<% else -%>
+			<%= image_tag 'nopic.jpg' %>
+	<% end -%>
+<ul>
+<li><%= s_('Picture|Name') %>: <%= @picture.name%></li>
+<li><%= s_('Picture|Description') %>:</li>
+<li><%= @picture.description%></li>
+<li><%= s_('Picture|Created_at') %>: <%= format_date @picture.created_at%></li>
+</ul>
+</div>

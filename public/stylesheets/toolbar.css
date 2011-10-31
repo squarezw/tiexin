@@ -1,0 +1,41 @@
+div#page_content div.tool_bar {
+	background-color: #F0F0F0;
+	height: 22px;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 0;
+	line-height: 22px;
+	margin-bottom: 5px !important;
+	margin-bottom: 0;
+}
+
+div#main_function div.tool_bar a {
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#main_function div.tool_bar a img {
+	margin: 0;
+	margin-right: 0;
+	padding: 0;
+}
+
+div#main_function div.tool_bar a:hover {
+	text-decoration: none;
+}
+
+div#page_content div.head div.tool_bar {
+	float: right;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 0px !important;
+	background: none;
+	height: 31px;
+	line-height: 31px;
+}
+
+div#page_content div.head div.tool_bar a {
+	color: #003267;
+	text-decoration: underline;
+}

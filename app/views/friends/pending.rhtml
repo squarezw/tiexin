@@ -1,0 +1,15 @@
+<% page_title _('Pending Request')
+   side_menu side_menu_for_member(@member) -%>
+
+<table class="data_list">
+	<tr>
+		<th width="50%"><%= _('Member|Login name')%></th>
+		<th widht="50%"><%= _('Friend|Created at')%></th>
+	</tr>
+	<% for friend in @friends -%>
+	<tr>
+		<td><%= link_to h(friend.owner.nick_name), friend_path(friend), :popup=>true%></td>
+		<td><%= format_time friend.created_at%></td>
+	</tr>
+	<% end %>
+</table>

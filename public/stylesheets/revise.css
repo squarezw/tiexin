@@ -1,0 +1,32 @@
+div.revise_block {
+	padding: 15px;
+}
+
+div.revise_block h3 {
+	margin-bottom: 1.5em;      
+}
+
+div.revise {
+	margin: 0 1em 2em 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px dotted #BBF;
+}
+
+div.revise div.head div.button_bar {
+	float: right;
+}
+
+div.revise div.body {
+	border: none;
+}
+
+div.revise pre.article {
+	background-color: white;
+	border: 1px solid #D8D8D8;
+	margin: 0.5em 2em;
+	padding: 0.5em;
+}
+
+div.revise div.foot {
+	text-align: right;
+}

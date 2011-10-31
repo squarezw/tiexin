@@ -1,0 +1,17 @@
+<table class="data_list" width="100%">
+	<tr>
+		<th width="25px" height="25px"></th>
+		<th width="*"><%= s_('HotSpot|Name')%></th>
+		<th width="45%"><%= s_('HotSpot|Address') %></th>
+	</tr>
+	<% for pos in @positions 
+		 hot_spot = pos.hot_spot -%>
+		<tr>
+			<td><%= image_tag hot_spot_icon(hot_spot) %></td>
+			<td><%= link_to_function h(localized_description(hot_spot, :name)), "show_position(#{pos.layout_map_id}, #{hot_spot.id}, #{pos.x}, #{pos.y})"%></td>
+			<td><%= h(localized_description(hot_spot, :address))%></td>
+		</tr>
+	<% end -%>
+</table>
+
+<%= remote_page_navigator @positions, nil, :post %>

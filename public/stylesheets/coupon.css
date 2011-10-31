@@ -1,0 +1,80 @@
+div#coupon_templates {
+	width: 300px;
+	float: right;
+}
+
+div.coupon {
+	width: 567px;
+	height: 213px;
+	position: relative;
+	padding-bottom: 10px;
+	border-bottom: dotted 1px #AAA;
+	margin: 10px auto;
+}
+
+div.background {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 567px;
+	height: 213px;
+	z-index: 1;
+}
+
+div.vendor_name {
+	position: absolute;
+	left: 26px;
+	top: 8px;
+	font-size: 16px;
+	font-weight: bold;
+	z-index: 10;
+}
+
+div.expire_at {
+	position: absolute;
+	left: 365px;
+	top: 12px;
+	font-size: 12px;
+	z-index: 10;
+}
+
+div.summary {
+	position: absolute;
+	left: 26px;
+	top: 47px;
+	font-size: 33px;
+	color: red;
+	font-weight: bold;
+	z-index: 10;
+}
+
+div.terms {
+	position: absolute;
+	left: 26px;
+	top: 85px;
+	font-size: 14px;
+	color: black;
+	font-weight: bold;
+	z-index: 10;
+	line-height: 18px;
+}
+
+div.address {
+	position: absolute;
+	left: 26px;
+	top: 170px;
+	font-size: 12px;
+	color: black;
+	z-index: 10;
+	line-height: 18px;
+}
+
+div.consumer_phone {
+	position: absolute;
+	left: 365px;
+	top: 170px;
+	font-size: 12px;
+	color: black;
+	z-index: 10;
+	line-height: 18px;
+}

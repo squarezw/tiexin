@@ -1,0 +1,10 @@
+<% page_title h(localized_description(@received_coupon.coupon.vendor, :name)) + '─' + @received_coupon.coupon.summary 
+   include_css_file 'coupon'-%>
+
+<div class="navigation_bar">
+	<%= link_to _('My X-Navi'), member_path(@current_user) %>&nbsp;&gt;&nbsp; <%= link_to _('Received Coupons'), received_coupons_path %>
+</div>
+
+<div id="main_function_content">
+	<%= render :partial=>'received_coupon', :object=>@received_coupon %>
+</div>

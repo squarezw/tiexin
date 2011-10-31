@@ -1,0 +1,14 @@
+<tr>
+	<td><%= post_icon post %></td>
+	<td><%= link_to h(post.title), forum_post_path(post.forum, post), :target=>'_blank'%>
+		<% if post.attachment -%>
+			<%= image_tag 'clip.gif' %>
+		<% end -%>
+	</td>
+	<td><%= link_to h(post.member.nick_name), show_member_path(post.member)%></td>
+	<td><%= format_time post.created_at %></td>
+	<td><%= post.replies_count %>&nbsp;/&nbsp;<%= post.read_times %></td>
+	<td>
+               <%=link_to h(post.reply.member.nick_name),show_member_path(post.reply.member) if post.reply%> <%= format_time post.last_replied_at %>
+	</td>
+</tr>

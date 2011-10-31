@@ -1,0 +1,19 @@
+<% for event in @daq_evnets -%>
+    <div class="xnavi_brandlist" id="event_<%=event.id%>">
+        <div class="xnavi_brandlist_pic">
+            <%=link_to image_tag("#{event.picture}", :height => 100), admin_data_event_path(event)%>
+        </div>
+        <div class="xnavi_brandlist_content">
+            <ul>
+              <li><h3><%=link_to event.event_name,admin_data_event_path(event)%></h3></li>
+              <li>场馆：<%=event.hot_spot_name%></li>
+              <li>地址：<%=event.hot_spot_address%></li>
+              <li>时间：<%=format_date event.start_date%> <%="- #{format_date event.end_date}" if event.end_date%></li>
+              <li>
+                <%= link_to _('Delete'), admin_data_event_path(event)+"?page=#{params[:page]}", :confirm => _('Are you sure?'), :method => :delete %>
+                <%=link_to_function _('绑定地标'), "add_related_hot_spot(#{event.id})", :class => :button%>
+              </li>
+            </ul>
+        </div>
+    </div>
+  <%end%>

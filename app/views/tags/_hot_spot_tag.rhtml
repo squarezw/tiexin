@@ -1,0 +1,8 @@
+<div class="tag_description" id="<%=element_id(hot_spot_tag)%>">
+	<div><%=link_to hot_spot_tag.member.nick_name, 
+				   member_path(hot_spot_tag.member)%> 
+		<span class="time">[<%=format_time hot_spot_tag.created_at %>]</span>
+        <%=link_to_remote _('X'), :url => tag_path(hot_spot_tag) , :method => :delete, :confirm => _('Are you sure?') if hot_spot_tag.modifiable_to?(@current_user)%>
+        </div>
+	<p class="introduction"><%=hot_spot_tag.description?? hot_spot_tag.description : _('no description')%></p>
+</div>

@@ -1,0 +1,19 @@
+<% page_title _('Operation Logs')
+   include_css_file 'operation_logs' -%>
+
+<% if @operation_logs.empty? -%>
+	<%= _('There no operation logs for this object.') %>
+<% else 
+	for op_log in @operation_logs -%>
+<div class="operation_log">
+	<p><span class="operation"><%= _(op_log.operation)%></span> - <%= link_to h(op_log.member.nick_name), member_path(op_log.member)%> - <%= format_time op_log.created_at %></p>
+	<% if op_log.related_object -%>
+		<p class="related_object"><%= _('Operation Object')%>:<%= related_object_to_string(op_log.related_object) %>
+	<% end -%>
+	<p class="message"><%= op_log.message %></p>
+	<p class="memo"><%= _('Memo')%>:<%= op_log.memo %></p>
+</div>
+	<% end %>
+	<%= page_navigator @operation_logs%>
+<% end -%>
+

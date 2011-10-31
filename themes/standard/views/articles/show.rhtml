@@ -1,0 +1,60 @@
+<%  @js_files = ['comments', 'editor', 'map','yui/utilities', 'yui/container']
+   @css_files=['comments', 'article', 'yui/container']
+   @hot_spot= @article.hot_spots.first
+   if @hot_spot
+    @side_menu = 'show'
+   else
+     @side_menu = 'main'
+   end
+%>
+<% content_for :page_scripts do -%>
+var map;
+
+<% unless @city.nil? -%>
+	<%= render :partial=>'/main/levels_data', :locals=>{:city => @city} %>
+<% end -%>
+
+function init_page () {
+        <% unless @city.nil? -%>
+			map = new Map ('small_map', {
+				city_id: <%= @hot_spot.city.id%>,
+				map_width: <%= @hot_spot.city.width %>,
+				map_height: <%= @hot_spot.city.height %>,
+				start_point: [<%= @hot_spot.x %>, <%= @hot_spot.y%> ],
+				zoom_levels: map_levels,
+				viewport_width: 220,
+				viewport_height: 180,
+				init_zoom_level_index: 6
+			});
+        
+	        <%= update_page do |page| 
+				add_hot_spot_marker page, @hot_spot
+			end -%>
+        <%end%>
+}
+
+function add_hot_spot_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', options.hot_spot_id);
+	if (marker)
+		return;
+	new HotSpotMarker (map, x, y, options);
+}
+
+function show_hot_spot_marker (id) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', id);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+	} else {
+		new Ajax.Request('/hot_spots/' + id + '/marker', 
+						 { method: 'get'}
+						);
+	}
+}
+<%end%>
+<%= render :partial => 'article', :object => @article %>
+<div id="div_comments">
+	<h3><%= _('Comments')%></h3>
+	<div id="div_comment_section" class="comments_block">
+	    <%= javascript_tag (remote_function :url=>comments_path(commentable_type(@article), @article.id), :update => 'div_comment_section', :method=>:get) %>
+	</div>            	
+</div>  

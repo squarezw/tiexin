@@ -1,0 +1,26 @@
+<div id="error_msgs" class="errorExplanation" style="display:none;">
+	
+</div>
+<div id="div_hot_spots_section">
+  <h3><%=@daq_event.event_name%></h3>
+<% form_remote_tag :url=>related_hot_spots_admin_data_events_path+"?event_id=#{@daq_event.id}", :update=>'div_hot_spots_section', :method => 'get' do -%>
+<table class="form_container" width="70%">
+	<tr>
+		<td width="25%"><label><%= s_('HotSpot|Name') %></label></td>
+		<td><%= text_field_with_auto_complete :hot_spot, :name_zh_cn, { :size => 35,:value => @keyword_exp }, {:tokens => ' '} -%></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Search')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<%=render :partial=> '/admin/data_events/hot_spot_list', :object => @hot_spots, :locals => {:event_id => @daq_event.id}%>
+</div>
+<%= update_page_tag do |page|
+  	page.call 'panel.show_with_title',_('Add related hot spot')
+        page.call 'busy_indicator.task_end'
+end -%>

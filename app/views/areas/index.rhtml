@@ -1,0 +1,10 @@
+<% @page_title = _('Areas') -%>
+
+<div class="tag_cloud">
+	<% for area in @areas -%>
+		<%= link_to h(localized_description(area, :name)), city_area_path(@current_city,area) %>
+	<% end -%>
+	
+</div>
+
+<%= page_navigator @areas %>

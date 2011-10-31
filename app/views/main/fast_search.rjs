@@ -1,0 +1,9 @@
+show_hot_spot_markers page, @hot_spots
+
+show_area_markers page, @areas
+
+page.replace_html 'search_result_list', render(:partial=>'search_result')
+
+page.hide 'traffic_line_detail'
+
+page.visual_effect 'slide_down', 'search_result_list'

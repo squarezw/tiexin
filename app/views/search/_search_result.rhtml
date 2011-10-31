@@ -1,0 +1,114 @@
+<div id="result_list_content">
+	<% unless @correct_keyword.nil? or @correct_keyword.blank? -%>
+	<div id="keyword_hint">
+		<%= _('Are you looking for "%{word}".') % {:word=>link_to_function(@correct_keyword, "search_keyword('#{@correct_keyword}')") }  %>
+	</div>
+	<% end %>
+	<div class="section" id="search_result_hot_spots"> 
+		<a name="sr_hot_spots"></a>
+		<h3><%= _('Hot Spots')%></h3>
+		<% unless @hot_spots.nil? or @hot_spots.empty? -%>
+			<%= render :partial=>'/search/hot_spot', :collection=>@hot_spots %>
+			<% if @hot_spots_count and @hot_spots_count > 5 -%>
+				<%= link_to_remote show_all_link(@hot_spots_count), :url=>{:controller=>'search', :action=>'search_all', :keyword=>@keyword, :hot_spot_category_id => @hot_spot_category_id, :area=>@area_name, :category=>'hot_spot'} %>
+			<% end -%>
+			<% if @show_page_navigator -%>
+				<%= remote_page_navigator @hot_spots, nil %>
+			<% end -%>
+		<% else -%>
+			<%= _('No Result')%>
+		<% end -%>
+	</div>
+
+	<% unless @areas.nil? or @areas.empty? -%>
+	<div class="section" id="search_result_areas">
+			<a name="sr_aras" ></a>
+			<h3><%= _('Areas')%></h3>
+			<ul class="list">
+			<%= render :partial=>'/search/area', :collection=>@areas %>
+			</ul>
+		<% if @areas_count > 5 -%>
+			<%= link_to_remote show_all_link(@areas_count), :url=>{:controller=>'search', :action=>'search_all', :area=>params[:area], :category=>'area'} %>
+		<% end -%>
+	</div>
+	<% end -%>
+
+	<% unless @roads.nil? or @roads.empty? -%>
+	<div class="section" id="search_result_roads">
+			<a name="sr_roads"></a>
+			<h3><%= _('Roads')%></h3>
+			<ul class="list">
+			<%= render :partial=>'/search/road', :collection=>@roads %>
+			</ul>
+		<% if @roads_count > 5 -%>
+			<%= link_to_remote show_all_link(@roads_count), :url=>{:controller=>'search', :action=>'search_all', :keyword=>params[:keyword], :category=>'road'} %>
+		<% end -%>
+	</div>
+	<% end -%>
+        
+	<% unless @traffic_lines.nil? or @traffic_lines.empty? -%>  
+	<div class="section" id="search_result_traffic_lines">
+			<a name="sr_traffic_lines"></a>
+			<h3><%= _('Traffic Line')%></h3>
+			<ul class="list">
+				<%= render :partial=>'traffic_line', :collection => @traffic_lines %>
+			</ul>
+		<% if @traffic_lines_count > 5 -%>
+			<%= link_to_remote show_all_link(@traffic_lines_count), :url=>{:controller=>'search', :action=>'search_all', :keyword=>params[:keyword], :category=>'traffic_line'} %>
+		<% end -%>
+	</div>
+	<% end -%>
+
+	<% unless @brands.nil? or @brands.empty? -%>
+	<div class="section" id="search_result_brands">
+		<a name="sr_brands"></a>
+		<h3><%= _('Brand')%></h3>
+		<ul class="list">
+			<%= render :partial=>'/search/brand', :collection => @brands %>
+		</ul>
+		<% if @brands_count > 5 -%>
+			<%= link_to_remote show_all_link(@traffic_lines_count), :url=>{:controller=>'search', :action=>'search_all', :keyword=>params[:keyword], :category=>'brand'} %>
+		<% end -%>
+	</div>
+	<% end -%>
+
+	<% unless @tags.nil? or @tags.empty? -%>
+	<div class="section" id="search_result_tags">
+		<a name="sr_tags"></a>
+		<h3><%= _('Hot Spot Tag')%></h3>
+		<ul class="list">
+			<%= render :partial=>'/search/tag', :collection => @tags %>
+		</ul>
+		<% if @tags_count > 5 -%>
+			<%= link_to_remote show_all_link(@tags_count), :url=>{:controller=>'search', :action=>'search_all', :keyword=>params[:keyword], :category=>'tag'} %>
+		<% end -%>
+	</div>
+	<% end -%>
+</div>
+<div id="result_navigation_bar">
+	<% unless @hot_spots.nil? or @hot_spots.empty? -%>
+		<%= link_to _('Hot Spots'), "#sr_hot_spots"%>
+	<% end %>
+	
+	<% unless @areas.nil? or @areas.empty? -%>
+		<%= link_to _('Areas'), "#sr_areas"%>
+	<% end -%>
+	
+	<% unless @roads.nil? or @roads.empty? -%>
+		<%= link_to _('Roads'), '#sr_roads'%>
+	<% end -%>
+	
+	<% unless @traffic_lines.nil? or @traffic_lines.empty? -%>  
+		<%= link_to _('Traffic Lines'), '#sr_roads' %>
+	<% end -%>
+	
+	<% unless @brands.nil? or @brands.empty? -%>
+		<%= link_to _('Brands'), '#sr_brands' %>
+	<% end -%>
+	
+	<% unless @tags.nil? or @tags.empty? -%>
+		<%= link_to _('Tags'), '#sr_tags'%>
+	<% end -%>
+</div>
+
+

@@ -1,0 +1,7 @@
+<% @page_title = _('New Brand') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   @side_menu = 'master_data' -%>
+<%form_for :brand,:url => manage_brands_path,:html =>{:multipart => true} do |f|%>
+<%=render :partial => "form",:object => f%>
+<%end -%>

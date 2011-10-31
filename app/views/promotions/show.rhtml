@@ -1,0 +1,50 @@
+<% #TODO: enhance UI. %>
+<% @page_title = "#{@promotion.vendor.name[@current_lang]} -- #{h(localized_description(@promotion, :summary))}"
+   @css_files=['promotion']
+ -%>
+<div class="navigation_bar">
+	<%= link_to h(localized_description(@vendor, :name)), @vendor %>&nbsp;&gt;&nbsp;<%= link_to _("Promotions"), promotions_path(class_name_for_url(@vendor), @vendor)%>
+</div>
+
+<div id="main_function_content">
+	
+<div class="promotion_post_thumb">
+	<% if @promotion.post %>
+		<%= link_to image_tag(@promotion.post.thumb.url), @promotion.post.url, :popup=>true %>
+	     <%else%>
+		<%= image_tag 'nopic.jpg' %>
+     <%end%>
+  </div>
+  <div class="promotion_detail">
+      <ul>
+        <li><h4><%=h(localized_description(@promotion, :summary))%></h4></li>
+        <li><%=format_date(@promotion.begin_date)%> <%=_('to')%> <%=format_date(@promotion.end_date)%></li>  
+      </ul>
+      <pre class="article"><%=bbcodeize(h(localized_description(@promotion, :content)))%></pre>
+<div class="button_bar">
+             <%if @promotion.member == @current_user or current_is_admin?%>
+              <%if @promotion.member == @current_user%>
+	              <%= link_to _('Edit'), edit_event_path(class_name_for_url(@promotion.vendor), @promotion.vendor, @promotion)%>
+              <%end%>
+	              <%= link_to _('Delete'), member_promotion_path(@promotion.member, @promotion), :confirm => _('Are you sure?'), :method => :delete %>
+             <%end%>
+</div>
+<% if (coupon = @promotion.coupon)
+	 if @current_user
+		unless coupon.has_applied_by?(@current_user) -%>
+		<div id="apply_coupon_form" >
+		
+		</div>
+		<script language="javascript">
+		<%= remote_function :update=>'apply_coupon_form', :url=>new_received_coupon_path + "?coupon_id=#{coupon.id}" %>
+		</script>
+	<% else -%>
+		<p>您已经申领过本次活动的促销券了。你可以在<%= link_to _('Received Coupon'), received_coupons_path%>中查看和打印领到的促销券。</p>
+	<%  end
+	  else -%>
+	<p>您可以在<%= link_to _('Login'), new_member_path %>之后申领本次活动的促销券。</p>
+<% end
+end -%>
+</div>
+
+</div>

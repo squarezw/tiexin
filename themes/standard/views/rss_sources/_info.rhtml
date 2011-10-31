@@ -1,0 +1,18 @@
+<table class="form_container" width="80%">
+	<tr>
+		<td colspan="2">
+			<% if info.icon_url -%>
+				<%= link_to image_tag(info.icon_url, :alt=>info.icon_title), info.icon_link, :target => "_blank"  %>
+			<% end -%>
+                        <span class="rss_header"><%= link_to h(info.title), info.link, :target => "_blank"%></span>
+                 </td>
+	</tr>
+	<tr>
+		<td width="20%"><label><%=_("Description")%>:</label></td>
+		<td><%= info.description %></td>
+	</tr>
+	<tr>
+		<td><label><%=_("Language")%>:</label></td>
+		<td><%= info.language %></td>
+	</tr>	
+</table>

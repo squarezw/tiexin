@@ -1,0 +1,37 @@
+<% @page_title = _('Manage Layout Maps of %{hot_spot}') % { :hot_spot => h(localized_description(@hot_spot, :name)) } 
+   use_remote_dialog
+   include_css_file 'layout_maps' %>     
+	
+<% content_for 'page_scripts' do -%>    
+var hot_spot_id = <%= @hot_spot.id %>;
+                                   
+function new_layout_map() {
+	dialog.retrieve_remote_form('<%= new_manage_layout_map_path(@hot_spot)%>');
+}                                    
+
+function edit_layout_map(id) {
+	dialog.retrieve_remote_form('/admin/hot_spot/' + hot_spot_id + '/manage_layout_maps/' + id + '/edit');
+}                                      
+
+function delete_layout_map(id) {
+	if (confirm('<%= _('Are you sure?')%>') ) {
+		new Ajax.Request(
+			'/admin/hot_spot/' + hot_spot_id + '/manage_layout_maps/' + id,
+			{ method : 'delete' });
+	}
+}
+                      
+function new_zoom_level(layout_map_id) {
+	dialog.retrieve_remote_form('/admin/layout_map/' + layout_map_id + '/zoom_levels/new');
+}                                                                                          
+
+<% end -%>
+
+<div class="button_bar">               
+	<%= link_to _('Back'), hot_spot_path(@hot_spot), :class=>:button %>
+	<%= link_to_function _('Create Layout Map'), "new_layout_map();", :class => :button %>
+</div><!-- button_bar -->            
+
+<div id="layout_map_list">
+<%= render :partial=>'layout_map', :collection=>@layout_maps %>      
+</div><!-- layout_map_list -->

@@ -1,0 +1,9 @@
+@traffic_line.traffic_stops.each do |stop|
+  add_hot_spot_marker page, stop.hot_spot if stop.hot_spot.x
+end
+
+page.replace_html 'detail_infor_content', render(:partial => 'traffic_stops')
+
+page.hide 'search_result_list'
+
+page.visual_effect 'slide_down', 'detail_infor_pane'

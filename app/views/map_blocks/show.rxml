@@ -1,0 +1,3 @@
+xml.result(:code=>100) do
+  to_xml_for_map_block(xml, @map_block, true, @category_id, :offset=>@start, :limit=>@limit)
+end

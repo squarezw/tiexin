@@ -1,0 +1,4 @@
+<p><%= h(localized_description(@brand, :name))%></p>
+<%= render :partial=>'hot_spot', :collection=>@hot_spots %>
+
+<%= remote_page_navigator @hot_spots, '', :get  %>

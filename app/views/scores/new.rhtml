@@ -1,0 +1,11 @@
+<div id="form_error" class="errors">
+	
+</div>
+<% remote_form_for :hot_spot_score, @hot_spot_score, :url => hot_spot_scores_path(@hot_spot), :method => :post do |f| -%>
+  <%=render :partial => "form",:object => f%>
+<% end -%>
+
+<%= update_page_tag do |page|
+  	page.call 'dialog.show_with_title', _('Rate') 
+	page.call 'busy_indicator.task_end'
+end -%>

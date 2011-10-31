@@ -1,0 +1,2 @@
+page.replace_html "articles", :partial => "articles", :object =>@articles
+page.assign "article_id", @articles

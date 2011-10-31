@@ -1,0 +1,17 @@
+<div id="form_error" class="errors">
+</div>
+
+<% remote_form_for :revise, @revise, :url => hot_spot_revises_path(@hot_spot), :method => :post do |f| -%>
+<table class="form_container">
+	<tr>
+		<td width="25%"><label><%= s_('Revise|Suggestion')%></label></td>
+		<td><%= f.text_area :suggestion, :cols=>50, :rows => 4 %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>

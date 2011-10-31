@@ -1,0 +1,7 @@
+<% remote_form_for :comment, @comment, :url => comments_path(commentable_type(@commentable), @commentable.id) do |f|  -%>
+<table class="form_container">
+	<tr>
+		<td><%= f.text_area :rows=>10, :cols=>40 %></td>
+	</tr>
+</table>
+<% end -%>

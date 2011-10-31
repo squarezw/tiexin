@@ -1,0 +1,11 @@
+<% if @post.vote_result == 0 
+	if @post.votable_to?(@current_user) -%>
+		<div class="vote_1"><%= link_to_function image_tag("form/send_flower.gif", :align => "absmiddle"), "vote_post(#{Post::VOTE_GOOD})" %> (<%= @post.good_score %>)</div>
+		<div class="vote_3"><%= link_to_function image_tag("form/send_egg.gif", :align => "absmiddle"), "vote_post(#{Post::VOTE_HIDDEN})" %> (<%= @post.hidden_score %>)</div>
+	<% else -%>
+		<div class="vote_1"><%=  _('flower') %> (<%= @post.good_score %>)&nbsp;</div>
+		<div class="vote_3"><%=  _('egg') %> (<%= @post.hidden_score %>)&nbsp;</div>
+	<% end -%>
+<% else -%>
+	<%=post_icon(@post)%> <span class="vote_<%= @post.vote_result%>"><%= user_friendly_code(:post_vote_result, @post.vote_result) %></span>
+<% end -%>

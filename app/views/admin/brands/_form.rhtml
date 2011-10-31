@@ -1,0 +1,54 @@
+<%= error_messages_for 'brand' %>
+<table class="form_container">
+	<tr>
+		<td rowspan="2" width="10%"><label class="required"><%= s_('Brand|Name') %></label></td>
+		<td width="12%"><label><%= _('Chinese') %></label></td>
+		<td><%= form.text_field :name_zh_cn, :size=>25 %>
+			<span id="check_name_zh_cn_result"></span>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= _('English') %></label></td>
+		<td><%= form.text_field :name_en, :size=>25 %>
+			<span id="check_name_en_result"></span>
+			</td>
+	</tr>
+	<tr>
+		<td rowspan="2" width="30%" colspan="2"><%= s_('Brand|Intro') %></td>
+		<td><%= bbcode_editor :brand_intro %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :intro, :rows=>10, :cols=>50 %></td>
+	</tr>
+        <%unless @brand.new_record? %>
+	<tr>
+		<td colspan="2"><label class="required"><%= _('Current Icon')%></label></td>
+        <td><%=link_to safe_brand_icon(@brand),image_path(@brand.pic.url),:target => "_blank" if @brand.pic%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('Brand|Category')%></label></td>
+                <td><%#= hot_spot_category_select :brand, :hot_spot_category_id %>
+                    <%=hotspot_category_root_select_tag "hot_spot_category_root_id",@brand.hot_spot_category,true,[_('Please select one'),""]%>
+                    <%=hotspot_category_children_select_tag "hot_spot_category_children_id",@brand.hot_spot_category,true,[_('Please select one'),""]%>
+                </td>
+	</tr>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('Brand|Pic')%></label></td>
+                <td><%= form.upload_column_field 'pic'  %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('Brand|HomePage')%></label></td>
+                <td><%= form.text_field 'home_page'  %></td>
+	</tr>
+	<tr>
+		<td colspan="3" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+
+<%= observe_field 'brand_name_zh_cn', :url => { :controller=>'admin/brands', :action=>'check_name' }, :update=>'check_name_zh_cn_result', :with => 'name'  %>
+
+<%= observe_field 'brand_name_en', :url => { :controller=>'admin/brands', :action=>'check_name' }, :update=>'check_name_en_result', :with => 'name'  %>

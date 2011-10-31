@@ -1,0 +1,69 @@
+<div id="user_information">
+<% if @current_user -%>
+	<%= render :partial=>'/campaign/gifts/available_point' %>
+<% else -%>
+<div class="section" id="fast_login_form">
+	<div class="head_no_title">
+		
+	</div>
+	<div class="body">
+	<p class="warn"><%= _('You can exchange these gifts only after you login.')%></p>
+	<% form_remote_tag :url=>sessions_path, :html=>{:id=>'login_form'} do -%>
+	<table width="99%" border="0" cellSpacing="2">
+		<tr>
+			<td width="27%"></td>
+			<td width="*"></td>
+			<td width="30%"></td>
+		</tr>
+		<tr>
+			<td><label><%= _('Member|Login name') %></label></td>
+			<td colspan="2"><%= text_field_tag :login_name, nil, :style=>'width: 80px;' %></td>
+		</tr>
+		<tr>
+			<td><label><%= _('Member|Password') %></label></td>
+			<td colspan="2"><%= password_field_tag :password, nil, :style=>'width: 80px;' %>
+			<%= link_to _('Forget password?'), forget_password_members_path %></td>
+		</tr>     
+		<tr>
+			<td valign="middle"><label><%= _('Verification code')%></label></td>
+			<td valign="middle"><%= text_field_tag :captcha_code, nil, :size=>6 %><br/>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td ><%= link_to_function _('Unrecognizable?'), 'refresh_captcha_img()' %></td>
+			<td colspan="2"><%= image_tag '/captcha.jpg', :size=>'140x50', :alt=>'CAPTCHA code', :id=>'img_captcha' %></td>
+			
+		</tr>
+		<tr>
+			<td colspan="3" class="button_bar">
+				<%= link_to_function image_tag('login.gif'), '$("login_form").onsubmit()' %>
+				<%= link_to image_tag('reg.gif'), new_member_path %>
+			</td>
+		</tr>
+	</table>
+	<% end -%>	
+	</div>
+	
+	<div class="foot">
+		
+	</div>
+</div>
+
+<% end -%>
+
+</div>
+
+<div class="section">
+	<div class="head">
+		<h3><%= _('How to get point?')%></h3>
+	</div>
+	
+	<div class="body">
+		<%= link_to _('Point rules.'), :controller=>'/static', :action=>'point_rules' %>
+	</div>
+	
+	<div class="foot">
+		
+	</div>
+</div>

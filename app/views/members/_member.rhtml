@@ -1,0 +1,10 @@
+<tr> 
+	<td><%= link_to h(member.login_name), detail_member_path(member) %></td>
+	<td><%= h(member.nick_name) %>
+	<td><%= member.role_string %></td>
+	<td><%= check_icon member.confirmed %></td>
+        <td><%= link_to_function _('Privilege'), "modify_privilege(#{member.id})" %></td>
+	<td><%= format_time member.created_at %></td>
+	<td><%= check_icon member.locked? %></td>
+	<td class="number"><%= member.experience%>/<%= member.credit%></td>
+</tr>

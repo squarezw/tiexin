@@ -1,0 +1,102 @@
+<table class="form_container" width="98%" id="hot_spot_basic_info">
+	<tr>
+		<td width="25%"><%= s_('HotSpot|Name') %></td>
+		<td width="75%"><%= h(localized_description(hot_spot, :name))%></td> 
+	</tr>
+	<tr>
+		<td><%= s_('HotSpot|Brand') %></td>
+		<td>
+			<% if hot_spot.brand -%>
+			<%=link_to h(localized_description(hot_spot.brand, :name)),brand_path(hot_spot.brand) %>
+			<% end -%>
+            <%= link_to_function _('Edit'), "edit_brand()" if hot_spot.modifiable_to(@current_user) %>
+       </td> 
+	</tr>
+	<% if @hot_spot.container -%>                    
+	<tr>
+		<td><%= _('Located In')%></td>
+		<td><%= link_to h(localized_description(hot_spot.container, :name)), hot_spot_path(hot_spot.container)%>
+	</tr>
+	<% end -%>
+	<tr>
+		<td><%= s_('HotSpot|Address') %></td>
+		<td><%= h(localized_description(hot_spot, :address))%>
+		</td>
+	</tr>
+	<tr>
+		<td><%= s_('HotSpot|Phone number')%></td>
+		<td><%= hot_spot.phone_number%></td>
+	</tr>      
+	<tr>
+		<td><%= s_('HotSpot|Operation time')%></td>
+		<td><p class="hot_spot_introduction"><%= h(localized_description(hot_spot, :operation_time))%></p></td>
+	</tr>
+	<tr>
+		<td><%= s_('HotSpot|Hot spot category')%></td>
+		<td><%= category_path_str(hot_spot.hot_spot_category) %>
+	</tr>            
+	<% if hot_spot.hot_spot_category.is_traffic_stop? -%>
+		<tr>
+			<td><%= _('Pass Through Traffic Line') %></td>
+			<td>
+				<ul class="list">
+					<% for line in hot_spot.traffic_lines -%>
+					<li><%= link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})"%></li>
+					<% end -%>
+				</ul>
+			</td>
+		</tr>
+	<% end -%>
+	<tr>
+		<td><%= _('Access Traffic Line')%></td>
+		<td id="td_access_traffic_lines">
+			<ul class="list">
+			<% lines = hot_spot.access_traffic_lines %>
+			<% for line in lines[0..2] -%>
+				<li><%= link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})"%></li>
+			<% end -%>
+			</ul>
+			<% if lines.length > 3 -%>
+				<%= link_to_remote _("All %{no} lines...") % {:no=> lines.length},
+				  		:url => access_traffic_lines_hot_spot_path(hot_spot), :update => 'td_access_traffic_lines', :method => :get, :loading=>'busy_indicator.task_start()', :complete=>'busy_indicator.task_end()'  %>
+			<% end -%>
+	</tr>
+    <tr> 
+		<td><%= s_('HotSpot|Introduction')%></td>
+		<td><p class="hot_spot_introduction"><%= h(localized_description(hot_spot, :introduction))%></p>
+		</td>
+    </tr>    
+	<tr>
+		<td><%= s_('HotSpot|Price memo')%></td>
+		<td><p class="hot_spot_introduction"><%= h(hot_spot.price_memo)%>&nbsp;</p></td>
+	</tr>
+	<tr>
+		<td><%= s_('HotSpot|Parking slot')%></td>
+		<td><%= user_friendly_code :parking_slot, hot_spot.parking_slot %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td><%= s_('HotSpot|Home page')%></td>
+		<td><% if hot_spot.home_page -%>
+				<a href="<%= hot_spot.home_page %>" target="_blank" ><%= hot_spot.home_page %></a>
+			<% end -%>
+	</tr>
+	<% unless hot_spot.positions.blank? -%>
+	<tr>
+		<td><%= _('Located In')%></td>
+		<td>
+			<ul class="list">
+				<% hot_spot.positions.each do |pos| -%>
+					<li><%= link_to label(pos), layout_maps_path(layoutable_type(pos.layout_map.layoutable), pos.layout_map.layoutable_id)%></li>
+				<% end -%>
+			</ul>
+		</td>
+	</tr>
+	<% end -%>                               
+	<tr>
+		<td><%= s_('HotSpot|Creator')%>/<%= s_('HotSpot|Created at')%></td>
+		<td><%= link_to h(hot_spot.creator.nick_name), member_path(hot_spot.creator)%>/
+			<%= format_time hot_spot.created_at %></td>
+	</tr>                                                                                  
+	
+</table>
+

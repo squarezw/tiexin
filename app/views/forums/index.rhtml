@@ -1,0 +1,56 @@
+<% page_title _('Forum') 
+   use_remote_dialog
+   include_css_file 'forums' -%>
+
+<div id="new_events">
+  <table width="100%" class="data_list">
+    <tr>
+      <td class="first-child" width="33.3%">
+        <div class="head">
+          <h4><%=_('Forum|New posts')%></h4>
+        </div>
+        <ul id="new_posts">
+          <%=render :partial => "post", :collection => Post.new_posts%>
+        </ul>
+      </td>
+      <td>
+        <div class="head">
+          <h4><%=_('Forum|Hot posts')%></h4>
+        </div>
+        <ul id="hot_posts">
+          <%=render :partial => "post", :collection => Post.hot_posts%>
+        </ul>
+      </td>
+      <td>
+        <div class="head">
+          <h4><%=_('Forum|Best posts')%></h4>
+        </div>
+        <ul id="best_posts">
+          <%=render :partial => "post", :collection => Post.best_posts%>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="50%"><%= s_('Forum|Name') %></th>
+		<th width="10%"><%= _('Post Count')%></th>
+		<th width="10%"><%= _('Today') %></th>
+		<th width="*"><%= _('Latest Post')%></th>
+	</tr>
+	<%= render :partial=>'forum', :collection=>@forums %>
+</table>
+
+<%= render :partial=>'/friend_links' %>
+
+<div id="panel">
+	<div class="hd" id="panel_head">
+
+	</div>
+
+	<div class="bd" id="panel_body">
+
+	</div>
+</div>

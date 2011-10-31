@@ -1,0 +1,2 @@
+page.replace_html 'div_category_form', ''
+page.call 'tree_reload'

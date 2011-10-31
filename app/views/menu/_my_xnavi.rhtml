@@ -1,0 +1,54 @@
+<div class="section">
+	<div class="head_no_title">
+		
+	</div>
+	
+	<div class="body">
+		
+<ul class="side_menu">
+	<li class="menu_item"><%= link_to _('Edit Personal Information'), edit_member_path(@current_user)%></li>
+        <%if @current_user.blog%>
+            <li class="menu_item"><%= link_to _('Blog'), blog_root_url(@current_user.blog)%></li>
+            <li class="menu_item level_2"><%= link_to _('Config'), edit_blog_path(@current_user.blog)%></li>
+        <%else%>
+            <li class="menu_item"><%= link_to _('Create Blog'), new_blog_path%></li>
+        <%end%>
+	<li class="menu_item"><%= _('Message') %></li>
+	<li class="menu_item level_2">
+		<%= link_to _('Inbox'), received_member_messages_path(@current_user) %>:&nbsp;
+		<%= @current_user.received_box.size%>
+	</li>
+	<li class="menu_item level_2">
+		<%= link_to _('Unread Messages'), has_not_read_member_messages_path(@current_user) %>:&nbsp;
+		<%= @current_user.has_not_read_count%></li>
+    <li class="menu_item level_2">
+		<%= link_to _('Outbox'), sent_member_messages_path(@current_user) %>: <%= @current_user.send_box.size %></li>
+	<li class="menu_item"><%= link_to _('My Point'), campaign_gift_orders_path %></li>
+	<% if @current_user.is_merchant -%>
+		<li class="menu_item"><%= link_to _('Owned Hot Spot'), owned_hot_spots_member_path(@current_user) %>:&nbsp;<%= @current_user.owned_hot_spots.count %></li>
+		<li class="menu_item"><%= link_to _('Owned Brand'), owned_brands_member_path(@current_user) %>:&nbsp;<%= @current_user.owned_brands.count %></li>
+		<li class="menu_item"><%= link_to _('Promotion'), member_promotions_path(@current_user) %>:&nbsp;<%= @current_user.promotions.count %></li>
+		<li class="menu_item level_2"><%= link_to _('Issued Discount Coupon'), merchant_discount_coupons_path %></li>
+	<% end -%>	
+		<li class="menu_item"><%= link_to _('Received Coupons'), received_coupons_path %></li>
+		<li class="menu_item"><%= link_to _('My Favorites'), member_favorites_path(@current_user) %>:&nbsp;<%= @current_user.hot_spots.count %></li>
+		<li class="menu_item"><%= link_to _('Friends'), friends_path %>:&nbsp;<%= @current_user.friend_members.count %></li>
+		<li class="menu_item"><%= link_to _('Friend Recommendations'), recommended_hot_spots_path %>:&nbsp;<%= @current_user.friend_recommendations.count %></li>
+		<li class="menu_item"><%= link_to _('Articles'), member_articles_path(@current_user) %>:&nbsp;<%= @current_user.articles.count %></li>
+		<li class="menu_item"><%= link_to _('Folders'), member_folders_path(@current_user) %>:&nbsp;<%= @current_user.folders.count %></li>
+		<li class="menu_item"><%= link_to _('Marked Hot Spots'), member_created_hot_spots_path(@current_user)%> <%= @current_user.hot_spot_count %> </li>
+		<li class="menu_item"><%= link_to _('Tags'), member_posted_tags_path(@current_user) %>:&nbsp;<%= @current_user.tag_count %></li>
+		<li class="menu_item"><%= link_to _('Comments'), member_posted_comments_path(@current_user)%>:&nbsp;<%= @current_user.comment_count %></li>
+        <li class="menu_item"><%= link_to _('Posts'), member_posts_path(@current_user)%>:&nbsp;<%= @current_user.post_count(@current_user) %></li>
+        <li class="menu_item"><%= link_to _('Revise advises'), member_posted_revises_path(@current_user)%>:&nbsp;<%= @current_user.revise_count %></li>
+        <li class="menu_item"><%= link_to _('Photos'), member_posted_photos_path(@current_user)%>:&nbsp;<%= @current_user.photo_count %></li>
+        <li class="menu_item"><%= link_to _('Products'), member_posted_products_path(@current_user)%>:&nbsp;<%= @current_user.product_count %></li>
+        <li class="menu_item"><%= link_to _('Brands'), created_brands_member_path(@current_user)%>:&nbsp;<%= @current_user.created_brands.count %></li>
+</ul>
+
+	</div>
+
+	<div class="foot">
+		
+	</div>
+</div>

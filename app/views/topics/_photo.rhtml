@@ -1,0 +1,10 @@
+<div class="photo" id="<%= element_id(photo)%>">        
+	<div class="photo_thumb">
+		<table border="0" cellspacing="0" cellpadding="0" widht="100%">
+			<tr><td align="center" valign="middle">
+				<%= link_to image_tag(photo.photo.thumb.url), photo_path(owner_type(photo.owner), photo.owner_id, photo), :target=>'_blank' %>   
+			</td></tr>
+		</table>
+	</div>
+</div>
+

@@ -1,0 +1,86 @@
+<script language="javascript">
+  window.onload=function ()
+  {
+      hide_post_menu();show_post_menu("posts_top","posts_top_m");
+  } 
+
+  function hide_post_menu(){
+      if($("posts_best")){$("posts_best").hide();}
+      if($("posts_top")){$("posts_top").hide();}
+      if($("posts_original")){$("posts_original").hide();}
+      if($("posts_blog")){$("posts_blog").hide();}
+      
+      if($("posts_best_m")){$("posts_best_m").className = ""};
+      if($("posts_top_m")){$("posts_top_m").className = ""};
+      if($("posts_original_m")){$("posts_original_m").className = ""};
+      if($("posts_blog_m")){$("posts_blog_m").className = ""};
+  }
+  function show_post_menu(el,el_m){
+      hide_post_menu()
+      if($(el)){ $(el).show() };
+      if($(el_m)){$(el_m).addClassName('chosen')};
+  }
+</script>
+<div id="posts_menu">
+  <ul>
+    <!--<li id="posts_hot_m"><%= image_tag 'form/icon_hot.gif' %><br/><%=link_to_function  _('Posts on Hot'), "show_post_menu('posts_hot','posts_hot_m')"%></li>-->
+    <li id="posts_best_m"><%= image_tag 'form/icon_best.gif' %> <%=link_to_function _('Posts on Best'), "show_post_menu('posts_best','posts_best_m')"%></li>
+    <li id="posts_original_m"><%= image_tag 'form/icon_org.gif' %> <%=link_to_function _('Posts on original'), "show_post_menu('posts_original','posts_original_m')"%></li>
+    <li id="posts_blog_m"><%= image_tag 'form/icon_blog.gif' %> <%=link_to_function _('Posts on blog'), "show_post_menu('posts_blog','posts_blog_m')"%></li>
+  </ul>
+</div>
+<% unless @posts.previous_page or (top_posts = @forum.top_posts).empty? -%>
+<table class="data_list"  id="posts_top">
+	<tr>
+		<th width="3%"></th>
+		<th width="*"><%= s_('Post|Title')%></th>
+		<th width="8%"><%= _('Author') %></th>
+		<th width="13%"><%= _('Post|Created at') %></th>
+		<th width="8%"><%= _('Reply') %>/<%= _('View') %></th>
+		<th width="18%"><%= _('Last Reply') %></th>
+	</tr>
+	<%= render :partial=>'post', :collection=>top_posts%>
+</table>
+<% end -%>
+
+<% unless @posts.previous_page or (best_posts = @forum.best_posts).empty? -%>
+<table class="data_list"  id="posts_best">
+	<tr>
+		<th width="3%"></th>
+		<th width="*"><%= s_('Post|Title')%></th>
+		<th width="8%"><%= _('Author') %></th>
+		<th width="13%"><%= _('Post|Created at') %></th>
+		<th width="8%"><%= _('Reply') %>/<%= _('View') %></th>
+		<th width="18%"><%= _('Last Reply') %></th>
+	</tr>
+	<%= render :partial=>'post', :collection=>best_posts%>
+</table>
+<% end -%>
+
+<% unless @posts.previous_page or (original_posts = @forum.original_posts).empty? -%>
+<table class="data_list"  id="posts_original">
+	<tr>
+		<th width="3%"></th>
+		<th width="*"><%= s_('Post|Title')%></th>
+		<th width="8%"><%= _('Author') %></th>
+		<th width="13%"><%= _('Post|Created at') %></th>
+		<th width="8%"><%= _('Reply') %>/<%= _('View') %></th>
+		<th width="18%"><%= _('Last Reply') %></th>
+	</tr>
+	<%= render :partial=>'post', :collection=>original_posts%>
+</table>
+<% end -%>
+
+<% unless @posts.previous_page or (blog_posts = @forum.blog_posts).empty? -%>
+<table class="data_list"  id="posts_blog">
+	<tr>
+		<th width="3%"></th>
+		<th width="*"><%= s_('Post|Title')%></th>
+		<th width="8%"><%= _('Author') %></th>
+		<th width="13%"><%= _('Post|Created at') %></th>
+		<th width="8%"><%= _('Reply') %>/<%= _('View') %></th>
+		<th width="18%"><%= _('Last Reply') %></th>
+	</tr>
+	<%= render :partial=>'post', :collection=>blog_posts%>
+</table>
+<% end -%>

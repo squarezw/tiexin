@@ -1,0 +1,12 @@
+<% @page_title = _('New Hot Topic')
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), admin_hot_topics_path, :class=>:button %>
+</div>
+
+<%= error_messages_for :hot_topic %>
+
+<% form_for :hot_topic, @hot_topic, :url=>admin_hot_topics_path do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>

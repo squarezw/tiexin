@@ -1,0 +1,329 @@
+<%  page_title h(localized_description(@hot_spot, :name)), true
+    use_remote_dialog
+    use_google_map
+    include_js_file 'editor', 'map', 'map_helper', 'comments', 'tabbed_pane'
+    include_css_file 'bbeditor', 'comments', 'revise' ,'promotion','tags', 'toolbar', 'article', 'products', 'tabbed_pane',  'hot_spot_detail'
+    page_keyword h(localized_description(@current_city, :name))
+-%>
+
+<% content_for :page_scripts do -%>
+var map;
+
+var panel;
+
+var tp_hotspot_info;
+
+function init_page () {
+      <% if @hot_spot.coordinate -%>
+      <%= render :partial=>'/main/levels_data' %>
+      /*
+        map = new Map ('small_map', {
+                city_id: <%= @hot_spot.city_id%>,
+                map_width: <%= @hot_spot.city.width %>,
+                map_height: <%= @hot_spot.city.height %>,
+                start_point: [<%= @hot_spot.x %>, <%= @hot_spot.y%> ],
+                zoom_levels: map_levels,
+                viewport_width: 220,
+                viewport_height: 180,
+                init_zoom_level_index: 6
+        });
+      */
+      map = new GMap2($('small_map'));
+		<%= "map.setCenter(new GLatLng(#{@hot_spot.latitude}, #{@hot_spot.longitude}), 15);" %>
+                map.addControl(new GSmallZoomControl());
+      <%= update_page do |page|
+                add_hot_spot_gmarker page, @hot_spot
+      end -%>
+
+      <% end -%>
+      panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+
+      show_products();
+
+      show_comments();
+	
+}                                                       
+
+function show_traffic_line(id) {
+      panel.retrieve('/traffic_lines/' + id + <%= "'?near_hot_spot_id=#{@hot_spot.id}'"%>);
+}
+
+function edit_brand () {
+      dialog.retrieve_remote_form('<%= edit_brand_hot_spot_path(@hot_spot)%>');
+}
+
+function show_products () {
+      <%= remote_function :url=>products_hot_spot_path(@hot_spot), :update=>'div_products_section', :method=>:get %>
+}
+
+function new_product() {
+      dialog.retrieve_remote_form('<%= new_product_path(vendor_type(@hot_spot), @hot_spot)%>');
+} 
+
+function product_created() {
+      alert ("<%= _('Recommended product has been saved.')%>");
+      show_products ();
+}
+
+function show_comments () {
+      <%= remote_function :url=>comments_path(commentable_type(@hot_spot), @hot_spot.id), :update => 'div_comment_section', :method=>:get %>
+}
+
+function recommend_to_friend () {
+      dialog.retrieve_remote_form ('<%= to_recommend_hot_spot_path @hot_spot %>');
+}
+
+function create_tag () {
+        dialog.retrieve_remote_form('<%= new_hot_spot_tag_path(@hot_spot) if @current_user%>');
+}
+
+function show_tag_description (tag) {
+     panel.retrieve (encodeURI('/hot_spots/<%=@hot_spot.id%>/tags/tag_description/?template=panel&tag='+tag), {});     
+}
+
+function create_favorite () {
+        <%if @current_user%>
+        operation = null;
+	panel.retrieve(
+		'<%= hot_spot_favorites_path(@hot_spot) %>',
+		{ method: 'POST'
+		});
+        <%end%>
+}
+
+function edit_hot_spot(id) {
+	<%= remote_function :update => 'form_panel', :url=>edit_hot_spot_path(@hot_spot), :method=>:get%>
+}   
+
+function show_edit_form () {
+	new Effect.BlindUp("infor_panel",{});
+	new Effect.BlindDown("form_panel",{});
+	tp_hotspot_info = new TabbedPane('tp_hotspot_info');
+	tp_hotspot_info.show_page('tp_head_zh_cn', 'page_zh_cn')
+}
+
+function hot_spot_modified(id, hot_spot_name) {
+    new Ajax.Updater('infor_panel','<%=basic_information_hot_spot_url(@hot_spot)%>',{method:'get'});
+	hide_form_panel ();
+}                    
+
+function hide_form_panel () {
+	new Effect.BlindUp ("form_panel");
+	new Effect.BlindDown ("infor_panel");
+}
+
+function search_nearby (cat_id) {
+	$('hot_spot_category_id').value = cat_id;
+	$('nearby_search_form').submit();
+}
+
+function upload_photo () {
+	dialog.retrieve_remote_form('<%= new_photo_path(@hot_spot.class.to_s.underscore, @hot_spot.id)%>');
+}                                 
+
+function rate () {
+        dialog.retrieve_remote_form('<%= new_hot_spot_score_path(@hot_spot) if @current_user%>');
+}
+<% end -%>    
+
+<div id="side_menu">
+    <div id="map_section" class="section">
+            <div class="head_no_title">
+                &nbsp;
+            </div>
+            <div class="body">
+                <div id="small_map">
+                </div>
+                <div class="button_bar">
+                <%#= image_tag 'but_zoom_in.jpg' %>
+                <%#= link_to_function _('Zoom In'), "map.zoom_in()", :id=>'zoom_in_button', :class=>"map_button" %>&nbsp;
+                <%#= image_tag 'but_zoom_out.jpg' %>
+                <%#= link_to_function _('Zoom Out'), "map.zoom_out()", :id=>'zoom_out_button', :class=>"map_button" %>&nbsp;
+                <%= link_to _('Big Map'),
+                        {:controller=>'cities', :action=>:gmap, :id=>@hot_spot.city_id, :hot_spot_id=> @hot_spot},
+                        {:id=>'big_map_button', :class=>"map_button"} %>
+                </div>
+            </div>
+    </div> <!-- map_section -->
+
+    <div class="section" id="access_traffic_lines_section">
+            <div class="head">
+                <h3><%= _('Access Traffic Line')%></h3>
+            </div>
+
+            <div class="body" id="access_traffic_lines">
+                <ul class="list">
+                <% lines = unique_traffic_lines(@hot_spot.access_traffic_lines, @current_lang) %>
+                <% for line in lines[0..4] -%>
+                        <li><%= link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})"%></li>
+                <% end -%>
+                </ul>
+            </div>
+
+            <div class="foot">
+                <% if lines.length > 3 -%>
+                    <%= link_to_remote _("All %{no} lines...") % {:no=> lines.length},
+                                        :url => access_traffic_lines_hot_spot_path(@hot_spot), :update => 'access_traffic_lines', :method => :get %>
+                <% end -%>
+            </div>
+    </div>
+
+    <% if @hot_spot.brand or @hot_spot.modifiable_to @current_user -%>
+    <div id="brand_section">
+            <%= render :partial=>'/hot_spots/brand', :locals=>{ :hot_spot => @hot_spot } %>
+    </div>
+    <% end -%>
+
+    <% events = @hot_spot.effective_events(:page=>1, :per_page=>5)
+       if !events.empty? or @hot_spot.can_publish_event?(@current_user) -%>
+    <div id="events" class="section">
+            <div class="head">
+                    <div class="tool_bar">
+                            <% if @current_user and
+                                      ((@hot_spot.owner and @hot_spot.owner == @current_user) or
+                                       @current_user.has_privilege(:manage_events)) -%>
+                                    <%= link_to _('New Event'), new_event_path(class_name_for_url(@hot_spot), @hot_spot) %>
+                            <% end -%>
+
+                            <% if @current_user and
+                                      ((@hot_spot.owner and @hot_spot.owner == @current_user) or
+                                       @current_user.has_privilege(:manage_coupons)) -%>
+                                    <%= link_to _('New Disount Coupon'), :controller=>'merchant/discount_coupons', :action=>'new', :vendor_type=>'HotSpot', :vendor_id => @hot_spot.id %><br/>
+                            <% end -%>
+                    </div>
+                    <h3><%= _('Events')%></h3>
+            </div>
+
+            <div class="body">
+                    <div id="events_list">
+                            <%= render :partial=>'/hot_spots/event', :collection=>events %>
+                    </div>
+            </div>
+
+            <div class="foot">
+
+                    <% if events.total_entries > 1 -%>
+                            <%= link_to _('All...'), events_path(class_name_for_url(@hot_spot), @hot_spot) %><br/>
+                    <% end -%>
+            </div>
+    </div>
+    <% end -%>
+
+    <div class="section">
+            <div class="head">
+                    <h3><%= _('Search Nearby')%></h3>
+            </div>
+
+            <div class="body">
+                    <p>
+                            <%= (HotSpotCategory.common_categories.collect {|cat| link_to_function h(localized_description(cat, :name)), "search_nearby('#{cat.id}')"}).join(',&nbsp;') -%>
+                    </p>
+                    <p>
+                    <form action="<%= url_for :controller=>'/search', :action=>'search', :id=>@current_city.id %>" method="post" target="_blank" id="nearby_search_form">
+                            <%= hidden_field_tag :x, @hot_spot.x %>
+                            <%= hidden_field_tag :y, @hot_spot.y %>
+                            <%= hidden_field_tag :scope, 1 %>
+                            <input type="hidden" name="hot_spot_category_id" id="hot_spot_category_id"/>
+                            <input type="text" size="20" name="keyword" /><%= submit_tag _('Search')%>
+                    </form>
+                    </p>
+            </div>
+
+            <div class="foot">
+
+            </div>
+    </div>
+    <% if @hot_spot.articles.count > 0 -%>
+    <div class="section">
+            <div class="head">
+                    <h3><%= s_('Articles')%></h3>
+            </div>
+
+            <div class="body">
+                    <% for article in Article.articles_for_hot_spot(@hot_spot, :page=>1, :per_page=>5) -%>
+                            <div class="article_list_item">
+                                    <p class="title"><%= link_to h(article.subject), article%></p>
+                                    <p class="author"><%= h(article.member.nick_name)%></p>
+                                    <p><%= h(truncate(article.summary, 80))%></p>
+                            </div>
+                    <% end -%>
+            </div>
+
+            <div class="foot">
+
+            </div>
+
+    </div>
+    <% end -%>
+
+    <div id="div_owner_information">
+        <%= render :partial=>'/owner_information', :locals=>{:target=>@hot_spot} %>
+    </div>
+
+    <% if @current_user and @current_user.is_admin -%>
+    <div class="section">
+            <div class="head">
+              <h3><%= _('Recommend')%></h3>
+            </div>
+            <div class="body">
+                    <%= render :partial=>'recommend', :locals=>{:hot_spot => @hot_spot }%>
+            </div>
+            <div class="foot">
+
+            </div>
+    </div>
+    <% end %>
+
+    <% if @current_user and @current_user.is_admin -%>
+      <%=render :partial=> "/admin/topics/recommend_from_hot_spot", :locals => {:hot_spot => @hot_spot}%>
+    <% end %>
+	
+</div> <!-- side_menu -->
+
+<div id="left_part">
+
+  <div id="infor_panel" class="section">
+     <%= render :partial=>'basic_information'%>
+  </div> <!-- end of infor_panel -->
+
+  <div id="form_panel">
+
+  </div>
+
+  <div id="more_infor">
+    <div id="div_products_section">
+
+    </div>
+
+    <% if @hot_spot.hot_spots.count > 0 -%>
+    <div id="inner_hot_spots" class="section">
+      <div class="head">
+              <div class="tool_bar">
+                      <%= link_to _('All'), formatted_hot_spot_inner_hot_spots_path(@hot_spot, :html), :target=>'_blank'%>
+              </div>
+              <h3><%= _('Inner Hot Spots')%></h3>
+      </div>
+
+      <div class="body">
+              <% for hot_spot in inner_hot_spots_for_show(@hot_spot) -%>
+                      <%= render :partial=>'/cities/recommended/hot_spot', :object=>hot_spot %>
+              <% end -%>
+      </div>
+    </div>
+    <% end -%>
+  </div>
+
+  <div id="div_comment_section" class="comments_block">
+  </div>
+</div>
+<div id="panel">
+  <div class="hd" id="panel_head">
+
+  </div>
+
+  <div class="bd" id="panel_body">
+
+  </div>
+</div>
+
+

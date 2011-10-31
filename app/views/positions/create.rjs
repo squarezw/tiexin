@@ -1,0 +1,5 @@
+page << "add_hot_spot (#{@hot_spot.id}, #{@position.x}, #{@position.y}, {hot_spot_id: #{@hot_spot.id}, category_id : #{@hot_spot.hot_spot_category_id}, tooltip: '#{h(localized_description(@hot_spot, :name))}', icon: '#{hot_spot_icon(@hot_spot)}', root_category_id: #{@hot_spot.root_category.id}, position_id: #{@position.id} })"
+
+page.call "panel.hide"
+
+page.call 'show_category_navigator'

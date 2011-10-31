@@ -1,0 +1,23 @@
+var layout_maps=[];                
+
+<% @layoutable.layout_maps_has_zoom_levels.each_with_index do |map, i| -%> 
+	layout_maps[<%= i %>] = { id: <%= map.id%>,
+		 					  name: '<%= h(localized_description(map, :name))%>' };
+	
+	layout_maps[<%= i %>].zoom_levels = [];
+	
+	<% map.zoom_levels.each_with_index do |zl, j|  -%>
+		layout_maps[<%= i %>].zoom_levels[<%= j %>] = {            
+			map_width: <%= zl.map_file_width %>,
+			map_height: <%= zl.map_file_height %>,      
+			scale: <%= zl.scale %>,
+			id: <%= zl.id %>
+		};
+	<% end -%>
+	
+<% end -%>
+
+
+
+
+

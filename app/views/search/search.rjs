@@ -1,0 +1,14 @@
+page.call 'show_search_result'
+
+show_hot_spot_markers page, @hot_spots unless @hot_spots.nil?
+
+page.call 'show_hot_spot_marker', @hot_spots[0].id unless @hot_spots.nil? or @hot_spots.empty?
+
+show_area_markers page, @areas unless @areas.nil? or @areas_count == 0
+
+page.replace_html 'search_result_list', render(:partial=>'search_result')
+
+page.hide 'detail_infor_pane'
+
+page.visual_effect 'slide_down', 'search_result_list'
+

@@ -1,0 +1,63 @@
+<% page_title "#{_('Gift')} : #{h(@gift.name)}" 
+    include_css_file 'gift'
+	side_menu 'master_data'
+	-%>
+	
+<div class="button_bar">
+	<%= link_to _('Edit'), edit_admin_gift_path, :class=>:button %>
+	<%= link_to _('Photos'), photos_path(class_name_for_url(@gift.class), @gift), :class=>:button %>
+</div>
+
+<div class="picture">
+	<% if @gift.picture -%>
+		<%= link_to image_tag(@gift.picture.thumb.url), @gift.picture.url, :popup=>true %>
+	<% end -%>
+</div>
+
+<div class="basic_information">
+<table class="form_container">
+	<tr>
+		<td width="20%"><labeL><%= s_('Gift|Price')%></label></td>
+		<td width="*">	<%= gift_price @gift %></td>
+	</tr>
+	<tr>
+		<tr>
+			<td><labeL><%= s_('Gift|Support deliver method')%></label></td>
+			<td>	<%= user_friendly_code :gift_order_deliver_method, @gift.support_deliver_method %></td>
+		</tr>		
+	</tr>
+	<tr>
+		<td><labeL><%= s_('Gift|Delivery fee')%></label></td>
+		<td>	<%= format_currency @gift.delivery_fee %></td>
+	</tr>
+	<tr>
+		<td><labeL><%= s_('Gift|Reference price')%></label></td>
+		<td>	<%= format_currency @gift.reference_price %></td>
+	</tr>
+	<tr>
+		<td><labeL><%= s_('Gift|Reference url')%></label></td>
+		<td>	
+			<% unless @gift.reference_url.nil? or @gift.reference_url.empty? %>
+				<%= link_to @gift.reference_url, @gift.reference_url, :popup=>true %>
+			<% end -%>
+		</td>
+	</tr>
+	<tr>
+		<td><%= _('Partner') %></td>
+		<td><% if @gift.partner -%>
+				<%= @gift.partner.name %>
+			<% end -%>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Gift|Description')%></label></td>
+		<td>
+<pre>
+<%= bbcodeize @gift.description %>
+</pre>
+		</td>
+	</tr>
+</table>
+</div>
+
+

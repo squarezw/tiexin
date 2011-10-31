@@ -1,0 +1,15 @@
+<div id="model_show">
+<div class="icon left"><%=safe_mobile_model_icon(@mobile_model)%></div>
+<div class="summary"><%=@mobile_model.summary%></div>
+
+<div class="clearfix">
+  <ul>
+    <li><%=_('Current version')%>: <%="#{@mobile_model.mobile_os.navi_star.release}.#{@mobile_model.mobile_os.navi_star.major}.#{@mobile_model.mobile_os.navi_star.minor}.#{@mobile_model.mobile_os.navi_star.suffix}"%></li>
+    <li><%=_('Release date')%>: <%=format_date @mobile_model.mobile_os.navi_star.release_at%></li>
+    <li>提示：使用本地安装或者在访问wap.bedo.cn及下载软件时可能产生数据流量费用。如果您的手机支持数据线、蓝牙或红外装置，建议使用下载到本地安装。</li>
+    <li class="download"><%=link_to _('local download'),url_for(:controller=>'/download', :action=>'download', :platform => @mobile_model.mobile_os.name, :release => @mobile_model.mobile_os.navi_star.release, :major => @mobile_model.mobile_os.navi_star.major,
+:minor => @mobile_model.mobile_os.navi_star.minor, :suffix => @mobile_model.mobile_os.navi_star.suffix) if @mobile_model.picture%></li>
+  </ul>  
+</div>
+
+</div>

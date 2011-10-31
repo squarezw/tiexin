@@ -1,0 +1,7 @@
+<% @page_title =_('Brands') 
+   @css_files=['brands']
+%>
+<div class="brand_photolist">
+<%= render :partial=>'brand', :collection => @brands %>
+</div>
+<%= page_navigator @brands %>

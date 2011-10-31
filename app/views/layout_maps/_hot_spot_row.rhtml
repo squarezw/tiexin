@@ -1,0 +1,25 @@
+<tr id="<%= element_id(hot_spot)%>" class="hot_spot_row">
+	<td><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot) %></td>
+	<td><%= h(localized_description(hot_spot.hot_spot_category, :name))%></td>
+	<td><%= h(localized_description(hot_spot, :address))%></td>
+	<td><%= hot_spot_score_stars hot_spot%>(<%= hot_spot.score%>/<%= hot_spot.score_count %>)</td>
+	<td>
+		<% if @current_user -%>
+			<% positions = container.positions_for_inner_hot_spot hot_spot 
+			   unless positions.empty? -%>
+					<%= link_to_function image_tag('goto_marker.gif', :alt=>_('Show position on layout map.')),
+									 show_position(positions.first) + ";show_hot_spot(#{hot_spot.id})",
+									:title=>_('Show position on layout map.')  %>
+			<% else -%>
+					<%= link_to_function image_tag('mark_position.gif', :alt=>_('Click on the layout map to mark position for this hot spot.') ),
+									 "mark_position(#{hot_spot.id})",
+									:title=>_('Click on the layout map to mark position for this hot spot.')  %>
+			
+			<% end %>
+			
+			<% if current_is_admin? -%>
+				<%= link_to_remote image_tag('remove.gif'), {:url=>hot_spot_inner_hot_spot_path(hot_spot.container, hot_spot), :confirm=>_('Are you sure?'), :method=>:delete}, {:title=>_('Remove this hot spot from inner hot spot list.')}  %>
+			<% end -%>
+		<% end -%>
+	</td>
+</tr>

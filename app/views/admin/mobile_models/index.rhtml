@@ -1,0 +1,13 @@
+<% @page_title = _('Manage Mobile Models')
+   @css_files=['mobile']
+   @side_menu = 'master_data' %>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_mobile_model_path, :class => :button %>
+</div>
+<div class="xnavi-mobile-models">
+  <ul>
+    <%= render :collection => @mobile_models, :partial=>'mobile_model' %>
+  </ul>
+</div>
+<%= page_navigator @mobile_models %>

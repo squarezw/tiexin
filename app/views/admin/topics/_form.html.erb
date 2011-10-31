@@ -1,0 +1,264 @@
+<% content_for 'page_scripts' do -%>
+        var panel;
+
+	function init_page () {
+		init_calendar_calendar ();
+                panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+	}
+	
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+
+<script language="javascript">
+var article_ids = new Array();
+var article_title = new Array();
+var article_link = new Array();
+
+var post_ids = new Array();
+var post_title = new Array();
+var post_link = new Array();
+
+var hot_spot_ids = new Array();
+var hot_spot_title = new Array();
+var hot_spot_link = new Array();
+
+<%if @article_ids and !@article_ids.empty?%>
+      article_ids = <%="[#{@article_ids}]"%>
+<%end%>
+<%if @article_names and !@article_names.empty?%>
+     article_title = <%="[#{@article_names}]"%>
+<%end%>
+<%if @article_links and !@article_links.empty?%>
+      article_link = <%="[#{@article_links}]"%>
+<%end%>
+
+<%if @post_ids and !@post_ids.empty?%>
+      post_ids = <%="[#{@post_ids}]"%>
+<%end%>
+<%if @post_names and !@post_names.empty?%>
+     post_title = <%="[#{@post_names}]"%>
+<%end%>
+<%if @psot_links and !@post_links.empty?%>
+      post_link = <%="[#{@post_links}]"%>
+<%end%>
+
+<%if @hot_spot_ids and !@hot_spot_ids.empty?%>
+      hot_spot_ids = <%="[#{@hot_spot_ids}]"%>
+<%end%>
+<%if @hot_spot_names and !@hot_spot_names.empty?%>
+     hot_spot_title = <%="[#{@hot_spot_names}]"%>
+<%end%>
+<%if @hot_spot_links and !@hot_spot_links.empty?%>
+      hot_spot_link = <%="[#{@hot_spot_links}]"%>
+<%end%>
+
+function RetObject(name,object_title,object_link,object_ids){ 
+      this.name = name; 
+      this.title = object_title;
+      this.link = object_link; 
+      this.ids = object_ids
+}
+
+function set_ret_article (){
+    var ret = new RetObject('article',article_title,article_link,article_ids); 
+    related(ret,'article')
+}
+
+function set_ret_post (){
+    var ret = new RetObject('post',post_title,post_link,post_ids); 
+    related(ret,'post')
+}
+
+function set_ret_hot_spot (){
+    var ret = new RetObject('hot_spot',hot_spot_title,hot_spot_link,hot_spot_ids); 
+    related(ret,'hot_spot')
+}
+
+function add_related_article () {
+       panel.retrieve('/admin/topics/related_articles/');
+}
+
+function add_related_post () {
+       panel.retrieve('/admin/topics/related_posts/');
+}
+
+function add_related_hot_spot () {
+       panel.retrieve('/admin/topics/related_hot_spots/');
+}
+
+function insert_related_article(id,name,link){
+      article_title.push(name)
+      article_title = article_title.uniq()
+      article_link.push(link)
+      article_link = article_link.uniq()
+      article_ids.push(id)
+      article_ids = article_ids.uniq()
+      
+      set_ret_article()
+}
+
+function insert_related_post(id,name,link){
+      post_title.push(name)
+      post_title = post_title.uniq()
+      post_link.push(link)
+      post_link = post_link.uniq()
+      post_ids.push(id)
+      post_ids = post_ids.uniq()
+      
+      set_ret_post()
+}
+
+function insert_related_hot_spot(id,name,link){
+      hot_spot_title.push(name)
+      hot_spot_title = hot_spot_title.uniq()
+      hot_spot_link.push(link)
+      hot_spot_link = hot_spot_link.uniq()
+      hot_spot_ids.push(id)
+      hot_spot_ids = hot_spot_ids.uniq()
+      
+      set_ret_hot_spot()
+}
+
+function remove_related_article(id,name,link){
+      article_ids = article_ids.without(id);
+      article_title = article_title.without(name)
+      article_link = article_link.without(link)
+      set_ret_article()
+}
+
+function remove_related_post(id,name,link){
+      post_ids = post_ids.without(id);
+      post_title = post_title.without(name)
+      post_link = post_link.without(link)
+      set_ret_post()
+}
+
+function remove_related_hot_spot(id,name,link){
+      hot_spot_ids = hot_spot_ids.without(id);
+      hot_spot_title = hot_spot_title.without(name)
+      hot_spot_link = hot_spot_link.without(link)
+      set_ret_hot_spot()
+}
+      
+function related(obj,oname){
+      object_related = 'related_' + obj.name
+      object_id = obj.name + '_id'
+      $(object_related).innerHTML = ''
+      for (var index = 0; index < obj.ids.length; ++index) {
+              var id = obj.ids[index];
+              var name = obj.title[index];
+              var link = obj.link[index];
+              str = '<p><a href="'+link+'" target="_blank">'+ name+'</a>'
+              if(oname=='article'){
+                 str = str + '<a href="javascript:void(0)" onclick=remove_related_article('+id+',"'+name+'","'+link+'")>[x]</a>'
+              }else if(oname=='post')              
+              {
+                 str = str + '<a href="javascript:void(0)" onclick=remove_related_post('+id+',"'+name+'","'+link+'")>[x]</a>'
+              }
+              else if(oname=='hot_spot')              
+              {
+                 str = str + '<a href="javascript:void(0)" onclick=remove_related_hot_spot('+id+',"'+name+'","'+link+'")>[x]</a>'
+              }
+              str = str + '</p>'  + $(object_related).innerHTML  
+              $(object_related).innerHTML = str
+      }
+      $(object_id).value = obj.ids
+}
+
+function add_article_to_topic(id) {
+       new Ajax.Request ("/admin/topics/related_article_for_add/?article_id=" + id  , {method: 'post'});
+}
+
+</script>
+<div class="button_bar">
+	<%= link_to _('Back'), admin_topics_path, :class=>:button %>
+</div>
+
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('Topic|Title') %></label></td>
+		<td width="*"><%= form.text_field :title %></td>
+	</tr>
+        <%unless @topic.new_record?%>
+	<tr>
+		<td><%= _('Current Banner')%></td>
+        <td><%=link_to image_tag(@topic.banner.url),image_path(@topic.banner.url),:target => "_blank" if @topic.banner%></td>
+	</tr>
+        <%end%>        
+	<tr>
+		<td><%= s_('Topic|Banner') %></td>
+		<td><%= upload_column_field :topic, :banner %></td>
+	</tr>        
+	<tr>
+		<td><label class="required"><%= s_('Topic|Summary') %></label></td>
+		<td><%= form.text_area :summary, :rows=>5, :cols=>50 %></td>
+	</tr>
+        <%unless @topic.new_record?%>
+	<tr>
+		<td><%= _('Current Cover_pic')%></td>
+        <td><%=link_to image_tag(@topic.cover_pic.url),image_path(@topic.cover_pic.url),:target => "_blank" if @topic.cover_pic%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td><%= s_('Topic|Cover_pic') %></td>
+		<td><%= upload_column_field :topic, :cover_pic %></td>
+	</tr>
+	<tr>
+		<td><%= s_('Topic|Template') %></td>
+		<td><%= form.text_field :template %></td>
+	</tr>
+	<tr>
+		<td><%= s_('City') %></td>
+		<td><%=select :topic,:city_id,@cities, {:selected => @topic.city_id, :prompt => _('Select City')}%>
+                </td>
+	</tr>        
+	<tr>
+		<td><%= s_('Topic|Expire date') %></td>
+		<td><%= form.text_field :expire_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_topic_expire_date', :class=>'image' %></td>
+	</tr>        
+	<tr>
+		<td><%= s_('Topic|Related articles') %></td>
+                <td><%= link_to_function _('Add related article'), "add_related_article()"%>
+                    <%= hidden_field_tag "article_id"%>
+                    <div class="article" id="related_article">
+                      
+                    </div>
+                </td>
+	</tr>
+	<tr>
+		<td><%= s_('Topic|Related posts') %></td>
+                <td><%= link_to_function _('Add related post'), "add_related_post()"%>
+                    <%= hidden_field_tag "post_id"%>
+                    <div class="article" id="related_post">
+                      
+                    </div>
+                </td>
+	</tr>
+	<tr>
+		<td><%= s_('Topic|Related hot spots') %></td>
+                <td><%= link_to_function _('Add related hot spot'), "add_related_hot_spot()"%>
+                    <%= hidden_field_tag "hot_spot_id"%>
+                    <div class="article" id="related_hot_spot">
+                      
+                    </div>
+                </td>
+	</tr>
+        <tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag %>
+		</td>
+	</tr>
+</table>
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_topic_expire_date', 
+			  :date_field=>'topic_expire_date',
+			  :customizer=>'customize_calendar'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y'), :close=>true} %>  
+<script>
+    set_ret_article()
+    set_ret_post()
+    set_ret_hot_spot()
+</script>

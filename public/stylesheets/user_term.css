@@ -1,0 +1,36 @@
+div#div_user_term {
+	border: 1px solid #AAA;
+	margin: 20px;
+	padding: 20px;
+	line-height: 1.5em;
+}
+
+div#div_user_term p {
+	text-indent: 2em;
+	margin-bottom: 1em;
+}
+
+div#div_user_term ol {
+ 	margin-left: 2em;
+}
+
+div#div_user_term ol li {
+}
+
+div#div_user_term h3 {
+	margin-top: 1.5em;
+	margin-bottom: 0.8em;
+}
+
+div#div_user_term ol.level_2 li {
+	list-style: upper-roman;
+}
+
+div#div_user_term ol.level_3 li {
+	list-style: lower-alpha;
+}
+
+div#div_user_term address {
+	font-style: normal;
+	margin-left: 2em;
+}

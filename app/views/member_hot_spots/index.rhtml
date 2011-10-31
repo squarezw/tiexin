@@ -1,0 +1,21 @@
+<% @page_title = _('Hot Spot created by %{user}') % { :user => h(@member.nick_name) } 
+   side_menu side_menu_for_member(@member) -%>
+
+<table class="data_list" width="100%">
+	<tr>
+		<th width="20%"><%= s_('HotSpot|Name') %></th>
+		<th width="10%"><%= _('hot spot category') %></th>
+		<th width="30%"><%= s_('HotSpot|Address') %></th>
+		<th width="10%"><%= s_('HotSpot|Created at') %></th>
+	</tr>
+<% for hot_spot in @hot_spots -%>
+	<tr> 
+		<td><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target => '_blank'  %></td>
+		<td><%= h(localized_description(hot_spot.hot_spot_category, :name))%></td>
+		<td><%= h(localized_description(hot_spot, :address))%></td>
+		<td><%= format_date(hot_spot.created_at)%></td>
+	</tr>
+<% end -%>
+</table>
+
+<%= page_navigator @hot_spots %>

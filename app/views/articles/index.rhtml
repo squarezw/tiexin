@@ -1,0 +1,12 @@
+<% @page_title = articles_page_title 
+   side_menu side_menu_for_member(@member)
+   @css_files = ['article']   
+-%>
+<div class="button_bar">
+	<% if @current_user -%>
+    	<%= link_to _('Write Article'), new_member_article_path(@current_user), :class=>:button %>
+	<% end -%>
+</div>
+<%= render :partial=>'article_summary', :collection=>@articles %>
+
+<%= page_navigator @articles %>

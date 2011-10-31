@@ -1,0 +1,4 @@
+page.replace product_div_id(@product), render(:partial=>'product_detail', :locals=>{:product=>@product})
+page.replace_html element_id(@product), link_to(h(localized_description(@product, :name)), product_path(vendor_type(@vendor), @vendor, @product))
+page.replace_html 'page_title', h(localized_description(@product, :name))
+page.visual_effect :pulsate, product_div_id(@product), :pulses=>1

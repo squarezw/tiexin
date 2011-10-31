@@ -1,0 +1,2 @@
+<% @promotion = @brand.promotions_for_city(@current_city, 3) %>
+<%=render :partial =>"/promotions/promotion", :collection=> @promotion%>

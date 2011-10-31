@@ -1,0 +1,76 @@
+<% #TODO: enhance the UI.%>
+<% page_title "#{_('Gift')} : #{h(@gift.name)}"
+ 	include_js_file 'editor'
+    include_css_file 'comments', 'gift'
+	side_menu 'gifts'
+   select_menu :gifts	-%>
+	
+<% content_for 'page_scripts' do -%>
+function init_page () {
+	<%= remote_function :update=>'gift_photos', :url=>photos_campaign_gift_path(@gift), :method=>:get %>
+}
+
+function user_logged_in() {
+	location.reload ();
+}
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Gifts'), campaign_gifts_path %> > <%= h(@gift.name)%>
+</div>
+
+<div id="main_function_content">
+	
+	<div class="picture">
+		<% if @gift.picture -%>
+			<%= link_to image_tag(@gift.picture.thumb.url), @gift.picture.url, :popup=>true %>
+		<% end -%>
+	</div>
+
+	<div class="basic_information">
+	<table class="form_container">
+		<tr>
+			<td width="15%"><labeL><%= s_('Gift|Price')%></label></td>
+			<td width="*">	<%= gift_price @gift %></td>
+		</tr>
+		<tr>
+			<td><label><%= s_('GiftOrder|Deliver method')%></label></td>
+			<td><%= user_friendly_code :gift_order_deliver_method, @gift.support_deliver_method %></td>
+		</tr>
+		<tr>
+			<td><labeL><%= s_('Gift|Delivery fee')%></label></td>
+			<td>	<%= number_to_currency @gift.delivery_fee %></td>
+		</tr>
+	</table>
+	</div>
+
+	<div class="button_bar">
+		<% if @gift.on_sale -%>
+			<% if @current_user -%>
+				<%= link_to image_tag('exchange_now.gif'), {:controller=>'/campaign/gift_orders', :action=>:new, :gift_id => @gift.id}  %>
+			<% end %>
+		<% else -%>
+			<%= _('This gift is not available for exhange now.')%>
+		<% end -%>
+	</div>
+
+	<div id="gift_description">
+	<h3><%= s_('Gift|Description')%></h3>
+	<pre>
+	<%= bbcodeize @gift.description %>
+	</pre>	
+	</div>
+
+</div>
+
+<div id="gift_photos">
+	
+</div>
+
+
+<h3><%= _('Comments')%></h3>
+<div id="div_comment_section" class="comments_block">
+		<%= javascript_tag (remote_function :url=>comments_path(class_name_for_url(@gift), @gift.id), :update => 'div_comment_section', :method=>:get) %>
+</div>
+

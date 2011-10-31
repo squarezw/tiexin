@@ -1,0 +1,118 @@
+<% @page_title=_(%[Preview of merge of '%{source}' and '%{target}'.]) % 
+		{:source=>h(localized_description(@hot_spot, :name)),
+		 :target=>h(localized_description(@target, :name)) }  -%>
+		
+<div class="button_bar">
+	<%= link_to _('Cancel Merge'), hot_spot_path(@hot_spot), :class=>:button %>
+	<%= link_to _('Redo search'), manage_hot_spot_merges_path(@hot_spot), :class=>:button%>
+</div>
+
+<p class="comment">
+	<%= _('Prompt for merge hot spot.')%>
+</p>
+<%= error_messages_for 'target' %>
+<% form_for :target, @target, :url=>manage_hot_spot_merges_path(@hot_spot) do |f| -%>
+<%= hidden_field_tag :target_id, @target.id %>
+<table class="form_container" >
+	<tr>
+		<th width="20%" colspan="2"><%= _('Fields') %></th>
+		<th width="25%"><%= _('Source') %></th>
+		<th width="25%"><%= _('Target') %></th>
+		<th width="30%"><%= _('After Merge') %></th>
+	</tr>
+	<tr>
+		<td width="10%" rowspan="2"><label class="required"><%= s_('HotSpot|Name') %></label></td>
+		<td width="10%"><label><%= _('Chinese') %></label></td>
+		<td><%= h(@hot_spot.name.zh_cn)%></td>
+		<td><%= h(@target.name.zh_cn)%></td>
+		<td><%= f.text_field :name_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English') %></label></td>
+		<td><%= h(@hot_spot.name.en)%></td>
+		<td><%= h(@target.name.en)%></td>
+		<td><%= f.text_field :name_en %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('HotSpot|Hot spot category')%></label></td>
+		<td><%= h(localized_description(@hot_spot.hot_spot_category, :name))%></td>
+		<td><%= h(localized_description(@target.hot_spot_category, :name))%></td>
+		<td><%= hot_spot_category_select :target, :hot_spot_category_id %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= s_('HotSpot|Address') %></label></td>
+		<td><label><%= _('Chinese') %></label></td>
+		<td><%= h(@hot_spot.address.zh_cn)%></td>
+		<td><%= h(@target.address.zh_cn)%></td>
+		<td><%= f.text_field :address_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English') %></label></td>
+		<td><%= h(@hot_spot.address.en)%></td>
+		<td><%= h(@target.address.en)%></td>
+		<td><%= f.text_field :address_en %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpot|Phone number') %></label></td>
+		<td><%= h(@hot_spot.phone_number)%></td>
+		<td><%= h(@target.phone_number)%></td>
+		<td><%= f.text_field :phone_number %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= s_('HotSpot|Introduction') %></label></td>
+		<td><label><%= _('Chinese') %></label></td>
+		<td><pre><%= h(@hot_spot.introduction.zh_cn)%></pre></td>
+		<td><pre><%= h(@target.introduction.zh_cn)%></pre></td>
+		<td><%= f.text_area :introduction_zh_cn, :size => "30x10" %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English') %></label></td>
+		<td><pre><%= h(@hot_spot.introduction.en)%></pre></td>
+		<td><pre><%= h(@target.introduction.en)%></pre></td>
+		<td><%= f.text_area :introduction_en, :size=>"30x10" %></td>
+	</tr>	
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpot|Price level')%></label></td>
+		<td><%= user_friendly_code(:price_level, @hot_spot.price_level)%></td>
+		<td><%= user_friendly_code(:price_level, @target.price_level)%></td>
+		<td><%= f.select :price_level, options_for_codes(HotSpot::PRICE_LEVELS, :price_level, '') %></td>	
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpot|Price memo') %></label></td>
+		<td><pre><%= h(@hot_spot.price_memo)%></pre></td>
+		<td><pre><%= h(@target.price_memo)%></pre></td>
+		<td><%= f.text_area :price_memo, :size=>"30x5" %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpot|Parking slot')%></label></td>
+		<td><%= user_friendly_code(:parking_slot, @hot_spot.parking_slot)%></td>
+		<td><%= user_friendly_code(:parking_slot, @target.parking_slot)%></td>
+		<td><%= f.select :parking_slot, options_for_codes(HotSpot::PARKING_SLOTS, :parking_slot, '') %></td>	
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= s_('HotSpot|Operation time') %></label></td>
+		<td><label><%= _('Chinese') %></label></td>
+		<td><pre><%= h(@hot_spot.operation_time.zh_cn)%></pre></td>
+		<td><pre><%= h(@target.operation_time.zh_cn)%></pre></td>
+		<td><%= f.text_area :operation_time_zh_cn, :size => "30x5" %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English') %></label></td>
+		<td><pre><%= h(@hot_spot.operation_time.en)%></pre></td>
+		<td><pre><%= h(@target.operation_time.en)%></pre></td>
+		<td><%= f.text_area :operation_time_en, :size=>"30x5" %></td>
+	</tr>	
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpot|Home page') %></label></td>
+		<td><pre><%= h(@hot_spot.home_page)%></pre></td>
+		<td><pre><%= h(@target.home_page)%></pre></td>
+		<td><%= f.text_field :home_page, :size=>"30" %></td>		
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="5">
+			<%= submit_tag _('Merge') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>

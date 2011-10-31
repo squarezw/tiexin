@@ -1,0 +1,10 @@
+<tr id="<%= element_id folder%>">
+	<td><%= link_to h(folder.name), member_folder_path(@member, folder)%></td>
+	<td><%= folder.articles_count%></td>
+	<% if @member == @current_user -%>
+	<td>
+		<%= link_to_function _('Edit'), "edit_folder(#{folder.id})"%>
+		<%= link_to_function _('Delete'), "delete_folder(#{folder.id})"%>
+	</td>
+	<% end -%>
+</tr>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+	
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title><%= @page_title %></title>    
+	<%= javascript_include_tag :defaults %>
+	<%= stylesheet_link_tag 'print', :media=>'all'%>  
+	<% unless @side_menu.nil? && @content_for_side_menu.nil? -%>
+		<%= stylesheet_link_tag 'side_menu' %>
+  	<% end -%>   
+	<% unless @help_id.nil? -%>
+	   <%= stylesheet_link_tag "helper" %> 
+	<% end -%>                 
+	<% unless @css_files.nil? 
+		for css_file in @css_files.flatten -%>
+			<%= stylesheet_link_tag css_file, :media=>'all' %>
+	<%	end
+	   end -%>
+	<% unless @js_files.nil? 
+		for js in @js_files-%> 
+			<%= javascript_include_tag js %>
+		<% end -%>
+	<% end -%>
+	<script language="javascript">
+		var busy_indicator = null;
+	
+		Event.observe (window, 'load', init);
+		
+		function init () {
+			init_page ();
+		}
+		
+		function init_page () {
+			
+		}
+		
+		<%= @content_for_page_scripts %>
+	</script>
+</head>
+<body class="yui-skin-sam">
+  <div id="main_wrapper">
+			<%= yield %>
+  </div> <!-- main_wrapper -->
+</body>
+</html>
+
+

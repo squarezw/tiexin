@@ -1,0 +1,6 @@
+<tr id="<%= element_id hot_spot %>">
+        <td><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot) %></td>
+        <td><%= h(localized_description(hot_spot, :address))%></td>
+        <td><%= category_path_str(hot_spot.hot_spot_category) %></td>
+		<td class="number"><%= (hot_spot.coordinate.distance_to(@hot_spot.coordinate)/100).round * 100 %></td>
+</tr>

@@ -1,0 +1,27 @@
+<% @page_title=_(%q[Search Merge Target for '%{name}']) % {:name=>h(localized_description(@hot_spot, :name))} 
+   @css_files=['hot_spot_merges'] -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), hot_spot_path(@hot_spot), :class=>:button %>
+</div>
+
+<% form_remote_tag :url=>search_target_manage_hot_spot_merges_path(@hot_spot), :update=>'candidate_targets' do -%>
+<table class="form_container" style="width: 60%">
+	<tr>
+		<td width="20%"><label><%= _('Name contains ')%></label></td>
+		<td><%= text_field_tag :keyword,  @keyword, :size=>40 -%></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Search') %>
+			<input type="reset">
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<div id="candidate_targets">
+	<%= render :collection => @targets, :partial=>'target' %>
+
+	<%= remote_page_navigator @targets, 'candidate_targets', :get %>
+</div>

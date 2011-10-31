@@ -1,0 +1,9 @@
+<li> 
+    <%=link_to_remote safe_mobile_brand_small_icon(mobile_brand),
+      :url => manage_mobile_brand_mobile_models_path(mobile_brand),
+      :method => :get,:update => 'xnavi-mobile-models',:html => {:href=> "javascript:void()"} if mobile_brand.logo%>
+    <% if @current_user and @current_user.is_admin?%>
+    <p><%= link_to _('Edit'), edit_manage_mobile_brand_path(mobile_brand) %>
+    <%= link_to _('Delete'), manage_mobile_brand_path(mobile_brand), :confirm => _('Are you sure?'), :method => :delete %></p>
+    <%end%>
+</li>

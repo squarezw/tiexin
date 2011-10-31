@@ -1,0 +1,4 @@
+<div class="post">
+  <%=h(post.member.nick_name)%>: <%= link_to h(post.title), forum_post_path(post.forum, post)%> <br/>
+  <%=h(truncate(strip_bbcode(post.content), 100))%>
+</div>

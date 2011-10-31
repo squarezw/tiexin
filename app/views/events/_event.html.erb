@@ -1,0 +1,18 @@
+<div class="event">
+	<div class="event_post">
+		<% if event.post -%>
+		<%= link_to image_tag(event.post.thumb.url), event.post.url, :popup=>true %>
+		   <% else -%>
+		<%= image_tag 'nopic.jpg' %>
+	   <% end -%>
+	</div>
+	<div class="event_information">
+	      <h3><%=link_to event_name_with_category(event), event_path(class_name_for_url(event.vendor), event.vendor, event)%></h3>
+	      <p><%= date_range_str event.begin_date, event.end_date %></p>
+		  <% unless event.reference_url.nil? or event.reference_url.empty? -%>
+		  	<p><%= _('Reference URL') %>: <%= link_to event.reference_url, event.reference_url, :popup=>true %>
+		  <% end -%>
+	    <pre class="article"><%= truncate(h(strip_bbcode(localized_description(event, :content))), 100) %></pre>
+	</div>
+	
+</div>

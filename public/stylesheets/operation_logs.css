@@ -1,0 +1,20 @@
+div.operation_log {
+	border-bottom: 1px dashed #EEE;
+	margin-bottom: 10px;
+}
+
+div.operation_log span.operation {
+	font-size: 1.2em;
+}
+
+div.operation_log p.related_object {
+	text-indent: 2em;
+}
+
+div.operation_log p.message {
+	text-indent: 2em;
+}
+
+div.operation_log p.memo {
+	text-indent: 2em;
+}

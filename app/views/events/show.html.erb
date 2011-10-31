@@ -1,0 +1,52 @@
+<% # TODO: Add side menu %>
+<% page_title h(localized_description(@event.vendor, :name)) + '─' + h(localized_description(@event, :summary)), true 
+   include_css_file 'event' -%>
+
+<div class="navigation_bar">
+	<div class="tools">
+		<% if @event.modifiable_to?(@current_user) -%>
+			<%= link_to image_tag('edit.gif', :alt=>_('Edit this event.')), edit_event_path(class_name_for_url(@event.vendor), @event.vendor, @event), :title=>_('Edit this event.')  %>
+			<%= link_to image_tag('delete.gif', :alt=>_('Delete this event.')), 
+				event_path(class_name_for_url(@event.vendor), @event.vendor, @event), :confirm=>_('Are you sure?'), :method=>:delete, :title=>_('Delete this event.') %>
+		<% end -%>		
+	</div>
+	<%= link_to h(localized_description(@event.vendor, :name)), @event.vendor %> &nbsp;&gt;&nbsp;
+	<%= link_to _('Events'), events_path(class_name_for_url(@vendor), @vendor)%>
+</div>
+
+<div id="main_function_content">
+	
+<div class="event_post">
+  <% if @event.post -%>
+	<%= link_to image_tag(@event.post.thumb.url), @event.post.url, :popup=>true %>
+	   <% else -%>
+	<%= image_tag 'nopic.jpg' %>
+   <% end -%>
+</div>
+<div class="event_information">
+      <h3><%=h(localized_description(@event, :summary))%></h3>
+	  <p><%= _('Tag')%>:&nbsp;<%= @event.tags_string %></p>
+      <p><%= date_range_str @event.begin_date, @event.end_date %></p>
+      <p><%=_('Address')%>:<%= link_to h(localized_description(@event.vendor, :name)), @event.vendor %></p>
+	  <% unless @event.reference_url.nil? or @event.reference_url.empty? -%>
+	  	<p><%= _('Reference URL') %>: <%= link_to @event.reference_url, @event.reference_url, :popup=>true %>
+	  <% end -%>
+    <pre class="article"><%=bbcodeize(localized_description(@event, :content))%></pre>
+<% if (coupon = @event.coupon)
+	 if @current_user
+		unless coupon.has_applied_by?(@current_user) -%>
+		<div id="apply_coupon_form" >
+		
+		</div>
+		<script language="javascript">
+		<%= remote_function :update=>'apply_coupon_form', :url=>new_received_coupon_path + "?coupon_id=#{coupon.id}" %>
+		</script>
+	<% else -%>
+		<p>您已经申领过本次活动的促销券了。你可以在<%= link_to _('My Coupon'), received_coupons_path%>中查看和打印领到的促销券。</p>
+	<%  end
+	  else -%>
+	<p>您可以在<%= link_to _('Login'), new_member_path %>之后申领本次活动的促销券。</p>
+<% end
+end -%>
+</div>
+</div>

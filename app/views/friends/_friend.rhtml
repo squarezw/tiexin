@@ -1,0 +1,16 @@
+<div class="tile member_tile" id="<%= %Q|#{element_id(friend)}|%>">
+	<div class="head">
+		<%= link_to_remote 'X', :url=>friend_path(friend), :method=>:delete, :confirm=>_('Are you sure?')%>
+	</div>
+	
+	<div class="body">
+		<div class="image_frame">
+			<%= safe_member_logo friend.member %>
+		</div>
+		<%= link_to h(friend.member.nick_name), member_path(friend.member) %>
+	</div>
+	
+	<div clas="foot">
+		
+	</div>
+</div>

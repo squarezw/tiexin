@@ -1,0 +1,42 @@
+<% page_title _('Manage Hotels') 
+   side_menu 'master_data' -%>
+<center><%= link_to _("Back"), admin_hotels_path, :class=>:button %></center>
+<% form_tag  search_hot_spot_admin_hotels_path, :method => :get do  -%>
+<table class="form_container" width="70%">
+	<tr>
+		<td width="10%"><label><%= s_('HotSpot|City') %></label></td>
+		<td><%=select :city,:id,@cities, {:selected => @city_select, :prompt => _('Select City')}%></td>
+		<td width="10%"><label><%= s_('HotSpot|Hot spot category') %></label></td>
+                <td><%=select_tag :hot_spot_category_id, 
+                    options_for_select(@categories.collect {|cat| [h(localized_description(cat, :name)), cat.id]}.unshift([_('Select Category'),""]),params[:hot_spot_category_id].to_i)%>
+                </td>
+	</tr>
+	<tr>
+		<td width="10%"><label><%= s_('HotSpot|Name') %></label></td>
+		<td><%= text_field_tag :name, params[:name], :size=>30%></td>
+		<td width="10%"><label><%= s_('HotSpot|Creator ') %></label></td>
+		<td><%= text_field_with_auto_complete :member, :nick_name, { :size => 15, :value => @member_select },
+		 		{:url=>{:controller=>'/members', :action=>'auto_complete_for_member_nick_name'}} %>
+                </td>
+	</tr>        
+	<tr>
+		<td class="button_bar" colspan="4">
+			<%= submit_tag _('Search')%>
+			<input type="reset" />                        
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<table class="data_list">
+	<tr>
+		<th width="18%"><%= s_('HotSpot|Name') %></th>
+		<th width="10%"><%= s_('hot spot category')%></th>
+                <th width="5%"><%= s_('HotSpot|City')%></th>
+		<th width="25%"><%= s_('HotSpot|Address')%></th>
+		<th width="15%"><%= s_('HotSpot|Creator') %>/<%= s_('HotSpot|Created at') %></th>
+                <th width="10%"><%= _('Operation') %></th>
+	</tr>    
+        <%= render :partial=>'hot_spot', :collection=>@hot_spots %>
+</table>
+<%= page_navigator @hot_spots, nil, :params=>params %>

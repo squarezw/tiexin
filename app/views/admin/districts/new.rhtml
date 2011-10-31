@@ -1,0 +1,9 @@
+<% @page_title = _('New District')
+   @side_menu = 'master_data' -%>
+
+<%= link_to _('Back'), admin_districts_path, :class => :button %>
+
+<%= error_messages_for :district %>
+<% form_for :district, @district, :url => admin_districts_path  do |f| %>
+<%= render :partial=>'form', :object=>f %>
+<% end -%>

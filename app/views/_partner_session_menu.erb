@@ -1,0 +1,17 @@
+<div id="session_menu">
+	<div class="body">
+		<ul class="simple_menu">              
+			<li><%= image_tag 'ajaxloading.gif', :id=>'img_busy_indicator' %></li>
+			<% if @current_partner -%>
+				<li><%= _('Hello ')%><%= @current_partner.name %></li>
+				<li><%= link_to _('Log out'), partner_session_path(1), :method=>:delete %>
+			<% else -%>
+				<li><%= link_to _('Login'), new_partner_session_path %></li>
+			<% end-%>                     
+		</ul>
+	</div>
+</div>
+
+
+
+

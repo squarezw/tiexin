@@ -1,0 +1,5 @@
+xml.result(:code=>207) do 
+    for comment in @comment.errors
+      xml.comment (comment[1],:field => comment[0])
+    end    
+end

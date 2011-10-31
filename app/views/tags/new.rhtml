@@ -1,0 +1,11 @@
+<div id="tag_form_error" class="errors">
+	
+</div>
+<% remote_form_for :hot_spot_tag, @hot_spot_tag, :url => hot_spot_tags_path(@hot_spot), :method => :post do |f| -%>
+<%=render :partial => "form",:object => f%>
+<% end -%>
+
+<%= update_page_tag do |page|
+  	page.call 'dialog.show_with_title', _('Create New Tag') 
+	page.call 'busy_indicator.task_end'
+end -%>

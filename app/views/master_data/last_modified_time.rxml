@@ -1,0 +1,4 @@
+xml.result(:code=>'100') do 
+  xml.cities :last_modified_time => format_time_for_xml(@cities_last_modified_time)
+  xml.hot_spot_categories :last_modified_time => format_time_for_xml(@categories_last_modified_time) 
+end

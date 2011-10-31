@@ -1,0 +1,24 @@
+<% @page_title = _('Comments waiting check')
+   @side_menu = 'master_data' %>
+
+<table class="data_list" width="100%">
+	<tr>
+		<th width="20%"><%= _('Comment Target')%></th>
+                <th width="30%"><%= _('Content') %></th>
+		<th width="20%"><%= _('Author') %></th>
+		<th width="20%"><%= s_('Comment|Created At') %></th>
+		<th width="10%"></th>
+	</tr>            
+<% for comment in @comments -%>
+	<tr> 
+		<td><%= link_to h(localized_description(comment.commentable, :name)), hot_spot_path(comment.commentable), :target => :blank%></td>
+                <td><%= h(truncate(comment.content,100))%></td>
+                <td><%= h(comment.member.nick_name)%></td>
+		<td><%= format_time(comment.created_at)%></td>   
+		<td><%= link_to _('check'), waiting_check_comment_path(comment) if comment.status >= Comment::STATUS_WAITING_CHECK%>
+                <%= link_to _('Delete'), waiting_check_comment_path(comment), :method=>:delete, :confirm => _('Are you sure?')%>
+                </td>
+	</tr>
+<% end -%>
+</table>  
+<%= page_navigator @comments, nil, :params=>params %>

@@ -1,0 +1,100 @@
+<%= error_messages_for 'promotion' %>
+<script language="javascript">
+function Checkpi(n){
+        var el1 = document.getElementById('S_HotSpot');
+        var el2 = document.getElementById('S_Brand1');    
+        var el3 = document.getElementById('S_Brand2');    
+	if (n == 0) {
+			el1.style.display = "";
+                        el2.style.display = "none";
+                        el3.style.display = "none";
+	}else{
+                        el3.style.display = "";
+			el2.style.display = "";
+                        el1.style.display = "none";
+	}
+}
+</script>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= "#{s_('Chinese')} #{ _('Summary')}"%></label></td>
+		<td width="*"><%= form.text_field :summary_zh_cn%></td>
+	</tr>
+	<tr>
+		<td width="20%"><label class="required"><%= "#{s_('English')} #{_('Summary')}" %></label></td>
+		<td width="*"><%= form.text_field :summary_en, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= s_('Chinese') %> <%= s_('Promotion|Content') %></label></td>
+		<td><%= bbcode_editor :promotion_content_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :content_zh_cn, :rows=>10, :cols=>60 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= s_('English') %> <%= s_('Promotion|Content') %></label></td>
+		<td><%= bbcode_editor :promotion_content_en %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :content_en, :rows=>10, :cols=>60 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Type')%></label></td>
+                <td>
+                    <input type="radio" id="HotSpot" name="vendor_type" value="HotSpot" checked="checked" onclick = "return Checkpi(0)" /><label class="required"><%= s_('Promotion|HotSpot')%></label>
+                    <input type="radio" id="Brand" name="vendor_type" value="Brand" onclick = "return Checkpi(1)" /><label class="required"><%= s_('Promotion|Brand')%></label>
+                </td>
+	</tr>        
+	<tr id="S_HotSpot">
+		<td><label class="required"><%= s_('Promotion|HotSpot')%></label></td>
+                <td><%=collection_select(:HotSpot,:vendor_id, @hotspots,:id,"name_#{@current_lang}".to_sym)%></td>
+	</tr>
+	<tr id="S_Brand1" style="display:none">
+		<td><label class="required"><%= s_('Promotion|Brand')%></label></td>
+                <td><%=collection_select(:Brand,:vendor_id, @brands,:id,"name_#{@current_lang}")%></td>
+        </tr>
+        <tr id="S_Brand2" style="display:none">
+                 <td><%=_('City')%></td> 
+                 <td>
+                        <% for city in @cities %>
+                            <%= check_box_tag 'city[]', city.id,@promotion.cities.include?(city) %> <%= h(localized_description(city, :name)) %>
+                        <%end%>
+                </td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Banner')%></label></td>
+                <td><%= form.upload_column_field 'banner'  %><%=_('help on promotion banner') %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Post')%></label></td>
+                <td><%= form.upload_column_field 'post'  %><%=_('help on promotion post.') %></td>
+	</tr>        
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Begin Date')%></label></td>
+                <td><%= form.text_field :begin_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_promotion_begin_date', :class=>'image',:href=>'javascript:void(0)' %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|End Date')%></label></td>
+                <td><%= form.text_field :end_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar2()', :id=>'link_promotion_end_date', :class=>'image',:href=>'javascript:void(0)'%></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<%=
+if params[:vendor_type] == 'Brand'
+     "<script>Checkpi(1);document.getElementById('Brand').checked=true;</script>"
+end
+%>
+  
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_promotion_begin_date', :date_field=>'promotion_begin_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>
+<%= calendar :calendar2, 
+			 {:anchor_element=>'link_promotion_end_date', :date_field=>'promotion_end_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>

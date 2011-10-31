@@ -1,0 +1,42 @@
+<div class="article_summary">
+	<div class="header">
+          <%if post_summary.deleted == true%>
+                <h3 class="deleted"><%= link_to h(post_summary.title), forum_post_path(post_summary.forum,post_summary) , :target=>'_blank'  %></h3>
+	 <%else%>
+                <h3><%= link_to h(post_summary.title), forum_post_path(post_summary.forum,post_summary) , :target=>'_blank'  %></h3>
+          <%end%>
+	</div>
+	
+	<div class="body">
+		<pre class="article">
+                    <%if post_summary.deleted == true%>
+<%= _('This post has been deleted by administrator.') %>
+                    <%else%>
+<%= h(truncate(strip_bbcode(post_summary.content_ref.content), 100)) %>
+                    <%end%>
+        </pre>
+	</div>
+	
+	<div class="foot">
+		<p>
+                    <span class="shining">
+                      <%if post_summary.check_status == Post::STATUS_PENDDING && post_summary.deleted == false%>
+                          <%=_('Checking......')%>
+                      <%elsif post_summary.check_status == Post::STATUS_CHECK_FAILED  && post_summary.deleted == false%>
+                          <%=_('Check failed')%>
+                      <%end%>
+                    </span>
+                    <span class="vote_1"><%=  _('Good!') %>(<%= post_summary.good_score %>)&nbsp;</span>
+                    <span class="vote_2"><%=  _('Water!') %>(<%= post_summary.water_score %>)&nbsp;</span>
+                    <span class="vote_3"><%=  _('Hidden!') %>(<%= post_summary.hidden_score %>)&nbsp;</span>
+                    <%=_('Reply')%> [<%=post_summary.replies.size%>] <%= link_to _('Read whole article'), forum_post_path(post_summary.forum,post_summary), :target=>'_blank' %>
+		</p>
+		<p>
+                  <% if post_summary.updated_at == post_summary.created_at -%>
+                          <%= s_('Article|Created at')%>:&nbsp;<%= format_time post_summary.created_at %>
+                  <% else -%>
+                          <%= s_('Article|Updated at')%>:&nbsp;<%= format_time post_summary.updated_at %>
+                  <% end -%>
+		</p>
+	</div>
+</div>

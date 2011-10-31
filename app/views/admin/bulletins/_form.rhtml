@@ -1,0 +1,33 @@
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('Bulletin|Title') %></label></td>
+		<td width="*"><%= form.text_field :title, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= s_('Bulletin|Content') %></label></td>
+		<td><%= bbcode_editor :bulletin_content %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :content, :rows=>10, :cols=>60 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Bulletin|Language')%></label></td>
+		<td><%= form.select :language, (XNavi::SUPPORT_LANGS.collect { |lang| [_(lang.to_s), lang.to_s]} ) %>
+	</tr>
+        <tr>
+		<td><label><%= s_('Bulletin|Expire date')%></label></td>
+		<td><%= form.text_field :expire_date, :size=>20 %>		<%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_bulletin_expire_date', :class=>'image' %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_bulletin_expire_date', 
+			  :date_field=>'bulletin_expire_date',
+			  :customizer=>'customize_calendar'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y'), :close=>true} %>  
+			

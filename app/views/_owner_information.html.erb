@@ -1,0 +1,61 @@
+<div class="section">
+	<div class="head">
+		<h3><%= _('Owner')%></h3>
+	</div>
+	
+	<div class="body">
+		<% if target.owner 
+			member = target.owner -%>
+			<div class="member_summary">
+				<p class="member_name">
+					<%= link_to h(member.nick_name), show_member_path(member) %>
+				</p>
+				<table width="100%" class="member_summary">
+					<tr>
+						<td width="100px"><%= safe_member_logo member %></td>
+						<td valign="middle" align="center">
+							<% if @current_user and member != @current_user -%>
+								<p><%= link_to _('Send message'), new_member_message_path(@current_user) + "?search_name=#{member.nick_name}", :target=>'_blank', :class=>:button %></p>
+								<%= render :partial=>'/members/friend_infor_area', :locals=>{ :member=>member} %>
+							<% end -%>
+						</td>
+					</tr>
+				</table>
+			</div>
+		<% elsif @current_user
+			 unless @current_user.has_pending_owner_applications(target) -%>
+			    <div class="button_bar">
+				<%= link_to_remote _('I want to be owner'), 
+								  {  :update=>'div_owner_information',  
+									 :url=>{   :controller=>'admin/owner_applications', 
+											   :action=>:create, 
+											   :target_type=>target.class.to_s.underscore, 
+											   :target_id=>target.id }  },
+								  { :class=> :button } %>
+				</div>
+
+				<p><%= link_to _('What is owner? '), :controller=>'main', :action=>'owner_explanation', :target => '_blank' %></p>
+				<p><%= link_to _('How to be an owner.'), :controller=>'main', :action=>'owner_explanation', :target => '_blank'%></p>
+				<% if current_is_admin? 
+					  if @error_message -%>
+						<p><%= @error_message %></p>
+				<%    end
+					  form_remote_tag :update=>'div_owner_information', :url=>{ :controller=>'admin/owner_applications', :action=>:assign, :target_type => target.class.to_s.underscore, :target_id=>target.id, :method=>:post } do -%>
+						<%= text_field_with_auto_complete :member, :nick_name, { :size=>10 }, 
+								 {:url => { :controller=>'/members', :action => "auto_complete_for_member_nick_name" } } %>
+						<%= submit_tag _('Assign as owner')%>
+					<% end -%>
+				<% end -%>
+		  <% else -%>
+				<%= _('Your application to be the owner of this hot spot is waiting for reviewed by administrator.') %>
+		<%   end
+	  	   else -%>
+			<p><%= link_to _('What is owner? '), {:controller=>'main', :action=>'owner_explanation'}, :target => '_blank' %></p>
+			<p><%= link_to _('How to be an owner.'), {:controller=>'main', :action=>'owner_explanation'}, :target => '_blank'%></p>		
+		<% end -%>
+	</div>
+	
+	<div class="foot">
+		
+	</div>
+</div>

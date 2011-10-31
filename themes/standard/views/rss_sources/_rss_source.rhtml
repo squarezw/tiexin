@@ -1,0 +1,15 @@
+<tr>
+	<td>
+		<% if rss_source.icon_url -%>
+			<%= link_to image_tag(rss_source.icon_url, :alt=>rss_source.icon_title), rss_source.icon_link %>
+		<% end -%>
+	</td>
+	<td>
+		<%= link_to h(rss_source.title), blog_rss_source_path(rss_source.blog,rss_source) %>
+	</td>
+		<% if @member == @current_user -%>
+			<td>
+				<%= link_to '删除', blog_rss_source_path(rss_source.blog,rss_source), :method => :delete, :confirm => '确定要删除吗？'  %>
+			</td>
+		<% end -%>
+</tr>

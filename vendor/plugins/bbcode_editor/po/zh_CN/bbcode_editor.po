@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: BBCode Editor 1.0.0\n"
+"POT-Creation-Date: 2009-03-31 11:14+0800\n"
+"PO-Revision-Date: 2009-03-31 10:57+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: lib/bbcode_editor.rb:15
+msgid "Smallest"
+msgstr "最小"
+
+#: lib/bbcode_editor.rb:16
+msgid "Small"
+msgstr "稍小"
+
+#: lib/bbcode_editor.rb:17
+msgid "Standard"
+msgstr "标准"
+
+#: lib/bbcode_editor.rb:18
+msgid "Large"
+msgstr "稍大"
+
+#: lib/bbcode_editor.rb:19
+msgid "Largest"
+msgstr "最大"
+
+#: lib/bbcode_editor.rb:31
+msgid "B"
+msgstr "粗体"
+
+#: lib/bbcode_editor.rb:32
+msgid "i"
+msgstr "斜体"
+
+#: lib/bbcode_editor.rb:33
+msgid "u"
+msgstr "下划线"
+
+#: lib/bbcode_editor.rb:34
+msgid "Quote"
+msgstr "引用"
+
+#: lib/bbcode_editor.rb:35
+msgid "Code"
+msgstr "代码"
+
+#: lib/bbcode_editor.rb:36
+msgid "Img"
+msgstr "图片"

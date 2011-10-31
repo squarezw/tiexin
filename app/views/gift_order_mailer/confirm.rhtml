@@ -1,0 +1,26 @@
+<p>你好：<%= @order.name %></p>
+
+<p>你提交了用积分兑换礼品的订单，你兑换的礼品是:</p>
+
+<table>
+	<tr>
+		<th>礼品名称</th>
+		<th>数量</th>
+	</tr>
+	<% for item in @order.gift_order_items -%>
+		<tr>
+			<td><%= link_to h(item.gift.name), campaign_gift_url(item.gift) %></td>
+			<td><%= item.quantity %></td>
+		</tr>
+	<% end -%>
+</table>
+
+<% if @order.deliver_method == GiftOrder::DELIVER_FETCH -%>
+<p>请您持登记的有效身份证件到指定地点领取礼品。</p>
+<% else -%>
+<p>我们会尽快安排礼品的配送。</p>
+<% end -%>
+
+<p>谢谢您使用X-Navi</p>
+
+<p><%= _('X-Navi')%></p>

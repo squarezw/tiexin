@@ -1,0 +1,23 @@
+<div id="error_msgs" class="errorExplanation" style="display:none;">
+	
+</div>
+
+<% remote_form_for :moderator, @moderator, :url=> to_add_moderator_manage_forum_path(params[:id]), :method=>:post, :html=>{:method=>:post} do |f| -%>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label><%= s_('Member|Nick name') %></label></td>
+		<td><p class="help"><%= text_field_with_auto_complete :member, :nick_name, { :size => 30}, {:tokens => ' '} -%></p></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit')%>
+			<input type="reset"/>
+		</td>
+	</tr>
+</table>  
+<% end -%>
+
+<%= update_page_tag do |page|
+  	page.call 'panel.show_with_title',_('Add Moderator')
+        page.call 'busy_indicator.task_end'
+end -%>

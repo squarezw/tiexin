@@ -1,0 +1,17 @@
+div.merge_target {
+	margin-bottom: 1em
+}
+
+div.merge_target p {
+	margin-left: 1em;
+}
+
+div.merge_target span.category {
+	color: #990000;
+	font-size: 0.9em;
+	margin-left: 1em;
+}
+
+div.merge_target .address {
+	margin-left: 1em;
+}

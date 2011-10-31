@@ -1,0 +1,26 @@
+h4 {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+p.introduction {
+	font-size: 1.1em;
+	margin-bottom: 1em;
+}
+
+div#main_function div.section div.body h3 {
+	margin-top: 0px;
+}
+.site_map ul{
+    margin-top:12px;
+    overflow:hidden;
+    width:962px;
+}
+.site_map li{
+    float:left;
+    margin-right: 5px;
+}
+.site_map .s1{
+    width:70px;
+}
+

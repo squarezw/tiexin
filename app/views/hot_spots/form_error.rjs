@@ -1,0 +1,1 @@
+page.replace_html 'form_error', error_messages_for(:hot_spot)

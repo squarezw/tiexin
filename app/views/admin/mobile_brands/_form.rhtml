@@ -1,0 +1,23 @@
+<%= error_messages_for 'mobile_brand' %>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('MobileBrand|Name') %></label></td>
+                <td><%= form.text_field :name, :size=>30 %></td>
+	</tr>
+        <%unless @mobile_brand.new_record? %>
+	<tr>
+		<td><%= _('Current Icon')%></td>
+                <td><%=link_to safe_mobile_brand_icon(@mobile_brand),image_path(@mobile_brand.logo.url),:target => "_blank" if @mobile_brand.logo%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td><label class="required"><%= s_('MobileBrand|Logo')%></label></td>
+                <td><%= form.upload_column_field 'logo'  %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

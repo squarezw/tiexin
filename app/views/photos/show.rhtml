@@ -1,0 +1,6 @@
+<% @page_title=h(@photo.subject) %>
+
+<%= image_tag @photo.photo.url %>     
+
+<p><%= _('Uploaded by ')%>:<%= h(@photo.uploader.nick_name)%> <%= _('At')%> <%= format_time @photo.created_at %></p>
+

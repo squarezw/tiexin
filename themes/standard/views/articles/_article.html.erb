@@ -1,0 +1,37 @@
+<div id="blog_main_cont">
+  <div class="cont-m-1-1">
+     <div class="article_title left">
+       <h2><%= link_to h(article.subject), article_path(article)%></h2>
+     </div> 
+  </div>
+  <div class="cont-m-2">
+      <div class="content">
+        <% if controller.action_name == 'index' -%>
+          <%= simple_format(article.content) %>
+          <p><%= link_to article.content,_("Continue reading...") %></p>
+        <%else%>
+          <%= simple_format(article.content) %>
+        <%end%>
+      </div>
+  </div>
+  <div class="cont-m-3"></div>
+</div>
+
+<div id="blog_main_cont">
+  <div class="cont-m-1"></div>
+  <div class="cont-m-2-1" id="blog_owner_name">
+     <% if article.check_status != Article::STATUS_CHECKED -%>
+            <span class="warn"><%= user_friendly_code(:article_check_status, article.check_status) %></span>
+     <% end -%>
+     <%= _('View') %> (<%=article.read_times%>) | <%= _('Comment') %> (<%=article.comments.count%>)
+     <% if article.member == @current_user || (current_is_admin? and @current_user.has_privilege(:manage_blog))%>
+         | <%= link_to _('Edit'), edit_member_article_path(article.member, article) %>
+         | <%= link_to _('Delete'), member_article_path(article.member, article), :confirm=>_('Are you sure?'), :method=>:delete %>
+     <% end -%>
+     | <%= time_ago_in_words(article.created_at) %> <%=_('ago')%>
+     <%= render :partial => "/articles/article_recommend", :object => article %>
+  </div>
+  <div class="cont-m-3"></div>
+</div>
+
+

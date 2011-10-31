@@ -1,0 +1,24 @@
+<div id="form_error" class="errors">
+	
+</div>           
+            
+<% remote_upload_form_tag :url => photos_path(owner_type(@owner), @owner.id) do -%>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviPhoto|Subject')%></label></td>
+		<td><%= text_field :photo, :subject, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('NaviPhoto|Photo') %></label></td>
+		<td><%= upload_column_field :photo, :photo %>
+			<p class="comment">
+				<%= _('Only jpg, jpeg, png and gif file is accepted.')%>
+			</p></td>
+	</tr>
+</table>
+<% end -%>
+
+<%= update_page_tag do |page|
+	   page.call 'dialog.show_with_title', _('Upload Photo') 
+	   page.call 'busy_indicator.task_end'
+	end -%>

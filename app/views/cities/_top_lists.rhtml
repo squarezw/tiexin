@@ -1,0 +1,17 @@
+<script language="javascript">
+  function ChangeList(source,target,title_id,text){
+	s=$(source);
+        t=$(target);
+        $(title_id).update (text);
+	s.style.display = ""
+        t.style.display = "none"
+}
+</script>
+<tr>
+	<%= render :partial=>'recent_popular_cat', :locals=>{:cat => HotSpotCategory.find(6)}%>
+	<%= render :partial=>'recent_popular_cat', :locals=>{:cat => HotSpotCategory.find(5)}%>
+</tr>
+<tr>
+	<%= render :partial=>'recent_popular_cat', :locals=>{:cat => HotSpotCategory.find(2)}%>
+	<%= render :partial=>'recent_popular_cat', :locals=>{:cat => HotSpotCategory.find(7)}%>
+</tr>

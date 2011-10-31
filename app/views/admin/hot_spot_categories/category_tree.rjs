@@ -1,0 +1,4 @@
+for category in @roots 
+  page.call 'add_root_node',category.id,"#{render :partial=>'category', :object => category}"
+end 
+page.call ' tree.draw'

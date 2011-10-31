@@ -1,0 +1,29 @@
+<% page_title _('Edit "%{post_title}"') % {:post_title => @post.title}  
+   use_remote_dialog
+   include_js_file 'editor', 'tiny_mce/tiny_mce.js', 'tiny_mce/compress'
+   include_css_file 'editor', 'forums'
+   select_menu :forums
+-%>
+<% content_for 'page_scripts' do -%>
+
+	function quick_upload () {
+          dialog.retrieve_remote_form('/fckeditor/to_quick_upload');
+    }
+
+    function insert_img(image_url,alt){
+        id = '<%= fckeditor_element_id('post', 'content')%>'
+        var oEditor = FCKeditorAPI.GetInstance(id) ;
+        oEditor.InsertHtml('<img src="'+image_url+'" alt="'+alt+'" >') ;
+    }
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to _('All Forums'), forums_path %> > <%= link_to h(@forum.name), forum_posts_path(@forum) %>	
+</div>
+
+<%= error_messages_for :post %>
+
+<% form_for :post, @post, :url=>forum_post_path(@forum, @post), :html=>{:multipart=>true, :method=>:put} do |f| -%>
+	<%= render :partial=>'form', :object=>f %>
+<% end -%>

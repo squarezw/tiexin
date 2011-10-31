@@ -1,0 +1,2 @@
+<li id=<%= "'item_#{traffic_stop.id}'" %> >
+<%= h(localized_description(traffic_stop.hot_spot, :name))%><%= link_to_remote 'X', :url=>manage_traffic_line_stop_path(traffic_stop.traffic_line, traffic_stop), :method=>:delete %></li>

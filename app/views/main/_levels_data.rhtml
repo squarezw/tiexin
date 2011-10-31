@@ -1,0 +1,10 @@
+var map_levels = [];
+
+<% city = @current_city if city.nil?
+	city.map_levels.each_with_index do |level, i| -%>
+	map_levels[<%= i %>] = {
+			no: <%= level.no %>, 
+			tile_rows: <%= level.row %>, 
+			tile_columns: <%= level.column %>
+		};
+<% end -%>

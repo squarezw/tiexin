@@ -1,0 +1,10 @@
+<tr id='<%= element_id(taboo_word)%>'>                              
+	<td><%= h(taboo_word.word)%></td>
+	<td><%= h(taboo_word.regexp)%></td>
+	<td><%= check_icon(taboo_word.active)%></td>
+	<td>
+		<%= link_to_remote _('Edit'), :url=>edit_taboo_word_path(taboo_word), :method=>:get, :update=>'div_form' %>
+		<%= link_to_remote _('Delete'), :url=>taboo_word_path(taboo_word), :method=>:delete, 
+		 	:confirm=>_('Are you sure?') %>
+	</td>
+</tr>

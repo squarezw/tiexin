@@ -1,0 +1,41 @@
+<div id="form_error">
+	
+</div>
+
+<% form_remote_tag :url => to_add_hot_spot_manage_brand_path(@brand), :update=>'panel_body' do -%>
+  <table class="form_container">
+    <tr>
+      <td width="10%"><label class="required"><%= s_('Brand|Name')%></label></td>
+      <td width="27%"><%= text_field_tag 'name',@hot_spot_name,:size => 30 -%></td>
+      <td width="10%"><%= submit_tag _('Search')%></td>
+    </tr>
+  </table>
+<% end -%>
+
+<% form_for :brand, :url => add_hot_spot_manage_brand_path(@brand_id) do %>
+<%= hidden_field_tag :brand_id, params[:brand_id] %>
+<table class="data_list">
+  <tr>
+    <th width="5%"><input name="chkAll" type="checkbox" id="chkAll" onclick="CheckAll(this.form)" value="checkbox"> </th>
+    <th width="35%"><%= _('Name')%></th>
+    <th width="35%"><%= _('Address')%></th>
+    <th width="15%"><%= _('Phone number')%></th>
+  </tr>
+<%@hot_spot.each  do |t|%>
+  <tr>
+    <td><%= check_box_tag "checkbox[]",t.id %></td>
+    <td><%= link_to localized_description(t, :name),hot_spot_path(t)%></td>
+    <td><%= localized_description(t, :address)%></td>
+    <td><%= t.phone_number%></td>
+  </tr>
+<%end%>
+</table>
+<%= remote_page_navigator @hot_spot, 'panel_body' %>
+<div class="button_bar">
+<%=submit_tag _('Add'),:name =>"add"%>
+</div>
+<%end%>
+<%= update_page_tag do |page|
+  	page.call 'panel.show' 
+	page.call 'busy_indicator.task_end'
+end -%>

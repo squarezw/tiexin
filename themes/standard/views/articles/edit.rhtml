@@ -1,0 +1,24 @@
+<% @page_title = _('Write Article')
+   include_js_file 'tiny_mce/tiny_mce.js', 'tiny_mce/compress'
+   use_remote_dialog
+   if @hot_spot
+    @side_menu = 'show'
+   else
+     @side_menu = 'main'
+   end
+-%>
+
+<%= error_messages_for :article %>
+
+<% form_for :article, @article, :url=>member_article_path(@article.member, @article), :html=>{:method=>:put} do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>
+<div id="panel">
+	<div class="hd" id="panel_head">
+
+	</div>
+
+	<div class="bd" id="panel_body">
+
+	</div>
+</div>

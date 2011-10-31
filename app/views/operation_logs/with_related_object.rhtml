@@ -1,0 +1,15 @@
+<%  page_title _('Operation Logs of %{object_type}: %{object}') % { :object_type => _(@related_object.class.to_s.underscore), :object=>related_object_to_string(@related_object) }
+	include_css_file 'operation_logs'
+-%>
+
+<% if @operation_logs.empty? -%>
+	<h2><%= _('There no operation logs now.') %></h2>
+<% else 
+     for op_log in @operation_logs -%>
+<div class="operation_log">
+	<p><span class="operation"><%= _(op_log.operation)%></span> - <%= link_to h(op_log.member.nick_name), member_path(op_log.member)%> - <%= format_time op_log.created_at %></p>
+	<p class="message"><%= op_log.message %></p>
+	<p class="memo"><%= _('Memo')%>:<%= op_log.memo %></p>
+</div>
+<% end
+end -%>

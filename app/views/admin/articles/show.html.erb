@@ -1,0 +1,40 @@
+<% page_title _('Manage Blog Article: ') + @article.subject 
+	side_menu 'master_data'
+   include_css_file 'operation_logs'
+-%>
+
+<h2><%= h @article.subject %></h2>
+
+<div class="content">
+    <%= simple_format @article.content%>
+</div>
+
+<div class="update_time">
+	<%= s_('Article|Check status')%>:<%= user_friendly_code :article_check_status, @article.check_status %>
+  <%= _("Posted by")%>: <%= link_to @article.member.nick_name, show_member_path(@article.member) %>
+  <% if @article.created_at != @article.updated_at -%>
+          <%= s_('Article|Updated at')%>:<%= format_time @article.updated_at %>
+  <% end -%>
+</div>  
+
+
+<div class="button_bar">
+	<% if @article.check_status != Article::STATUS_CHECKED -%>
+	<%= link_to _('Approve'), approve_admin_article_path(@article), :method=>:post, :class=>:button %>
+	<% end -%>
+	<%= link_to _('Disapprove'), disapprove_admin_article_path(@article), :method=>:post, :class=>:button %>
+	<%= link_to _('Delete'), admin_article_path(@article), :method=>:delete, :confirm=>_('Are you sure?'), :class=>:button %>
+</div>
+
+<h3><%= _('Operation Logs')%></h3>
+<% for op_log in @article.operation_logs -%>
+<div class="operation_log">
+	<p><span class="operation"><%= _(op_log.operation)%></span> - <%= link_to h(op_log.member.nick_name), member_path(op_log.member)%> - <%= format_time op_log.created_at %></p>
+	<% if op_log.related_object -%>
+		<p class="related_object"><%= _('Operation Object')%>:<%= related_object_to_string(op_log.related_object) %>
+	<% end -%>
+	<p class="message"><%= op_log.message %></p>
+	<p class="memo"><%= _('Memo')%>:<%= op_log.memo %></p>
+</div>
+<% end %>
+

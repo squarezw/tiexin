@@ -1,0 +1,68 @@
+<div class="section">
+        <div class="head">
+          <h3><%= _('Recommend To Topic')%></h3>
+        </div>
+        <div class="body">
+          <div id="recommend_to_topic">
+            <%
+              topic = Topic.expo
+              if topic.topic_expo
+                square_ids = []
+
+                square_ids_family = topic.topic_expo.square_ids_family
+                square_ids_sweet = topic.topic_expo.square_ids_sweet
+                square_ids_grandparent = topic.topic_expo.square_ids_grandparent
+                square_ids_child  = topic.topic_expo.square_ids_child
+
+                food_ids = topic.topic_expo.food_ids
+
+                if square_ids_family
+                  square_ids_family = square_ids_family.split(",").collect{|x|x.to_i}
+                end
+
+                if square_ids_sweet
+                  square_ids_sweet = square_ids_sweet.split(",").collect{|x|x.to_i}
+                end
+
+                if square_ids_grandparent
+                  square_ids_grandparent = square_ids_grandparent.split(",").collect{|x|x.to_i}
+                end
+
+                if square_ids_child
+                  square_ids_child = square_ids_child.split(",").collect{|x|x.to_i}
+                end
+
+                if food_ids
+                  food_ids = food_ids.split(",").collect{|x|x.to_i}
+                end
+
+                square_ids = square_ids | square_ids_family if square_ids_family and !square_ids_family.empty?
+                square_ids = square_ids | square_ids_sweet if square_ids_sweet and  !square_ids_sweet.empty?
+                square_ids = square_ids | square_ids_grandparent if square_ids_grandparent and !square_ids_grandparent.empty?
+                square_ids = square_ids | square_ids_child if square_ids_child and !square_ids_child.empty?
+                square_ids = square_ids | food_ids if food_ids and !food_ids.empty?
+
+                if square_ids.empty?
+                    @h = true
+                end
+              end
+
+            %>
+            <%if @h == true%>
+              <%form_remote_tag :url => recommend_admin_topics_path, :method => :post, :update => 'recommend_to_topic' do%>
+                <%= "推荐热点到专题"%>
+                <%=hidden_field_tag "hot_spot_id", hot_spot.id%>
+                <%=select_tag "id",
+                  options_for_select(Topic.find(:all,:conditions => ["template is  null or template = ''"]).collect {|cat| [cat.title, cat.id]}.unshift([_('Please select one'),""]))
+                %>
+              <%= submit_tag _('Submit')%>
+            <%end%>
+            <%else%>
+              <%=link_to_remote("取消推荐",{:update => "recommend_to_topic", :url => cancel_recommend_admin_topic_path(topic) + "?hot_spot_id=#{hot_spot.id}"})%>
+            <%end%>
+          </div>
+        </div>
+        <div class="foot">
+
+        </div>
+</div>

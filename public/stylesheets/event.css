@@ -1,0 +1,14 @@
+div.event {
+	clear: left;
+	padding: 10px 0;
+}
+
+div.event_post {
+	float: left;
+	width: 180px;
+	margin-left: 10px;
+}
+
+div.event_information {
+	margin-left: 200px;
+}

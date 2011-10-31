@@ -1,0 +1,1 @@
+Member.connection.delete("delete from members where created_at > date_sub(current_date(),interval 2 day) and confirmed = 0")

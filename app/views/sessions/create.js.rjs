@@ -1,0 +1,3 @@
+page.replace 'session_menu', :partial=>'/session_menu'
+
+page.call 'user_logged_in'

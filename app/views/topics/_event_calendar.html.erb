@@ -1,0 +1,65 @@
+<div class="head">
+	<div id="previous_month">
+		<%= link_to_function image_tag('homepage/previous_month.gif'), funtion_to_show_calendar_at_date(date.last_month.beginning_of_month)%>
+	</div>
+
+	<div id="calendar_date">
+		<%= date.to_time.strftime _('%B, %Y') %>
+	</div>
+	
+	<div id="next_month">
+		<%= link_to_function image_tag('homepage/next_month.gif'), 
+				funtion_to_show_calendar_at_date(date.next_month.beginning_of_month) %>
+	</div>
+</div>
+
+<div id="week_day_area">
+	<table border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<% [1,2,3,4,5,6,0].each do |day| -%>
+				<th><%= _(Date::ABBR_DAYNAMES[day]) %></th>
+			<% end -%>
+		</tr>
+	</table>
+</div>
+
+<div id="dates_area">
+	<table border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="arrow_cell" id="arrow_previous_week"><%= link_to_function image_tag('homepage/previous_week.gif'), funtion_to_show_calendar_at_date((date - 1.week).beginning_of_week) %></td>
+			<% date_idx = date.beginning_of_week
+			   7.times do  
+				 if date_idx == date -%>				
+					<td class="today_cell"><%= date_idx.mday %></td>
+				 <% else -%>
+					<td class="date_cell"><%= link_to_function date_idx.mday, funtion_to_show_calendar_at_date(date_idx) %></td>
+				
+			<% 		end
+				date_idx = date_idx.tomorrow
+			  end -%>
+			<td class="arrow_cell" id="arrow_next_week"><%= link_to_function image_tag('homepage/next_week.gif'), funtion_to_show_calendar_at_date((date + 1.week).beginning_of_week) %></td>
+		</tr>
+	</table>
+</div>
+
+<div class="body" id="event_calendar_body">
+	<%
+           events = Event.effective_for_city @current_city, :event_category_id => @event_category_id, :date=>date, :per_page=>5, :page=>1
+	   unless events.empty?
+		for event in events -%>
+		<div class="event">
+			<h3><%= link_to event_name_with_category(event), event_path(class_name_for_url(event.vendor), event.vendor, event), :target=>'_blank' %></h3>
+			<% if event.vendor.is_a? HotSpot -%>
+				<p class="place">[<%= h(localized_description(event.vendor.hot_spot_category.root, :name))%>]<%= link_to h(localized_description(event.vendor, :name)), hot_spot_path(event.vendor)%></p>
+				<p class="address"><%= h(localized_description(event.vendor, :address))%></p>
+			<% end -%>
+			<p class="date"><%= date_range_str event.begin_date, event.end_date %></p>
+		</div>
+	<% 	end
+	   end -%>
+</div>
+
+<div class="foot">
+	<%= link_to _('More Events...'), city_city_events_path(@current_city)%>		
+</div>
+

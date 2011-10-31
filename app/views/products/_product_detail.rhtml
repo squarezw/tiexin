@@ -1,0 +1,24 @@
+<div id="<%= product_div_id(product)%>" class="product_detail">  
+	<div class="product_photo">
+		<% if product.photo -%>
+			<%= link_to image_tag(product.photo.thumb.url), product.photo.url, :target=>'_blank' %>
+		<% else -%>
+			<%= image_tag 'default_product_photo.gif' %>
+		<% end -%>                                  
+	</div>                                            
+	
+	<div class="detail_info">
+		<p class="introduction"><%= h(localized_description(product, :introduction))%></p>
+                <p><%="#{s_('Product|Price')}: #{product.price}"%></p>
+		<p><% if product.owner_recommended? -%>
+				<%= _('Recommened by owner')%>
+			<% else -%>
+				<%= _('Originally recommended by: ')%> <%= product.creator.nick_name %>&nbsp;<%= _('At')%>&nbsp;<%= format_time (product.created_at )%>
+			<% end -%>
+		</p> 
+		<% if product.last_updater -%>
+			<p><%= _('Last Updated By:')%> <%= product.last_updater.nick_name %>&nbsp;<%= _('At')%>&nbsp;<%= format_time (product.updated_at )%></p>
+		<% end -%>
+	</div>
+</div>
+

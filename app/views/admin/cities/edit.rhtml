@@ -1,0 +1,72 @@
+<% @page_title = _('Edit City')
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), manage_cities_path, :class => :button %>	
+</div>
+
+<%= error_messages_for :city %>
+<% upload_form_tag manage_city_path(@city), :method=>:put do -%>
+<table class="form_container">
+	<tr>
+		<td width="15%" rowspan="2"><label class="required"><%= s_('City|Name')%></label></td>
+		<td width="15%"><label><%= _('Chinese')%></label></td>
+                 <td width="*"><%= text_field :city, :name_zh_cn, :size => 30 %> <span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></span></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English')%></label></td>
+		<td><%= text_field :city, :name_en, :size => 30 %> <span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></span></td>
+	</tr>
+        <tr>
+                <td colspan="2"><label class="required"><%= s_('City|Has map') %></label></td>
+                <td><select name="city[has_map]">
+				<%= options_for_true_false @city.has_map.to_s, false%>
+			</select>
+                </td>
+        </tr>
+	<tr>
+		<td width="15%" rowspan="2"><label class="required"><%= _('Scope')%></label></td>
+		<td width="15%"><label><%= s_('City|Width')%></label></td>
+		<td width="*"><%= text_field :city, :width, :size => 30 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('City|Height')%></label></td>
+		<td><%= text_field :city, :height, :size => 30 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= _('North West Point In Mercator Coordinate')%></label></td>
+		<td><label>X</label></td>
+		<td><%= text_field :city, :x0, :size => 30 %></td>
+	</tr>
+	<tr>
+		<td><label>Y</label></td>
+		<td><%= text_field :city, :y0, :size=> 30 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= _('Start Point')%></label></td>
+		<td><label>X</label></td>
+		<td><%= text_field :city, :start_point_x, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td><label>Y</label></td>
+		<td><%= text_field :city, :start_point_y, :size=> 30 %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('City|Photo') %></label></td>
+		<td><%= upload_column_field :city, :photo %>
+			<p class="comment">
+				<%= _('Only jpg, jpeg, png and gif file is accepted.')%>
+			</p></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= _('City|Weather code')%></label></td>
+		<td><%= text_area :city, :weather_code, :rows=>4, :cols=>50 %></td>
+	</tr>
+	<tr>
+		<td colspan="3" class="button_bar">
+			<%= submit_tag %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>

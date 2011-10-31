@@ -1,0 +1,10 @@
+<% @page_title=_('Brand Merged') %>
+<p>
+<%= _(%q['%{source}' has been Merged to '%{target}'.]) % 
+	{:source=>h(localized_description(@brand, :name)),
+	 :target=>h(localized_description(@target, :name))}  %>
+<%= _('Now you can ')%>
+<%= link_to _('Go to home page,'), main_path %>
+<%= _(' or ')%>
+<%= link_to _('manage other hot spots.'), manage_brands_path %>
+</p>

@@ -1,0 +1,34 @@
+<% page_title _('Campaign') +  ":#{h(@campaign.name)}" -%>
+
+<% if @campaign.modifiable? -%>
+<div class="button_bar">
+	<%= link_to _('Edit'), edit_admin_campaign_path(@campaign), :class=>:button %>
+</div>
+<% end -%>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label><%= s_('Campaign|Description') %></label></td>
+		<td>
+<pre><%= bbcodeize  @campaign.description %></pre>
+</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Campaign|Confirm message')%></label></td>
+		<td>
+<pre><%= bbcodeize  @campaign.confirm_message %></pre>
+			</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Campaign|Bonus')%></label></td>
+		<td><%= _('Experience') %>:<%= @campaign.bonus_experience ? @campaign.bonus_experience : 0 %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= _('Credit') %>:<%= @campaign.bonus_credit ? @campaign.bonus_credit : 0 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Campaign|Expire date')%></label></td>
+		<td><%= format_date @campaign.expire_date %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Campaign|Trigger')%></label></td>
+		<td><%= user_friendly_code  :campaign_trigger, @campaign.trigger %></td>
+	</tr>
+</table>

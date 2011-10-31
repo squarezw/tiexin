@@ -1,0 +1,10 @@
+<% remote_upload_form_tag :url=>manage_hot_spot_category_path(@category),
+ 						  :html=>{:id=>'category_form', :method=>:put} do -%>
+<%=render :partial => "form"%>
+<% end -%>
+
+<%# remote_form_for :hot_spot, @hot_spot, :url=>hot_spot_path(@hot_spot), :method=>:put, :html=>{:method=>:put} do |f| -%>
+<% remote_form_for :category, @category, :url=>merge_or_move_manage_hot_spot_category_path(@category),
+ 						  :html=>{:id=>'category_mm_form',:method=>:post} do -%>
+<%=render :partial => "merge_move_form"%>
+<% end -%>

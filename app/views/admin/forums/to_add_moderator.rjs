@@ -1,0 +1,2 @@
+page.replace_html "f_members_#{@forum.id}", :partial => "monderator", :object =>@forum
+page.call "panel.hide" unless @error

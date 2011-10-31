@@ -1,0 +1,2 @@
+page.replace_html 'form_error', error_messages_for(:folder)
+page.call 'dialog.show'

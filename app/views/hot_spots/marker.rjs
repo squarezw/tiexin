@@ -1,0 +1,2 @@
+add_hot_spot_marker page, @hot_spot, :no_bubble=>@no_bubble
+page.call 'show_hot_spot_marker', @hot_spot.id

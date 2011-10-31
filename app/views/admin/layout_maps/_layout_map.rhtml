@@ -1,0 +1,18 @@
+<div id="<%= layout_map_div_id(layout_map) %>" class="layout_map_section">
+	<div class="hd">
+		<div class="buttons">
+			<%= link_to_function _('Edit'), "edit_layout_map(#{layout_map.id});"%>
+			<%= link_to_function _('Delete'), "delete_layout_map(#{layout_map.id});"%>
+			<%= link_to_function _('New Zoom Level'), "new_zoom_level(#{layout_map.id});"%>
+		</div>
+		
+		<%= h(layout_map.name_zh_cn)%> / <%= h(layout_map.name_en) %>
+		<p><%= h(layout_map.introduction.zh_cn) %></p>
+		<p><%= h(layout_map.introduction.en)%></p>
+	</div>          
+	
+	<div class="bd">       
+		<%= render :partial=>'/admin/zoom_levels/zoom_level', :collection=>layout_map.zoom_levels, :locals=>{ :layout_map => layout_map} %>
+	</div>
+</div>
+

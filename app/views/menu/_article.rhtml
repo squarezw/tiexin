@@ -1,0 +1,34 @@
+<div class="section">
+	<div class="header">
+		<h3><%= _('Related hot spot')%></h3>
+	</div>
+        <div class="body">       
+                    <%@hot_spot = @article.hot_spots.first%>
+                    <% if @hot_spot -%>
+                    <div id="small_map_panel" class="section">
+                            <div class="body">
+                                    <div id="small_map">
+                                    </div>		
+                            </div>
+                            <div class="foot" id="map_buttons">
+                                    <%= link_to_function _('Zoom In'), "map.zoom_in()", :id=>'zoom_in_button', :class=>"map_button" %>
+                                    <%= link_to_function _('Zoom Out'), "map.zoom_out()", :id=>'zoom_out_button', :class=>"map_button" %>
+                                    <%#= link_to _('Big Map'), 
+                                            {:controller=>'cities', :action=>:map, :id=>@hot_spot.city_id, :hot_spot_id=> @hot_spot},
+                                            {:id=>'big_map_button', :class=>"map_button"} %>
+                            </div>
+                    </div>
+                    <% end -%>
+
+                  <% unless @article.hot_spots.nil? or @article.hot_spots.empty? -%>
+                    <div id="hot_spot_related">
+                        <ul class="list">
+                          <%= render :partial=>'hot_spot', :collection=>@article.hot_spots %>        
+                        </ul>
+                    </div>
+                  <% end -%>
+	</div>
+      
+</div>
+
+

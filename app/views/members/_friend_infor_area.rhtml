@@ -1,0 +1,9 @@
+<% if @current_user.has_friend?(member) -%>
+	<p><%= _('Your Friend')%></p>
+<% elsif @current_user.has_pending_friend?(member) -%>
+	<p><%= _('Your request to add him(her) to your friend list are waiting approve.')%></p>
+<% else -%>
+	<div id="friend_infor_area">
+		<%= link_to_remote _('Add as friend.'), {:url=>add_as_friend_member_path(member), :update=>'friend_infor_area', :method=>:post}, {:class=>:button} %>
+	</div>
+<% end -%>

@@ -1,0 +1,45 @@
+<%= error_messages_for 'navi_star' %>
+<table class="form_container">
+	<tr>
+		<td><label class="required"><%= s_('Operation System')%></label></td>
+                <td><%= form.select :mobile_os_id, MobileOs.find(:all).collect {|item| [item.name,item.id]} %></td>
+	</tr>
+        <tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Release') %></label></td>
+                <td><%= form.text_field :release, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Major') %></label></td>
+                <td><%= form.text_field :major, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Minor') %></label></td>
+                <td><%= form.text_field :minor, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Suffix') %></label></td>
+                <td><%= form.text_field :suffix, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|File') %></label></td>
+                <td><%= upload_column_field 'navi_star', 'filename'  %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Minimum Release') %></label></td>
+                <td><%= form.text_field :minimum_release, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Minimum Major') %></label></td>
+                <td><%= form.text_field :minimum_major, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('NaviStar|Minimum Minor') %></label></td>
+                <td><%= form.text_field :minimum_minor, :size=>30 %></td>
+	</tr>        
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

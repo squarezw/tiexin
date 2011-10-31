@@ -1,0 +1,22 @@
+<div id="page_footer">            
+	<ul class="simple_menu">
+		<li><%= link_to _('X-Navi'), main_path %></li>
+		<li><%= link_to _('About Us'), static_path('about_us')%></li>
+		<li><%= link_to _('Contact Us'), static_path('contact_us')%></li>
+	<% if current_is_admin? -%>
+		<li><%= link_to _('System Console'), manage_hot_spot_categories_path %></li>
+	<% end -%>
+		<li><%= link_to _('Partner Center'), partner_gift_orders_path %></li>
+		<li><%= link_to "网站地图", static_path('sitemap')%></li>
+	</ul>
+	<p>
+		<%= _('Copy Right Declaration')%>
+	</p>
+	<p><%= XNavi::ICP_NO %></p>
+	<p id="site_version">
+		Ver. <%= XNavi::VERSION %>(<%= ENV['RAILS_ENV']%>)
+		<% if XNavi::PLATFORM == 'production' -%>
+		<script src="http://s78.cnzz.com/stat.php?id=1455708&web_id=1455708&show=pic" language="JavaScript" charset="gb2312"></script>
+		<% end -%>
+	</p>
+</div>

@@ -1,0 +1,4 @@
+user_1:
+  id: 1
+  password_hash: <%= Digest::SHA1.hexdigest('password') %>
+

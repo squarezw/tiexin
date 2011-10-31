@@ -1,0 +1,44 @@
+<% @page_title = _('Review Owner Application') 
+   @side_menu = 'master_data' -%>
+<div class="button_bar">
+	<%= link_to _('Back'), owner_applications_path, :class=>:button %>
+</div>
+
+<%= error_messages_for :application %>
+
+<% form_tag owner_application_path(@application), :method=>:put do -%>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label><%= s_('OwnerApplication|Member')%></label></td>
+		<td><%= link_to h(@application.member.nick_name), member_path(@application.member), :target => '_blank' %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('Target')%></label></td>
+		<td>
+			<% if @application.target.respond_to? :city -%>
+			[&nbsp;<%= h(localized_description(@application.target.city, :name))%>&nbsp;]
+			<% end -%>
+			[&nbsp;<%= _(@application.target.class.to_s.underscore.humanize.downcase)%>&nbsp;]<%= link_to h(localized_description(@application.target, :name)), target_path(@application.target), :target=>'_blank' %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('OwnerApplication|Created at')%></label></td>
+		<td><%= format_time @application.created_at %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= _('Opinion')%></label></td>
+		<td><select name="status" >
+				<%= options_for_select options_for_codes([OwnerApplication::STATUS_APPROVED, OwnerApplication::STATUS_DISAPPROVED], :owner_application_status) %>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td><%= text_area :application, :opinion, :cols=>60, :rows=> 8 %></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit')%>
+		</td>
+	</tr>
+</table>
+
+<% end -%>

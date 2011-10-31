@@ -1,0 +1,12 @@
+<tr> 
+	<td><%= link_to hotel.name %></td>
+	<td><%= h(localized_description(hotel.category, :name))%></td>
+        <td><%= h(localized_description(hotel.city, :name))%></td>
+	<td><%= hotel.address%></td>
+	<td><%= format_date(hotel.created_at)%></td>
+        <td>
+                <%= link_to s_('Manage hotel room'), admin_hotel_hotel_rooms_path(hotel)%> | 
+                <%= link_to s_('Edit'), edit_admin_hotel_path(hotel)%> | 
+                <%= link_to s_('Delete'), admin_hotel_path(hotel), :confirm => _('Are you sure?'), :method => :delete%>
+        </td>
+</tr>

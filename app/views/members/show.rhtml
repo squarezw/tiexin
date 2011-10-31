@@ -1,0 +1,32 @@
+<% @page_title = h(@member.nick_name) 
+   @css_files = ['article']
+   side_menu side_menu_for_member(@member) -%>
+
+<div class="section">
+	<div class="head">
+		<h3><%= _('Latest Articles')%></h3>
+	</div>
+	
+	<div class="body">
+		<%= render :partial=>'articles/article_summary', :collection=>@member.articles.latest_articles %>
+		<div class="foot">
+			<%= link_to _('All Articles') , member_articles_path(@member)%>
+		</div>
+	</div>
+	
+</div>
+
+
+<div class="section">
+	<div class="head">
+		<h3><%= _('Latest Posts')%></h3>
+	</div>
+	
+	<div class="body">
+		<%= render :partial=>'member_posts/post_summary', :collection=>@member.latest_posts(5,@current_user) %>
+		<div class="foot">
+			<%= link_to _('All Posts') , member_posts_path(@member)%>
+		</div>
+	</div>
+	
+</div>

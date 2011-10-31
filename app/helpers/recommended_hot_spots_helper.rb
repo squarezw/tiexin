@@ -1,0 +1,2 @@
+module RecommendedHotSpotsHelper
+end

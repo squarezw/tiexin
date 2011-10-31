@@ -1,0 +1,6 @@
+<ul>
+  <%for article in  articles%>
+    <li><%=article.subject%> 
+<%=link_to "[X]", del_article_topic_path(monderator, :article_id => article), :method => :post, :confirm => _('Are you sure?')%></li>
+  <%end%>
+</ul>

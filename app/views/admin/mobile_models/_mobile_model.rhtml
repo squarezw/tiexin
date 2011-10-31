@@ -1,0 +1,19 @@
+<li> 
+    <div class="model_pic">
+    <%if mobile_model.mobile_os.navi_star%>
+     <%=link_to_remote  safe_mobile_model_icon(mobile_model), :update => "mobile-model",
+       :url => manage_mobile_brand_mobile_model_path(mobile_model.mobile_brand,mobile_model), :method => "get",:html => {:href=> "javascript:void()"} %>
+        <%#=link_to safe_mobile_model_icon(mobile_model),
+           url_for(:controller=>'/download', :action=>'download', :platform => mobile_model.mobile_os.name, :release => mobile_model.mobile_os.navi_star.release, :major => mobile_model.mobile_os.navi_star.major,
+:minor => mobile_model.mobile_os.navi_star.minor, :suffix => mobile_model.mobile_os.navi_star.suffix) if mobile_model.picture%>
+    <%else%>
+        <%=link_to safe_mobile_model_icon(mobile_model),'#' if mobile_model.picture%>
+    <%end%>
+    </div>
+    <p><%= link_to mobile_model.name, url_for(:controller=>'/download', :action=>'download', :platform => mobile_model.mobile_os.name, :release => mobile_model.mobile_os.navi_star.release, :major => mobile_model.mobile_os.navi_star.major,
+:minor => mobile_model.mobile_os.navi_star.minor, :suffix => mobile_model.mobile_os.navi_star.suffix) if mobile_model.mobile_os.navi_star%></p>
+    <% if @current_user and @current_user.is_admin?%>
+    <p><%= link_to _('Edit'), edit_manage_mobile_model_path(mobile_model) %>
+    <%= link_to _('Delete'), manage_mobile_model_path(mobile_model), :confirm => _('Are you sure?'), :method => :delete %></p>
+    <%end%>
+</li>

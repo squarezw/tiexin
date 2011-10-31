@@ -1,0 +1,25 @@
+<% @page_title = _('Manage revise')
+   @side_menu = 'master_data' %>
+
+<table class="data_list">
+	<tr>
+		<th width="15%*"><%= s_('Revise|hotspot')%></th>
+		<th width="10%"><%= s_('Revise|member')%></th>
+		<th width="*"><%= s_('Revise|suggestion')%></th>
+		<th widht="20%"><%= s_('Revise|Created at') %></th>
+		<th width="15%"><%= _('Operation') %></th>
+	</tr>
+	<% for revise in @revises -%>
+		<tr>
+			<td><%= link_to h(localized_description(revise.hot_spot,:name)),hot_spot_path(revise.hot_spot),:target => '_blank'%></td>
+			<td><%= revise.member.nick_name%></td>
+                        <td><%= h(truncate(strip_bbcode(revise.suggestion), 100))%></td>
+			<td><%= format_time revise.created_at %></td>
+			<td>
+				<%= link_to _('Review'), hot_spot_revise_path(revise.hot_spot, revise), :target=>'_blank' %>
+			</td>
+		</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @page %>

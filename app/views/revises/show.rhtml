@@ -1,0 +1,83 @@
+<% @page_title = _('revise')
+	@js_files=['yui/utilities', 'yui/button', 'yui/container', 'yui/treeview', 'yui/dragdrop', 'tabbed_pane']
+	@css_files=['yui/button', 'yui/container', 'yui/treeview', 'hot_spot_detail', 'tabbed_pane','revise']    
+%>
+
+<% content_for :page_scripts do -%>
+var panel;
+
+var tp_hotspot_info;
+
+function init_page () {
+        edit_hot_spot(<%=@hot_spot.id%>);
+}                                                       
+
+function edit_hot_spot(id) {
+	<%= remote_function :update => 'form_panel', :url=>edit_hot_spot_path(@hot_spot), :method=>:get %>
+}   
+
+function show_edit_form () {
+	tp_hotspot_info = new TabbedPane('tp_hotspot_info');
+	tp_hotspot_info.show_page('tp_head_zh_cn', 'page_zh_cn')
+}
+                                    
+function hot_spot_modified() {
+        alert('<%=_('The modification to hot spot has been saved.')%>')
+}
+ 
+function hide_form_panel () {
+    edit_hot_spot(<%=@hot_spot.id%>);
+}
+
+<% end -%>
+
+<table class="form_container">
+	<tr>
+		<td  width="20%"><label><%= s_('Revise|Hot spot') %></label></td>
+		<td><%= h(localized_description(@revise.hot_spot, :name))%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Revise|Suggestion') %></label></td>
+		<td><p><%= h(@revise.suggestion) %></p></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Revise|Member')%></label></td>
+		<td><%= h(@revise.member.nick_name) %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Revise|Status')%></label></td>
+			<td><%= user_friendly_code('revise_status', @revise.status) %></td>
+	</tr>
+	<% if current_is_admin? and @revise.status == Revise::STATUS_PENDING
+	   	form_for :revise, @revise, :url => check_hot_spot_revise_path(@hot_spot, @revise), :html=>{:method=>:put} do |f| -%>
+		<tr>
+			<td rowspan="2"><label><%= _('Opinion')%></label></td>
+			<td><%= f.text_area :remark, :cols => 50, :rows=> 5%></td>
+		</tr>
+		<tr>
+			<td><%= f.select :status, options_for_codes([Revise::STATUS_ACCEPTED, Revise::STATUS_REJECTED], 'revise_status') %>
+		</tr>
+		<tr>
+			<td class="button_bar" colspan="2">
+				<%= submit_tag _('Submit')%>
+				<input type="reset" />
+			</td>
+		</tr>
+	<%  end 
+	   end -%>
+</table>
+
+
+<div class="button_bar">
+    <% if current_is_admin? -%>          
+            <% if @hot_spot.layout_maps.empty? -%>
+                    <%= link_to _('Merge'), manage_hot_spot_merges_path(@hot_spot), :class=>:button%>
+            <% end -%>
+            <%= link_to _('Delete Hot Spot'), manage_hot_spot_path(@hot_spot), 
+                    :confirm=>_('All information, including photos, comments, recommended products, layout maps, etc., of this hot spot will be deleted. Are you sure?'), :class => :button, :method => :delete %>
+    <% end -%>
+</div>
+            
+<div id="form_panel">
+
+</div>

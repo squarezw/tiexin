@@ -1,0 +1,57 @@
+LI {
+	LIST-STYLE-TYPE: none
+}
+
+.xnavi_promotionlist_area{
+    FLOAT: left; PADDING-BOTTOM: 18px; PADDING-TOP: 9px; padding-left: 10px;
+}
+.xnavi_promotionlist {
+    FLOAT: left; WIDTH:100%;MARGIN-bottom:10px;Border-Bottom: #E7E7E7 1px solid; 
+}
+.xnavi_promotionlist_pic {
+    text-align:center; WIDTH:190px; BORDER: #b0c1c8 1px solid; BACKGROUND: white; FLOAT: left; padding:4px; margin: 2px; clear:both
+}
+.xnavi_promotionlist_content {
+    PADDING-LEFT: 25px; FLOAT: left; WIDTH: 400px; COLOR: #666666
+}
+.xnavi_promotionlist_content LI {
+    PADDING-BOTTOM: 3px
+}
+.xnavi_promotionlist_content A:link {
+    COLOR: #3372a2; TEXT-DECORATION: none
+}
+.xnavi_promotionlist_content A:visited {
+    COLOR: #3372a2; TEXT-DECORATION: none
+}
+.xnavi_promotionlist_content A:active {
+    COLOR: #3372a2; TEXT-DECORATION: none
+}
+.xnavi_promotionlist_content A:hover {
+    TEXT-DECORATION: underline
+}
+.xnavi_promotionlist_title {
+    FONT-SIZE:14px; float:left;
+}
+.xnavi_promotionlist_fullscreen {
+    FLOAT: left; WIDTH:100%;MARGIN-bottom:10px;Border-Bottom: #E7E7E7 1px solid; 
+}
+.xnavi_promotion_orgtitle{
+   color:#FF9000
+}
+.xnavi_promotion_inner{
+   padding:5px
+}
+
+div.promotion_post_thumb {
+	float: left;
+	width: 182px;
+	margin: 10px;
+	border: 1px solid #CFCFCF;
+	padding: 1px;
+	text-align: center;
+}
+
+div.promotion_detail {
+	margin-left: 210px;
+}
+

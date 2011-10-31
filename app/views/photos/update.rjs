@@ -1,0 +1,3 @@
+page.replace element_id(@photo),
+            render(:partial=>'photo', :object => @photo, :locals => {:show_buttons => true} )
+page.visual_effect :pulsate, element_id(@photo), :pulses=>1    

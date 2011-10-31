@@ -1,0 +1,4 @@
+#page.replace_html 'infor_panel', :partial=>'basic_information', :locals=>{:hot_spot=>@hot_spot}
+#page.replace_html 'page_title', h(localized_description(@hot_spot, :name))
+page.call 'hot_spot_modified', @hot_spot.id,  h(localized_description(@hot_spot, :name))
+

@@ -1,0 +1,16 @@
+<p>
+	<%= (@category.path.collect { |cat| link_to_function h(localized_description(cat, :name)), "hot_spot_category_clicked(#{cat.id})"}).join (' > ') %>
+</p>
+	<% for hot_spot in @hot_spots -%>
+<div class="hot_spot">
+	<p><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot)%>
+		<span class="hot_spot_category">(<%= link_to_function h(localized_description(hot_spot.hot_spot_category, :name)), "hot_spot_category_clicked(#{hot_spot.hot_spot_category_id})" %>)</span>
+		<% unless hot_spot.address[@current_lang].blank? -%>
+			<span class="address">(<%= h(localized_description(hot_spot, :address))%>)</span>
+		<% end -%>
+	</p>
+	<p class="hot_spot_introduction"><%= h(truncate(localized_description(hot_spot, :introduction), 60))%></p>
+	</div>
+	<% end -%>
+
+<%= remote_page_navigator @hot_spots, 'div_hot_spots', :get %>

@@ -1,0 +1,56 @@
+<% page_title h(localized_description(@current_city, :name)) 
+   page_keyword _('Map'), _('Navigation'), _('Restaurant'), _('Shopping'), _('Promotion'), _('Discount'), _('Mobile Map')-%>
+
+<div id="links">
+	<ul>
+		<li><%= link_to _('Download Mobile Application'), 'static/download' %></li>
+		<li><%= link_to _('Mobile Map'), 'static/download' %></li>
+		<li><%= link_to _('Forum'), forums_path %></li>
+	</ul>
+</div>
+<div id="cities">
+	<h2><%= _('Cities')%></h2>
+	<ul>
+		<% for city in City.find :all -%>
+			<li><%= link_to h(localized_description(city, :name)), city %></li>
+		<% end -%>
+	</ul>
+</div>
+
+<div id="contracted_hot_spot">
+	<h2><%= _('Contracted Hot Spots')%></h2>
+	<ul>
+		<% for hot_spot in @current_city.random_contract_hot_spots -%>
+		<li><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot)%>[<%= h(localized_description(hot_spot.hot_spot_category, :name))%>]<%= truncate(h(strip_bbcode(localized_description(hot_spot, :introduction))), 100)%></li>
+		<% end -%>
+	</ul>
+</div>
+
+<div id="new_hot_spots">
+	<h2><%= _('Latest Hot Spots')%></h2>
+	<% for root_category in HotSpotCategory.roots -%>
+	<h3><%= link_to h(localized_description(root_category, :name)), city_hot_spot_category_path(@current_city, root_category) %></h3>
+	<p><%= h(root_category.keyword)%></p>
+		<ul>
+		<% for hot_spot in @current_city.latest_hot_spot_of_category(root_category, 20) -%>
+			<li><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot)%>[<%= h(localized_description(hot_spot.hot_spot_category, :name))%>]<%= truncate(h(strip_bbcode(localized_description(hot_spot, :introduction))), 100)%></li>
+		<% end -%>
+		</ul>
+	<% end -%>
+</div>
+
+<div id="events">
+	<h2><%= _('Events')%></h2>
+	<ul>
+		<% for event in Event.random_events(@current_city, 10) -%>
+			<li><%= link_to h(localized_description(event, :summary)), event_path(class_name_for_url(event.vendor), event.vendor, event)%>[<%= link_to h(localized_description(event.vendor, :name)), event.vendor %>]<%= truncate(h(strip_bbcode(localized_description(event, :content))), 100)%></li>
+		<% end -%>
+	</ul>
+</div>
+
+<div id="articles">
+	<h2><%= _('Latest Articles')%></h2>
+	<% for article in Article.articles_for_city(@current_city) -%>
+	<p><%= link_to h(article.subject), member_article_path(article.member, article)%></p>
+	<% end -%>
+</div>

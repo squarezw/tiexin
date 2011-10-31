@@ -1,0 +1,11 @@
+<% @page_title = _('Edit Friend Link')
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   @side_menu = 'master_data' -%>
+
+
+<%= error_messages_for :friend_link %>
+
+<% form_for :friend_link, @friend_link, :url=>admin_friend_link_path(@friend_link), :html=>{:method=>:put, :multipart => true} do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>

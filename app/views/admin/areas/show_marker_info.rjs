@@ -1,0 +1,4 @@
+page.call 'AreaMarker.show_infor_window', 
+          @area.id, 
+          render(:partial=>'marker', :locals => { :area=>@area })
+

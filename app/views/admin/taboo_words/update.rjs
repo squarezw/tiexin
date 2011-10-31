@@ -1,0 +1,4 @@
+page << remote_function(:url=>new_taboo_word_path, :update=>'div_form', :method=>:get)
+page.replace element_id(@taboo_word), render(:partial=>'taboo_word', :object=>@taboo_word)
+# page << "$('#{element_id(@taboo_word)}').replace('#{ escape_javascript(render(:partial=>'taboo_word', :object=>@taboo_word))}');"
+page.visual_effect :pulsate, element_id(@taboo_word), :pulses=>1    

@@ -1,0 +1,21 @@
+<table class="form_container" >
+        <tr>
+                <td colspan="2" align="center"><%= s_('Merge or Move Hot Spot Category') %></td>
+        </tr>
+	<tr> 
+		<td width="1%">
+                        <p><%= radio_button_tag  "MorM","merge"  %><%= s_('HotSpotCategory|Merge to') %></p>
+                        <p><%= radio_button_tag  "MorM","move" %><%= s_('HotSpotCategory|Move to') %></p>
+                </td>
+                <td width="100%"><%#= hot_spot_category_select :category,  :parent_id,{:selected => @category.parent_id , :prompt => _('Select Category')} %>
+                <%=hotspot_category_root_select_tag "hot_spot_category_root_id",@category,true,[_('Please select one'),""]%>
+                <%=hotspot_category_children_select_tag "hot_spot_category_children_id",@category,true,[_('Please select one'),""]%>
+                </td>
+	</tr>
+        <tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

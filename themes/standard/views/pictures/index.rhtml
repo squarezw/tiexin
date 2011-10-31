@@ -1,0 +1,48 @@
+<% @page_title = _('Picture')
+   use_remote_dialog
+   @side_menu = ['main']
+    include_css_file 'photos'
+%>
+<% content_for :page_scripts do -%>
+function new_picture() {
+	dialog.retrieve_remote_form('<%= new_member_picture_path(@member)%>');
+}
+function edit_photo (owner_type, owner_id, id) {
+	dialog.retrieve_remote_form('/photo/' + owner_type + '/' + owner_id + '/photos/' + id + '/edit');
+}
+<% end -%>
+
+<div id="blog_main_cont">
+  <div class="cont-m-1"></div>
+  <div class="cont-m-2-1" id="picture_button_title">
+    <%if @current_user and @current_user == @member%>
+	<%= link_to_function _('Add blog picture'), "new_picture();", :class => :button  %> 
+    <%end%>
+  </div>
+  <div class="cont-m-3"></div>  
+</div>
+<div class="pictures_title"><%=_("Blog|Pictures")%></div>
+<div class="pictures">
+	<div class="body">       
+		<div id="pictures_list">
+			<%= render :partial=>'picture', :collection => @pictures %>
+		</div>
+	</div>	
+</div>                  
+
+<% if @vendor.is_a? HotSpot and @vendor.brand 
+	brand_products = @vendor.brand.products 
+	unless brand_products.empty? -%>
+		<div class="products">
+			<h2>[<%= _('Brand')%>]<%= _('Products of %{vendor}') % {:vendor=>h(localized_description(@vendor.brand, :name))}  %></h2>
+			<%= render :partial=>'product', :collection=>brand_products %>
+		</div>
+<% end
+end -%>
+<div class="pictures_title"><%=_("Blog|Other Photos")%></div>
+<div id="photo_list">
+<%= render :partial => '/member_photos/photo', :collection => @photos, :locals => { :show_buttons=>true } %>
+</div>
+<div id="page_left_footer">
+<%= page_navigator @photos %>
+</div>

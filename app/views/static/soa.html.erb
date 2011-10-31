@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+	
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><%= _('X-Navi') %>──注册贴心网，换取上海海洋水族馆欢乐卡</title>    
+	<%= stylesheet_link_tag 'common'%>  
+	<%= stylesheet_link_tag 'soa'%>  	
+</head>
+<body>
+<div id="main_wrapper">
+	<div id="page_head">
+		<image src="/images/soa/top.jpg" usemap="#head_map">
+			<map name="head_map">
+				<area href="/" shape="rect" coords="10, 12, 110, 52" alt="<%= _('Home Page') %>" />
+			</map>
+		</image>
+	</div>
+
+	<div id="page_content">
+		<div id="side_menu">
+			<%= link_to image_tag('soa/menu01.jpg'), '#introduction' %>
+			<%= link_to image_tag('soa/menu02.jpg'), '#rule' %>
+			<%= link_to image_tag('soa/menu03.jpg'), '#process' %>
+			<%= link_to image_tag('soa/menu04.jpg'), '#links' %>
+			<% if @current_user -%>
+				<%= link_to image_tag('soa/menu05.jpg'), 'http://www.x-navi.cn/campaign/gift_orders/new?gift_id=1' %>
+			<% else %>
+				<%= link_to image_tag('soa/menu05.jpg'), new_session_path %>
+			<% end -%>
+			<%= link_to image_tag('soa/menu06.jpg'), '#phones' %>
+		</div>
+		
+		<div id="main">
+			<a name="top"></a>
+			<div class="section">
+				<a name="introduction"></a>
+				<h2>活动介绍</h2>
+				<p>从2009年2月12日起，注册贴心网即可获得1000经验分奖励。用此积分可以低价兑换<a href="http://www.x-navi.cn/hot_spots/54585">上海海洋水族馆</a>欢乐卡大礼包。在此之前注册的用户也可获得1000经验分的追加奖励。</p>
+				<p>贴心网今后将推出更多的礼品供注册用户用积分进行兑换。</p>
+				<h3>上海海洋水族馆欢乐卡说明</h3>
+				<p>欢乐卡超值丰富的产品包内，每一季会推出不同的超值礼包组合。第一季推出产品包含:</p>
+				<p>套餐A: 1000经验分+488元人民币现金</p>
+				<table width="100%" border="0" cellspacing="0" cellpadding="5" id="product_list">
+					<tr>
+						<th width="40%">产品</th>
+						<th width="*">说明</th>
+					</tr>
+					<tr>
+						<td>海洋欢乐卡一张；</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>上海海洋水族馆成人门票2张。</td>
+						<td>原价240元</td>
+					</tr>
+					<tr>
+						<td>海洋餐厅休闲店下午茶一份</td>
+						<td>内含蛋塔4个+珍珠奶茶2杯+爆米花一桶+布丁2个</td>
+					</tr>
+					<tr>
+						<td>生日祝福礼</td>
+						<td>SOA专属音乐专辑CD一张</td>
+					</tr>
+					<tr>
+						<td>海洋水族馆精美纪念照一张</td>
+						<td>附赠精美相框一个</td>
+					</tr>
+					<tr>
+						<td><a href="http://www.x-navi.cn/brands/1364">佐登妮丝</a>纯植物酵素润白课程+背部三焦舒穴课程(150分钟)美容券一张</td>
+						<td><a href="/soa/products.html#product_1" target="_blank">详细</a></td>
+					</tr>
+					<tr>
+						<td>“DP精致高档国际旅行沐浴护肤组”一套</td>
+						<td><a href="/soa/products.html#product_2" target="_blank">详细</a></td>
+					</tr>
+				</table>
+				<br/>
+				<p>套餐B（新）: 500经验分+388元人民币现金<%= image_tag 'soa/new.gif' %></p>
+				<table width="100%" border="0" cellspacing="0" cellpadding="5" id="product_list">
+					<tr>
+						<th width="40%">产品</th>
+						<th width="*">说明</th>
+					</tr>
+					<tr>
+						<td>海洋欢乐卡一张；</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>上海海洋水族馆成人门票2张<font color="red">+儿童票壹张</font>。</td>
+						<td>原价320元</td>
+					</tr>
+					<tr>
+						<td>海洋餐厅休闲店下午茶一份</td>
+						<td>内含蛋塔4个+珍珠奶茶2杯+爆米花一桶+布丁2个</td>
+					</tr>
+					<tr>
+						<td>“DP精致高档国际旅行沐浴护肤组”一套</td>
+						<td><a href="/soa/products.html#product_2" target="_blank">详细</a></td>
+					</tr>
+				</table>
+				<br/>
+				
+				<p>套餐C（新）: 500经验分+268元人民币现金<%= image_tag 'soa/new.gif' %></p>
+				<table width="100%" border="0" cellspacing="0" cellpadding="5" id="product_list">
+					<tr>
+						<th width="40%">产品</th>
+						<th width="*">说明</th>
+					</tr>
+					<tr>
+						<td>海洋欢乐卡一张；</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>上海海洋水族馆成人门票1张<font color="red">+儿童票壹张</font></td>
+						<td>原价200元</td>
+					</tr>
+					<tr>
+						<td>海洋餐厅休闲店下午茶一份</td>
+						<td>内含蛋塔4个+珍珠奶茶2杯+爆米花一桶+布丁2个</td>
+					</tr>
+					<tr>
+						<td>“DP精致高档国际旅行沐浴护肤组”一套</td>
+						<td><a href="/soa/products.html#product_2" target="_blank">详细</a></td>
+					</tr>
+				</table>
+
+				<p>选购以上三个套餐中的任何一项，均可参加上海海洋水族馆会员独享活动，包括:</p>
+				<ol style="margin-left: 2em; line-height: 1.5em">
+					<li>出示本卡享受95折办理家庭年卡一次。</li>
+					<li>出示本卡参加上海海洋水族馆定期举办会员生日聚会或会员自行主办之生日派对可享总费用9折优惠。</li>
+					<li>定期的趣味邮件及主题活动的预告短信， </li>
+				</ol>
+				<p>更多的会员福利陆续推出中</p>
+				<div class="foot">
+					<a href="#top">Top</a>
+				</div>
+			</div>
+			
+			<div class="section">
+				<a name="rule"></a>
+				<h2>换购规则</h2>
+<p>1）活动期间（本次活动长期有效，截止日期一旦确定，主办方将及时在网站醒目位置公布），任何个人注册为贴心网会员，都会获得1000积分，该积分可以用于兑换或换购贴心网推出的礼品。本次活动推出的礼品是上海海洋水族馆的欢乐卡，一共分三种套餐（详见上文描述）。不强制换购，您的积分也可以保留，以后使用。</p>
+<p>2）每个贴心网注册会员必须在换购时提供实名信息，该信息将由贴心网提交给上海海洋水族馆（下文或称：海洋馆），用于提货/发货确认以及备案。</p>	<p>3）每个贴心网注册会员可以使用积分抵扣一定的现金换购海洋馆的欢乐卡套餐。积分不能兑换现金。只能在提货过程中，直接抵扣.</p>
+<p>4）贴心网会员一旦在本网站上申请换购并确认后，所选择礼品需要的积分当即扣除，除非因不可抗力导致不能领取礼品，积分一律不退还。</p>
+<p>5）海洋馆从2009年3月7日起提供现场领取欢乐卡的服务。申请换购后，请到上海海洋水族馆指定窗口提货；提货过程，请务必出示您在订单上注明的有效证件；为加快提货，您可以向海洋馆服务人员报出您的订单号。工作人员会给您一张确认单，您需要在上面签字，并当场支付剩余货款后即可领取欢乐卡及超值套装礼包。</p>
+<p>6）提货后，您会收到本网站服务人员的电话回访，请务必配合确认提货状态和反馈意见。本网站衷心感谢您的配合与帮助！</p>
+<p>7）在填写《礼品兑换订单》的时候，请尽量提供您预约提货时间，以方便我们备货；在您过期未提货的情况下，您会收到我们的服务人员和/或海洋馆工作人员给您的电话提醒。如果您没有填写该预约时间，我们的服务人员也会给您电话进一步确认。</p>
+<p>本换购规则的解释权归贴心网网站和上海海洋馆水族馆。</p>
+				<div class="foot">
+					<a href="#top">Top</a>				
+				</div>
+				
+			</div>
+
+			<div class="section">
+				<a name="process"></a>
+				<h2>参加流程</h2>
+				<% if @current_user -%>
+					<p>你好，<%= @current_user.nick_name%>。您现在的可用积分是：<%= @current_user.available_experience %>经验分和<%= @current_user.available_credit%>信誉分。
+						您可以使用积分加现金兑换礼品。<%= link_to '立即兑换', 'http://www.x-navi.cn/campaign/gifts' %>
+					</p>
+				<% else -%>
+					<p>如果您还没有注册贴心网，请先<%= link_to '注册', new_member_path %>。</p>
+					<p>如果您已经有贴心网的帐号，请先<%= link_to '登录', new_session_path %>。</p>
+					<p>登录以后，您就可以兑换礼品了。</p>
+				<% end %>
+				<p>在完成兑换申请后，请持登记的有效身份证件到<a href="http://www.x-navi.cn/hot_spots/54585">上海海洋水族馆</a>付款，领取“欢乐卡”及其它礼品。 </p>
+				<div class="foot">
+					<a href="#top">Top</a>
+				</div>
+			</div>
+			
+			<div class="section">
+				<a name="links"></a>
+				<h2>友情链接</h2>
+				<p>
+					<a href="http://www.sh-aquarium.com/" target="_blank">上海海洋水族馆官方网站</a>
+				</p>
+				<div class="foot">
+					<a href="#top">Top</a>
+				</div>
+			</div>
+			
+			<div class="section">
+				<a name="phones"></a>
+				<h2>联系电话</h2>
+				<ul class="list">
+					<li>贴心网服务电话：021-55660535(工作时间), 13818187791 (9:00到21:00)</li>
+					<li>上海海洋水族馆咨询专线021-58778033, 58779988-335</li>
+				</ul>
+				<div class="foot">
+					<a href="#top">Top</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+</body>

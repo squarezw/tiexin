@@ -1,0 +1,1 @@
+page.replace_html 'tags', :partial=>'/tags/tags', :locals=>{:hot_spot_tags=>@hot_spot.most_frequent_tags(@hot_spot.id)}            

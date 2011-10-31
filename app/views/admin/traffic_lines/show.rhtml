@@ -1,0 +1,69 @@
+<% @page_title = _('Traffice Line %{name}') % { :name => h(localized_description(@line, :name)) }
+   @side_menu = 'master_data' -%>
+
+<table class="form_container">
+	<tr>
+		<td width="15%" rowspan="2"><%= s_('TrafficLine|Name') %></td>
+		<td width="15%"><%= _('Chinese') %></td>
+		<td width="*"><%= h(@line.name_zh_cn) %></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= _('English') %></td>
+		<td width="*"><%= h @line.name_en %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= s_('TrafficLine|Line type')%></td>
+		<td><%= user_friendly_code :traffic_type, @line.line_type %>
+	</tr>
+	<tr>
+		<td width="15%" rowspan="2"><%= s_('TrafficLine|Introduction') %></td>
+		<td width="15%"><%= _('Chinese') %></td>
+		<td width="*"><pre><%= h @line.introduction_zh_cn %></pre></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= _('English') %></td>
+		<td width="*">
+		<pre><%= h @line.introduction_en %></pre></td>
+	</tr>
+	<tr>
+		<td width="15%" rowspan="2"><%= s_('TrafficLine|Operation time') %></td>
+		<td width="15%"><%= _('Chinese') %></td>
+		<td width="*"><pre><%= h @line.operation_time.zh_cn %></pre></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= _('English') %></td>
+		<td width="*">
+		<pre><%= h @line.operation_time.en %></pre></td>
+	</tr>
+	<tr>
+		<td colspan="3" class="button_bar">
+			<%= link_to _('Edit'), edit_manage_traffic_line_path(@line), :class => :button %>
+		</td>
+	</tr>
+</table>
+
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<td width="40%"><%= _('Stops/Stations') %></td>
+		<td><%= _('Add new stop/station')%></td>
+	</tr>
+	<tr>
+		<td width="40%">
+			<ul id="lst_traffic_stops" class="list">
+				<%= render :partial => 'traffic_stop', :collection => @line.traffic_stops %>
+			</ul>
+		</td>
+		<td width="*">
+			<% form_remote_tag :url => search_hot_spots_manage_traffic_line_path(@line), :method=>:post, :update=>'hot_spot_search_result', :before=>"$('hourglass').show()", :after=>"$('hourglass').hide()" do  -%>
+			<input type="text" name="keyword" id="candidate_hot_spot_name" size="30">
+			<%= submit_tag _('Search')%> 
+			<span id="hourglass" style="display:none"><%= image_tag 'ajaxloading.gif'%></span>
+			<% end -%>
+			<ul id="hot_spot_search_result" class="list">
+			</ul>
+		</td>
+	</tr>
+
+</table>
+
+<%= sortable_element 'lst_traffic_stops', :url => sort_manage_traffic_line_stops_path(@line), :method => :post   %>

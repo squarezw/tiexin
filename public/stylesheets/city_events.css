@@ -1,0 +1,116 @@
+div#map_area {
+	float: left;
+	background: white;
+	width: 644px;
+}
+
+div#map_area div.head {
+	height: 24px;
+	background: url('../images/city_events_map_head_bg.jpg');
+	padding-top: 5px;
+	padding-bottom: 2px;
+        overflow: hidden;
+}
+
+div#map_area div.head ul.simple_menu {
+	margin-left: 20px;
+}
+
+div#map_area div.head ul.simple_menu li {
+	line-height: 24px;
+	height: 24px;
+	font-size: 14px;
+	padding: 0 10px;
+	font-weight: bold;
+}
+
+div#map_area div.head ul.simple_menu li.selected {
+	background: white;
+}
+
+div#map_area div.head ul.simple_menu li a {
+	color: #003267;
+}
+
+div#map_area div.body {
+	border: 1px solid #CFCFCF;
+	border-top: none;
+	padding: 1px;
+}
+
+div#map_area div#map {
+	border: none;
+}
+
+div#tags_area {
+	border: 1px solid #CFCFCF;
+	border-top: none;
+	padding: 5px 15px;
+	font-size: 14px;
+	background-color: #ECECEC;
+}
+
+div#events_area {
+        overflow: hidden;
+	margin-left: 652px !important;
+	*margin-left: 648px;
+}
+
+div#event_list {
+	margin-top: 5px;
+	padding: 10px;
+}
+
+div#event_list div.event {
+	margin-bottom: 15px;
+}
+
+div.event span.event_name {
+	font-size: 1.1em;
+}
+
+div#calendar div.head {
+	background: url('../images/homepage/calendar_bg.gif') top right no-repeat;
+	height: 33px;
+	*width: 298px;
+}
+div#calendar div.head table.layouter {
+	width: 100%;
+}
+
+div#calendar div.head table.layouter td {
+	text-align: center;
+	padding: 0px;
+	padding-top: 1px;
+	height: 32px;
+	width: 64px;
+}
+
+div#calendar div.head table.layouter td.calendar_date {
+	width: 169px;
+	background: url('../images/homepage/week_bg.gif') bottom center no-repeat;
+	line-height: 32px;
+	font-size:14px;
+	font-weight: bold;
+}
+
+div#calendar table.calendar {
+	width: 297px;
+	margin-left: 1px !important;
+	*margin-right: 1px;
+	border: none;
+}
+
+div#calendar table.calendar th {
+	height: 18px;
+	line-height: 18px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div#calendar table.calendar td {
+	height: 18px;
+	line-height: 18px;
+	font-size: 14px;
+}
+

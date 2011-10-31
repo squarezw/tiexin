@@ -1,0 +1,19 @@
+<% page_title _('Error Log')
+   side_menu 'master_data' -%>
+
+<h2><%= _('Error Log')%></h2>
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= s_('ErrorLog|Created at')%></th>
+		<th width="*"><%= _('ErrorLog|Request uri')%></th>
+	</tr>
+	
+	<% for log in @error_logs -%>
+		<tr>
+			<td><%= link_to format_time(log.created_at), admin_error_log_path(log), :target=>'_blank'%></td>
+			<td><%= h(log.request_uri)%></td>
+		</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @error_logs %>

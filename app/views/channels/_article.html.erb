@@ -1,0 +1,4 @@
+<div class="article">
+	<p class="article_summary"><span class="author"><%= h(article.member.nick_name)%></span>:<%= link_to h(article.subject), article%></p>
+	<p><%= h(truncate(article.summary, 80))%></p>
+</div>

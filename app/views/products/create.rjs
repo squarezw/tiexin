@@ -1,0 +1,6 @@
+page << "if (product_created) {"
+page.call 'product_created', @product.id
+page << "} else {"
+  page.insert_html :bottom, 'products_list', render(:partial=>'product', :object=>@product)
+  page.visual_effect :pulsate, product_div_id(@product), :pulses=>1    
+page << "}"

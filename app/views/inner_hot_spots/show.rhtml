@@ -1,0 +1,41 @@
+<div class="head">
+	<div class="tool_bar">
+		<% unless (positions = @hot_spot.positions_in_hot_spot(@container_hot_spot)).empty? -%>
+			<%= link_to_function image_tag('goto_marker.gif', :alt=>_('Show position on layout map.')),
+								 show_position (positions.first),
+								:title=>_('Show position on layout map.')  %>  
+	    <% else -%>
+			<%= link_to_function image_tag('mark_position.gif', :alt=>_('Click on the layout map to mark position for this hot spot.') ),
+						 "mark_position(#{@hot_spot.id})",
+						:title=>_('Click on the layout map to mark position for this hot spot.') if @current_user %>
+	
+		<% end -%>
+	    <% if current_is_admin? -%>
+			<%= link_to_remote image_tag('remove.gif'), {:url=>hot_spot_inner_hot_spot_path(@hot_spot.container, @hot_spot), :confirm=>_('Are you sure?'), :method=>:delete}, {:title=>_('Remove this hot spot from inner hot spot list.')}  %>
+		<% end -%>	
+	</div>	
+	<h3><%= category_path_str @hot_spot.hot_spot_category, true %></h3>
+</div>
+
+<div class="body">
+		<div class="hot_spot_picture">
+			<%= picture_tag_for_hot_spot @hot_spot %>
+		</div>
+		
+		<div class="basic_information">
+			<div class="score_image"><%= hot_spot_score_stars @hot_spot %></div>
+			<h4<%= link_to h(localized_description(@hot_spot, :name)), hot_spot_path(@hot_spot), :target=>'_blank' %></h4>
+
+			<p><%= h(localized_description(@hot_spot, :address))%></p>
+
+			<p><%= _('HotSpot|Phone number') %>:&nbsp;<%= h(@hot_spot.phone_number)%></p>
+		</div>
+		<div class="detail_information">
+			<p><%= most_frequent_tags_of_hot_spot @hot_spot %></p>
+			<p class="hot_spot_introduction"><%= h(truncate(localized_description(@hot_spot, :introduction), 100))%></p>
+		</div>
+                               
+		<div class="detail_info_link">
+			<%= link_to _('Detail Information...'), hot_spot_path(@hot_spot), :target=>'_blank' %>
+		</div>
+</div>                

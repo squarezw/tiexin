@@ -1,0 +1,19 @@
+<% page_title _('Manage Replies') 
+   include_css_file 'forums'
+   side_menu 'master_data' -%>
+
+<dl>
+<% for reply in @replies -%>
+<% if reply.deleted -%>
+<dt class="deleted">
+<% else -%>
+<dt>
+<% end -%>
+<%= _('Reply To') %>:[<%= link_to h(reply.post.forum.name), forum_path(reply.post.forum) %>]&nbsp;<%= link_to h(reply.post.title), forum_post_path(reply.post.forum, reply.post)%> ─ <%= link_to h(reply.member.nick_name), member_path(reply.member)%>&nbsp;<span class="time">(<%= format_time reply.updated_at %>)</span>&nbsp;(<%= user_friendly_code :reply_check_status, reply.check_status%>)</dt>
+<dd>
+	<%= link_to h(truncate(strip_bbcode(reply.content), 100)), manage_reply_path(reply), :target=>'_blank'%>
+</dd>
+<% end -%>
+</dl>
+
+<%= page_navigator @replies %>

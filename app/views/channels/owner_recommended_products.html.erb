@@ -1,0 +1,29 @@
+<div class="head">
+	<h3><%= _('Owner Recommended Products')%></h3>	
+</div>
+<div class="body">
+	<table class="layouter">
+		<tr>
+			<td class="previous_page">
+				<% unless (prev = @products.previous_page).nil? -%>
+					<%= link_to_remote image_tag('left_arrow_2.gif'), :update=>'owner_recommended_products', :url=>params.merge(:page=>prev), :method=>:get %>
+				<% end -%>
+			</td>
+			<td class="content">
+				<% for product in @products -%>
+				<div class="product">
+					<% if product.photo -%>
+						<div class="product_photo"><%= image_tag product.photo.thumb.url %></div>
+					<% end -%>
+					<%= link_to h(localized_description(product, :name)), product_path(vendor_type(product.vendor), product.vendor, product), :popup=>true %>
+				</div>
+				<% end -%>
+			</td>
+			<td class="next_page">
+				<% unless (nxt = @products.next_page).nil? -%>
+					<%= link_to_remote image_tag('right_arrow_2.gif'), :update=>'owner_recommended_products', :url=>params.merge(:page=>nxt), :method=>:get %>
+				<% end -%>
+			</td>
+		</tr>
+	</table>
+</div>

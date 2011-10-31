@@ -1,0 +1,8 @@
+<div class="hot_spot">
+	<span class="name"><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target => '_blank' %></span>
+	<% if hot_spot.container -%>
+		(<%= link_to _('In %{container}') % { :container=>h(localized_description(hot_spot.container, :name))}, hot_spot_path(hot_spot.container), :target=>'_blank'%>)
+	<% end -%>
+	<p class="address"><%= h(localized_description(hot_spot, :address))%></p>
+	<p class="introduction"><%= truncate(h(localized_description(hot_spot, :introduction)), 100) %></p>
+</div>

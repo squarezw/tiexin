@@ -1,0 +1,73 @@
+<% @page_title=_('Edit Member') 
+  use_remote_dialog
+  include_js_file 'yui/yahoo', 'yui/event', 'yui/dom', 'fckeditor/fckeditor'
+  side_menu side_menu_for_member(@member) -%>
+<% content_for 'page_scripts' do -%>
+	
+	function quick_upload () {
+          dialog.retrieve_remote_form('/fckeditor/to_quick_upload');
+    }
+
+    function insert_img(image_url,alt){
+        id = '<%= fckeditor_element_id('member', 'sign')%>'
+        var oEditor = FCKeditorAPI.GetInstance(id) ;
+        oEditor.InsertHtml('<img src="'+image_url+'" alt="'+alt+'" >') ;
+    }
+
+<% end -%>
+<%= error_messages_for :member %>   
+            
+<% form_tag member_path(@member), :method=>:put, :multipart=>true do -%>
+<table class="form_container" width="60%">
+	<tr>
+		<td width="20%"><%= s_('Member|Nick name') %></td>
+		<td width="*"><%= text_field :member, :nick_name, :size=>20 %>
+                      <span id="nick_name_check_result">
+			<%= observe_field 'member_nick_name', :url => { :controller=>'members', :action=>'check_nick_name' }, :update=>'nick_name_check_result', :with => "'id=#{@member.id}&nick_name=' + value"  %>
+                      </span>
+		</td>
+	</tr>
+	<tr>
+		<td width="25%"><%= s_('Member|Password') %></td>
+		<td><%= password_field_tag 'member[password]', '', :size=> 20 %>
+			<p class="help"><%= _("Can contain alphabet, digit, '.', '-' and '_'. The length must between 6 and 15.") %></p>
+			<p class="help"><%= _('Leave it blank if you do not want to modify password.') %></p></td>
+	</tr>                                                     
+	<tr>
+		<td><%= s_('Member|Password confirmation') %></td>
+		<td><%= password_field_tag 'member[password_confirmation]', '', :size=>20 %></td>
+	</tr>                          
+	<tr>
+		<td><%= s_('Member|Mail')%></td>
+		<td><%= text_field :member, :mail, :size=>30 %><br/> <%=_('If you modify email address, system will send an confirm email to new mail address. Please follow the instruction in that email for confirm modification.')%></td>
+	</tr> 
+	<tr>
+		<td><%= s_('Member|Mobile phone')%></td>
+		<td><%= text_field :member, :mobile_phone, :size=>20 %></td>
+	</tr>
+	<tr>
+		<td><%= s_('Member|Favorite lang')%></td>
+		<td><%= select :member,:favorite_lang, (XNavi::SUPPORT_LANGS.collect { |lang| [_(lang.to_s), lang.to_s]} ) %></td>
+	</tr>        
+	<tr>
+		<td rowspan="2"><%= s_('Member|Logo')%></td>
+		<td><%= safe_member_logo @member %></td>
+	</tr>
+	<tr>
+		<td><%= upload_column_field :member, :logo %></td>
+	</tr>   
+	<tr>
+		<td><%= s_('Member|Sign')%></td>
+		<td>
+                    <span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 1000 }  %></span>
+                    <%= fckeditor_textarea("member", "sign", :toolbarSet => 'Simple2', :width => '100%', :height => '300px') %>
+                </td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Save')%>
+			<input type="reset" />
+		</td>
+	</tr>        
+</table>
+<% end -%>

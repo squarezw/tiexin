@@ -1,0 +1,2 @@
+<% @promotions = @hot_spot.effective_promotions :page=>1, :per_page=>5 %>
+<%=render :partial =>"/promotions/promotion", :collection=> @promotions %>

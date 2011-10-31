@@ -1,0 +1,2 @@
+page.insert_html :bottom, 'folder_table', :partial=>'folder', :object=>@folder
+page.visual_effect :pulsate, element_id(@folder), :pulses=>1      

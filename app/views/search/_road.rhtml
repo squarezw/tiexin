@@ -1,0 +1,4 @@
+<li id="<%= element_id(road) %>" class="search_result_road">
+	<% middle_point = road.middle_point %>
+	<%= link_to_function h(localized_description(road, :name)), "goto_position(7, #{middle_point.x}, #{middle_point.y})" %>
+</li>

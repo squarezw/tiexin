@@ -1,0 +1,17 @@
+<div class="event">
+	<p>
+	<span class="vendor">
+		[<% if event.vendor.is_a? HotSpot -%>
+			<%= link_to_function h(localized_description(event.vendor, :name)), "show_hot_spot_marker(#{event.vendor_id})"%>
+		<% else -%>
+			<%= h(localized_description(event.vendor, :name))%>
+		<% end -%>]
+	</span>
+	<span class="event_name">
+		<%= link_to h(localized_description(event, :summary)), event_path(class_name_for_url(event.vendor), event.vendor, event), :popup=>true %>
+	</span>
+	</p>
+	<p class="date">
+		<%= date_range_str event.begin_date, event.end_date %>
+	</p>
+</div> 

@@ -1,0 +1,11 @@
+<% page_title _('New Gift') 
+   include_js_file 'yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor'
+   include_css_file 'calendar' 
+   side_menu 'master_data' -%>
+
+<%= error_messages_for :gift %>
+
+<% form_for :gift,:url => admin_gifts_path,:html =>{:multipart => true} do |form|%>
+<%= render :partial => "form", :object=>form %>
+<% end -%>
+

@@ -1,0 +1,13 @@
+@hot_spots.each do |hot_spot|
+  if hot_spot.x
+    add_hot_spot_marker page, hot_spot 
+  elsif hot_spot.container and hot_spot.container.x
+    add_hot_spot_marker page, hot_spot.container
+  end
+end
+
+page.replace_html 'search_result_list', render(:partial=>'paginate_hot_spots')
+
+page.hide 'detail_infor_pane'
+
+page.visual_effect 'slide_down', 'search_result_list'

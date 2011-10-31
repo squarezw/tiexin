@@ -1,0 +1,39 @@
+<div id="form_error" class="errors">
+	
+</div>                            
+
+<% remote_upload_form_tag :url=>product_path(vendor_type(@vendor), @vendor, @product), :html=>{:method => :put } do -%>
+
+<table class="form_container">       
+	<tr>
+		<td width="15%" rowspan="2"><label class="required"><%= s_('Product|Name') %></label></td>
+		<td width="15%"><label><%= _('Chinese') %></label></td>
+		<td><%= text_field :product, :name_zh_cn, :size=>30, :maxlength => 100 %></td>
+	</tr>                                                                             
+	<tr>
+		<td><label><%= _('English')%></label></td>
+		<td><%= text_field :product, :name_en, :size=>30, :maxlength=>100 %></td>
+	</tr> 
+	<tr>
+		<td width="15%" rowspan="2"><label class="required"><%= s_('Product|Introduction') %></label></td>
+		<td width="15%"><label><%= _('Chinese') %></label></td>
+		<td><%= text_area :product, :introduction_zh_cn, :cols=>30, :rows=>5, :maxlength => 1000 %></td>
+	</tr>                                                                             
+	<tr>
+		<td><label><%= _('English')%></label></td>
+		<td><%= text_area :product, :introduction_en, :cols=>30, :rows=>5, :maxlength=>1000 %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('Product|Photo') %></label></td>
+		<td><%= upload_column_field :product, :photo %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('Product|Price') %></label></td>
+		<td><%= text_field :product, :price %></td>
+	</tr>         
+</table>
+<% end -%>                                                                       
+
+<%= update_page_tag do |page|
+	   page.call 'dialog.show_with_title', _('Recommend Product or Service') 
+	end -%>

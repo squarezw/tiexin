@@ -1,0 +1,11 @@
+<p>您好：<%=  @member.nick_name %></p>
+
+<p>贴心网向您推荐专题：<%= @topic.title %></p>
+<p><%= link_to image_tag(@topic.cover_pic.url), topic_url(@topic, :host=>XNavi::HOST_NAME) %>
+
+<p><%= h(@topic.summary) %></p>
+
+<p><%= link_to '点这里访问详细内容', topic_url(@topic, :host=>XNavi::HOST_NAME )%></p>
+
+
+<p>贴心网(http://www.tiexin.com)</p>

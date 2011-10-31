@@ -1,0 +1,41 @@
+<% page_title _('Reply') + ':' + h(@post.title) 
+   include_js_file 'editor','tiny_mce/tiny_mce.js', 'tiny_mce/compress'
+   include_css_file 'forums', 'editor'
+   select_menu :forums -%>
+
+<div class="navigation_bar">
+	<%= link_to _('All Forums'), forums_path %> > <%= link_to h(@forum.name), forum_posts_path(@forum) %> 
+</div>
+
+<%= error_messages_for :reply %>
+
+<% form_for :reply, @reply, :url=>forum_post_replies_path(@forum, @post), :html=>{:multipart=>true} do |f| -%>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label><%= s_('Post|Title') %></label></td>
+		<td><%= link_to h(@post.title), forum_post_path(@forum, @post)%></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= _('Content')%></label></td>
+		<td><%#= bbcode_editor :reply_content %>
+		</td>		
+	</tr>
+	<tr>
+		<td><%= f.text_area :content, :cols=>80, :rows=>20, :class=>"mceEditor" %>
+			<p class="help"><%= _('The length must between %{minimum} and %{maximum}') % {:minimum=>5, :maximum=>10000}  %></p>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Attachment')%></label></td>
+		<td><%= upload_column_field :reply, :attachment, :size=>60 %>
+			<p class="help"><%= _('Only jpg, jpeg, png and gif file is accepted.')%></p>
+		</td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit')%>
+			<input type="reset"/>
+		</td>
+	</tr>
+</table>
+<% end -%>

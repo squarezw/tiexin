@@ -1,0 +1,3 @@
+page.call '$("frm_taboo_word").reset'    
+page.insert_html :bottom, 'tbl_taboo_words', render(:partial=>'taboo_word', :object => @taboo_word)
+page.visual_effect :pulsate, element_id(@taboo_word), :pulses=>1        

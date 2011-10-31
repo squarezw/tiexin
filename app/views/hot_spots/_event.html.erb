@@ -1,0 +1,10 @@
+<div class="event_summary">
+	<p class="summary"><%= link_to h(localized_description(event.summary, :name)), event_path(vendor_type(event.vendor), event.vendor_id, event.id), :target=>'_blank'%></p>
+	<% if event.banner -%>
+		<p class="banner"><%= image_tag event.banner.url %></p>
+	<% end -%>
+	<% unless event.content.nil? -%>
+		<p class="content"><%= h(truncate(strip_bbcode(localized_description(event.content, :name)), 100))%></p>
+	<% end -%>
+	<p class="date"><%= date_range_str event.begin_date, event.end_date %></p>
+</div>

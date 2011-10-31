@@ -1,0 +1,21 @@
+<div class="section">
+	<div class="header">
+		<h3><%= _('Photos')%></h3>
+	</div>    
+	
+	<div class="body">
+		<div id="random_photo">
+			
+		</div>
+		<%= javascript_tag(remote_function(:url => random_photos_path(owner_type(owner), owner.id), :method=>:get, :update => 'random_photo')) %>   
+						
+		<%= periodically_call_remote(:url => random_photos_path(owner_type(owner), owner.id), 
+										   :frequency=>120, 
+										   :update => 'random_photo',
+										   :method=>:get ) %>
+	</div>         
+	
+	<div class="foot">
+		<%= link_to _('All...'), photos_path(owner_type(owner), owner.id), :target=>'_blank' 	%>
+	</div>
+</div>

@@ -1,0 +1,36 @@
+<% @page_title = _('Check Comment') 
+   @side_menu = 'master_data' %>       
+
+<table class="form_container" width="100%">
+	<tr>
+		<td width="20%"><%= _('Comment Target')%></td>
+		<td><%= h(localized_description(@comment.commentable, :name))%></td>
+	</tr>                                                                   
+	<tr>
+		<td><%= _('Target Type') %></td>
+		<td><%= _("#{@comment.commentable.class.to_s.underscore.humanize.downcase}")%></td>
+	</tr> 
+	<tr> 
+		<td><%= _('Author')%></td>
+		<td><%= h(@comment.member.nick_name)%></td>
+	</tr>                                          
+	<tr>
+		<td><%= _('Comment|Created at')%></td>
+		<td><%= format_time(@comment.created_at)%></td>
+	</tr>                                              
+	<tr>   
+		<td><%= _('Comment|Content') %></td>
+		<td>
+		<pre class="article"><%= highlight_taboo_words(bbcodeize(h(@comment.content)))%></pre>
+		</td>
+	</tr>                 
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= link_to _('Pass!'), pass_waiting_check_comment_path(@comment), :method => :post,  :class=>'button' %>
+			<%= link_to _('Delete'), waiting_check_comment_path(@comment), :method=>:delete, :class => 'button' %>
+		</td>
+	</tr>
+	
+</table>
+   
+

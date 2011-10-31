@@ -1,0 +1,25 @@
+<% form_remote_tag :url => search_for_add_hot_spot_inner_hot_spots_path(@container_hot_spot), :update=>'panel_body' do %>
+<%= hidden_field_tag :layout_map_id, params[:layout_map_id] %>
+<%= hidden_field_tag :x, params[:x] %>
+<%= hidden_field_tag :y, params[:y] %>
+<table class="form_container">
+	<tr>
+		<td width="20%"><%= _('Keyword') %></td>
+		<td><%= text_field_tag :keyword, params[:keyword], :size=>20, :id=>'tf_keyword' %><%= submit_tag _('Search') %></td>
+	</tr>
+</table>
+<% end -%>
+
+<ul class="list">
+	<% for hot_spot in @hot_spots -%>
+	<li><%= link_to_function h(localized_description(hot_spot, :name)), 
+							"new_position(#{params[:x]}, #{params[:y]}, #{hot_spot.id})" %>&nbsp;&nbsp;&nbsp;&nbsp;[<%= h(localized_description(hot_spot.hot_spot_category, :name))%>]<br/>
+		<%= h(localized_description(hot_spot, :address))%></li>
+	<% end -%>
+</ul>
+
+<%= remote_page_navigator @hot_spots, 'panel_body', request.method, :params=>params %>
+
+<%= update_page_tag do |page| 
+		page.call 'panel.show_with_title', _('Search Hot spot to add.')
+    end -%>  

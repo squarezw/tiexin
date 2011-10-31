@@ -1,0 +1,28 @@
+<% @page_title = _('Manage Owner Applications') 
+   @side_menu = 'master_data' -%>
+
+<table class="data_list">
+	<tr>
+		<td width="15%"><%= s_('OwnerApplication|Member')%></td>
+		<td width="10%"><%= _('City') %></td>
+		<td width="*"><%= _('Target')%></td>
+		<td width="20%"><%= s_('OwnerApplication|Created at')%></td>
+		<td width="8%"><%= _('Operation') %></td>
+	</tr>
+	<% for app in @applications -%>
+	  <tr>
+		<td><%= link_to h(app.member.nick_name), member_path(app.member), :target => '_blank' %></td>
+		<td>
+			<% if app.target.respond_to? :city -%>
+				<%= h(localized_description(app.target.city, :name))%>
+			<% end -%>
+		</td>
+		<td>[&nbsp;<%= _(app.target.class.to_s.underscore.humanize.downcase)%>&nbsp;]
+		<%= link_to h(localized_description(app.target, :name)), target_path(app.target), :target=>'_blank' %></td>
+		<td><%= format_time app.created_at %></td>
+		<td><%= link_to _('Review'), owner_application_path(app)%></td>
+	  </tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @applications %>

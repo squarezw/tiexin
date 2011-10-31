@@ -1,0 +1,15 @@
+<% if @revises.empty? -%>
+	<%= _('There are no revises for this hot spot.') %>
+<% end -%>
+
+<div id="div_revise_list">
+	<%= render	:partial=>'revise', :collection=>@revises%>	
+</div>
+
+<%= remote_page_navigator @revises, 'div_revise_section', :get %>
+					
+<% if @current_user -%>
+<div id="div_revise_form">
+	<%= render :partial=>'new' %>
+</div>
+<% end -%>					

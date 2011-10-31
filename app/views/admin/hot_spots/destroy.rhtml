@@ -1,0 +1,8 @@
+<% @page_title=_('Hot Spot Deleted') %>
+<p>
+<%= _("'%{name}' has been deleted.") % {:name=>h(localized_description(@hot_spot, :name))}  %>
+<%= _('Now you can ')%>
+<%= link_to _('Go to home page,'), main_path %>
+<%= _(' or ')%>
+<%= link_to _('manage other hot spots.'), waiting_approve_manage_hot_spots_path %>
+</p>

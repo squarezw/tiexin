@@ -1,0 +1,19 @@
+<% content_for :page_scripts do -%>
+    <%= remote_function :url=>manage_mobile_brand_mobile_models_path(1), :update=>'xnavi-mobile-models', :method=>:get %>
+<%end%>
+
+<h3>贴心网口袋版目前支持的手机品牌</h3>
+<div class="xnavi-mobile-brands clearfix">
+  <ul>
+    <%= render :collection => @mobile_brands, :partial=>'/admin/mobile_brands/mobile_brand' %>
+  </ul>
+</div>
+<%if @current_user and @current_user.is_admin?%>
+  <div class="button_bar">
+          <%= link_to _('New Mobile Model'), new_manage_mobile_model_path, :class => :button %>
+  </div>
+<%end%>
+<h3>贴心网口袋版目前支持的手机型号</h3>( 选择您的手机品牌，页面下方会显示目前贴心网口袋版支持的手机型号。)
+<div class="xnavi-mobile-models" id="xnavi-mobile-models">
+
+</div>

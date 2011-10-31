@@ -1,0 +1,28 @@
+<% page_title "#{_('Partner')}:#{@partner.name}" 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Edit'), edit_admin_partner_path(@partner), :class=>:button %>
+</div>
+<table class="form_container">
+	<tr>
+		<td width="15%"><%= s_('Partner|Code')%></td>
+		<td width="*"><%= @partner.code%></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= s_('Partner|Name')%></td>
+		<td width="*"><%= @partner.name%></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= s_('Partner|Phone number')%></td>
+		<td width="*"><%= @partner.phone_number%></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= s_('Partner|Contact person')%></td>
+		<td width="*"><%= @partner.contact_person%></td>
+	</tr>
+	<tr>
+		<td width="15%"><%= s_('Partner|Mail')%></td>
+		<td width="*"><%= @partner.mail %></td>
+	</tr>
+</table>

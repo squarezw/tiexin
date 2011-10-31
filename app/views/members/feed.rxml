@@ -1,0 +1,14 @@
+xml.instruct!
+xml.rss(:version=>'2.0') do   
+  xml.channel do
+    xml.title(@member.nick_name)
+    xml.link(formatted_member_url(@member, :rss)) 
+    xml.webMaster(XNavi::ADMIN_EMAIL)
+    xml.pubDate(Time.now.rfc822)
+    xml.lastBuildDate(@articles[0].updated_at.rfc822) unless @articles.empty?
+    xml.generator(rss_generator)  
+    
+    articles_to_rss_items xml, @articles  
+  end   
+
+end

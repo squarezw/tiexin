@@ -1,0 +1,21 @@
+<% @page_title = _('Districts') 
+   @side_menu = 'master_data' %>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_district_path, :class => :button %>
+</div>
+
+<table class="data_list" width="98%">
+	<tr>
+		<th width="15%"><%= s_('City')%></th>
+                <th width="35%"><%= s_('District|Name')%></th>
+		<th><%= _('Operation')%></th>
+	</tr>
+	<% for district in @districts -%>
+		<tr>
+                    <td><%= h(localized_description(district.city, :name))%></td>
+                    <td><%= h(localized_description(district, :name))%></td>
+                    <td><%= link_to _('Edit'), edit_admin_district_path(district) %></td>
+		</tr>
+	<% end -%>
+</table>	

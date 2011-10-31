@@ -1,0 +1,3 @@
+@category.children.each do |cat|                  
+  page.call 'add_sub_node', @category.id, cat.id, render(:partial=>'category', :object => cat)
+end

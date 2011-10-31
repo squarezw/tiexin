@@ -1,0 +1,7 @@
+<div id="<%= zoom_level_div_id(zoom_level)%>">
+<%= image_tag zoom_level.map_file.large.url %>
+<%= s_('ZoomLevel|Size')%>:<%= zoom_level.map_file_width%>x<%= zoom_level.map_file_height%>
+<%= s_('ZoomLevel|Scale')%>: <%= zoom_level.scale %>  
+<%= link_to_remote _('Delete'), :url=>manage_zoom_level_path(layout_map, zoom_level), :confirm => _('Are you sure?'), :method => :delete %>
+</div>
+

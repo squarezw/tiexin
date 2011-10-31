@@ -1,0 +1,44 @@
+<style>
+*{
+    margin:0px;
+    padding:0px;
+}
+table.form_container {
+	border-collapse: collapse;
+	border: 4px solid #F5F4EF;
+	width: 98%;
+}
+
+table.form_container td {
+	border: 1px solid #D8D8D8;
+	text-align: left;
+	padding: 4px;
+        font-size:12px;
+}
+
+table.form_container label {
+	text-align: right;
+}
+.required_mark {
+	color: red;
+}
+</style>
+<% remote_upload_form_tag :url => {:action => "quick_upload"} do -%>
+<table class="form_container">
+    <tr>
+            <td width="15%"><%= s_('NaviPhoto|Subject')%><label class="required_mark">*</label></td>
+            <td><%= text_field :photo, :subject, :size=>20 %></td>
+    </tr>
+    <tr>
+            <td><%= s_('NaviPhoto|Photo') %><label class="required_mark">*</label></td>
+            <td><%= upload_column_field :photo, :photo, :size=>20%>
+                    <p class="comment">
+                            <%= _('Only jpg, jpeg, png and gif file is accepted.')%>
+                    </p></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag _('Submit')%></td>
+    </tr>
+</table>
+<% end -%>

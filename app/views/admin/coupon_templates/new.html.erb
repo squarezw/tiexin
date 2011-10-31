@@ -1,0 +1,9 @@
+<% page_title _('New Coupon Template')
+   side_menu 'master_data' -%>
+
+
+<%= error_messages_for :coupon_template %>
+
+<% form_for :coupon_template, @coupon_template, :url=>admin_coupon_templates_path do |form| -%>
+<%= render :partial=>'form', :object=>form %>
+<% end -%>

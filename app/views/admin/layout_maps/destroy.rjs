@@ -1,0 +1,2 @@
+page.remove layout_map_div_id(@layout_map)
+

@@ -1,0 +1,9 @@
+<p>亲爱的<%= @receiver %>:</p>
+<p>  <%= @from%>向你推荐<%= link_to h(localized_description(@hot_spot, :name)), 
+			@url %>。 你可以在以下URL查看详细信息：</p>
+<p><%= @url %></p>
+<% unless @note.nil? or @note.blank? -%>
+<p><%= @from %>的留言</p>
+<p><%= @note %></p>
+<% end %>
+<%= _('X-Navi') %>

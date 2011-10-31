@@ -1,0 +1,13 @@
+<% @page_title = _('Edit Mobile OS') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   @side_menu = 'master_data'
+-%>
+   
+<div class="button_bar">
+	<%= link_to _('Back'), manage_navi_star_path(@navi_star), :class => :button %>
+	<%= link_to _('All Mobile Models'), manage_navi_stars_path, :class => :button %>
+</div>
+<% form_for :navi_star,:url => manage_navi_star_path(@navi_star), :html =>{:multipart => true, :method => "put"} do |f|%>
+<%=render :partial => "form",:object => f%>
+<%end -%>

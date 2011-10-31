@@ -1,0 +1,29 @@
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('ChannelDailyContent|Title') %></label></td>
+		<td width="*"><%= form.text_field :title, :size=>50%>
+				<span class="help"><%= _('Can not be longer than %{length}') % {:length=>100}  %></span>
+		</td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('ChannelDailyContent|Display at')%></label></td>
+		<td><%= form.text_field :display_at, :size=>10%><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_daily_content_display_at', :class=>'image',:href=>'javascript:void(0)' %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('ChannelDailyContent|Content') %></label></td>
+		<td><%= fckeditor_textarea("channel_daily_content", "content", :toolbarSet => 'Simple2', :width => '100%', :height => '300px') %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('ChannelDailyContent|Picture')%></label></td>
+        <td><%= form.upload_column_field 'picture'  %></td>
+	</tr>        
+	<tr>
+		<td colspan="2" class="button_bar"><%= submit_tag _('Submit')%></td>
+	</tr>
+</table>
+
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_daily_content_display_at', :date_field=>'channel_daily_content_display_at'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y'), 
+			   :selected=> @channel_daily_content.display_at.strftime('%m/%d/%Y') }
+%>

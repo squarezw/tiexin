@@ -1,0 +1,57 @@
+<h2><%= _('Search Results for %{kw}') % {:kw=>params[:keyword]}  %></h2>
+<% unless @hot_spots.empty? -%>
+<div class="section"> 
+	<div class="head">
+		<h3><%= _('Hot Spots')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+		<%= render :partial=>'hot_spot', :collection=>@hot_spots %>
+		</ul>
+	</div>
+	<% if @hot_spots_count > 5 -%>
+	<div class="foot">
+		<%= link_to_remote show_all_link(@hot_spots_count), :url=>{:controller=>'main', :action=>'show_all_result', :keyword=>params[:keyword], :category=>'hot_spot'} %>
+	</div>
+	<% end -%>
+</div>
+<% end -%>
+
+<% unless @areas.empty? -%>
+<div class="section">
+	<div class="head">
+		<h3><%= _('Areas')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+		<%= render :partial=>'area', :collection=>@areas %>
+		</ul>
+	</div>
+	<% if @areas_count > 5 -%>
+	<div class="foot">
+		<%= link_to_remote show_all_link(@areas_count), :url=>{:controller=>'main', :action=>'show_all_result', :keyword=>params[:keyword], :category=>'area'} %>
+	</div>
+	<% end -%>
+</div>
+<% end -%>
+        
+<% unless @traffic_lines.empty? -%>  
+<div class="section">
+	<div class="head">
+		<h3><%= _('Traffic Line')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+			<%= render :partial=>'traffic_line', :collection => @traffic_lines %>
+		</ul>
+	</div>
+	<% if @traffic_lines_count > 5 -%>
+	<div class="foot">
+		<%= link_to_remote show_all_link(@traffic_lines_count), :url=>{:controller=>'main', :action=>'show_all_result', :keyword=>params[:keyword], :category=>'traffic_line'} %>
+	</div>
+	<% end -%>
+</div>
+<% end -%>
+
+
+

@@ -1,0 +1,21 @@
+<table class="form_container">
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('City') %></label></td>
+		<td width="60%"><%=form.select :city_id,@cities, {:prompt => _('Select City')}%></td>
+	</tr>
+        <tr>
+		<td rowspan="2"><label class="required"><%= s_('District|Name')%></label></td>
+		<td><label><%= _('Chinese')%></label></td>
+		<td width="60%"><%= form.text_field :name_zh_cn, :size => 30 %> <span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></span></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English')%></label></td>
+		<td><%= form.text_field :name_en, :size => 30 %> <span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></span></td>
+	</tr>
+	<tr>
+		<td colspan="3" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

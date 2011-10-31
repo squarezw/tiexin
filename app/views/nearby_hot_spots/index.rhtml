@@ -1,0 +1,25 @@
+<div align="right">
+<%= render :partial=>'search_form' %>
+</div>
+<div id='search_result_list'>
+<table class="data_list" width="98%">
+	<tr>
+		<th width="*">
+                    <%= link_to_remote s_('HotSpot|Name'), :url=>params.merge(:order_by=>"name_#{@current_lang}", :page=>1), :update => 'div_nearby_section', :method => :get %>
+                </th>
+		<th width="25%">
+                    <%= link_to_remote s_('HotSpot|Address'), :url=>params.merge(:order_by=>"address_#{@current_lang}", :page=>1), :update => 'div_nearby_section', :method => :get %>
+                </th>
+		<th width="25%">
+                    <%= link_to_remote s_('Hot Spot Category'), :url=>params.merge(:order_by=>'hot_spot_category_id', :page=>1), :update => 'div_nearby_section', :method => :get %>
+         </th>
+		<th width="12%">
+			<%= link_to_remote _('Distance(M)'), :url=>params.merge(:order_by=>'distance', :page=>1), :update => 'div_nearby_section', :method =>:get %>
+		</th>
+	</tr>
+        <% unless @hot_spots.empty? -%>
+            <%= render :partial=>'hot_spot', :collection=>@hot_spots %>
+        <%end%>
+</table>
+<%= remote_page_navigator @hot_spots, 'div_nearby_section', :get %>
+</div>

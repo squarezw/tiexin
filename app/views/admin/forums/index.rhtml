@@ -1,0 +1,23 @@
+<% @page_title = _('Manage Forums') 
+   side_menu :master_data -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_forum_path, :class=>:button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="30%"><%= s_('Forum|Name')%></th>
+		<th width="*"><%= s_('Forum|Description')%></th>
+		<th width="20%"><%= _('Operation') %></th>
+	</tr>
+	<% for forum in @forums -%>
+	<tr>
+		<td><%= link_to h(forum.name), edit_manage_forum_path(forum.id) %></td>
+		<td><%= h truncate(forum.description, 30)%></td>
+		<td><%= link_to _('Edit'), edit_manage_forum_path(forum.id) %>
+			<%= link_to _('Delete'), manage_forum_path(forum.id), :confirm=>_('Are you sure?'), :method=>:delete %>
+		</td>		
+	</tr>
+	<% end -%>
+</table>

@@ -1,0 +1,15 @@
+     <li>
+            <%=mobile_os.name%> 
+          <p>
+            <%if mobile_os.navi_star %>
+             <%= link_to  mobile_os.navi_star.get_version, url_for(:controller=>'/download', :action=>'download', :platform => mobile_os.name,
+               :release => mobile_os.navi_star.release, :major => mobile_os.navi_star.major, :minor => mobile_os.navi_star.minor, :suffix => mobile_os.navi_star.suffix)%>
+            <%end%>
+          </p>
+          <% if @current_user and @current_user.is_admin?%>
+          <p>
+          <%= link_to _('Edit'), edit_manage_mobile_os_path(mobile_os) %>
+          <%= link_to _('Delete'), manage_mobile_os_path(mobile_os), :confirm => _('Are you sure?'), :method => :delete %>
+          </p>
+          <%end%>
+     </li>

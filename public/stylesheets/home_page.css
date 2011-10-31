@@ -1,0 +1,554 @@
+body {
+	background: none;
+}
+
+div#banner {
+	top: 0px;
+}
+
+div#main_wrapper {
+	background: none;
+	width: 950px;
+}
+
+div#time {
+	top: 129px;
+	left: 173px;
+}
+
+div#weather {
+	top: 129px;
+	left: 480px;
+}
+
+div#bulletins {
+	position: absolute;
+	top: 42px;
+	left: 626px;
+	height: 63px;
+	line-height: 18px;
+	width: 313px;
+	overflow: hidden;
+	font-size: 14px;
+}
+
+div#bulletins h2 {
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+
+div#bulletin_body {
+	height: 42px;
+	overflow: hidden;
+}
+
+div#row_2 {
+	margin-top: 10px;
+	position: relative;
+}
+
+div#search_area {
+	background: url('../images/homepage/search_area_bg.gif') top center no-repeat;
+	width: 778px;
+	height: 258px;
+	overflow: hidden;
+}
+
+div#city_menu {
+	margin-left: 0;
+	position: absolute;
+	top: 155px;
+	left: 0px;
+	width: 910px;
+	background: url('../images/homepage/city_menu_bg.gif') top left no-repeat;
+	height: 67px;
+	padding: 0 40px;
+}
+
+div#city_menu li {
+	margin-top: 19px;
+	float: left;
+	list-style: none;
+	color: black;
+	text-align: center;
+	margin-right: 5px;
+	font-size: 16px;
+	height: 28px;
+	line-height: 28px;
+	font-weight: bold;
+}
+
+div#city_menu li.selected {
+	background-image: url('../images/homepage/selected_city_bg.png') !important;
+	background-image: none;
+	*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=crop, src='/images/homepage/selected_city_bg.png');
+	width: 60px;
+}
+
+div#city_menu li.future {
+	color: #666;
+	font-size: 14px;
+	margin-left: 5px;
+}
+
+div#main_menu {
+	padding-left: 6px;
+	*padding-left: 3px;
+	padding-top: 5px;
+}
+
+div#main_menu div.button {
+	float: left;
+	margin-left: 3px;
+	*margin-left: 2px;
+	width: 92px;
+	height: 105px;
+	background-color: white;
+	text-align: center;
+	font-size: 14px;
+	font-family: 宋体, serif;
+	font-weight: bold;
+}
+
+div#main_menu div.button div.picture_container {
+	background-color: white;
+	margin-bottom: 3px;
+	height: 94px;
+	width: 94px;
+	overflow: hidden;
+	position: relative;
+}
+
+div#main_menu div.button div.picture_container div.picture {
+	position: absolute;
+	left: 0;
+}
+
+div#main_menu div.button div.picture_container div.picture:hover {
+	top: -96px;
+}
+
+div#main_menu div.button div.picture_container div.hover {
+	top: -96px;
+}
+
+div#page_content {
+	background: none;
+	width: 950px;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+
+div#main_function {
+	background: none;
+}
+
+div#main_area {
+}
+
+div#row1 {
+	position: relative;
+}
+
+div#partner_campaign {
+	display: none;
+	position: absolute;
+	left: 788px;
+	top: 0px;
+}
+
+div#hot_topics {
+	position: absolute;
+	left: 788px;
+	top: 0px;
+	width: 162px;
+	height: 258px;
+	overflow: hidden;
+	background: url('../images/homepage/hot_topic_bg_0101.jpg') center left no-repeat;
+	font-size: 14px;
+}
+
+#hot_topics_content {
+	position: absolute;
+	left: 4px;
+        right: 2px;
+	top: 110px;
+        background: none repeat scroll 0 0 #FFFFFF;
+        font-size: 12px;
+        padding: 3px;
+}
+
+div#mobile_app {
+	position: absolute;
+	left: 687px;
+	top: 0px;
+	width: 263px;
+	height: 285px;
+}
+
+div#mobile_app div.head {
+	background-image: url('../images/homepage/mobile_app_head_bg.jpg');
+	height: 30px;
+	line-height: 30px;
+}
+
+div#mobile_app div.head h3 {
+	margin: 0px;
+	text-align: center;
+	color: #666;
+}
+
+div#mobile_app div.body {
+	background-image: url('../images/homepage/mobile_app_bg.jpg');
+	height: 255px;
+}
+
+div#mobile_app div.button_bar {
+	position: absolute;
+	top: 230px;
+	width: 263px;
+	height: 38px;
+	background: url('../images/homepage/mobile_app_button_bg.gif');
+	background-position: top center;
+	background-repeat: no-repeat;
+	line-height: 38px;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div#mobile_app div.button_bar a {
+	color: #333;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div#recommended_tags {
+	clear: both;
+	height: 57px;
+	width: 750px;
+	margin: 0 auto;
+	padding-top: 15px;
+	overflow: auto;
+}
+
+div#recommended_tags a {
+	font-size: 14px;
+	color: #34669b;
+}
+
+div#search_bar {
+	height: 35px;
+	padding: 15px;
+}
+
+div#search_bar input.search_button
+{
+	background-image: url('../images/homepage/but_search.png');
+	height: 31px;
+	width: 55px;
+}
+
+div#activity {
+	display: none;
+	position: absolute;
+	left: 454px;
+	top: 0px;
+}
+
+div#activity div {
+	margin: 0px;
+	padding: 0px;
+}
+
+div#activity img {
+	margin: 0px;
+	padding: 0px;
+	border: none;
+}
+
+div#row_3 {
+	margin-top: 10px;
+	position: relative;
+}
+
+div#event_calendar {
+	width: 297px;
+	height: 650px;
+}
+
+div#event_calendar div.head {
+	position: relative;
+	height: 33px;
+	width: 297px;
+	background: url('../images/homepage/calendar_bg.gif') top left no-repeat;
+	font-size: 14px;
+	font-weight: bold;
+	*font-family: 宋体, serif;
+}
+
+div#week_day_area {
+	border-left: 1px solid #BFBFBF;
+	border-right: 1px solid #BFBFBF;
+}
+
+div#event_calendar div.head div#previous_month {
+	position: absolute;
+	top: 1px;
+	left: 27px;
+	height: 32px;
+	width: 22px;
+}
+
+div#event_calendar div.head div#next_month {
+	position: absolute;
+	top: 1px;
+	left: 248px;
+	height: 32px;
+	width: 22px;
+}
+
+div#event_calendar div.head div#calendar_date {
+	position: absolute;
+	top: 1px;
+	left: 64px;
+	background-image: url('../images/homepage/week_bg.gif');
+	height: 32px;
+	line-height: 32px;
+	width: 169px;
+	text-align: center;
+}
+
+div#week_day_area table {
+	width: 231px;
+	margin: 0 auto;
+}
+
+div#week_day_area table th {
+	width: 33px;
+	height: 26px;
+	line-height: 26px;
+	text-align: center;
+	color: #666;
+	font-size: 14px;
+	font-weight: bold;
+	*font-family: 宋体, serif;
+}
+
+div#dates_area table {
+	width: 297px;
+	background: url('../images/homepage/date_area_bg.gif');
+}
+
+div#dates_area table td {
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	*font-family: 宋体, serif;
+}
+
+div#dates_area table td a {
+	color: white;
+}
+
+div#dates_area table td.arrow_cell {
+	width: 33px;
+}
+
+td#arrow_previous_week {
+	padding-left: 0px;
+}
+
+td#arrow_next_week {
+	padding-right: 0px;
+}
+
+div#dates_area table td.date_cell {
+	width: 33px;
+	color: white;
+}
+
+div#dates_area table td.today_cell {
+	width: 33px;
+	color: #333;
+	background: url('../images/homepage/today_bg.gif');
+}
+
+div#event_calendar div#event_calendar_body {
+	height: 510px;
+	font-size: 12px;
+	border-left: 1px solid #BFBFBF;
+	border-right: 1px solid #BFBFBF;
+	padding: 10px 0px;
+	overflow: auto;
+}
+
+div#event_calendar div.foot {
+	background: url('../images/homepage/calendar_bg.gif') bottom left no-repeat;
+	text-align: right;
+	height: 26px;
+	line-height: 26px;
+	border-top: 1px solid #CFCFCF;
+	padding-right: 10px;
+}
+
+div#latest_contents {
+	position: absolute;
+	left: 307px;
+	top: 330px;
+	width: 644px;
+	height: 320px;
+	background: url('../images/homepage/recommend_bg.gif') top left no-repeat;
+}
+
+div#latest_contents div.head {
+	height: 33px;
+	line-height: 33px;
+}
+
+div#latest_contents div.head h3 {
+	margin-top: 0;
+	margin-left: 20px;
+	color: #666;
+}
+
+div#latest_contents div.body {
+	height: 277px;
+	padding: 5px 10px;
+	overflow: auto;
+}
+
+div#latest_contents div.column div.head {
+	height: 26px;
+	line-height: 26px;
+}
+
+div#latest_contents div.column div.head h4 {
+	margin: 0;
+}
+
+div#latest_contents table.layouter{
+	width: 100%;
+}
+
+div#latest_contents div.article {
+	margin-bottom: 0.5em;
+}
+
+div#latest_comments div.comment {
+	margin-bottom: 1em;
+	font-size: 1em;
+}
+
+div#latest_comments div.comment p.hot_spot_name{
+	font-size: 1.1em;
+}
+
+div#recommended {
+	position: absolute;
+	left: 307px;
+	top: 0px;
+	width: 644px;
+	height: 320px;
+	background: url('../images/homepage/recommend_bg.gif') top left no-repeat;
+}
+
+div#recommended div.head {
+	height: 33px;
+	line-height: 33px;
+}
+
+div#recommended div.head h3 {
+	margin-top: 0;
+	margin-left: 20px;
+	color: #666;
+}
+
+div#recommended div.body {
+	margin: 0 auto;
+	padding: 5px;
+}
+
+div#recommended div.block {
+	width: 105px !important;
+	*width: 105px;
+	float: left;
+	height: 134px;
+	overflow: hidden;
+}
+
+div#recommended div.block div.picture {
+	width: 90px;
+	height: 90px;
+	padding: 1px;
+	margin: 0 auto;
+	border: solid 1px #CFCFCF;
+	overflow: hidden;
+}
+
+div#recommended div.block div.picture td {
+	vertical-align: middle;
+	text-align: center;
+	height: 90px;
+	width: 90px;
+}
+
+div#recommended div.block h3 {
+	text-align: center;
+	font-size: 12px;
+	*font-family: 宋体, serif;
+	font-weight: normal;
+	margin: 3px 2px;
+}
+
+div.event {
+	padding: 0 10px;
+	margin: 1em 0;
+}
+
+div.event:first-child {
+	margin-top: 0px;
+}
+
+div.event h3 {
+	margin: 0px;
+}
+
+div.event p.place {
+	margin-left: 2em;
+	color: #666;
+}
+
+div.event p.place a {
+	font-size: 14px;
+}
+
+div.event p.summary {
+	font-size: 1.2em;
+}
+
+div.event p.address {
+	margin-left: 2em;
+}
+
+div.event p.date {
+	text-indent: 2em;
+}
+
+div.event p.content {
+	margin: 0 2em;
+}
+
+div#invite_to_join {
+	float: right;
+	background-color: white;
+}
+div#city_photo{
+    width:674px;
+    height:283px;
+    overflow:hidden;
+}

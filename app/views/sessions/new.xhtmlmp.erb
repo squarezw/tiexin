@@ -1,0 +1,12 @@
+<% page_title _('Login') -%>  
+
+<% form_tag sessions_path, :id=>'login_form' do -%>
+	<%= hidden_field_tag :forward_to,  @forward_to %>
+
+	<p><%= _('Member|Login name') %>:&nbsp;<%= text_field_tag :login_name, params[:login_name], :size=>'15' %></p>
+	<p><%= _('Member|Password') %>:&nbsp;<%= password_field_tag :password, nil, :size=>'20' %></p>
+	<p><%= _('Verification code')%>:&nbsp;<%= text_field_tag(:captcha_code, nil, :size=>8)%><%= _('Input alphabets and digits shown in following picture. All alphabets are in upper case.') %></p>
+	<p><%= image_tag('/captcha.jpg', :size=>'140x50', :alt=>'CAPTCHA code', :id=>'img_captcha') %></p>
+	<p><%= submit_tag _('Login') %></p>
+
+<% end -%>

@@ -1,0 +1,24 @@
+<% page_title _('Coupon Templates') 
+   side_menu 'master_data' -%>
+
+<h2><%= _('Coupon Templates')%></h2>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_coupon_template_path, :class=>:button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('CouponTemplate|Content')%></th>
+		<th width="20%"><%= _('Operation') %></th>
+	</tr>
+	<% for template in @templates -%>
+	<tr>
+		<td><%= h(template.content) %></td>
+		<td>
+			<%= link_to _('Edit'), edit_admin_coupon_template_path(template)%>
+			<%= link_to _('Delete'), admin_coupon_template_path(template), :confirm=>_('Are you sure?'), :method=>:delete %>
+		</td>
+	</tr>
+	<% end -%>
+</table>

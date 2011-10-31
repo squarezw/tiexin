@@ -1,0 +1,32 @@
+<div id="category_shortcuts">
+	<%= _('Hot Spot Category Shortcuts')%>:&nbsp;<%= (HotSpotCategory.common_categories.collect {|cat| link_to_function h(localized_description(cat, :name)), "search_nearby_category(#{cat.id}, #{@x}, #{@y})"}).join(',&nbsp;') -%>
+</div>
+<hr/>
+<% form_remote_tag :url => {:controller=>'search', :action=>'advanced_search', :id=>@current_city.id } do -%>
+<%= hidden_field_tag :x, @x %>
+<%= hidden_field_tag :y, @y %>
+<%= hidden_field_tag :scope_mode, 'nearby'%>
+<table class="form_container">
+	<tr>
+		<td width="30%"><%= _('Name contains') %>:</td>
+		<td width="70%"><%= text_field_tag :keyword, params[:keyword], :size=>40 %></td>
+	</tr>
+	<tr>
+		<td><%= _('Scope')%></td>
+		<td><p><%= scope_selector %></p></td>
+	</tr>
+	<tr>
+		<td><%= _('Hot spot category')%>:</td>
+		<td><%= hotspot_category_select_tag 'hot_spot_category_id', true, [_('All'), ''] %>
+		</td>
+	</tr>
+	<tr>
+		<td><%= _('Has Tag')%>:</td>
+		<td><%= text_field_tag :tag, params[:tag], :size=>40 %></td>
+	</tr>
+</table>
+<% end -%>
+
+<%= update_page_tag do |page| 
+		page.call 'dialog.show_with_title', _('Seach Nearby')
+	end -%>

@@ -1,0 +1,93 @@
+<table class="form_container">
+	<% if @event.new_record? -%>
+	<tr>
+		<td colspan="2" width="20%">
+		</td>
+		<td>
+			<%= check_box_tag :is_promotion, 'true' %><%= _('It is a promotion campaign.')%>
+			<%= observe_field :is_promotion, :function=>"if (value == 'true') { Form.Element.disable('event_event_category_id'); } else { Form.Element.enable('event_event_category_id'); }"%>
+		</td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td rowspan="2" width="10%"><label class="required"><%= _('Event|Summary') %></label></td>
+		<td width="10%"><label><%= _('Chinese') %></label></td>
+		<td width="*"><%= form.text_field :summary_zh_cn%></td>
+	</tr>
+	<tr>
+		<td ><label><%= _('English') %></label></td>
+		<td width="*"><%= form.text_field :summary_en, :size=>50 %></td>
+	</tr>
+	<% unless @event.is_a?(Promotion) -%>
+	<tr>
+		<td colspan="2"><label><%= s_('Event|Event category')%></label></td>
+		<td><%= form.select :event_category_id, event_category_select_for(@event) %></td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td rowspan="4"><label><%= _('Event|Content') %></label></td>
+		<td rowspan="2"><label><%= s_('Chinese') %></label></td>
+		<td><%= bbcode_editor :event_content_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :content_zh_cn, :rows=>15, :cols=>70 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= s_('English') %></label></td>
+		<td><%= bbcode_editor :event_content_en %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :content_en, :rows=>15, :cols=>70 %></td>
+	</tr>
+	<% if @vendor.is_a? Brand -%>
+        <tr>
+           <td colspan="2"><%=_('Applied cities')%></td> 
+           <td>
+              <% for city in City.find(:all) %>
+                  <%= check_box_tag 'cities[]', city.id,@event.cities.include?(city) %> <%= h(localized_description(city, :name)) %>
+              <%end%>
+          </td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td colspan="2"><label><%= s_('Event|Banner')%></label></td>
+                <td><%= form.upload_column_field 'banner'  %><p class="help"><%=_('help on event banner') %></p></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('Event|Post')%></label></td>
+                <td><%= form.upload_column_field 'post'  %><p class="help"><%=_('help on event post.') %></p></td>
+	</tr>        
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('Event|Begin Date')%></label></td>
+                <td><%= form.text_field :begin_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_event_begin_date', :class=>'image',:href=>'javascript:void(0)' %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('Event|End Date')%></label></td>
+                <td><%= form.text_field :end_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar2()', :id=>'link_event_end_date', :class=>'image',:href=>'javascript:void(0)'%></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('Event|Reference url')%></label></td>
+		<td><%= form.text_field :reference_url, :size=>40 %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= _('Tags')%></label></td>
+		<td><%= text_field_tag :tags, @tags_string, :size=>60 %>
+			<p class="help"><%= _('Help for event tags.')%></p>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_event_begin_date', :date_field=>'event_begin_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>
+<%= calendar :calendar2, 
+			 {:anchor_element=>'link_event_end_date', :date_field=>'event_end_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>

@@ -1,0 +1,25 @@
+<% page_title 'Manage Blog Articles'
+   side_menu 'master_data' -%>
+
+<h2><%= _('Manage Blog Articles')%></h2>
+
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('Article|Subject')%></th>
+		<th width="20%"><%= s_('Article|Member') %></th>
+		<th width="15%"><%= s_('Article|Created at')%></th>
+		<th width="10%"><%= s_('Article|Check status') %></th>
+		<th width="15%"><%= s_('Operation') %></th>
+	</tr>
+	<% for article in @articles -%>
+	<tr>
+		<td><%= link_to h(article.subject), admin_article_path(article), :target=>'_blank' %></td>
+		<td><%= link_to article.member.nick_name, show_member_path(article.member)%></td>
+		<td><%= format_time article.created_at %></td>
+		<td><%= user_friendly_code(:article_check_status, article.check_status)%></td>
+		<td></td>
+	</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @articles %>

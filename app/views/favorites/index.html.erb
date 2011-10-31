@@ -1,0 +1,15 @@
+<% @page_title = _('Favorite created by %{user}') % { :user => h(@member.nick_name) } 
+   side_menu side_menu_for_member(@member) 
+   @css_files= ['favorite']
+ -%>
+
+<div class="top_hot_spot_list" >
+    <div class="body">
+           <% for hot_spot in @hot_spots -%>
+                  <%= render :partial=>'/hot_spots/summary_detail', :locals=>{:hot_spot=>hot_spot} %>
+                  <%= link_to _('Delete'), {:controller => 'favorites' ,:action => 'destroy', :hot_spot_id => hot_spot,:member_id => @member}, :method=>:delete, :confirm=>_('Are you sure?') if @current_user == @member%>
+           <% end -%>
+    </div>
+</div>
+
+<%= page_navigator @hot_spots %>

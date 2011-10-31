@@ -1,0 +1,2 @@
+<li><b><%=link_to comment.member.nick_name, member_path(comment.member)%></b> :</li>
+<li><%= link_to truncate(bbcodeize(h(comment.content)), 100), article_path(comment.commentable)%></li>

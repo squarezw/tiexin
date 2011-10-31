@@ -1,0 +1,13 @@
+<%= error_messages_for 'mobile_os' %>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('MobileModel|Name') %></label></td>
+                <td><%= form.text_field :name, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

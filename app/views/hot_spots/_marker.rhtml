@@ -1,0 +1,37 @@
+<div>
+	<% unless (pic = small_picture_for_hot_spot(hot_spot)).nil? -%>
+	<div class="small_hot_spot_picture">
+		<%= image_tag pic.url %>		
+	</div>
+	<% end -%>
+	
+	<p><span class="hot_spot_name"><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target=>'_blank' %></span><span class="category">[<%= h(localized_description(hot_spot.hot_spot_category, :name)) %>]</span>
+	<% unless hot_spot.layout_maps_has_zoom_levels.blank? -%>
+		[<%= link_to _('Layout Maps'), layout_maps_path(layoutable_type(hot_spot), hot_spot) %>]
+	<% end -%>
+	</p>
+	<p><%=hot_spot_score_stars(hot_spot.score)%></p>
+	<p><%=render :partial=>'/scores/score', :locals=>{:hot_spot=>hot_spot}%></p>
+	<p class="address">
+		<%= h(localized_description(hot_spot, :address))%>
+	<% if hot_spot.container -%>
+		- <%= _('Located In')%><%= link_to h(localized_description(hot_spot.container, :name)), hot_spot_path(hot_spot.container), :target=>'_blank' %>
+	<% end -%>
+	</p>
+
+
+	<p><%= h(hot_spot.phone_number)%></p>
+
+	<p><%= _('HotSpotTag|Tag')%>:&nbsp;<%= most_frequent_tags_of_hot_spot hot_spot%></p>
+
+	<p class="hot_spot_introduction"><%= h(localized_description(hot_spot, :introduction))%></p>	
+	
+	<div class="button_bar">
+		<%= link_to _('Detail'), hot_spot %>
+		<%= link_to_function _('Search Nearby'), "search_nearby(#{hot_spot.id})" %>
+	</div>
+</div>
+<% if hot_spot.is_traffic_stop? -%>
+<p><%= s_('Pass Through Traffic Line')%>: &nbsp;<%= traffic_lines_pass_throuth(hot_spot)%></p>
+<% end -%>
+

@@ -1,0 +1,11 @@
+<div class="xnavi_promotionlist_pic">
+  <center>
+<% if promotion.banner %>
+      <%=link_to promotion_banner(promotion),promotion_path(promotion.vendor_type,promotion.vendor_id,promotion),:target => "_blank"%>
+<%else%>
+      <%=promotion.vendor.name[@current_lang]%><br/>
+      <h4><%=link_to bbcodeize(h(promotion.summary[@current_lang])),promotion_path(promotion.vendor_type,promotion.vendor_id,promotion),:target => "_blank"%></h4>
+      <%="#{promotion.begin_date.to_date} #{_('to')} #{promotion.end_date.to_date}" if promotion.begin_date && promotion.end_date%>
+<%end%>
+    </center>
+</div>

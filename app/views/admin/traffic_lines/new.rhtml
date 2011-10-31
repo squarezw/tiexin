@@ -1,0 +1,46 @@
+<% @page_title=_('New Traffic Line') 
+   @side_menu = 'master_data' -%>
+
+<%= error_messages_for :line %>
+
+<% form_for :line, @line, :url=>manage_traffic_lines_path do |f| -%>
+<table class="form_container">
+	<tr>
+		<td width="15%" rowspan="2"><label class="required"><%= s_('TrafficLine|Name') %></label></td>
+		<td width="15%"><label><%= _('Chinese') %></label></td>
+		<td width="*"><%= f.text_field :name_zh_cn, :size=>40 %><span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 100 }  %></span></td>
+	</tr>
+	<tr>
+		<td width="15%"><label><%= _('English') %></label></td>
+		<td width="*"><%= f.text_field :name_en, :size=>40 %><span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 100 }  %></span></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('TrafficLine|Line type')%></label></td>
+		<td><%= f.select :line_type, options_for_codes(TrafficLine::TYPES, :traffic_type) %>
+	</tr>
+	<tr>
+		<td width="15%" rowspan="2"><label><%= s_('TrafficLine|Introduction') %></label></td>
+		<td width="15%"><label><%= _('Chinese') %></label></td>
+		<td width="*"><%= f.text_area :introduction_zh_cn, :size=>'40x5' %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label><%= _('English') %></label></td>
+		<td width="*"><%= f.text_area :introduction_en, :size=>'40x5' %></td>
+	</tr>
+	<tr>
+		<td width="15%" rowspan="2"><label><%= s_('TrafficLine|Operation time') %></label></td>
+		<td width="15%"><label><%= _('Chinese') %></label></td>
+		<td width="*"><%= f.text_area :operation_time_zh_cn, :size=>'40x5' %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label><%= _('English') %></label></td>
+		<td width="*"><%= f.text_area :operation_time_en, :size=>'40x5' %></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="3">
+			<%= submit_tag _('Create') %>
+		</td>
+	</tr>
+</table>
+<% end -%>
+

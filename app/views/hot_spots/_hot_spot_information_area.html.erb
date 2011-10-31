@@ -1,0 +1,89 @@
+<div id="side_bar_2">
+	<div id="div_hot_spot_photos">
+		<div id="div_random_photo">
+
+		</div>
+		<div class="foot">
+			<%= link_to _('All(%{number})') % {:number=>@hot_spot.photos.count}, photos_path(owner_type(@hot_spot), @hot_spot.id), :target=>'_blank' %>
+			<% if @current_user -%>
+				| <%= link_to_function _('Upload Photo'),"upload_photo()", :target=>'_blank' %>
+			<% end -%>
+		</div>
+	</div>
+
+
+		<%= javascript_tag(remote_function(:url => random_photos_path(owner_type(@hot_spot), @hot_spot.id), :method=>:get, :update => 'div_random_photo')) %>   
+
+		<%= periodically_call_remote(:url => random_photos_path(owner_type(@hot_spot), @hot_spot.id), 
+										   :frequency=>30, 
+										   :update => 'div_random_photo',
+										   :method=>:get ) %>
+
+    <% zoom_level = @hot_spot.find_a_zoom_level
+	   if current_is_admin? or zoom_level -%>										
+		<div id="layout_maps">
+			<% if zoom_level -%>
+				<%= link_to _('Layout Maps'), 
+					    layout_maps_path(layoutable_type(@hot_spot), @hot_spot.id) %>
+			<% else -%>
+				<%= link_to _('Layout Maps'), manage_layout_maps_path(@hot_spot) %>
+			<% end -%>
+		</div>
+	<% end -%>
+	
+	<% if @current_user and @hot_spot.hot_spots.count == 0 -%>
+		<div id="but_inner_hot_spots">
+			<%= link_to _('Inner Hot Spots'), formatted_hot_spot_inner_hot_spots_path(@hot_spot, :html) %>
+		</div>
+	<% end %>
+</div>
+
+<div id="hot_spot_detail">
+	<table class="layouter">
+		<tr>
+			<td width="4%"><%= image_tag 'op_time.gif', :title=>s_('HotSpot|Operation time') %></td>
+			<td width="46%"><%= h(localized_description(@hot_spot, :operation_time))%></td>
+			<td width="4%"><%= image_tag 'price_memo.gif', :title=>s_('HotSpot|Price memo') %></td>
+			<td width="46%"><%= h(@hot_spot.price_memo)%></td>
+		</tr>
+		<tr>
+			<td><%= image_tag 'park_slot.gif', :title=>s_('HotSpot|Parking slot') %></td>
+			<td><%= user_friendly_code :parking_slot, @hot_spot.parking_slot %></td>
+			<td><%= image_tag 'homepage.gif', :title=>s_('HotSpot|Home page') %></td>
+			<td><% home_page = @hot_spot.effective_home_page
+				   unless home_page.nil? or home_page.empty? -%>
+					<%= link_to home_page, home_page, :popup=>true %>				
+				<% end -%>
+			</td>
+		</tr>
+		<% if @hot_spot.hot_spot_category.is_traffic_stop? -%>
+		<tr>
+			<td><label><%= image_tag 'traffic_line.gif', :title=>_('Pass Through Traffic Line') %></label></td>
+			<td  colspan="3">
+				<%= (@hot_spot.traffic_lines.collect { |line| link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})" }).join(',&nbsp;') %>
+			</td>
+		</tr>
+		<% end -%>
+	</table>	
+
+	<h3><%= "#{h(localized_description(@hot_spot, :name))}#{s_('HotSpot|Introduction')}"%></h3>
+	<div id="hot_spot_introduction">
+	<% intro = h(localized_description(@hot_spot, :introduction)) 
+	   unless intro.blank? -%>
+		<pre class="article"><%= intro %></pre>
+	<% else -%>
+            <%if @hot_spot.brand%>
+                <pre class="article"> <%= h(@hot_spot.brand.intro)%></pre>
+             <%else%>
+		<%= _('There are no introduction now.')%>
+            <%end%>
+	<% end -%>
+	</div>
+	<div class="button_bar">
+		<% if @current_user -%>
+		  <%= link_to_function _('Recommend'), 'recommend_to_friend()', :title=>_('Recommend to friend.'), :class=>:button %>
+		  <%= link_to_function _('New Tag'), "create_tag()", :title=>_('Add a new tag.'), :class=>:button %>
+                  <%= link_to_function _('Add to favorite.'), "create_favorite()", :title=>_('Add to favorite.'), :class=>:button unless @current_user.have_favorite(@hot_spot.id) %>
+		<% end -%>
+	</div>
+</div>

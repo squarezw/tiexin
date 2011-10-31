@@ -1,0 +1,43 @@
+<% page_title 'Error Log' -%>
+
+<table class="form_container">
+	<tr>
+		<td width="15%"><%= s_('ErrorLog|Created at')%></td>
+		<td widht="*"><%= format_time @error_log.created_at %></td>
+	</tr>
+	<% if @error_log.member -%>
+	<tr>
+		<td><%= s_('ErrorLog|Member')%></td>
+		<td><%= link_to @error_log.member.nick_name, show_member_path(@error_log.member), :target=>'_blank' %></td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td><%= s_('ErrorLog|Request uri')%></td>
+		<td><%= h(@error_log.request_uri) %></td>
+	</tr>
+		<tr>
+			<td><%= s_('ErrorLog|Error messages')%></td>
+			<td><pre class="article">
+	<%= h(@error_log.error_messages) %></pre>
+			</td>
+		</tr>
+	<tr>
+		<td><%= s_('ErrorLog|Http headers')%></td>
+		<td>
+			<pre class="article">
+<%= h(@error_log.http_headers) %></pre>
+		</td>
+	</tr>
+	<tr>
+		<td><%= s_('ErrorLog|Parameter')%></td>
+		<td><pre class="article">
+<%= h(@error_log.parameters) %></pre>
+		</td>
+	</tr>
+	<tr>
+		<td><%= s_('ErrorLog|Stack trace')%></td>
+		<td><pre class="article">
+<%= h(@error_log.stack_trace) %></pre>
+		</td>
+	</tr>
+</table>

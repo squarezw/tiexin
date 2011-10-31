@@ -1,0 +1,9 @@
+<div class="brand">
+	<div class="body">
+		<div class="brand_pic">
+		<%=link_to brand.pic ? safe_brand_icon(brand):"<img src='/images/nopic.jpg'>",brand_path(brand),:target => "_blank"%>
+		</div>
+	  	<h4><%= link_to h(localized_description(brand, :name)), brand_path(brand), :target => '_blank' %></h4>
+	  	<p><%= truncate(strip_bbcode(brand.intro || ''), 70) %></p>	
+	</div>
+</div>

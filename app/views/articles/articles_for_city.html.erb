@@ -1,0 +1,34 @@
+<% page_title _('Articles related with %{city_name}.') % {:city_name=>h(localized_description(@current_city, :name))} 
+   include_css_file 'article'  %>
+
+<% for article in @articles -%>
+<div class="article_summary with_member_logo">
+	<div class="member_logo">
+		<p>		<%= safe_member_logo article.member %></p>
+		<p><%= link_to h(article.member.nick_name), member_path(article.member)%></p>
+	</div>
+	
+	<div class="header">
+		<h3><%= link_to h(article.subject), member_article_path(article.member, article) , :target=>'_blank'  %></h3>
+	</div>
+	
+	<div class="body">
+		<pre class="article"><%= h(truncate(strip_bbcode(article.content), 100)) %></pre>
+	</div>
+	
+	<div class="foot">
+		<p>
+			<%= link_to _('Read whole article'), member_article_path(article.member, article), :target=>'_blank' %>
+		</p>
+		<p>
+		<% if article.updated_at == article.created_at -%>
+			<%= s_('Article|Created at')%>:&nbsp;<%= format_time article.created_at %>
+		<% else -%>
+			<%= s_('Article|Updated at')%>:&nbsp;<%= format_time article.updated_at %>
+		<% end -%>
+		</p>
+	</div>
+</div>
+<% end %>
+
+<%= page_navigator @articles %>

@@ -1,0 +1,52 @@
+<% @page_title = _('Hot Spot Tag created by %{user}') % { :user => h(@member.nick_name) } 
+   side_menu side_menu_for_member(@member) 
+   @css_files=['tags']
+-%>
+<% content_for :page_scripts do -%>
+    function renew_tag_hotspot (tag,tag_id) {    
+        new Ajax.Updater('tag_main', encodeURI('/members/<%= @member.id %>/posted_tags/hot_spots_has_tag?tag=' + tag), {method: 'GET'});
+        <%if @hot_spot_tags%>
+            shining(tag_id,<%=@hot_spot_tags.size%>)
+        <%end%>        
+    }
+    function shining(tag_id,tags_count){
+        for (var i = 1; i < tags_count; ++i) {
+            $('tag_'+i).className = ''
+        }
+        $('tag_'+tag_id).className = 'tag_shining'
+    }
+<%end%>
+
+<table class="layouter" width="100%">
+	<tr>
+		<td width="20%">
+		    <div class="section">
+				<div class="header">
+					<h3><%= _('Hot Spot Tags')%></h3>
+				</div>
+
+				<div class="body">
+			            <%@hot_spot_tags.each_with_index do |hot_spot_tag,i|  %>
+			              <p id='tag_<%=i+1%>'>
+		                                 <%=link_to_function(hot_spot_tag.tag, "renew_tag_hotspot('#{hot_spot_tag.tag}',#{i+1});")%>(<%=hot_spot_tag.ct%>)
+		                             </p>
+			            <%end%>
+				</div>
+				
+				<div class="foot"></div>
+		    </div>
+		</td>
+		
+		<td width="*">
+			<div class="tag_main_member section"  id ="tag_main">
+
+			</div>
+		</td>
+
+	</tr>
+</table>
+<% if @tag  -%>
+<%=update_page_tag do |page|     
+  page.call 'renew_tag_hotspot', @tag,1
+end -%>
+<% end -%>

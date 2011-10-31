@@ -1,0 +1,149 @@
+<% content_for :page_scripts do -%>
+      var hot_spot_ids = [] ;
+      var hot_spot_name = [];
+      var hot_spot_link = [];
+      <%if @hot_spot_ids and !@hot_spot_ids.empty?%>
+        hot_spot_ids = <%="[#{@hot_spot_ids}]"%>
+      <%end%>
+      <%if @hot_spot_names and !@hot_spot_names.empty?%>
+        hot_spot_name = <%="[#{@hot_spot_names}]"%>
+      <%end%>
+      <%if @hot_spot_link and !@hot_spot_link.empty?%>
+        hot_spot_link = <%="[#{@hot_spot_link}]"%>
+      <%end%>
+      var panel;
+      
+      function init_page () {
+           panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+      }
+      
+      function show_hot_spots () {
+            operation = null;
+            panel.retrieve(
+		'<%= member_created_hot_spots_path(@member) %>');
+      }
+      
+      function quick_upload () {
+            dialog.retrieve_remote_form('/fckeditor/to_quick_upload');
+            //panel.retrieve('/fckeditor/quick_upload');
+      }
+      
+      function insert_hot_spot(name,link,hot_spot_id){
+          // id = '<%=fckeditor_element_id('article', 'content')%>'
+          // var oEditor = FCKeditorAPI.GetInstance(id) ;
+          // oEditor.InsertHtml('<a href='+link+'>'+name+'</a>') ;
+          insert_related_hot_spot(hot_spot_id,name,link)
+          for (var index = 0; index < hot_spot_ids.length; ++index) {
+                var item = hot_spot_ids[index];
+          }          
+          related_hot_spot()
+      }
+      
+      
+      function remove_related_hot_spot(id,name,link){
+            hot_spot_ids = hot_spot_ids.without(id);
+            hot_spot_name = hot_spot_name.without(name)
+            hot_spot_link = hot_spot_link.without(link)
+            related_hot_spot()
+      }
+      
+      function insert_related_hot_spot(id,name,link){
+            hot_spot_name.push(name)
+            hot_spot_name = hot_spot_name.uniq()
+            hot_spot_link.push(link)
+            hot_spot_link = hot_spot_link.uniq()
+            hot_spot_ids.push(id)
+            hot_spot_ids = hot_spot_ids.uniq()           
+      }
+      
+      function related_hot_spot(){
+            $('related_hot_spot').innerHTML = ''
+            for (var index = 0; index < hot_spot_name.length; ++index) {
+                var id = hot_spot_ids[index];
+                var name = hot_spot_name[index];
+                var link = hot_spot_link[index];
+                $('related_hot_spot').innerHTML = '<p id=""><a href='+link+' target="_blank">'+ name+'</a> <a href="javascript:void(0)" onclick=remove_related_hot_spot('+id+',"'+name+'","'+link+'")><%=_('Delete')%></a></p>'  + $('related_hot_spot').innerHTML
+            }
+            $('hot_spot_id').value = hot_spot_ids
+      }
+      
+      function insert_img(image_url,alt){
+          id = '<%=fckeditor_element_id('article', 'content')%>'
+          var oEditor = FCKeditorAPI.GetInstance(id) ;
+          oEditor.InsertHtml('<img src="'+image_url+'" alt="'+alt+'" >') ;
+      }
+      
+<%end%>
+
+<%= javascript_include_tag :fckeditor %>
+<%= hidden_field_tag "hot_spot_id"%>
+<table class="form_container">   
+	<tr>
+		<td width="10%"><label class="required"><%= s_('Article|Subject')%></label></td>
+		<td><%= form.text_field :subject, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Article|Summary')%></label></td>
+		<td><%= form.text_area :summary,:size => "60x4" %><p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 500 }  %></p></td>
+	</tr>        
+	<tr>
+		<td><label class="required"><%= s_('Article|Content') %></label></td>
+		<td>
+                  <%= form.text_area(:content, :size=> "70x20", :class=>"mceEditor") %>
+                </td>
+	</tr>
+	<% unless @member.folders.empty? -%>
+	<tr>
+		<td><label><%= _('Folder')%></label></td>
+		<td>
+			<% if @folder -%>
+				<%= h(@folder.name) %>
+			<% else -%>
+				<%= form.select :folder_id, 
+						   @member.folders.collect { |folder| [folder.name, folder.id]},
+						   :include_blank=>true %>
+			<% end -%>
+		</td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td><label><a href="javascript:show_hot_spots();"><%= _('Related hot spot')%></a></label></td>
+		<td id="related_hot_spot"></td>
+	</tr>
+	<% unless @member.owned_brands.empty? -%>
+	<tr>
+		<td><label><%= _('Related brand')%></label></td>
+		<td><%= form.select :brand_id, 
+							@member.owned_brands.collect { |brand| [h(localized_description(brand, :name)), brand.id]}, 
+							{:include_blank=>true } %>
+	</tr>
+	<% end -%>
+	<tr>
+		<td><label><%= _('Publish to BBS')%></label></td>
+		<td>
+                  <%if @article.new_record? or (!@article.new_record? and @article.post.blank?)%>
+                    <script language="javascript">
+                          function check_forum_id(obj1,obj2)
+                          {
+                              if($(obj1).checked)
+                              {
+                                  $(obj2).disabled = false
+                              }else{
+                                  $(obj2).disabled = true
+                              }
+                          }
+                    </script>
+                      <%= check_box_tag :pb,1,false,{:onclick => "check_forum_id('pb','forum_id')"}%><%=_('Publish to BBS')%>
+                      <%= select_tag  :forum_id, options_for_select(Forum.find(:all).collect { |forum| [forum.name, forum.id]}),:disabled => true%>
+                  <%else%>
+                       <%= select_tag  :forum_id, options_for_select(Forum.find(:all).collect { |forum| [forum.name, forum.id]},@article.post.forum.id) if @article.post%>
+                  <%end%>
+                </td>
+	</tr>        
+	<tr>
+		<td colspan="2" class="button_bar"><%= submit_tag _('Submit')%></td>
+	</tr>
+</table>
+<script>
+  related_hot_spot()  
+</script>

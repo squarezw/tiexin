@@ -1,0 +1,15 @@
+<% page_title _('Edit Gift') 
+   include_js_file 'yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor'
+   include_css_file 'calendar' 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), admin_gift_path(@gift), :class=>:button %>
+</div>
+
+<%= error_messages_for :gift %>
+
+<% form_for :gift,:url => admin_gift_path(@gift),:html =>{:multipart => true, :method=>:put} do |form|%>
+<%= render :partial => "form", :object=>form %>
+<% end -%>
+

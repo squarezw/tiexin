@@ -1,0 +1,25 @@
+<div class="head">
+	<h3><%= query_criteria_string %><%= _('Brands')%></h3>	
+</div>
+
+<div class="body">
+	<table class="layouter">
+		<tr>
+			<td class="previous_page">
+				<% unless (prev = @brands.previous_page).nil? -%>
+					<%= link_to_remote image_tag('left_arrow_2.gif'), :update=>'brand_area', :url=>params.merge(:page=>prev), :method=>:get %>
+				<% end -%>				
+			</td>
+			<td class="content">
+				<% for brand in @brands -%>
+					<%= link_to_function h(localized_description(brand, :name)), "filter_with_brand(#{brand.id}, '#{h(localized_description(brand, :name))}')" %>
+				<% end -%>
+			</td>
+			<td class="next_page">
+				<% unless (nxt = @brands.next_page).nil? -%>
+					<%= link_to_remote image_tag('right_arrow_2.gif'), :update=>'brand_area', :url=>params.merge(:page=>nxt), :method=>:get %>
+				<% end -%>	
+			</td>
+		</tr>
+	</table>
+</div>

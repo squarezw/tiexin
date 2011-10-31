@@ -1,0 +1,25 @@
+div#hot_spot_category_tree {
+	float: left;
+	width: 230px;
+	border-right: 1px solid #CCF;
+	overflow: auto;
+}                  
+
+div#div_hot_spots {
+	margin-left: 250px;
+}
+
+div#div_hot_spots div.hot_spot {
+	margin: 1em;
+}
+
+div#div_hot_spots div.hot_spot span.hot_spot_category {
+	margin-right: 2em;
+}
+
+div#div_hot_spots div.hot_spot p.hot_spot_introduction {
+	text-indent: 2em;
+	margin-left: 1em;
+	line-height: 1.5em;
+}
+

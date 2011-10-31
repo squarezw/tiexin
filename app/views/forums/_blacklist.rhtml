@@ -1,0 +1,7 @@
+<ul>
+  <%for bl in  blacklist%>
+    <li><%=link_to bl.nick_name, member_path(bl), :target => "_blank"%> 
+    <%=link_to_remote "[X]", :url => del_blacklist_forum_path(bl.forum_id, :member_id => bl), :method => :post, :confirm => _('Are you sure?')%>
+    </li>
+  <%end%>
+</ul>

@@ -1,0 +1,12 @@
+<% form_remote_tag :url=>search_hot_spot_inner_hot_spots_path(@container_hot_spot), 
+				   :method=>:get, :update=>'inner_hot_spots_table' do -%>
+<table class="form_container">
+	<tr>
+		<td width="15%" align="center" valign="middle"><%= _('Hot Spot Category')%></td>
+		<td width="*"><%= root_category_select_tag :category_id, params[:category_id], :include_blank=>_('All ...')%>
+		<td width="15%"><%= _('Name contains:')%></td>
+		<td width="30%"><%= text_field_tag :keyword, params[:keyword], :size=>20 %></td>
+		<td width="10%"><%= submit_tag _('Search') %></td>
+	</tr>
+</table>
+<% end -%>

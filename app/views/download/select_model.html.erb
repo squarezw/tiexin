@@ -1,0 +1,9 @@
+<%=_('Please Choose Mobile Model')%>
+<ul>
+<%for mobile_model in @mobile_models%>
+<li><%=link_to mobile_model.name, url_for_navi_star(mobile_model.mobile_os.navi_star) %></li>
+<%end%>
+</ul>
+<p>
+	<%= link_to _('Back'), {:controller => "download", :action => "mobile"} %>
+</p>

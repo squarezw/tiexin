@@ -1,0 +1,57 @@
+<div id="page_head">  
+	<%= image_tag 'ajaxloading.gif', :id=>'img_busy_indicator' %>
+	<div id="banner">
+		<%= image_tag 'banner.jpg', :alt=>'贴心网, www.tiexin.com' %>
+		<div id="lang_menu">
+			<%=link_to _('Chinese'), :controller=>'/language', :action=>'select_lang',:lang=>'zh_cn' %>&nbsp;|&nbsp;
+			<%=link_to _('English'), :controller=>'/language', :action=>'select_lang',:lang=>'en' %>                                 
+		</div>
+
+		<div id="city_menu"> 
+			<ul>
+				<% City.find(:all).each do |city| -%>
+                                        <%if city.has_map%>
+						<% if city.id == @current_city.id -%>
+							<li class="selected"><%= localized_description(city, :name) %></li>
+						<% else -%>
+							<li><%= link_to localized_description(city, :name), city_path(city) %></li>
+						<% end -%>
+                                        <%end%>
+				<% end -%>
+			</ul>
+		</div> <!-- city_menu -->
+	</div>
+	
+
+	<% if XNavi::PLATFORM and XNavi::PLATFORM == 'test' -%>
+	<h1 style="position:absolute; top:50px; left:650px; color:white; font-size: 1.5em;">内部开发测试平台</h1>
+	<% end -%>
+	
+	<div id="main_menu">
+		<div class="button">
+			<%= link_to _('Home'), city_path(@current_city)%>
+		</div>
+		<div class="<%= main_menu_class(:map)%>">
+			<%= link_to _('City Map'), map_city_path(@current_city) %>
+		</div>
+		<% for channel in Channel.find(:all) -%>
+			<div class="<%= main_menu_class(channel)%>">
+				<%= link_to h(localized_description(channel, :name)), city_channel_path(@current_city, channel) %>				
+			</div>
+		<% end %>
+          <div class="<%= main_menu_class(:gifts)%>" style="display:none;">
+			<%= link_to _('Gifts'), campaign_gifts_path %>
+		</div>			
+		<div class="<%= main_menu_class(:forums)%>">
+			<%= link_to _('Forum'), forums_path%>			
+		</div>			
+		<div class="<%= main_menu_class(:blogs)%>">
+			<%= link_to _('Blog'), blogs_path%>			
+		</div>			
+
+
+	</div> <!-- main_menu -->
+	
+	<%= render :partial => '/session_menu' %>
+
+</div>

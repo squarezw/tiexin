@@ -1,0 +1,11 @@
+<% @page_title = _('rss sources')
+@side_menu = 'main'
+%>
+<%if @current_user and @current_user == @member%>
+<div class="button_bar">
+	<%= link_to _('Blog|New Source'), new_blog_rss_source_path(@blog), :class=>:button %> 
+</div>
+<%end%>
+<table class="rss_datalist" >
+<%= render :partial => 'rss_source', :collection => @rss_sources  %>
+</table>

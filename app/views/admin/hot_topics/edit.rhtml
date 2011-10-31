@@ -1,0 +1,7 @@
+<% @page_title = _('Edit Hot Topic')
+   @side_menu = 'master_data' -%>
+<%= error_messages_for :hot_topic %>
+
+<% form_for :hot_topic, @hot_topic, :url=>admin_hot_topic_path(@hot_topic), :html=>{:method=>:put} do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>

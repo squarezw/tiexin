@@ -1,0 +1,15 @@
+<% page_title _('Statistics of Assets') 
+   side_menu 'master_data' -%>
+
+<table class="data_list">
+	<tr>
+		<th width="*"><%= _('Asset name')%></th>
+		<th width="20%" class="number"><%= _('Quantity') %></th>
+	</tr>
+	<% for stat in @asset_stats -%>
+		<tr>
+			<td><%= stat[0]%></td>
+			<td class="number"><%= stat[1]%></td>
+		</tr>
+	<% end -%>
+</table>

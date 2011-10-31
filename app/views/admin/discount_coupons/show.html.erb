@@ -1,0 +1,38 @@
+<% page_title _('Check Discount Coupon') 
+   side_menu 'master_data' -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Manage Discount Coupon'), admin_discount_coupons_path %> &gt; <%= _('Check Discount Coupon')%>
+</div>
+
+<div id="main_function_content">
+	<table class="form_container">
+		<tr>
+			<td width="20%"><%= s_('Coupon|Vendor')%></td>
+			<td><%= link_to h(localized_description(@discount_coupon.vendor, :name)), @discount_coupon.vendor %></td>
+		</tr>
+		<tr>
+			<td><%= s_('Coupon|Member')%></td>
+			<td><%= link_to h(@discount_coupon.member.nick_name), show_member_path(@discount_coupon.member)%></td>
+		</tr>
+		<tr>
+			<td><%= s_('Coupon|Status')%></td>
+			<td><%= user_friendly_code :discount_coupon_status, @discount_coupon.status %></td>
+		</tr>
+		<tr>
+			<td><%= s_('Coupon|Expire at')%></td>
+			<td><%= format_date @discount_coupon.expire_at %></td>
+		</tr>
+
+	</table>
+	<pre class="article">
+	<%= h @discount_coupon.terms %>
+	</pre>
+
+	<div class="button_bar">
+		<% if @discount_coupon.can_approve_now? -%>
+			<%= link_to _('Approve'), approve_admin_discount_coupon_path(@discount_coupon), :method=>:post, :class=>:button %>
+			<%= link_to _('Dispprove'), disapprove_admin_discount_coupon_path(@discount_coupon), :method=>:post, :class=>:button %>
+		<% end -%>	
+	</div>
+</div>

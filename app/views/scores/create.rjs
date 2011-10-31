@@ -1,0 +1,2 @@
+page.replace_html 'hot_spot_scores', :partial=>'/scores/score_draw', :locals=>{:hot_spot=>@hot_spot}
+page.replace_html 'star' , hot_spot_score_stars(@hot_spot.avg_score)

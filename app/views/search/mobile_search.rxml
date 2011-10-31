@@ -1,0 +1,24 @@
+xml.result :code => (@result_code  || '100') do
+  if @areas
+    @areas.each do |area|
+      xml.area :id=>area.id, :name=>localized_description(area, :name), :x=>area.center_x, :y=>area.center_y do
+        map_block = @current_city.default_map_level_for_mobile.map_block_contains(area.center)
+        to_xml_for_map_block xml, map_block
+      end  
+    end
+  end
+  
+  if @hot_spots 
+    result_attrs = {}
+    result_attrs[:result_number] = @hot_spots_count if @start == 0
+    unless @hot_spots.empty?
+      map_block = @current_city.default_map_level_for_mobile.map_block_contains(@hot_spots[0].coordinate)
+      to_xml_for_map_block xml, map_block    
+    end
+    xml.search_result( result_attrs ) do 
+      @hot_spots.each do |hot_spot|
+        xml.hot_spot hot_spot_attributes(hot_spot)
+      end
+    end
+  end
+end

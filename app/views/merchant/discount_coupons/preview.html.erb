@@ -1,0 +1,28 @@
+<% page_title h(@discount_coupon.summary) 
+	include_css_file 'coupon_print'
+-%>
+
+<div class="coupon">
+	<div class="background">
+		<%= image_tag 'coupon_bg.jpg' %>
+	</div>
+	<div class="vendor_name">
+		<%= h(localized_description(@discount_coupon.vendor, :name))%>
+	</div>
+	<div class="expire_at">
+		<%= s_('Coupon|Expire at') %>:<%= format_date @discount_coupon.expire_at %>
+	</div>
+	<div class="summary">
+		<%= h(@discount_coupon.summary)%>
+	</div>
+	<div class="terms">
+		<%= h(@discount_coupon.terms)%>
+	</div>
+	<div class="address">
+		<%= s_('HotSpot|Address')%>:&nbsp;<%= h(localized_description(@discount_coupon.vendor.city, :name)) if @discount_coupon.vendor.respond_to?(:city) %><%= h(localized_description(@discount_coupon.vendor, :address))%><br/>
+		<%= s_('HotSpot|Phone number')%>:&nbsp;<%= h(@discount_coupon.vendor.phone_number) if @discount_coupon.vendor.respond_to?(:phone_number) %>
+	</div>
+	<div class="consumer_phone">
+		使用者电话:XXXXXXXXXX
+	</div>
+</div>

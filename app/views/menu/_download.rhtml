@@ -1,0 +1,26 @@
+<ul class="side_menu">
+<div id="xnavi-mobile-os" class="section">
+	<div class="header">
+		<h3><%= _('Mobile Operating System')%></h3>
+	</div>
+	
+	<div class="body">       
+		<div id="xnavi-mobile-os">
+                    <ul>
+			<%= render :collection => @mobile_oss, :partial=>'/admin/mobile_oss/mobile_os' %>
+                    </ul>
+		</div>
+	</div>
+</div>
+<div id="xnavi-mobile-os" class="section">
+	<div class="header">
+		<h3><%= _('Operation Manual')%></h3>
+	</div>
+        <div class="body">
+            <ul>
+              <%= render :collection => @mobile_oss, :partial=>'/admin/mobile_oss/operation_manual' %>
+            </ul>
+        </div>
+</div>
+</ul>
+

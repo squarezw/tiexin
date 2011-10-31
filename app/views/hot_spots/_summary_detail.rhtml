@@ -1,0 +1,24 @@
+<div class="hot_spot_summary_detail">
+	<div class="hot_spot_picture">
+		<%= picture_tag_for_hot_spot(hot_spot) %>
+	</div>
+        
+	<p><span class="hot_spot_name"><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot)%></span><span class="category">[<%= h(localized_description(hot_spot.hot_spot_category, :name)) %>]</span>
+	<% unless hot_spot.layout_maps_has_zoom_levels.blank? -%>
+		[<%= link_to _('Layout Maps'), layout_maps_path(layoutable_type(hot_spot), hot_spot) %>]
+	<% end -%></p>
+        <p><%=hot_spot_score_stars(hot_spot.score)%></p>
+	
+	<p class="address">
+	<% if hot_spot.container -%>
+	<%= h(localized_description(hot_spot.container, :address))%> - <%= link_to h(localized_description(hot_spot.container, :name)), hot_spot_path(hot_spot.container), :target=>'_blank' %> -
+	<% end -%>
+	<%= h(localized_description(hot_spot, :address))%>
+	</p>
+
+	<p><%= h(hot_spot.phone_number)%></p>
+
+	<p><%= _('HotSpotTag|Tag')%>:&nbsp;<%= most_frequent_tags_of_hot_spot hot_spot %></p>
+
+	<p class="introduction"><%= h(truncate(localized_description(hot_spot, :introduction), 60))%></p>	
+</div>

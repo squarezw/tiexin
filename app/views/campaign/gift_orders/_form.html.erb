@@ -1,0 +1,89 @@
+<%= error_messages_for :gift_order %>
+
+<h3><%= _('Order Item')%></h3>
+<table class="data_list">
+	<tr>
+		<th width="*"><%= _('Gift|Name')%></th>
+		<th width="20%"><%= _('Gift|Price') %></th>
+		<th width="20%"><%= _('GiftOrderItem|Quantity') %></th>
+	</tr>
+	<% for item in @gift_order.gift_order_items
+	     gift = item.gift -%>
+		<tr>
+			<td><%= link_to h(gift.name), campaign_gift_path(gift), :popup=>true %></td>
+			<td><%= gift.experience %><%= s_('Member|Experience')%> + 
+				<%= gift.credit %><%= s_('Member|Credit')%> + 
+				<%= gift.cash %><%= s_('Gift|Cash')%>
+			</td>
+			<td><%= text_field_tag "items[#{gift.id}]", item.quantity, :class=>:number %></td>
+		</tr>
+		<% unless item.errors.empty? -%>
+		<tr class="error">
+			<td colspan="3"><%= item.errors.full_messages.join('<br/>')%></td>
+		</tr>
+		<% end %>
+	<% end -%>
+</table>
+
+<h3><%= _('Order Information')%></h3>
+<table class="form_container">
+	<tr>
+		<td width="12%"><label class="required"><%= s_('GiftOrder|Name')%></label></td>
+		<td width="21%"><%= form.text_field :name, :size=>20 %></td>
+		<td width="12%"><label class="required"><%= s_('GiftOrder|Phone number')%></label></td>
+		<td width="21%"><%= form.text_field :phone_number, :size=>20 %></td>
+		<td width="12%"><label><%= s_('GiftOrder|Phone number 2')%></label></td>
+		<td width="21%"><%= form.text_field :phone_number2, :size=>20 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Deliver method')%></label></td>
+		<td colspan="5"><%= user_friendly_code :gift_order_deliver_method, @gift_order.deliver_method %></td>
+	</tr>
+		<tr>
+			<td><label class="required"><%= s_('GiftOrder|City')%></label></td>
+			<td><%= form.text_field :city, :size=>20 %></td>
+			<td><label class="<%= label_class_for_field @gift_order, :address %>"><%= s_('GiftOrder|Address')%></label></td>
+			<td colspan="3" ><%= form.text_field :address, :size=> 60 %></td>
+		</tr>
+		<tr>
+			<td><label><%= s_('GiftOrder|Post code')%></label></td>
+			<td colspan="5"><%= form.text_field :post_code, :size=>8 %></td>
+		</tr>
+	<tr>
+		<td><label class="<%= label_class_for_field @gift_order, :certificate_type %>"><%= s_('GiftOrder|Certificate type')%></label></td>
+		<td><%= form.text_field :certificate_type, :size=>20 %></td>
+		<td><label class="<%= label_class_for_field @gift_order, :certificate_no %>"><%= s_('GiftOrder|Certificate no')%></label></td>
+		<td><%= form.text_field :certificate_no, :size=> 20 %></td>
+		<% if @gift_order.deliver_method = GiftOrder::DELIVER_FETCH %>
+			<td><label><%= s_('GiftOrder|Plan fetch date')%></label></td>
+			<td><%= form.text_field :plan_fetch_date, :size=>10 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_plan_fetch_date', :class=>'image'%></td>
+		<% end %>
+	</tr>	
+	<tr>
+		<td><label><%= s_('GiftOrder|Payment method')%></label></td>
+		<td colspan="5"><%= user_friendly_code :gift_order_payment_method, @gift_order.payment_method %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Recommender')%></label></td>
+		<td colspan="5"><%= form.text_field :recommender, :size=>20 %></td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<p><%= _('The fields with red asterisk are mandatory.')%>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<p><%= _('For gift delivery purpase, and requested by gift vendor, order information will be sent to gift vendor.')%>
+		</td>
+	</tr>
+</table>
+<div class="button_bar">
+	<%= submit_tag _('Submit') %>
+</div>
+<% if @gift_order.deliver_method = GiftOrder::DELIVER_FETCH -%>
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_plan_fetch_date', :date_field=>'gift_order_plan_fetch_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>
+<% end -%>

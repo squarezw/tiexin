@@ -1,0 +1,4 @@
+page.<< remote_function(
+            :url=>hot_spot_revises_path(@hot_spot.id) + "?page=#{@last_page}",
+            :update=>'div_revise_section',
+            :method=>:get)

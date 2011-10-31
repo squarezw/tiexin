@@ -1,0 +1,21 @@
+<% @page_title = _('New Friend Link')
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom']
+   @side_menu = 'master_data' -%>
+
+<% content_for 'page_scripts' do -%>
+	
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), admin_friend_links_path, :class=>:button %>
+</div>
+
+<%= error_messages_for :friend_link %>
+
+<% form_for :friend_link, @friend_link, :url=>admin_friend_links_path,:html =>{:multipart => true,:id=>"myform"} do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>

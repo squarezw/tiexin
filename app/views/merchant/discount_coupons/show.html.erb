@@ -1,0 +1,51 @@
+<% page_title _('Discount Coupon') + '──' + h(@discount_coupon.summary) 
+   side_menu 'my_xnavi' -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Issued Discount Coupons'), merchant_discount_coupons_path %>&nbsp;&gt;&nbsp;
+	<%= h(@discount_coupon.summary) %>
+</div>
+
+<div id="main_function_content">
+<table class="form_container">
+	<tr>
+		<td width="20%"><%= s_('Coupon|Vendor')%></td>
+		<td><%= link_to h(localized_description(@discount_coupon.vendor, :name)), @discount_coupon.vendor %></td>
+	</tr>
+	<tr>
+		<td width="20%"><%= _('Coupon|Status')%></td>
+		<td><%= user_friendly_code :discount_coupon_status, @discount_coupon.status %></td>
+	</tr>
+	<tr>
+		<td><%= _('Coupon|Admin')%></td>
+		<td><%= link_to h(@discount_coupon.admin.nick_name), show_member_path(@discount_coupon.admin) if @discount_coupon.admin %></td>
+	</tr>
+	<% if @discount_coupon.vendor.is_a? Brand -%>
+	<tr>
+		<td><%= s_('Coupon|Cities')%></td>
+		<td><% if @discount_coupon.all_city -%>
+				<%= _('All Cities')%>
+			<% else -%>
+				<%= (@discount_coupon.cities.collect { |city| h(localized_description(city, :name))}).join (',&nbsp;')%>
+			<% end -%>
+		</td>
+	</tr>
+	<% end %>
+	<tr>
+		<td><%= _('Coupon|Expire at')%></td>
+		<td><%= format_date @discount_coupon.expire_at %></td>
+	</tr>
+
+</table>
+<pre class="article">
+<%= h @discount_coupon.terms %>
+</pre>
+
+<div class="button_bar">
+	<%= link_to _('Preview'), preview_merchant_discount_coupon_path(@discount_coupon), :target=>'_blank', :class=>:button %>
+	<%= link_to _('Edit'), edit_merchant_discount_coupon_path(@discount_coupon), :class=>:button if @discount_coupon.modifiable? %>
+	<%= link_to _('Submit For Approve'), submit_merchant_discount_coupon_path(@discount_coupon), :method=>:post, :class=>:button if @discount_coupon.can_submit_now? %>
+	<%= link_to _('Delete'), merchant_discount_coupon_path(@discount_coupon), :method=>:delete, :confirm=>_('Are you sure?'), :class=>:button if @discount_coupon.can_delete? %>
+</div>
+
+</div>

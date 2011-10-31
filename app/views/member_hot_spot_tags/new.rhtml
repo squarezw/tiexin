@@ -1,0 +1,8 @@
+<% remote_form_for :hot_spot, @hot_spot, :url=>hot_spot_tag_path(@hot_spot), :html=>{:method=>:put} do |f| -%>
+<%=render :partial => "form",:object => f%>
+<% end -%>
+
+<%= update_page_tag do |page|
+  	page.call 'dialog.show_with_title', _('Edit Tag') 
+	page.call 'busy_indicator.task_end'
+end -%>

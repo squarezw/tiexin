@@ -1,0 +1,46 @@
+<table class="form_container">
+	<tr>
+		<td width="15%"><label><%= _(@vendor.class.name.underscore.humanize.downcase) %></label></td>
+		<td width="*"><%= link_to h(localized_description(@vendor, :name)), @vendor %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Coupon|Summary')%></label></td>
+		<td><%= form.text_field :summary, :size=>80 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Coupon|Terms')%></label></td>
+		<td>
+			<div id="coupon_templates">
+				<% for template in CouponTemplate.find(:all) %>
+					<p><%= link_to_function h(template.content), "insert_template('#{h(template.content)}')" %></p>
+				<% end -%>
+			</div>
+		<%= form.text_area :terms, :cols=>50, :rows=>10 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Coupon|Expire at')%></label></td>
+		<td><%= form.text_field :expire_at, :size=>10 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_coupon_expire_at', :class=>'image calendar_img', :href=>'javascript:void(0)' %></td>
+	</tr>
+	<% if @vendor.is_a? Brand -%>
+        <tr>
+           <td><%=_('Applied cities')%></td> 
+           <td>
+              <% for city in City.find(:all) %>
+                  <%= check_box_tag 'cities[]', city.id,@discount_coupon.cities.include?(city) %> <%= h(localized_description(city, :name)) %>
+              <%end%>
+			  <p class="help"><%= _("If you don't select any cities, this coupon will apply to all cities.")%></p>
+          </td>
+	</tr>
+	<% end -%>
+	
+	<tr>
+		<td></td>
+		<td><%= check_box_tag :submit_now %><%= _('Submit for approve right now.')%></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Save')%>
+		</td>
+	</tr>
+</table>
+

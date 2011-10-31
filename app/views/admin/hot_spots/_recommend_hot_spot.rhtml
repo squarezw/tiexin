@@ -1,0 +1,26 @@
+<tr>
+  <td><%= check_box_tag "id[]",recommend_hot_spot.id%></td>
+    <td>
+    [<%= h(localized_description(recommend_hot_spot.city, :name))%>]
+    <%= link_to h(localized_description(recommend_hot_spot, :name)), hot_spot_path(recommend_hot_spot), :target => '_blank'  %>
+    <br/><br/>
+        <%=_('HotSpot|Address')%>: <%= h(localized_description(recommend_hot_spot, :address))%>
+    </td>
+    <td><%= h(localized_description(recommend_hot_spot.hot_spot_category, :name))%></td>
+    <td><%=link_to recommend_hot_spot.owner.nick_name, member_path(recommend_hot_spot.owner) if recommend_hot_spot.owner %></td>
+    <td><%= format_date(recommend_hot_spot.recommend_expire_at)%></td>
+    <td>
+      <%if recommend_hot_spot.recommend and recommend_hot_spot.recommend == true%>
+        <%= link_to _('Extend'), recommend_manage_hot_spot_path(recommend_hot_spot), :method => :post%>
+        <%= link_to_remote _('Cancel'), :url => cancel_recommend_manage_hot_spot_path(recommend_hot_spot), :method => :post%>
+      <%else%>
+        <%= link_to _('Recommend'), recommend_manage_hot_spot_path(recommend_hot_spot), :method => :post%>
+      <%end%>
+      <br/>
+      <%if recommend_hot_spot.ontop and recommend_hot_spot.ontop == true%>
+        <%= link_to _('Cancel Recommend to index'), cancel_recommend_ontop_manage_hot_spot_path(recommend_hot_spot), :method => :post%>
+      <%else%>
+        <%= link_to _('Recommend to index'), recommend_ontop_manage_hot_spot_path(recommend_hot_spot), :method => :post%>
+      <%end%>
+    </td>
+</tr>

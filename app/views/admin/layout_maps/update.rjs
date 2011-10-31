@@ -1,0 +1,5 @@
+div_id = layout_map_div_id(@layout_map)
+page.replace_html div_id,
+                 render(:partial=>'layout_map', :object => @layout_map) 
+page.visual_effect :pulsate, div_id, :pulses=>1
+

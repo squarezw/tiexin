@@ -1,0 +1,69 @@
+<table class="form_container" >
+	<% if @category.parent -%>         
+	<%= hidden_field :category, :parent_id %>
+	<tr>                          
+		<td colspan="2" width="30%"><label><%= _('Parent Category') %></td>
+		<td colspan="1" width="70%">
+			<%= category_path_str(@category)%>
+		</td>
+	</tr>
+	<% end -%>
+	<tr> 
+		<td width="15%" rowspan="2"><label class="required"><%= s_('HotSpotCategory|Name') %></label></td>
+		<td width="15%"><label><%= _('Chinese') %></label></td>
+		<td width="70%"><%= text_field :category, :name_zh_cn, :size=>20 %>
+			<p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></p>
+		</td>
+	</tr>                                     
+	<tr>
+		<td width="15%"><label><%= _('English') %></label></td>
+		<td><%= text_field :category, :name_en, :size=>20 %>
+			<p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></p></td>
+	</tr>
+	<tr>
+		<td colspan="2"> <label> <%= s_('HotSpotCategory|Keyword')%></label></td>
+		<td><%= text_field :category, :keyword, :size=>30 %>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpotCategory|Traffic stop type')%></label></td>
+		<td><%= select :category, :traffic_stop_type, options_for_codes(TrafficLine::TYPES_INCLUDE_NONE, :traffic_type) %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpotCategory|Order weight')%></label></td>
+		<td><%= text_field :category, :order_weight, :size=>3 %><%=check_box_tag "apply_to_children_categories",true,true%> <%=_('Apply to all sub hot spot categories')%></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpotCategory|Common')%></label></td>
+		<td><%= check_box :category, :common %> <%=_('Frequently used category.')%></td>
+	</tr>
+	<tr>   
+		<td colspan="2"><label><%= _('Current Icon') %></label></td>
+		<td><%= safe_icon @category %></td>
+        </tr>
+	<tr> 
+		<td colspan="2"><label><%= s_('HotSpotCategory|Icon') %></label></td>
+		<td width="70%"><%= upload_column_field :category, :icon %>
+	</tr>
+	<tr>   
+		<td colspan="2"><label><%= _('Current Map Icon') %></label></td>
+		<td><%= safe_map_icon @category %></td>
+        </tr>
+	<tr> 
+		<td colspan="2"><label><%= s_('HotSpotCategory|Map icon') %></label></td>
+		<td width="70%"><%= upload_column_field :category, :map_icon %>
+	</tr>
+	<tr>   
+		<td colspan="2"><label><%= _('Current Big Icon') %></label></td>
+		<td><%= safe_big_icon @category %></td>
+        </tr>
+	<tr> 
+		<td colspan="2"><label><%= s_('HotSpotCategory|Big icon') %></label></td>
+		<td width="70%"><%= upload_column_field :category, :big_icon %></td>
+	</tr>
+        <tr>
+		<td colspan="3" class="button_bar">
+			<%= submit_tag _('Submit') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

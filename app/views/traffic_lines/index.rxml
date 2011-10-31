@@ -1,0 +1,7 @@
+xml.result(:code => 100) do
+  unique_traffic_lines(@traffic_lines, @current_lang).each do |traffic_line|
+    xml.traffic_line(:id => traffic_line.id, :name => localized_description(traffic_line, :name))
+  end
+end
+
+

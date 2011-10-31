@@ -1,0 +1,10 @@
+<div id="error_msgs" class="errorExplanation" style="display:none;">
+	
+</div>
+<div id="div_posts_section">
+<%=render :partial=> 'post_list', :object => @posts%>  
+</div>
+<%= update_page_tag do |page|
+  	page.call 'panel.show_with_title',_('Add related post')
+        page.call 'busy_indicator.task_end'
+end -%>

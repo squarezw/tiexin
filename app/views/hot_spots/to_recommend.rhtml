@@ -1,0 +1,39 @@
+<div id="error_msgs" class="errorExplanation" style="display:none;">
+	
+</div>
+<% form_remote_tag :url=>recommend_hot_spot_path do %>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= _('Recommend to')%></label></td>
+		<td width="*"><%= text_area_tag :receiver, @receiver, :size=>'25x4' %></td>
+		<td width="30%" class="comment"><%= _(%q/Receiver's email address or login name. Can be multiple seperated by ','. Duplicate receivers will be ignored./)%>
+	</tr>
+	<% unless @current_user.friend_members.empty? -%>
+		<tr>
+			<td><label><%= _('My Friends')%></label></td>
+			<td><select id="sel_my_friends">
+					<option value=""><%= _(%q(Select one, then press 'Add receiver'))%></option>
+					<%= options_from_collection_for_select @current_user.friend_members, :nick_name, :nick_name %>
+				</select>
+			</td>
+			<td>
+				<%= button_to_function _('Add receiver'), 'add_receiver()'%>
+			</td>
+		</tr>
+	<% end -%>
+	<tr>
+		<td><label><%= _('Note') %></label></td>
+		<td><%= text_area_tag :note, params[:note], :size=>'25x6' %></td>
+		<td class="comment"><%= _('You can say something here. It will be sent to your friend as well.')%></td>
+	</tr>
+	<tr>
+		<td><label><%= _('Recommender')%></label></td>
+		<td><%= text_field_tag :from, @from, :size=>'25' %></td>
+		<td class="comment"><%= _('The name your friend can recognize.')%></td>
+	</tr>
+</table>
+<% end -%>
+
+<%= update_page_tag do |page| 
+		page.call 'dialog.show_with_title', _('Send email to friends to recommend this hot spot.')
+	end %>

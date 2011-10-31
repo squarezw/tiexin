@@ -1,0 +1,25 @@
+<% @page_title = _('Cities') 
+   @side_menu = 'master_data' %>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_city_path, :class => :button %>
+</div>
+
+<table class="data_list" width="98%">
+	<tr>
+		<th width="15%"><%= s_('City|Name')%></th>
+		<th width="20%"><%= s_('City|Width') %></th>
+		<th width="20%"><%= s_('City|Height') %></th>
+		<th width="30%"><%= _('North West Point')%>
+		<th><%= _('Operation')%></th>
+	</tr>
+	<% for city in @cities -%>
+		<tr>
+			<td><%= h(localized_description(city, :name))%></td>
+			<td><%= city.width %></td>
+			<td><%= city.height %></td>
+			<td><%= "(#{city.x0}, #{city.y0})"%>
+			<td><%= link_to _('Edit'), edit_manage_city_path(city) %></td>
+		</tr>
+	<% end -%>
+</table>	

@@ -1,0 +1,5 @@
+page << "$('new_recommended_tag').reset();"
+
+page.replace_html 'form_error', ''
+
+page.insert_html :bottom, 'tag_list', :partial=>'tag', :object=>@recommended_tag

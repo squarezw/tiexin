@@ -1,0 +1,12 @@
+xml.result(:code => 100) do 
+  if @map_block
+    to_xml_for_map_block(xml, @map_block)
+  end
+  result_attrs = {}
+  result_attrs[:result_number] = @result_number if @start == 0
+  xml.search_result( result_attrs ) do 
+    @hot_spots.each do |hot_spot|
+      xml.hot_spot hot_spot_attributes(hot_spot)
+    end
+  end
+end

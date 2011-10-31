@@ -1,0 +1,209 @@
+<% page_title h(localized_description(@channel, :name)), true 
+   include_js_file 'yui/utilities', 'yui/event', 'yui/dom', 'yui/button', 'yui/container', 'map', 'map_helper', 'marquee'
+   include_css_file 'yui/button', 'yui/container', 'channel'
+   page_keyword h(localized_description(@current_city, :name))
+   page_keyword @channel.hot_spot_category.keywords_array -%>
+
+<% content_for 'page_scripts' do -%>
+var map;
+
+<%= render :partial=>'/main/levels_data', :locals=>{:city => @current_city} %>
+
+function init_page () {
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: [<%= @start_point.x%>, <%= @start_point.y%> ],
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6,
+			viewport_width: 465,
+			viewport_height: 390
+		});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	
+	<%= update_page do |page| 
+		@hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true }
+	    end %>
+	
+	<% unless @recommended_tags.empty? -%>
+		new Marquee ('recommended_tags', { direction: 'up', speed: 100});
+	<% end -%>
+
+	load_promotions ();
+}
+
+function filter_with_tag (tag) {
+	new Ajax.Request('<%= formatted_city_channel_path(@current_city, @channel, :js) %>',
+					 { parameters: { tag: tag},
+					   method: 'get' });
+}
+
+function load_contracted_hot_spots () {
+	<%= remote_function :update=>'contracted_hot_spots', :url=>contracted_hot_spots_city_channel_path(@current_city, @channel), :method=>:get %>
+}
+
+function load_promotions () {
+	<%= remote_function :update=>'events_body', :url=>promotions_city_channel_path(@current_city, @channel), :method=>:get %>
+}
+
+<% end -%>
+
+<% if @channel.has_daily_content -%>
+<div id="daily_content" class="section">
+	<div class="head">
+		<h3><%= h @channel.daily_content_title %></h3>
+	</div>
+	<div class="body">
+		<% if (content = @channel.daily_content_for(Date.today)) -%>
+			<h4><%= link_to h(content.title), channel_daily_content_path(@channel, content), :target=>'_blank'%></h4>
+			<% if content.picture -%>
+				<table class="layouter" id="daily_content_picture">
+					<tr><td><%= image_tag content.picture.url %></td></tr>
+				</table>
+			<% else -%>
+				<div class="content">
+					<%= content.content %>
+				</div>
+			<% end -%>
+		<% end -%>
+	</div>
+	<div class="foot">
+		<%= link_to _('New'), new_channel_daily_content_path(@channel) %>
+	</div>
+</div>
+<% else -%>
+<div id="mobile_app" class="section">
+	<div class="head">
+		<h3><%= _("NaviStar")%></h3>
+	</div>
+	<div class="body">
+		<div class="button_bar">
+			<%= link_to _('Download Now'), '/static/download' %>
+		</div>
+	</div>
+</div>
+<% end -%>
+<div id="search_area">
+	<div id="search_bar">
+		<% form_remote_tag :url=>formatted_city_channel_path(@current_city, @channel, :js), :method=>:get, 
+						   :html=>{ :id=>'filter_form'} do -%>
+		<table class="layouter">
+			<tr>
+				<td width="100%"><%= s_('channel_search|Around')%>
+				<%= text_field_with_auto_complete 'area', '', {:size=>8, :class=>:search_text_field},
+					 	{:url=>{:controller=>'cities', :action=>'auto_complete_for_area', :id=>@current_city.id}, 
+					     :skip_style=>true } 
+		    		%>&nbsp;
+				<%= s_('channel_search|Seach')%>&nbsp;
+				<%= hotspot_category_children_select_tag :hot_spot_category_id, @hot_spot_category, true, [_('All...'), ''] %>&nbsp;<%= s_('channel_search|Keyword')%>
+				<%= text_field_tag :keyword, params[:keyword], :size=>15, :class=>:search_text_field %>
+				<%= submit_tag '', :class=>'search_button' %></td>
+			</tr>
+		</table>
+		<% end -%>
+	</div>
+	<div id="tag_area">
+		<div class="head">
+			<h3><%= _('Recommended Tags')%></h3>
+		</div>
+		
+		<div class="body" id="recommended_tags">
+			<% for tag in @recommended_tags -%>
+				<span class="recommended_tag"><%= link_to_function h(tag.tag), "filter_with_tag('#{escape_javascript(tag.tag)}')" %></span>
+			<% end -%>
+		</div>
+	</div>
+</div>
+
+<div id="result_and_map" class="section">
+	<div class="head">
+		<h3><%= _('Search Result')%></h3>
+	</div>
+	<div id="hot_spot_list">
+		<%= render :partial=>'hot_spot_list' %>
+	</div>
+
+	<div id="map_area">
+		<div id="map">
+
+		</div>	
+	</div>
+</div>
+
+<div id="events" class="section">
+	<div class="head">
+		<h3><%= _('Events')%></h3>
+	</div>
+	
+	<div id="events_body" class="body">
+		
+	</div>
+</div>
+
+<div id="recommended_hot_spots" class="section">
+	<div class="head">
+		<h3><%= _('XNavi Recommends')%></h3>
+	</div>
+	
+	<div class="body">
+		<%= render :partial=>'recommended_hot_spot', :collection=>@recommended_hot_spots %>
+	</div>
+</div>
+
+
+
+<div id="latest_articles" class="section">
+	<div class="head">
+		<h3><%= _('Latest Articles')%></h3>
+	</div>
+	
+	<div class="body">
+		<table class="layouter">
+			<tr>
+				<td class="first-child" width="33.3%">
+					<div id="latest_comments" class="column">
+						<div class="head">
+							<h4><%= _('Comments')%></h4>
+						</div>
+						
+						<div class="body">
+							<%= render :partial=>'comment', :collection=>@comments %>
+						</div>
+					</div><!-- latest comments -->
+				</td>
+				<td width="33.3%">
+					<div id="latest_posts" class="column">
+						<div class="head">
+							<h4><%= _('Forum Posts')%></h4>
+						</div>
+						<div class="body">
+							<%= render :partial=>'post', :collection=>@posts %>
+						</div>
+					</div><!-- latest posts -->
+				</td>
+
+				<td width="33.3%">
+					<div id="latest_blog_articles" class="column">
+						<div class="head">
+							<h4><%= _('Blog Articles')%></h4>
+						</div>
+
+						<div class="body">
+							<%= render :partial=>'article', :collection=>@articles %>
+						</div>
+					</div> <!-- latest blog articles -->
+				</td>
+			</tr>
+		</table>
+
+
+	</div> <!-- latest_articles body -->
+</div>
+
+<%=input_with_help _('HotSpot name.'), "keyword" %>
+<%=input_with_help _('Area name, road name, hot spot name'), "area_" %>

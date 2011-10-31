@@ -1,0 +1,17 @@
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('Title') %></label></td>
+		<td width="*"><%= form.text_field :title, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td width="20%"><label class="required"><%= s_('RssSource|Link') %></label></td>
+		<td width="*"><%= form.text_field :link, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+			

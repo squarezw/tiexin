@@ -1,0 +1,28 @@
+<% page_title _('Daily Contents') -%>
+
+<div class="navigation_bar">
+	<% if @current_user and @current_user.has_privilege(:edit_daily_content) -%>
+	<div class="tools">
+		<%= link_to image_tag('new.gif', :alt=>_('New')), new_channel_daily_content_path(@channel), :title=>_('New') %>
+	</div>
+	<% end -%>
+	<%= link_to h(localized_description(@channel, :name)), city_channel_path(@current_city, @channel) %>&nbsp;&gt;&nbsp;
+	<%= link_to h(@channel.daily_content_title), channel_daily_contents_path(@channel)%>
+</div>
+
+<div id="main_function_content">
+	<table class="data_list">
+		<tr>
+			<th width="20%"><%= s_('ChannelDailyContent|Display at') %></th>
+			<th widht="*"><%= s_('ChannelDailyContent|Title') %></th>
+		</tr>
+		<% for content in @channel_daily_contents -%>
+		<tr>
+			<td><%= format_date content.display_at %></td>
+			<td><%= link_to h(content.title), channel_daily_content_path(@channel, content) %></td>
+		</tr>
+		<% end -%>
+	</table>
+	
+	<%= page_navigator @channel_daily_contents %>
+</div>

@@ -1,0 +1,20 @@
+<% @page_title = _('Photos posted by %{user}') % { :user => h(@member.nick_name) }
+    side_menu side_menu_for_member(@member) 
+	use_remote_dialog
+    include_js_file 'yui/treeview'
+    include_css_file 'yui/treeview', 'photos'
+%>
+
+<% content_for :page_scripts do -%>        
+function edit_photo (owner_type, owner_id, id) {
+	dialog.retrieve_remote_form('/photo/' + owner_type + '/' + owner_id + '/photos/' + id + '/edit');
+}
+
+<% end -%>
+
+<div id="photo_list">
+<%= render :partial => 'photo', :collection => @photos, :locals => { :show_buttons=>true } %>
+</div>
+<div id="page_left_footer">
+<%= page_navigator @photos %>
+</div>

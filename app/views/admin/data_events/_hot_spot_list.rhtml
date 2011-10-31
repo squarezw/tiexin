@@ -1,0 +1,16 @@
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('HotSpot|Name')%></th>
+		<th width="20%"><%= s_('HotSpot|Address')%></th>
+		<th width="20%"><%= s_('HotSpot|Hot spot category') %></th>
+	</tr>
+	<% for hot_spot in @hot_spots -%>
+	<tr>
+		<td><%= link_to_function h(localized_description(hot_spot, :name)), "insert_related_hot_spot(#{hot_spot.id},#{event_id})"%></td>
+                <td><%= h(localized_description(hot_spot, :address))%></td>
+		<td><%= category_path_str(hot_spot.hot_spot_category) %></td>
+	</tr>
+	<% end -%>
+</table>
+
+<%= remote_page_navigator @hot_spots, 'div_hot_spots_section', :get %>

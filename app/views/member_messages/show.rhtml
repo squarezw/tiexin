@@ -1,0 +1,11 @@
+<% page_title  h(@message.title) 
+   include_css_file 'comments'
+   side_menu side_menu_for_member(@member) 
+-%>
+
+<pre class="article">
+<%= bbcodeize(h(@message.content))%>
+</pre>
+<div class="button_bar">
+		<%= link_to _('Delete'), member_message_path(@member.id, @message), :confirm=>_('Are you sure?'), :method=>:delete, :class=>:button %>
+</div>

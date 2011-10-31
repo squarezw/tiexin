@@ -1,0 +1,180 @@
+<%  page_title h(localized_description(@current_city, :name)) + _('Home page title')
+    include_js_file 'marquee'
+    include_css_file 'home_page'
+    @hide_page_title = true
+    page_keyword h(localized_description(@current_city, :name))
+    page_keyword _('Map'), _('Navigation'), _('Restaurant'), _('Shopping'), _('Promotion'), _('Discount'), '手机地图' -%>
+
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		fix_ie_hover_bug ();
+	}
+	
+	function show_calendar_at_date(date) {
+		new Ajax.Updater ('event_calendar', '<%= "/cities/#{@current_city.id}/event_calendar.html" %>', 
+			{ method: 'get',
+			  parameters: { date: date },
+			  evalScripts : true });
+	}
+	
+	function fix_ie_hover_bug () {
+		if (Prototype.Browser.IE) {
+			var elements = $$('div.picture');
+			for (i=0; i < elements.length; ++i) {
+				var ele = elements[i];
+				ele.onmouseover = function () { this.addClassName('hover'); }
+				ele.onmouseout = function () { this.removeClassName('hover'); }
+			}
+		}
+	}
+<% end -%>
+
+<div id="main_area">
+      <div id="row1">
+              <div id="city_photo">
+                     <%if @topic and @topic.cover_pic%>
+                          <%=link_to image_tag(@topic.cover_pic.url, :alt => @topic.title),city_topic_path(@current_city, @topic) %>
+                     <%else%>
+                          <%= image_tag(@current_city.photo.url, :alt => @topic.title) if @current_city.photo%>
+                     <%end%>
+              </div>
+
+              <div id="mobile_app">
+                      <div class="head">
+                          <h3><%= _('NaviStar')%></h3>
+                      </div>
+                      <div class="body">
+                          <div class="button_bar">
+                             <%= link_to _('Download Now'), '/static/download', :alt=>'下载手机地图应用：贴心掌上行' %>
+                          </div>
+                      </div>
+              </div>
+      </div>
+
+      <div id="row_2">
+              <div id="search_area">
+                      <div id="search_bar">
+                              <form action="<%= url_for :controller=>'/search', :action=>'search', :id=>@current_city.id %>" method="post" id="frm_fast_search" onsubmit="return fast_search(this); "  onkeydown="if(event.keycode==13) this.submit();">
+                                      <table class="layouter">
+                                              <tr>
+                                                      <td width="100%" valign="middle"><%= _('Around')%>:
+                                                              <%= text_field_with_auto_complete 'area', 'name', {:size=>20, :class=>:search_text_field},
+                                                                      {:url=>{:controller=>'cities', :action=>'auto_complete_for_area', :id=>@current_city.id},
+                                                                   :skip_style=>true } %>
+                                                                      &nbsp;<%= s_('SearchBar|Search')%>:
+                                                      <input type="text" size="34" name="keyword" id="fast_search_key_word" class="search_text_field" />
+                                                              <%= submit_tag '', :class=>'search_button' %>
+                                                      </td>
+                                              </tr>
+                                      </table>
+                              </form>
+                      </div>
+
+                      <div id="main_menu">
+                              <div class="button">
+                                      <div class="picture_container">
+                                              <div class="picture">
+                                                      <%= link_to image_tag('homepage/big_map.png', :alt=>_('City Map')), map_city_path(@current_city), :title=>_('City Map') %>
+                                              </div>
+                                      </div>
+                                      <%= link_to _('Mark Hot Spot'), map_city_path(@current_city) %>
+                              </div>
+                              <% for channel in Channel.find(:all) -%>
+                              <div class="button">
+                                      <div class="picture_container">
+                                              <div class="picture">
+                                      <%= link_to image_tag(channel.icon.url, :alt=>h(localized_description(channel.hot_spot_category, :name))), city_channel_path(@current_city, channel), :title=>h(localized_description(channel.hot_spot_category, :name)) %>
+                                              </div>
+                                      </div>
+                                      <%= link_to h(localized_description(channel, :name)), city_channel_path(@current_city, channel) %>
+                              </div>
+                              <% end %>
+                              <div class="button">
+                                      <div class="picture_container">
+                                              <div class="picture">
+                                      <%= link_to image_tag('homepage/gifts.png', :alt=>_('Gifts')), campaign_gifts_path, :title=>_('Gifts') %>
+                                              </div>
+                                      </div>
+                                      <%= link_to _('Gifts'), campaign_gifts_path %>
+                              </div>
+                              <div class="button">
+                                      <div class="picture_container" >
+                                              <div class="picture">
+                                                      <%= link_to image_tag('homepage/bbs.png', :alt=>_('Forum')), forums_path, :title=>_('Forum') %>
+                                              </div>
+                                      </div>
+                                      <%= link_to _('Forum'), forums_path%>
+                              </div>
+                      </div>
+
+                      <div id="recommended_tags">
+                              <p><%= _('Recommended Tags')%>:
+                                      <% for tag in RecommendedTag.effective_for_city @current_city, 15 -%>
+                                              <%= link_to h(tag.tag), :controller=>'search', :action=>'search', :tag=>tag.tag, :id=>@current_city.id %>&nbsp;
+                                      <% end -%>
+                              </p>
+                      </div>
+              </div>
+
+              <div id="hot_topics">
+                <p id="hot_topics_content">
+                  <%
+                    hot_topics = HotTopic.find(:all, :limit=> 2, :order => "created_at desc")
+                  %>
+                  <%for hot_topic in hot_topics%>
+                  <%=link_to hot_topic.title, hot_topic.link%><br/>
+                  <%end%>
+               </p>
+              </div>
+
+      </div> <!-- row_2 -->
+
+      <div id="row_3">
+        <div id="event_calendar">
+                <%= render :partial=>'event_calendar', :locals=>{:date=>Date.today} %>
+        </div>
+        <div id="recommended">
+              <div class="head">
+                      <h3><%= _('XNavi Recommends')%></h3>
+              </div>
+              <div class="body">
+                      <% for recommended in xnavi_recommends(@current_city, 12) -%>
+                              <%= render :partial=>"/cities/recommended/#{recommended.class.to_s.underscore.downcase}", :object=>recommended%>
+                      <% end -%>
+              </div>
+        </div>
+
+        <div id="latest_contents">
+                <div class="head">
+                        <h3><%= _('Latest Articles')%></h3>
+                </div>
+
+                <div class="body">
+                        <table class="layouter">
+                                <tr>
+                                        <td class="first-child" width="50%">
+                                                <div id="latest_comments" class="column">
+                                                        <div class="head">
+                                                                <h4><%= _('Comments')%></h4>
+                                                        </div>
+                                                        <%= render :partial=>'comment', :collection=>@comments %>
+                                                </div><!-- latest comments -->
+                                        </td>
+                                        <td width="50%">
+                                                <div id="latest_blog_articles" class="column">
+                                                        <div class="head">
+                                                                <h4><%= _('Blog Articles')%></h4>
+                                                        </div>
+
+                                                        <%= render :partial=>'article', :collection=>Article.recommend_articles %>
+                                                </div> <!-- latest blog articles -->
+                                        </td>
+                                </tr>
+                        </table>
+                </div> <!-- latest_articles body -->
+        </div>
+      </div>
+</div>
+
+<%=input_with_help _('HotSpot name, brand name, traffice line name, hot spot category name or road name.'), "fast_search_key_word" %>
+<%=input_with_help _('Area name, road name, hot spot name'), "area_name" %>

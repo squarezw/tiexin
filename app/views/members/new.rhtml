@@ -1,0 +1,78 @@
+<% @page_title=_('Registe Member') 
+   @css_files = ['user_term']-%>
+
+<%= error_messages_for :member %>   
+            
+<% form_for :member, @member, :url=>members_path, :method => :post do |f| -%>
+<table class="form_container" width="60%">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Member|Login name') %></label></td>
+		<td width="*"><%= f.text_field :login_name, :size => 20  %><span id="login_name_check_result"></span></td>
+		<td width="30%" rowspan="5">
+			<div id="campaign_infors">
+				<% unless @campaigns.nil? or @campaigns.empty?
+					for campaign in @campaigns -%>
+					<h3><%= h(campaign.name)%></h3>
+					<p><%= truncate(strip_bbcode(campaign.description), 200) %></p>
+				<%  end
+				  end -%>
+			</div>
+		</td> 
+	</tr>                                            
+	<tr>
+		<td><label class="required"><%= s_('Member|Password') %></label></td>
+		<td><%= f.password_field :password, :size=> 20 %>
+			<p class="help"><%= _("Can contain alphabet, digit, '.', '-' and '_'. The length must between 6 and 15.") %></p></td>
+	</tr>                                                     
+	<tr>
+		<td><label class="required"><%= s_('Member|Password confirmation') %></label></td>
+		<td><%= f.password_field :password_confirmation, :size=>20 %></td>
+	</tr>                          
+	<tr>
+		<td><label class="required"><%= s_('Member|Mail')%></label></td>
+		<td><%= f.text_field :mail, :size=>30 %>
+		</td>
+	</tr> 
+	<tr>
+		<td><label><%= s_('Member|Mobile phone')%></label></td>
+		<td><%= f.text_field :mobile_phone, :size=>20 %></td>
+	</tr>                                      
+	<% if @member.invitation -%>
+	<tr>
+		<td><%= s_('Member|Inviter')%></td>
+		<td>
+			<%= f.hidden_field :invitation_id %>
+			<%= h(@member.invitation.member.nick_name)%>
+			<p class="help"><%= _('After you registered successfully, your inviter will get 50 experience scores.')%>
+				<% if @member.invitation.add_friends -%>
+					<%= _('And you will be added to his(her) friend list.')%>
+				<% end -%>
+			</p>
+		</td>
+	</tr>
+	<% elsif @member.inviter -%>
+	<tr>
+		<td><%= s_('Member|Inviter')%></td>
+		<td>
+			<%= f.hidden_field :inviter_id %>
+			<%= h(@member.inviter.nick_name)%>
+			<p class="help"><%= _('After you registered successfully, your inviter will get 50 experience scores.')%>
+			</p>
+		</td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td></td>
+		<td><%= check_box_tag 'accept_user_term',1,true %><%= link_to_function _('I agree to accept all of above user terms.'),"showhide('div_user_term')"%></td>
+	</tr>
+</table>
+
+<%= observe_field 'member_login_name', :url => { :controller=>'members', :action=>'check_login_name' }, :update=>'login_name_check_result', :with => 'login_name'  %>
+
+<%= render :partial => 'site/user_term' %>      
+                  
+<div class="button_bar">
+	<%= submit_tag _('Registe')%>
+	<input type="reset" />
+</div>
+<% end -%>

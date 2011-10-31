@@ -1,0 +1,26 @@
+path=@hot_spot.category_path
+root = path.pop    
+
+page.call 'add_root_category', 
+          root.id, 
+          render(:partial=>'layout_maps/category', :object=>root)
+
+path.reverse.each do |cat| 
+   page.call 'add_sub_category', 
+             cat.parent_id, 
+             cat.id, 
+             render(:partial=>'layout_maps/category', :object=>cat)
+end
+
+page.call 'delete_hot_spot_node', @hot_spot.id
+
+page.call 'add_hot_spot_to_tree', 
+          @hot_spot.hot_spot_category_id, 
+          @hot_spot.id, 
+          render(:partial=>'layout_maps/hot_spot', :object=>@hot_spot),
+          true
+          
+page.call 'refresh_hot_spot_marker', 
+          @hot_spot.id, 
+          h(localized_description(@hot_spot, :name)), 
+          hot_spot_icon(@hot_spot) 

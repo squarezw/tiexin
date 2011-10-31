@@ -1,0 +1,15 @@
+<% page_title _('Recommend Hot Spot for tag')
+   side_menu 'master_data' -%>
+<% form_tag recommend_for_tag_manage_hot_spots_path do  -%>
+<table class="form_container" width="70%">
+	<tr>
+		<td width="25%"><label><%= s_('HotSpot|Tag') %></label></td>
+		<td><%= text_field_with_auto_complete :hot_spot_tag, :tag, { :size => 50,:value => @keyword_exp }, {:tokens => ' '} -%></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Recommend')%>
+		</td>
+	</tr>
+</table>
+<% end -%>

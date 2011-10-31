@@ -1,0 +1,5 @@
+xml.result(:code => "207") do 
+  for error in @error_message
+    xml.error error
+  end
+end

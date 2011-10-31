@@ -1,0 +1,16 @@
+<li>
+<p><%= link_to h(localized_description(top_hot_spot, :name)), hot_spot_path(top_hot_spot)%>
+<% if top_hot_spot.container -%>
+	(<%= _('in') %>&nbsp;<%= link_to h(localized_description(top_hot_spot.container, :name)), hot_spot_path(top_hot_spot.container)%>)
+<% end -%>
+<span class="category">[&nbsp;<%= localized_description(top_hot_spot.hot_spot_category, :name)%>&nbsp;]</span>
+</p>
+<p class="address">
+<% if top_hot_spot.container -%>
+	<%= h(localized_description(top_hot_spot.container, :address))%> - <%= h(localized_description(top_hot_spot, :address))%>
+<% else -%>
+	<%= h(localized_description(top_hot_spot, :address))%>
+<% end -%>
+</p>
+</li>
+

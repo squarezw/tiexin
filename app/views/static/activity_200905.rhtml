@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+	
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><%= _('X-Navi') %>──邀请好友加入，赢取华硕EeePC</title>    
+	<%= stylesheet_link_tag 'common'%>  
+	<%= stylesheet_link_tag 'activity_200905'%>  
+</head>
+<body>
+<div id="main_wrapper">
+	<div id="page_head">
+		<div id="site_logo">
+			<%= link_to image_tag('gray_logo.jpg'), '/'%>
+		</div>
+		<div id="home_link">
+			<%= link_to '回到首页', '/'%>
+		</div>
+	</div>
+	<div id="up_image">
+		<%= image_tag 'activity_200905/page_top.jpg' %>
+		<div id="title_image">
+			<%= image_tag 'activity_200905/title.jpg' %>
+		</div>
+		
+		<div id="sponsor">
+			<%= link_to image_tag('activity_200905/dis_tours.jpg'), '/dis/dis_tours.html', :target=>'_blank'%>
+			<p>本次活动由突尼斯旅游地接社<%= link_to 'DIS-Tours', '/dis/dis_tours.html', :target=>'_blank'%>赞助。欲了解关于突尼斯旅游或DIS-Tours的详细情况，请点击上图，或者<%= link_to '这里', '/dis/dis_tours.html', :target=>'_blank' %>。
+		</div>
+		
+	</div>
+	
+	<div id="side_bar">
+		
+		<div id="bonus">
+			<%= image_tag 'activity_200905/bonus.jpg'%>
+		</div>
+	
+	</div>
+	
+	<div id="main_content">
+		<div clas="section">
+			<div chass="head">
+				<h2>获奖名单</h2>
+			</div>
+			
+			<div class="body">
+				<h3>一等奖</h3>
+				<p>宝贝</p>
+				<h3>二等奖</h3>
+				<p>puman, hippo</p>
+				<h3>三等奖</h3>
+				<p>小菜菜，enidgcy, nini</p>
+				
+				<p>网站工作人员将与以上用户联系发奖事宜。</p>
+			</div>
+		</div>
+		<div class="section">
+			<div class="head">
+				<%= image_tag 'activity_200905/ico_date.jpg'%>
+			</div>
+			<div class="body">
+				<p>2009年5月1日到2009年6月10日</p>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="head">
+				<%= image_tag 'activity_200905/ico_rule.jpg'%>
+			</div>
+			<div class="body">
+				<p>用户在活动期间邀请好友加入贴心网，按照邀请成功（被邀请人注册贴心网，并根据确认邮件的指示确认注册成功）的人数从多到少排序，分别授予一等奖1名、二等奖两名、三等奖三名。</p>
+				<p>获奖用户必须至少邀请50人成功加入贴心网。如果活动结束时没有足够的用户达到此最低标准，奖项将有空缺。</p>
+				<p>一旦发现有人采用不正当手段，包括但不限于向自己发出邀请、一人注册多个帐号的情况，本公司有权取消其获奖资格。</p>
+				<p>本公司（上海神图信息科技有限公司）之员工，无论全职员工还是兼职员工均不得参加本次活动。</p>
+				<p>统计截止时间为6月10日24:00，活动结果及奖品领取办法将于活动结束后在贴心网论坛“站务讨论”板块公布。</p>
+				<p>奖品设置：</p>
+				<ol>
+					<li>一等奖（一名）：华硕EeePC 900HD（硬盘160G）一台。（由<%= link_to 'DIS-Tours', '/dis/dis_tours.html', :target=>'_blank' %>提供赞助。）</li>
+					<li>二等奖（两名）：<%= link_to '上海海洋水族馆欢乐卡C套餐', campaign_gift_path(3), :target=>'_blank' %>一套或者Apple iPod Shuffle （4代，容量1G）一只 。得奖者可以在两个奖品中任选一样。</li>
+					<li>三等奖（三名）：Sony耳机一副。</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="head">
+				<%= image_tag 'activity_200905/ico_method.jpg'%>
+			</div>
+			<div class="body">
+				<ol>
+					<% unless @current_user -%>
+					<li>您还没有登录系统。您可以点击<%= link_to '这里', new_session_path %>登录系统。如果您还没有注册成为贴心网的会员，请先<%= link_to '注册', new_member_path %>。</li>
+					<% else -%>
+					<li>点击<%= link_to '这里', to_invite_member_path(@current_user) %>进入邀请好友页面。您也可以点击首页上本次活动海报下方的“邀请好友”图标，进入邀请好友页面。</li>
+					<% end -%>
+					<li>在“邀请好友”页面填入好友的电子邮件地址，可以一次填入多个，用逗号（半角）分开。</li>
+					<li>填入您的名字，以便您的好友知道这个好友是由谁发出的。</li>
+					<li>系统将向您好友的电子邮件发出邀请信，您的好友即可点击邀请信中的链接注册成为纳米信的用户。注意，只有点击邀请信中的链接进行注册，邀请才有效。</li>
+					<li>您的好友成功注册以后，您还将获得50分经验分奖励。您可以使用这些积分兑换我们为您准备的<%= link_to '礼品', campaign_gifts_path %>。</li>
+					<li>您也可以把“邀请好友”页面中“方法1”下面的URL发送给您的朋友，让他们访问该URL注册贴心网。</li>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="head">
+				<%= image_tag 'activity_200905/ico_memo.jpg'%>
+			</div>
+			<div class="body">
+				<p>本次活动由贴心网网站举办，不设立第三方公正，解释权归上海神图科技有限公司所有。</p>
+				<p>对本次活动有任何疑问请到论坛“站务讨论”板块提出。如果您需要和我们直接联系，我们的联系方式在<%= link_to '这里', static_path('contact_us'), :target=>'_blank'%>。</p>
+			</div>
+		</div>
+	</div>
+	
+	<div id="page_foot">
+		<p>
+			<%= _('Copy Right Declaration')%>
+		</p>
+	</div>
+</div>
+</body>

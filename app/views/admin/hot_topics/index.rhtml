@@ -1,0 +1,28 @@
+<% @page_title=_('Hot Topics') 
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_hot_topic_path, :class => :button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= s_('Title')%></th>
+		<th width="*"><%= s_('RssSource|Link')%></th>
+		<th widht="15%"><%= s_('Bulletin|Created at') %></th>
+		<th width="20%"><%= _('Operation') %></th>
+	</tr>
+	<% for hot_topic in @hot_topics -%>
+        <tr>
+                <td><%= h(hot_topic.title)%></td>
+                <td><%= hot_topic.link%></td>
+                <td><%= format_time hot_topic.created_at %></td>
+                <td>
+                        <%= link_to _('Show'), hot_topic.link, :target=>'_blank' %>
+                        <%= link_to _('Edit'), edit_admin_hot_topic_path(hot_topic) %>
+                        <%= link_to _('Delete'), admin_hot_topic_path(hot_topic), :method=>:delete, :confirm=>_('Are you sure?') %>
+                </td>
+        </tr>
+	<% end -%>
+</table>
+<%= page_navigator @hot_topics %>

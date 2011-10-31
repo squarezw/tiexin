@@ -1,0 +1,18 @@
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('Forum|Name') %></label></td>
+		<td><%= form.text_field :name, :size=>50, :max_size=>50 %>
+			<p class="help"><%= _('Can not be longer than %{length}') % {:length=>50} %></p></td>
+	</tr>
+	<tr>
+		<td width="20%"><label><%= s_('Forum|Description') %></label></td>
+		<td><%= form.text_area :description, :size=>'50x10' %>
+			<p class="help"><%= _('Can not be longer than %{length}') % {:length=>2000} %></p></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit')%>
+			<input type="reset"/>
+		</td>
+	</tr>
+</table>

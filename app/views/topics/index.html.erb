@@ -1,0 +1,15 @@
+<% page_title _('Topics'), true
+    include_css_file 'yui/button', 'yui/container', 'topic'
+ -%>
+<div class="navigation_bar">
+  <%=_('Topics')%>
+</div>
+<div id="main_function_content">
+   <%
+      for topic in @topics
+   %>
+  <div class="photo_thumb"><%= link_to image_tag(topic.cover_pic.url), topic_url(topic, :host=>XNavi::HOST_NAME) %></div>
+   <h3><%= link_to topic.title, topic_url(topic, :host=>XNavi::HOST_NAME) %></h3>
+  <%end%>
+</div>
+

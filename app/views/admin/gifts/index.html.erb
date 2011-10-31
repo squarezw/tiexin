@@ -1,0 +1,24 @@
+<% page_title _('Gifts') 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_gift_path, :class=>:button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="*"><%= _('Gift|Name')%></th>
+		<th width="20%"><%= _('Gift|Price') %></th>
+		<th width="8%"><%= _('Gift|On sale') %></th>
+	</tr>
+	<% for gift in @gifts -%>
+		<tr>
+			<td><%= link_to h(gift.name), admin_gift_path(gift) %></td>
+			<td><%= gift.experience %><%= _('Member|Experience')%> + 
+				<%= gift.credit %><%= _('Member|Credit')%> + 
+				<%= gift.cash %><%= _('Gift|Cash')%>
+			</td>
+			<td><%= check_icon gift.on_sale %></td>
+		</tr>
+	<% end -%>
+</table>

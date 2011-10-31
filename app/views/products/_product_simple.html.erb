@@ -1,0 +1,19 @@
+<div id="<%= product_div_id(product_simple)%>" class="product <%= class_for_owner_recommended product_simple %>">  
+	<div class="product_photo">
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+					<% if product_simple.photo -%>
+						<%= link_to image_tag(product_simple.photo.thumb.url), product_simple.photo.url, :target=>'blank' %>
+					<% else -%>
+						<%= image_tag 'nopic.jpg' %>
+					<% end -%>                                  					
+				</td>
+			</tr>
+		</table>
+	</div>                                            
+	
+		<h4><%= link_to h(localized_description(product_simple, :name)), product_path(vendor_type(product_simple.vendor), product_simple.vendor_id, product_simple)%></h4>
+		<p class="introduction"><%= truncate(h(localized_description(product_simple, :introduction)), 30) %></p>
+</div>
+

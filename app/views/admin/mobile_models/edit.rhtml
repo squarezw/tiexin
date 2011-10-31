@@ -1,0 +1,12 @@
+<% @page_title = _('Edit Mobile Model') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   @side_menu = 'master_data'
+-%>
+   
+<div class="button_bar">
+	<%= link_to _('Back'), manage_mobile_models_path, :class => :button %>
+</div>
+<%form_for :mobile_model,:url => manage_mobile_model_path(@mobile_model), :html =>{:multipart => true, :method => "put"} do |f|%>
+<%=render :partial => "form",:object => f%>
+<%end -%>

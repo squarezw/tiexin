@@ -1,0 +1,133 @@
+<% content_for 'page_scripts' do -%>
+	var hygienic_score = 0;
+	var deliver_score = 0;
+        var flavor_score = 0;
+        /*--hygienic_score---*/
+        function mouse_over_hygienic_score(score) {
+		draw_score_star('hygienic', score);
+	}
+
+	function mouse_out_hygienic(score) {
+		draw_score_star('hygienic', hygienic_score);
+	}
+
+	function click_hygienic_score(score) {
+		hygienic_score = score;
+                $('wypj').style.display = "none";
+                alert('<%=_('评价成功，统计中，请等待...')%>')
+                new Ajax.Updater('star_score','/hot_spots/<%=@hot_spot.id%>/scores/',
+						{ method:'post',
+						  parameters: { 'hot_spot_score[price]': score, 'hot_spot_score[service]': score, 'hot_spot_score[environment]': score, 'hot_spot_score[quality]':score} } );
+
+		//$('restaurant_comment_hygienic_score').value = score;
+	}
+
+        /*--deliver_score---*/
+	function mouse_over_deliver_score(score) {
+		draw_score_star('deliver', score);
+	}
+
+	function mouse_out_deliver(score) {
+		draw_score_star('deliver', deliver_score);
+	}
+
+	function click_deliver_score(score) {
+		deliver_score = score;
+		$('restaurant_comment_deliver_score').value = score;
+	}
+
+        /*--flavor_score---*/
+        function mouse_over_flavor_score(score, id) {
+		draw_score_star(id+'_'+'flavor', score);
+	}
+
+	function mouse_out_flavor(score,id) {
+		draw_score_star(id+'_'+'flavor', flavor_score);
+	}
+
+	function click_flavor_score(score,id) {
+		flavor_score = score;
+		$('flavor_score_'+id).value = score;
+	}
+
+	function draw_score_star(score_type, score) {
+		for (i=1; i<= score; ++i) {
+			$(score_type + '_score_' + i).src = '/images/star.gif';
+		}
+		for (i=score+1; i<= 5; ++i) {
+			$(score_type + '_score_' + i).src = '/images/empty_star.gif';
+		}
+	}
+<%end%>
+<div class="navigation_bar">
+	<div class="tools">
+		<% if @hot_spot.modifiable_to(@current_user) -%>
+			<%= link_to_function image_tag('edit.gif', :alt=>_('Edit this hot spot.')), "edit_hot_spot(#{@hot_spot.id})", :title=>_('Edit this hot spot.') %>
+		<% end -%>
+		<% if current_is_admin? and @current_user.has_privilege(:approve_hot_spot) -%>          
+			<% unless @hot_spot.approved -%>
+				<%= link_to image_tag('approve.gif', :alt=>_('Approve')), approve_manage_hot_spot_path(@hot_spot), :method=> :post, :title=>_('Approve') %>
+			<% end -%>
+		<% end -%>         
+		<% if @current_user and @current_user.has_privilege(:modify_hot_spot) 
+			  if @hot_spot.layout_maps.empty? -%>
+			<%= link_to image_tag('merge.gif', :alt=>_('Merge to another hot spot.')), manage_hot_spot_merges_path(@hot_spot), :title=>_('Merge to another hot spot.') %>
+			<% end -%>
+			<%= link_to image_tag('delete.gif', :alt=>_('Delete this hot spot.')), manage_hot_spot_path(@hot_spot), 
+			:confirm=>_('All information, including photos, comments, recommended products, layout maps, etc., of this hot spot will be deleted. Are you sure?'), :method => :delete, :title=>_('Delete this hot spot.') %>
+		<% end -%>
+	</div>
+
+<%= category_path_str @hot_spot.hot_spot_category, true %>
+</div>
+
+<div id="infor_panel_body" class="body">
+        <div id="hot_spot_summary">
+          <div class="summary">
+		<h2><%= h(localized_description(@hot_spot, :name))%></h2>
+		<p class="address"><%= image_tag ('address.gif'), :title=>_('HotSpot|Address') %>&nbsp;
+		<%=s_('HotSpot|Address') %>:&nbsp;<%= h(localized_description(@hot_spot, :address))%>
+			<% if @hot_spot.container -%>                    
+				(<%= link_to _('In %{container}') % { :container=>h(localized_description(@hot_spot.container, :name))} , 
+							hot_spot_path(@hot_spot.container)%>)
+			<% end -%></p>
+		<p class="phone_number"><%= image_tag('telephone.gif', :title=>_('HotSpot|Phone number'))%>&nbsp;
+		<%= s_('HotSpot|Phone number')%>:&nbsp;<%= @hot_spot.phone_number %></p>
+		<p><%= image_tag 'tag.gif', :title=>_('Hot Spot Tag')%>&nbsp;
+			<%= _('Tag')%>: &nbsp;
+			<span id="tags"><%= (@hot_spot.most_frequent_tags.collect{|t| link_to_show_tag t}).join(', ')%>
+	        <%=link_to _('All'),hot_spot_tags_path(@hot_spot.id) unless @hot_spot.most_frequent_tags.size.zero?%></span></p>
+                
+                <div id="hot_spot_scores_sm" class="button_bar">
+                  <% if @current_user -%>
+                  <%= link_to_function _('去过'), "void()", :class=>:button%>
+                  <%= link_to_function _('想去'), "void()", :class=>:button%>
+                  <%end%>
+                  <%= link_to_function _('Add Favorite'), "AddFavorite(window.location.href,document.title)", :class=>:button%>
+                </div>
+          </div>
+          <div class="star_score" id="hot_spot_scores">
+            <%=render :partial=>'/scores/score_draw', :locals=>{:hot_spot=>@hot_spot}%>
+            <%if @current_user && @current_user != @hot_spot.owner && count_in_30day_rate(@current_user.id,@hot_spot.id).zero?%>
+              <div id="wypj" style="margin-top:5px">
+              我要评价:
+              <% (1..5).each do |i| -%>
+                      <%= image_tag 'empty_star.gif', :id=>"hygienic_score_#{i}", :onmouseover=>"mouse_over_hygienic_score(#{i})", :onmouseout=>"mouse_out_hygienic(#{i})", :onclick=>"click_hygienic_score(#{i})"%>
+              <% end -%>
+              </div>
+            <%end%>
+          </div>
+          <div style="clear:left;"></div>
+	</div>
+<!--
+          <div id="hot_spot_scores" class="hot_spot_scores">
+                  <%#=render :partial=>'/scores/score', :locals=>{:hot_spot=>@hot_spot}%>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <%#= link_to_function _('rate'), "rate()" if @current_user && @current_user != @hot_spot.owner && count_in_30day_rate(@current_user.id,@hot_spot.id).zero?%>
+          </div>
+-->
+	<%= render :partial=>'hot_spot_information_area' %>
+	
+	<div style="clear:left;">
+		
+	</div>
+</div>

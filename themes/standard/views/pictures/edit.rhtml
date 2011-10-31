@@ -1,0 +1,41 @@
+<% @page_title = _('Picture')
+@side_menu = ['main']
+%>
+<%= error_messages_for :picture %>
+<% form_tag blog_picture_path(@blog,@picture), :method=>:put, :multipart=>true do -%>
+<table class="form_container">       
+        <tr>
+		<td width="15%"><label class="required"><%= s_('Picture') %></label></td>
+		<td><% if @picture.photo -%>
+                              <%= link_to image_tag(@picture.photo.small.url), @picture.photo.url, :target=>'blank' %>
+                      <% else -%>
+                              <%= image_tag 'nopic.jpg' %>
+                      <% end -%>
+                </td>
+        </tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Picture|Name') %></label></td>
+		<td><%= text_field :picture, :name, :size=>30, :maxlength => 100 %> 
+                       <span class="comment"><%= _('No longer than %{length} characters.') % {:length=>'100'} %></span> 
+                </td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Picture|Tag list') %></label></td>
+		<td><%= text_field :picture, :tag_list, :size=>30, :maxlength => 100 %>
+                        <span class="comment"><%= _('No longer than %{length} characters.') % {:length=>'100'} %></span> 
+                </td>
+	</tr>
+	<tr>
+		<td><label><%= _('Description')%></label></td>
+		<td><%= text_area :picture, :description, :cols=>35, :rows=>5, :maxlength=>1000 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Picture|Photo') %></label></td>
+		<td><%= upload_column_field :picture, :photo %></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><%= submit_tag _('Submit') %></td>
+	</tr>        
+</table>
+<% end -%>

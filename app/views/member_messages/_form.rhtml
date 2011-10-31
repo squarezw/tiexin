@@ -1,0 +1,37 @@
+<%=error_messages_for 'message'%>
+<table class="form_container">
+  <tr>
+    <td width="20%">
+      <label class="required"><%= s_('Message|To')%></label>
+    </td>
+    <td width="*">
+      <%= text_field_with_auto_complete :member, :nick_name, { :size => 20,:value => params[:search_name]? params[:search_name] : "" },
+		{ :url => {:controller=>'/members', :action=>'auto_complete_for_member_nick_name' } }-%>
+      <%=_('Input member name')%>
+    </td>
+  </tr>
+  <tr>
+    <td width="20%">
+      <label class="required"><%= s_('Message|Title')%></label>
+    </td>
+    <td width="*">
+      <%=form.text_field :title%> <span class="help"><%= _('Can not be longer than %{length}') % {:length=>100} %></span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label class="required"><%= s_('Message|Content')%></label>
+    </td>
+    <td>
+      <span class="help"><%= _('Can not be longer than %{length}') % {:length=>2000} %></span>
+      <%=form.text_area :content,:cols =>60,:rows => 20%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+    <td>
+      <%=submit_tag _('Submit')%>
+    </td>
+  </tr>
+</table>

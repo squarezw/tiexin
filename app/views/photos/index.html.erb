@@ -1,0 +1,33 @@
+<% page_title  photo_owner_name(@owner) +  "──" + _('Photos'), true
+   	use_remote_dialog
+	include_css_file 'photos'
+%>
+
+<% content_for :page_scripts do -%>        
+function upload_photo () {
+	dialog.retrieve_remote_form('<%= new_photo_path(@owner.class.to_s.underscore, @owner.id)%>');
+}                                     
+
+function edit_photo (owner_type, owner_id, id) {
+	dialog.retrieve_remote_form('/photo/' + owner_type + '/' + owner_id + '/photos/' + id + '/edit');
+}
+
+<% end -%>               
+
+<div class="navigation_bar">
+	<%= link_to photo_owner_name(@owner), photo_owner_path(@owner) %>&gt;<%= _('Photos')%>
+</div>
+                    
+<div id="main_function_content">
+	
+	<% if @current_user -%>
+	<div class="button_bar">
+		<%= link_to_function _('Upload Photo'), "upload_photo()", :class => :button  %>
+	</div>               
+	<% end -%> 
+
+	<div id="photo_list">
+		<%= render :partial=>'photo', :collection => @photos, :locals => { :show_buttons=>true }  %>
+	</div>   
+
+</div>                               

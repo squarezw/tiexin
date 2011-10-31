@@ -1,0 +1,178 @@
+div.comments_block div.head h3 {
+	margin: 0px;
+	color: #00315e;
+}
+
+div.comments_block {
+	border: 1px solid #BFBFBF;
+	width: 689px;
+	border: none;
+	margin: 10px 0px 0px 0px;
+	padding: 0px;
+}
+
+div.comments_block div.head  {
+	background: url('../images/section_head_bg_big_gray.jpg') top center no-repeat;
+	height: 31px;
+	padding: 0px 20px;
+	line-height: 31px;
+	margin: 0px;
+}
+
+div#div_comment_form {
+	border-top: 1px dotted #BFBFBF;
+}
+
+div#comment_form table.form_container {
+	background-color: #F0F0F0;
+	margin: 0px;
+	*width: 99%;
+}
+
+div.div_comment {
+	margin: 0 auto 1em auto;
+	padding: 5px;
+	border: 1px solid #BFBFBF;
+}
+
+div.div_comment div.head {
+	background: none;
+}
+
+div.normal_comment {
+}
+
+div.owner_commented {
+	background-color: #F0F0F0;
+}
+
+div.div_comment div.author {
+	float: left;
+	width: 101px;
+	text-align: center;
+	padding: 2px;
+}
+
+div.div_comment div.head {
+	background-position: top;
+	background-repeat: no-repeat;
+}
+
+div.div_comment div.body {
+	border: none;
+}
+
+div.div_comment p.time {
+	font-size: 0.9em;
+	color: #777;
+}              
+
+div.div_comment pre.article {
+	margin-left: 106px;
+	padding: 0.5em;
+}                  
+
+div.div_comment div.head div.button_bar {
+	text-align: right;
+	margin: 0px;
+	height: auto;
+	line-height: auto;
+}             
+
+div.div_comment div.head div.button_bar a.button {
+	background: none;
+	padding: 0;
+}
+
+div.div_comment div.foot {
+	clear: left;
+	text-align: right;
+	padding: 2px 10px;
+}
+
+div#div_comment_form table.form_container {
+	border: none;
+}
+
+div#div_comment_form table.form_container td {
+	border: none;
+}
+
+div#comment_list div.page_navigator a, div.page_navigator span {
+	display: inline-block;
+	padding: 0.2em 0.5em;
+	margin-right: 1px;
+}
+
+div#comment_list div.page_navigator span.disabled {
+	color: #999;
+	border: 1px solid #DDD;
+}
+
+div#comment_list div.page_navigator span.current {
+	font-weight: bold;
+	background: #2E6AB1;
+	color: white;
+	border: 1px solid #2E6AB1;
+}
+
+div#comment_list div.page_navigator a {
+	text-decoration: none;
+	color: #105CB6;
+	border: 1px solid #9AAFE5;
+}
+
+div#comment_list div.page_navigator a:hover, div.page_navigator a:focus {
+	color: white;
+	background-color: #003;
+}
+
+p.note {
+	margin: 10px 20px;
+	font-size: 1.1em;
+}
+
+div.div_comment div.agree_button {
+	float: right;
+	width: 33px;
+	height: 18px;
+	background: url('../images/but_agree_bg.jpg') top center no-repeat;
+	padding-top: 20px;
+	line-height: 18px;
+	text-align: center;
+	margin: 0 5px;
+}
+
+div.div_comment div.disagree_button {
+	background: url('../images/but_disagree_bg.jpg') top center no-repeat;
+	float: right;
+	width: 33px;
+	height: 38px;
+	padding-top: 20px;
+	line-height: 18px;
+	text-align: center;
+	margin: 0 5px;
+}
+
+div.comments_block div.body {
+	border: 1px solid #BFBFBF;
+	border-top: none;
+	padding: 5px;
+}
+
+div.comments_block div.body p.note {
+	margin-top: 0px;
+}
+
+div.div_comment div.head {
+	background: none;
+}
+
+div.div_comment div.body {
+	border: none;
+}
+
+div.div_comment div.foot {
+	border: none;
+}
+

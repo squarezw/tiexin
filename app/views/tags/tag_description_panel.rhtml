@@ -1,0 +1,10 @@
+<%= render :partial=>'hot_spot_tag', :collection=>@hot_spot_tags %>
+<div class="foot">
+<% if @hot_spot_tag_pages  -%>
+<%= remote_page_navigator @hot_spot_tag_pages,"panel_body","get"%>
+<% end -%>
+<%= update_page_tag do |page|
+  	page.call 'panel.show_with_title',"#{_("Descriptions of tag %{tag}") % {:tag => @tag}}"
+        page.call 'busy_indicator.task_end'
+end -%>
+</div>

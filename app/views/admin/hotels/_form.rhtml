@@ -1,0 +1,68 @@
+<%= error_messages_for 'hotel' %>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('Name') %></label></td>
+		<td><%= form.text_field :name, :size=>25 %></td>
+	</tr>
+	<tr>
+		<td width="20%"><label class="required"><%= s_('City') %></label></td>
+		<td>
+                       <%=root_select_tag "hotel[city_id]",@category,true,[_('Please select one'),""]%>
+                       <%= s_('District') %><%=children_select_tag "hotel[district_id]",@hotel,true,[_('Please select one'),""]%>
+                </td>
+	</tr>      
+        <tr>
+                <td><label class="required"><%= s_('Hotel|Category')%></label></td>
+                <td><%= form.select :category_id, @categories.collect {|cat| [h(localized_description(cat, :name)), cat.id]}%></td>
+	</tr>
+        <%unless @hotel.new_record? %>
+	<tr>
+		<td><%= _('Current Icon')%></td>
+                <td><%=link_to safe_hotel_icon(@hotel),image_path(@hotel.photo.url),:target => "_blank" if @hotel.photo%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td><%= s_('Hotel|Photo')%></td>
+                <td><%= form.upload_column_field 'photo'  %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Address')%></label></td>
+                <td><%= form.text_field :address, :size=>35 %></td>
+	</tr>
+        <%unless @hotel.new_record? %>
+	<tr>
+		<td></td>
+                <td><%=link_to safe_hotel_map(@hotel,1),image_path(@hotel.map_1.url),:target => "_blank" if @hotel.map_1%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td><%= s_('Hotel|Big map')%></td>
+                <td><%= form.upload_column_field 'map_1'  %><br/><%= _('Can not width than %{width} and Can not height than %{height}') % { :width => 240, :height => 320 }%></td>
+	</tr>
+        <%unless @hotel.new_record? %>
+	<tr>
+		<td></td>
+                <td><%=link_to safe_hotel_map(@hotel,2),image_path(@hotel.map_2.url),:target => "_blank" if @hotel.map_2%></td>
+	</tr>
+        <%end%>        
+	<tr>
+		<td><%= s_('Hotel|Normal map')%></td>
+                <td><%= form.upload_column_field 'map_2'  %><br/><%= _('Can not width than %{width} and Can not height than %{height}') % { :width => 240, :height => 320 }%></td>
+	</tr>
+        <%unless @hotel.new_record? %>
+	<tr>
+		<td></td>
+                <td><%=link_to safe_hotel_map(@hotel,3),image_path(@hotel.map_3.url),:target => "_blank" if @hotel.map_3%></td>
+	</tr>
+        <%end%>        
+	<tr>
+		<td><%= s_('Hotel|Small map')%></td>
+                <td><%= form.upload_column_field 'map_3'  %><br/><%= _('Can not width than %{width} and Can not height than %{height}') % { :width => 240, :height => 320 }%></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

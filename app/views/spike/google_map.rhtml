@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>google_map</title>              
+	<script src="http://ditu.google.com/maps?file=api&amp;v=2&amp;key=<%= GOOGLE_MAP_KEY %>"
+            type="text/javascript"> </script>
+	<script type="text/javascript">
+		    //<![CDATA[
+
+		    function load() {
+		      if (GBrowserIsCompatible()) {
+		        var map = new GMap2(document.getElementById("map"));
+				map.addControl(new GSmallMapControl());
+				map.addControl(new GMapTypeControl());          
+				GEvent.addListener(map, "moveend", function() {
+				  var center = map.getCenter();
+				  document.getElementById("message").innerHTML = center.toString();
+				});
+				
+		        map.setCenter(new GLatLng(31.2315, 121.4731), 13);     
+		
+				// Creates a marker at the given point with the given number label
+				function createMarker(point, number) {
+				  var marker = new GMarker(point);
+				  GEvent.addListener(marker, "click", function() {
+				    marker.openInfoWindowHtml("Marker #<b>" + number + "</b>");
+				  });
+				  return marker;
+				}
+
+				// Add 10 markers to the map at random locations
+				var bounds = map.getBounds();
+				var southWest = bounds.getSouthWest();
+				var northEast = bounds.getNorthEast();
+				var lngSpan = northEast.lng() - southWest.lng();
+				var latSpan = northEast.lat() - southWest.lat();
+				for (var i = 0; i < 10; i++) {
+				  var point = new GLatLng(southWest.lat() + latSpan * Math.random(),
+				                          southWest.lng() + lngSpan * Math.random());
+				  map.addOverlay(createMarker(point, i + 1));
+				}  
+		      }
+		    }
+
+		    //]]>
+	</script>	
+</head>
+
+<body onload="load()" onunload="GUnload()">
+	<div id="map" style="width: 640px; height: 480px"></div>
+	<div id="message"></div>
+</body>
+</html>

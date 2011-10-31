@@ -1,0 +1,40 @@
+<h3><%= _('Update Taboo Word')%></h3>
+<%= error_messages_for :taboo_word %>  
+                                                
+<% remote_form_for :taboo_word, @taboo_word, 
+				   :url=>taboo_word_path(@taboo_word), 
+				   :method=>:put,
+				   :html => { :id=>'frm_taboo_word'} do |f| -%>
+	
+	<table class="form_container" width="80%">
+		<tr>
+			<td width="15%"><label class="required"><%= s_('TabooWord|Word') %></label></td>
+                         <td width="85%"><%= f.text_field :word, :size=>20 %><label class="help"><%= _('Can not longer than %{length} characters.') % { :length => 10 }  %></label></td>
+		</tr>                                               
+		
+		<tr>
+			<td><label><%= s_('TabooWord|Regexp') %></label></td>
+			<td><%= f.text_field :regexp, :size=>40 %></td>
+		</tr>                              
+		
+		<tr>
+			<td></td>
+			<td><%= f.check_box :active %><%= _('Active')%></td>
+		</tr>     
+		
+		<tr>
+			<td><label><%= _('Test')%></label></td>
+			<td><%= text_field_tag :test_phase, '', :size=>20, :id=>'test_phase' %>
+				<span id="test_phase_result"></span>
+			</td>
+			<%= observe_form :frm_taboo_word, :function=>"doTest(element);"%>
+		</tr>
+		
+		<tr>
+			<td colspan="2" class="button_bar">
+				<%= submit_tag _('Submit')%>
+			</td>
+		</tr>
+	</table>
+
+<% end -%>

@@ -1,0 +1,185 @@
+div#page_content {
+	background: none;
+}
+
+div#search_bar {
+	background: url('../images/map_search_bar_bg.jpg') top left no-repeat;
+	width: 950px;
+	height: 38px;
+	padding: 10px 0px;
+}
+
+
+div#map_row {
+	background: url('../images/full_width_section_body_bg.jpg') bottom left no-repeat;
+	width: 942px;
+	padding: 4px 4px 10px 4px;
+}
+div#map_area {
+	width: 942px;
+	overflow: hidden;
+}
+
+div#map_tool_bar {
+	background-image: none;
+	background-color: #F0F0F0;
+	width: 932px;
+	font-size: 14px;
+	height: 26px;
+	line-height: 26px;
+	margin-bottom: 2px;
+	padding: 0 5px 0 5px;
+	font-weight: bold;
+}
+
+div#map_tool_bar a {
+	color: #003267;
+	line-height: 26px;
+	vertical-align: 7px !important;
+	*vertical-align: 2px;
+}
+
+div#map_tool_bar img {
+	display: inline;
+	*vertical-align: -7px;
+}
+
+div#show_search_result_handler {
+	float: right;
+	padding: 3px;
+	height: 20px;
+	line-height: 20px;
+}
+
+div#hide_search_result_handler {
+	float: left;
+	padding: 3px;
+	height: 21px;
+	line-height: 21px;
+}
+
+div#search_result { 
+	border: 2px solid #6CBFF0;
+	float: right;
+	width: 294px !important;
+	*width: 293px;
+	height: 506px;
+	padding: 0px;
+}
+
+div#search_result div.header {
+	height: 27px;
+	background-color: #F1F4FD;
+}                     
+
+div#search_result div.header h3 {
+	line-height: 27px;
+	font-size: 14px;
+	color: #333;
+	margin: 0px;
+	margin-left: 20px;
+}                          
+
+div#search_result h3 {
+	color: #FD8000;
+	margin: 5px;
+}
+
+div#main_function div#search_result div.body {
+	background: white;
+	background-image: none;
+	padding: 0;
+}
+
+div#result_list_content {
+	padding: 5px;
+	height: 444px;
+	overflow: auto;
+}
+
+div#result_navigation_bar {
+	height: 21px;
+	line-height: 21px;
+	border-top: 1px solid #F0F0F0;
+	text-align: center;
+}
+
+div#main_function div#result_list_content div.head {
+	background-image: none;
+	padding: 0;
+	height: 20px;
+	line-height: 20px;
+}
+
+div#search_result_list div.section div.body{
+	height: auto;
+}
+
+div.search_result_hot_spot div.hot_spot_icon {
+	width: 28px;
+	float: left;
+}
+
+div.search_result_hot_spot {
+	clear: left;
+	margin-bottom: 20px;
+}
+div.search_result_hot_spot div.hot_spot_info {
+	margin-left: 32px;
+}
+
+ul.list li {
+	margin-bottom: 0.5em;
+}
+
+div#map {
+	width: 942px;
+	height: 480px;
+	border: 1px solid #E3E6E9;
+	margin: 0;
+	position: relative;
+	overflow: hidden;
+}
+
+div#detail_infor_content {
+	padding: 5px;
+	height: 444px;
+	overflow: auto;
+}
+
+div#detail_infor_pane div.foot {
+	padding: 5px;
+}
+
+div#search_result div.page_navigator a, div.page_navigator span {
+	display: inline;
+	border: none;
+	margin-right: 0;
+	padding: 0;
+}
+
+div#search_result div.page_navigator span.disabled {
+	color: #999;
+	border: none;
+}
+
+div#search_result div.page_navigator span.current {
+	font-weight: bold;
+	color: black;
+	border: none;
+	background: none;
+}
+
+div#search_result div.page_navigator a {
+	text-decoration: underline;
+	color: #105CB6;
+}
+
+div#search_result div.page_navigator a:hover, div.page_navigator a:focus {
+	color: #105CB6;
+}
+
+div#category_shortcuts {
+	text-align: left;
+}
+

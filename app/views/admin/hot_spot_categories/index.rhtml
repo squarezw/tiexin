@@ -1,0 +1,160 @@
+<% @page_title=_('Manage Hot Spot Categories') 
+   @js_files= ['yui/yahoo', 'yui/event', 'yui/connection', 'yui/treeview', 'yui/utilities', 'yui/button', 'yui/container']
+   include_css_file 'yui/treeview', 'yui/button', 'yui/container', 'admin_hot_spot_category'
+   @side_menu = 'master_data' -%> 
+<%=hotspot_category_root_select_tag_initial_js%>
+<% content_for 'page_scripts' do -%>
+var tree, current_icon_mode, category_dialog;
+                   
+function init_page () {
+	build_tree();
+}                
+
+function build_tree() {
+	tree = new YAHOO.widget.TreeView("categories_tree");
+	
+	tree.setDynamicLoad (load_data);                   
+	
+	<% for category in @roots -%>
+	add_root_node(<%= category.id %>, '<%= render :partial=>'category', :object => category %>');
+	<% end -%>        
+	tree.draw();
+}                     
+
+function add_root_node(id, label) {    
+	var node = new YAHOO.widget.HTMLNode(
+		{	html: label,
+			category_id: id
+		}, tree.getRoot(), false, true);
+}                   
+
+function add_sub_node(parent_id, id, label, refresh_parent) {
+	var parent = tree.getNodeByProperty ('category_id', parent_id);
+	var sub = new YAHOO.widget.HTMLNode( 
+	{
+		html : label,
+		category_id : id
+	}, parent, false, true);
+	if (refresh_parent) {     
+		parent.refresh ();
+	}
+}                                          
+
+function add_category_to_tree(parent_id, id, html) {           
+	if (! parent_id ) {
+		add_root_node(id, html); 
+		tree.getRoot().completeRender();
+		tree.draw();
+	} else {
+		var parent = tree.getNodeByProperty('category_id', parent_id);   
+		if (parent.dynamicLoadComplete) {
+			add_sub_node(parent_id, id, html, true);
+		}                    
+		parent.collapse ();
+		parent.expand();
+	}
+}
+
+function tree_reload(parent_id){
+        var url = '/admin/hot_spot_categories/category_tree';
+        tree.removeChildren(tree.getRoot());
+        new Ajax.Request(url,{ 
+                method: 'get'
+                }
+        );
+}
+
+function remove_category(id) {
+	var node=tree.getNodeByProperty('category_id', id);
+	var p = node.parent
+	tree.removeNode(node, true);
+	p.completeRender();
+	p.refresh ();
+}
+
+function load_data (node, fnLoadComplete) {
+	var category_id = node.data.category_id;
+	var url = '/hot_spot_categories/' + category_id + '/children?manage=true';
+	var callback = {
+		success: function (response) {      
+		  try {
+		  	eval (response.responseText);
+	   	  } finally {
+		  	response.argument.fnLoadComplete();
+		  }
+		},                                   
+		
+		failure: show_status_on_error, 
+		
+		argument: {
+			"node" : node,
+			"fnLoadComplete" : fnLoadComplete
+		},
+		
+		timeout: 7000
+	};               
+	
+	YAHOO.util.Connect.asyncRequest('GET', url, callback);
+} 
+
+function edit_category(id) {
+	new Ajax.Updater(
+		'div_category_form',
+		'hot_spot_categories/' + id + "/edit",
+		{method: 'get'});
+}           
+
+function hot_spot_category_clicked(id) {
+	edit_category(id);
+}
+
+function to_create_category(parent_id) {
+	var params='';
+	if (parent_id)
+		params='parent_id=' + parent_id;
+	new Ajax.Updater (    
+	    'div_category_form',
+		<%= "'#{new_manage_hot_spot_category_path}'" %>,
+		{ method: 'get',
+		 parameters: params });
+}                    
+
+function delete_category(id) {
+	if (confirm("<%= _('Are you sure?') %>")) {
+		new Ajax.Request( 
+			'hot_spot_categories/' + id,
+			{method: 'delete'});
+	}
+}
+
+ function merge_or_move_submit_check(form_name,radio_name){
+    var radioTest = $('category_mm_form').elements['MorM'];
+    if (getRadioValue(radioTest) == ''){
+        alert('<%=_('Please choose at least a operation')%>')
+        return false
+    }
+    return true;
+}
+
+<% end -%>                          
+     
+
+<div class="bd" id="div_category_form">
+</div>                
+                                 
+<div id="hot_spot_category_tree">
+	<div class="button_bar">
+		<%= link_to_function _('New Top Category'), 'to_create_category();', :class=>:button %>
+                <%= link_to_function _('Refresh'), 'tree_reload();', :class=>:button %>
+	</div>
+
+
+	<div id="categories_tree">
+
+	</div>                         
+</div>
+
+
+<div id="debug">
+</div>
+

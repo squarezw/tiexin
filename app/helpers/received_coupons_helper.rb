@@ -1,0 +1,2 @@
+module ReceivedCouponsHelper
+end

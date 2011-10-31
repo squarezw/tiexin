@@ -1,0 +1,22 @@
+<% @page_title = h(@hot_spot_tag.tag) 
+   side_menu side_menu_for_member(@member) 
+   @css_files=['tags']
+-%>
+
+<div class="tag">
+  <%=@hot_spot_tag.description%>
+</div>
+
+<p><%= s_('Tag|Created at')%>:<%= format_time @hot_spot_tag.created_at %></p>
+<p>
+<% if @hot_spot_tag.created_at != @hot_spot_tag.updated_at -%>
+	<%= s_('Tag|Updated at')%>:<%= format_time @hot_spot_tag.updated_at %>
+<% end -%>
+</p>
+
+<% if @hot_spot_tag.member == @current_user %>
+<div class="button_bar">
+          <%= link_to _('Edit'), edit_member_posted_tag_path(@member,@hot_spot_tag), :class=>:button %>
+          <%= link_to _('Delete'), member_posted_tag_path(@member,@hot_spot_tag), :confirm => _('Are you sure?'), :method => :delete, :class=>:button%>
+</div>
+<% end -%>

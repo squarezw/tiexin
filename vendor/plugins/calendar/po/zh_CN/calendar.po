@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: calendar 1.0.0\n"
+"POT-Creation-Date: 2007-04-11 12:02+0800\n"
+"PO-Revision-Date: 2007-04-11 12:01+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: lib/calendar.rb:10
+msgid "Sun"
+msgstr "日"
+
+#: lib/calendar.rb:11
+msgid "Mon"
+msgstr "一"
+
+#: lib/calendar.rb:12
+msgid "Tue"
+msgstr "二"
+
+#: lib/calendar.rb:13
+msgid "Wed"
+msgstr "三"
+
+#: lib/calendar.rb:14
+msgid "Thu"
+msgstr "四"
+
+#: lib/calendar.rb:15
+msgid "Fri"
+msgstr "五"
+
+#: lib/calendar.rb:16
+msgid "Sat"
+msgstr "六"
+
+#: lib/calendar.rb:18
+msgid "Jan"
+msgstr "一月"
+
+#: lib/calendar.rb:19
+msgid "Feb"
+msgstr "二月"
+
+#: lib/calendar.rb:20
+msgid "Mar"
+msgstr "三月"
+
+#: lib/calendar.rb:21
+msgid "Apr"
+msgstr "四月"
+
+#: lib/calendar.rb:22
+msgid "May"
+msgstr "五月"
+
+#: lib/calendar.rb:23
+msgid "Jun"
+msgstr "六月"
+
+#: lib/calendar.rb:24
+msgid "Jul"
+msgstr "七月"
+
+#: lib/calendar.rb:25
+msgid "Aug"
+msgstr "八月"
+
+#: lib/calendar.rb:26
+msgid "Sep"
+msgstr "九月"
+
+#: lib/calendar.rb:27
+msgid "Oct"
+msgstr "十月"
+
+#: lib/calendar.rb:28
+msgid "Nov"
+msgstr "十一月"
+
+#: lib/calendar.rb:29
+msgid "Dec"
+msgstr "十二月"

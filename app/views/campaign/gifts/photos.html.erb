@@ -1,0 +1,25 @@
+<table class="layouter">
+	<tr>
+		<td width="8px">
+			<% unless (prev = @photos.previous_page).nil? -%>
+				<%= link_to_remote image_tag('scroll_left.gif'), :update=>'gift_photos', :url=>params.merge(:page=>prev), :method=>:get %>
+			<% end -%>				
+		</td>
+		<td id="products_list" align="center">
+			<% for photo in @photos -%>
+				<div class="photo">
+					<%= link_to image_tag(photo.photo.thumb.url), photo.photo.url, :popup=>true %>					
+				</div>
+			<% end -%>
+		</td>
+		<td width="8px">
+			<% unless (nxt = @photos.next_page).nil? -%>
+				<%= link_to_remote image_tag('scroll_right.gif'), :update=>'gift_photos', :url=>params.merge(:page=>nxt), :method=>:get %>
+			<% end -%>				
+		</td>
+	</tr>
+</table>
+
+
+
+ 

@@ -1,0 +1,20 @@
+<%= error_messages_for :received_coupon %>
+
+<p>如果你想要领取本次活动的优惠券，请填写以下表格。</p>
+<p>请填写正确的联系电话。商家可能在您使用优惠券时核实该联系电话，并有权在电话不正确的情况下拒绝接受该优惠券。</p>
+<% remote_form_for :received_coupon, @received_coupon, :update=>'apply_coupon_form', :url=>received_coupons_path do |form| -%>
+<%= hidden_field_tag :coupon_id, @coupon.id %>
+<table class="form_container">
+	<tr>
+		<td width="30%"><label class="required"><%= s_('ReceivedCoupon|Name') %></label></td>
+		<td><%= form.text_field :name, :size=>15 %></td>
+	</tr>
+	<tr>
+		<td width="30%"><label class="required"><%= s_('ReceivedCoupon|Phone number') %></label></td>
+		<td><%= form.text_field :phone_number, :size=>20 %></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2"><%= submit_tag _('Apply Coupon')%></td>
+	</tr>
+</table>
+<% end -%>

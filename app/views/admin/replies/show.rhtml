@@ -1,0 +1,61 @@
+<% page_title _('Reply To: %{post}') % { :post=> h(@reply.post.title) }
+   side_menu :master_data -%>
+
+<table class="form_container">
+	<tr>
+		<td width="20%"><label><%= _('Forum')%></label></td>
+		<td><%= h(@reply.post.forum.name)%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Reply To')%></label></td>
+		<td><%= link_to h(@reply.post.title), forum_post_path(@reply.post.forum_id, @reply.post)%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Reply|Member')%></label></td>
+		<td><%= link_to h(@reply.member.nick_name), member_path(@reply.member)%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Reply|Content')%></label></td>
+		<td>
+<pre class="article"><%= bbcodeize(h(@reply.content))%></pre>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Reply|Deleted')%></label></td>
+		<td><%= check_icon @reply.deleted %></td>
+	</tr>
+</table>
+
+<% form_tag check_manage_reply_path(@reply) do -%>
+<table class="form_container">
+	<tr>
+		<td width="20%"><%= _('Check')%></td>
+		<td><select name="check_status">
+				<%= options_for_select options_for_codes(Reply::ALL_CHECK_STATUS, :reply_check_status), @reply.check_status %>
+			</select>
+			<%= submit_tag _('Check')%>
+		</td>
+		
+	</tr>
+</table>
+<% end -%>
+
+<% unless @reply.deleted 
+	form_tag manage_reply_path(@reply), :method=>:delete do -%>
+<table class="form_container">
+	<tr>
+		<td width="20%" rowspan="3"><%= _('Delete Reply')%></td>
+		<td><%= _('Subtract credit from author:')%>
+			<select name="subtract_credit">
+				<%= options_for_select ((0..5).to_a.collect {|i| [i, i]}), 0 %>
+			</select>
+			<%= submit_tag _('Delete')%>
+		</td>
+	</tr>
+	<tr>
+		<td><p><%= _('Delete Reason') %>: </p>
+		<p><%= text_area_tag :delete_reson, '', :size=>'30x5' %></p></td>
+	</tr>
+</table>
+<% 	end 
+  end -%>

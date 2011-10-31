@@ -1,0 +1,399 @@
+<% @show_title= false   
+   use_remote_dialog
+   include_js_file 'yui/event', 'yui/dom', 'map' 
+   include_css_file 'main', 'toolbar'
+   @hide_page_title = true
+   select_menu :map
+-%>
+
+<% content_for 'page_scripts' do -%>
+var big_map_page = true;
+
+var map;
+
+var operation = null;
+
+var area_nw = null;
+
+var area_to_reposition = null;
+
+<%= render :partial=>'/main/levels_data'  %>
+
+var city_id = <%= @current_city.id %>;
+	
+function init_page () {	
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: <%= start_point %>,
+			zoom_levels: map_levels,
+			viewport_width: 942,
+			viewport_height: 480,
+			init_zoom_level_index: 6
+		});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	
+	<% if @hide_search_result -%>
+		hide_search_result ();
+	<% else -%>
+		show_search_result ();
+	<% end -%>
+	
+	<% if @hot_spot -%>
+	<%= update_page do |page|
+			add_hot_spot_marker page, @hot_spot
+		end %>
+	<% end -%>
+	
+	<% if @hot_spots
+		@hot_spots.each do |hot_spot| -%>
+			<%= update_page do |page| 
+				add_hot_spot_marker page, hot_spot 
+			end %>
+	<%  end %>
+		<%= update_page do |page|
+				page.call 'show_hot_spot_marker', @hot_spots[0].id unless @hot_spots.nil? or @hot_spots.empty?
+			end %>
+    <% end -%>
+	
+	<% if @area -%>
+	<%= update_page do |page|
+			add_area_marker page, @area
+		end %>	
+	<% end -%>
+	
+	<% if @areas 
+		@areas.each do |area| -%>
+		<%= update_page do |page| 
+			add_area_marker page, area 
+		end %>
+	<%  end
+	end -%>
+	
+	map.add_event_listener('click', function(event) {  
+//		alert ("on click: " + area_to_reposition);
+		if (operation != null) {
+			operation.call (map, event);
+		}
+	});
+	
+	map.add_event_listener('click_marker', function(event) {
+		map.set_position(this.x, this.y);
+		if (this.show_info_bubble)
+			this.show_info_bubble ();
+	});
+	
+	<% if @current_user and @current_user.has_privilege(:modify_hot_spot) -%>
+		map.enable_move_marker ();          
+		map.add_event_listener('marker_moved', function(event) {
+			if (this.options.hot_spot_id) {
+					new Ajax.Request('/hot_spots/' + this.options.hot_spot_id + '/move.js', {
+						method : 'post',
+						parameters : { x : event.map_x, y: event.map_y }
+				});
+				map.move_bubble_to(event.map_x, event.map_y);
+			}
+		});
+	<% end -%>
+	
+	<% if @show_brand_map -%>
+		show_brand(<%= @brands[0].id %>);
+	<% end %>
+}
+
+function on_new_hot_spot() {
+	operation = new_hot_spot;
+	map.set_cursor('crosshair');
+}
+
+function new_hot_spot (event) {
+	dialog.retrieve_remote_form(
+		'<%= new_hot_spot_path %>',
+		{
+			parameters: {x: event.map_x,
+			 			 y: event.map_y,
+						 city_id: city_id },
+			busy_indicator: busy_indicator
+		});
+	operation = null;
+}
+
+function add_hot_spot_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', options.hot_spot_id);
+	if (marker)
+		return;
+	new HotSpotMarker (map, x, y, options);
+}
+
+function show_hot_spot_marker (id) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', id);
+//	alert ("Founded marker " + marker);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+		map.show_bubble(marker.x, marker.y, marker.options.bubble_content);
+	} else {
+		new Ajax.Request('/hot_spots/' + id + '/marker', 
+						 { method: 'get'}
+						);
+	}
+}
+
+function on_new_area () {
+	operation = new_area_step_1;   
+	map.set_cursor("crosshair");
+	window.status = "<%= _('Click on map to speficy the northwest point of the area.')%>";
+}
+
+function new_area_step_1(event) {
+	area_nw = [event.map_x, event.map_y];
+	map.set_cursor("crosshair");
+	operation = new_area_step_2;
+	window.status = "<%= _('Click on map again to define the southeast point of the area.')%>";
+}
+
+function new_area_step_2(event) {
+	if (!area_nw)
+		return;    
+	
+	dialog.retrieve_remote_form('<%= new_manage_area_path %>',
+		{
+			method : 'get',
+			parameters : {
+				'x[]' : [area_nw[0],event.map_x],
+				'y[]' : [area_nw[1],event.map_y]
+			}
+		}
+	);
+	operation = null;
+	area_nw = null;      
+	window.status = '';
+	map.set_cursor("wait");
+}
+
+function reposition_area(area_id) {
+//	alert ('reposition_area');
+	map.hide_bubble();
+	area_to_reposition = area_id;
+	operation=reposition_area_step_1;
+	map.set_cursor("crosshair");
+	window.status = "<%= _('Click on map to speficy the northwest point of the area.')%>";
+}
+
+function reposition_area_step_1(event) {
+//	alert ('reposition_area_step_1');
+	area_nw = [event.map_x, event.map_y];
+	map.set_cursor("crosshair");
+	operation = reposition_area_step_2;
+	window.status = "<%= _('Click on map again to define the southeast point of the area.')%>";
+}
+
+function reposition_area_step_2(event) {
+//	alert ('reposition_area_step_2');
+	if (!(area_nw && area_to_reposition))
+		return;    
+	
+	new Ajax.Request('/admin/areas/' + area_to_reposition + '/reposition', 
+									{
+										method : 'post',
+										parameters : {
+											'x[]' : [area_nw[0],event.map_x],
+											'y[]' : [area_nw[1],event.map_y]
+									    }
+									}
+					);
+
+	operation = null;
+	area_nw = null;      
+	area_to_reposition = null;
+	window.status = '';
+	map.set_cursor("wait");
+}
+
+function add_area_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('area_id', options.area_id);
+	if (marker)
+		return;
+	new AreaMarker (map, x, y, options);
+}
+
+function show_area_marker (id) {
+	var marker = map.get_marker_by_property_value('area_id', id);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+		map.show_bubble(marker.x, marker.y, marker.options.bubble_content);
+	}
+}
+
+function on_advanced_search() {
+	var center = map.get_position ();
+	dialog.retrieve_remote_form('<%= url_for :controller=>'search', :action=>'advanced_search', :id=>@current_city.id %>',
+		{
+			method : 'get',
+			parameters : {
+				x: center[0],
+				y: center[1]
+			}
+		});
+}
+
+function show_traffic_line (id) {
+	new Ajax.Request('/main/traffic_line/' + id, { method: 'get' });
+}
+
+function show_brand(id) {
+	new Ajax.Request('/cities/' + <%= @current_city.id %> + '/search/brand/' + id, {method: 'get'});
+}
+
+function show_tag(tag) {
+	new Ajax.Request('/cities/' + <%= @current_city.id %> + '/search/tag/', 
+					 { method: 'post', 
+					   parameters: { tag : tag }});
+}
+
+function clear_markers () {
+	map.clear_markers ();
+	map.hide_bubble ();
+}
+
+function area_repositioned (unique_id, x, y, width, height) {
+	var marker= map.get_marker_by_property_value('unique_id', unique_id);
+	if (marker)
+		marker.repositioned(x,y,width, height);
+}
+
+function edit_area(area_id) {
+	map.hide_bubble ();
+	dialog.retrieve_remote_form('/admin/areas/' + area_id + '/edit', 
+								{method: 'get'});
+}
+
+function replace_area_marker (area_id, x, y, options) {
+	remove_area_marker(area_id);
+	new AreaMarker (map, x, y, options);	
+}
+
+function delete_area(id) {
+	map.hide_bubble ();
+	new Ajax.Request('/admin/areas/' + id, 
+					 { method: 'delete' });
+}
+
+function remove_area_marker (area_id) {
+	var marker = map.get_marker_by_property_value('area_id', area_id);
+	if (marker)
+		map.remove_marker(marker);	
+}
+
+function goto_position (level, x, y) {
+	map.zoom_to (level);
+	map.set_position(x, y);
+}
+
+function show_search_result () {
+	$('map_area').setStyle({ width: '642px' })
+	map.resize(640, 480);
+	$('search_result').show();
+}
+
+function hide_search_result () {
+	$('search_result').hide();
+	$('map_area').setStyle({ width: '942px' })
+	map.resize(942, 480);
+}
+
+function search_nearby (hot_spot_id) {
+	dialog.retrieve_remote_form('<%= "/cities/#{@current_city.id}/search_near_hot_spot/"%>' + hot_spot_id + ".html");
+}
+
+function search_nearby_category(cat_id, x, y) {
+	new Ajax.Request('<%= "/cities/#{@current_city.id}/advanced_search"%>', 
+			{ method: 'post',
+			  parameters: { hot_spot_category_id: cat_id, 
+							x: x, 
+							y: y,
+							scope_mode: 'nearby',
+							scope: 1 }
+			});
+	dialog.hide();
+}
+
+function search_keyword(keyword) {
+	$('fast_search_key_word').value = keyword;
+	fast_search($('frm_fast_search'));
+}
+<% end -%>
+
+
+<div id="search_bar">                 
+	<form action="<%= url_for :controller=>'/search', :action=>'search', :id=>@current_city.id %>" method="post" id="frm_fast_search" onsubmit="return fast_search(this); "  onkeydown="if(event.keycode==13) this.submit();">
+		<table border="0" cellspacing="0" cellpadding="0" width="100%">
+			<tr>
+				<td width="100%" align="center">
+				<%= _('Around')%>:
+					<%= text_field_with_auto_complete 'area', 'name', {:size=>20, :class=>:search_text_field},
+					 	{:url=>{:controller=>'cities', :action=>'auto_complete_for_area', :id=>@current_city.id}, 
+					     :skip_style=>true } 
+		    		%>
+				&nbsp;<%= s_('SearchBar|Search')%>:
+				<input type="text" size="40" name="keyword" id="fast_search_key_word" class="search_text_field" value="<%= @keyword%>"/>
+				<%= submit_tag '', :class=>'search_button' %>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<div id="map_row">
+	<div id="search_result" class="section">
+		<div class="header">
+			<div id="hide_search_result_handler">
+				<%= link_to_function image_tag('collapse_search_result.png'), 'hide_search_result()' %>
+			</div>
+			<h3><%= _('Search Result')%></h3>
+		</div>
+		<div class="body">
+			<div id="search_result_list">
+				<%= render :partial=>'/search/search_result' %>
+			</div>
+			<div id="detail_infor_pane" style="display:none">
+				<div id="detail_infor_content">
+
+				</div>
+				<div class="foot">
+					<%= link_to_function _('Hide'), '$("detail_infor_pane").hide(); new Effect.SlideDown("search_result_list");'%>
+				</div>
+			</div>		
+		</div>
+	</div>      
+
+
+	<div id="map_area">
+		<div id="map_tool_bar">
+			<div id="show_search_result_handler">
+				<%= link_to_function image_tag('expand_search_result.png'), 'show_search_result();'%>
+			</div>
+			
+			<ul class="simple_menu">
+			<% if @current_user -%>
+				<li><%= image_tag 'add_hot_spot.png' %><%= link_to_function _('Mark Hot Spot'), "on_new_hot_spot()", :id=>'but_new_hot_spot', :title=>_('Click on the map to create a new Hot Spot at that position.') %></li>
+				<% if @current_user.has_privilege :manage_area -%>
+					<li><%= image_tag 'mark_area.png'%><%= link_to_function _('Mark Area'), "on_new_area()", :id=>'but_new_area', :title=>_('Click on the map to create a new Area by define the northwest and southeast point of the area.') %></li>
+				<% end -%>
+			<% end -%>
+			<li><%= image_tag 'advanced_search.png'%><%= link_to_function _('Advanced search.'), "on_advanced_search()", :id=>'but_advanced_search', :title=>_('Advanced search.') %></li>
+			<li><%= image_tag 'clear_marks.png'%><%= link_to_function _('Clear Markers'), 'clear_markers()', :id=>'but_clear_markers', :title=>_('Clear all markers of hot spots or areas on the map.') %></li>
+			</ul>
+		</div>
+
+		<div id="map">
+
+		</div>                 
+	</div>
+</div> <!-- map_row -->
+<%=input_with_help _('HotSpot name, brand name, traffice line name, hot spot category name or road name.'), "fast_search_key_word" %>
+<%=input_with_help _('Area name, road name, hot spot name'), "area_name" %>

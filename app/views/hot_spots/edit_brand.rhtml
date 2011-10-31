@@ -1,0 +1,17 @@
+<div id="error_msgs" class="errorExplanation" style="display:none;">
+	
+</div>
+<% remote_form_for :hot_spot, @hot_spot, :url=>update_brand_hot_spot_path(@hot_spot), :method=>:put, :html=>{:method=>:put} do |f| -%>          
+  <table class="form_container">
+    <tr>
+      <td width="15%"><label class="required"><%= s_('Brand|Name')%></label></td>
+      <td><%= text_field_with_auto_complete :brand, "name_#{@current_lang}", { :size => 50,:value => @brandname }, {:tokens => ' '} -%>
+        <br/><%= _('Input keyword to search brand by name.')%></td>
+    </tr>
+  </table>
+<% end -%>
+
+<%= update_page_tag do |page|
+  	page.call 'dialog.show_with_title', _('Edit Brand') 
+	page.call 'busy_indicator.task_end'
+end -%>

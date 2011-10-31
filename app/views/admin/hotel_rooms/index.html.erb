@@ -1,0 +1,18 @@
+<% page_title _('Manage hotel rooms') 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+    <%= link_to _('New'), new_admin_hotel_hotel_room_path(@hotel), :class=>:button %>
+    <%= link_to _("Back"), admin_hotels_path, :class=>:button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= s_('HotelRoom|Name') %></th>
+		<th width="15%"><%= s_('HotelRoom|Price')%></th>
+		<th width="10%"><%= s_('HotelRoom|Breakfast')%></th>
+		<th width="10%"><%= s_('HotelRoom|Network') %></th>
+                <th width="20%"><%= _('Operation') %></th>
+	</tr>
+        <%= render :partial=>'hotel_room', :collection=>@hotel_rooms if @hotel_rooms%>
+</table>

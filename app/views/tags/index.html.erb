@@ -1,0 +1,68 @@
+<% page_title _('Hot Spot Tag of %{name}') % {:name=>localized_description(@hot_spot, :name)}, true
+   @css_files=['tags']
+%>
+<% content_for :page_scripts do -%>
+    function renew_tag_hotspot (hot_spot_id,tag) {
+	    new Ajax.Updater('hot_spot','/hot_spots/' + hot_spot_id + '/tags/tag_hot_spots',
+						{ method:'get',
+						  parameters: { tag: tag } });
+        new Ajax.Updater('tag_main', '/hot_spots/' + hot_spot_id + '/tags/tag_description',
+						{ method:'get',
+						  parameters: {tag: tag} });
+    }
+<%end%>
+
+<div class="navigation_bar">
+	<%= link_to h(localized_description(@hot_spot, :name)), hot_spot_path(@hot_spot) %>&nbsp;&gt;&nbsp;<%= _('All Tags')%>
+</div>
+
+<div id="main_function_content">
+	
+
+<table class="layouter" width="100%">
+	<tr>
+		<td width="23%">
+		    <div id="tag_list" class="section">
+				<div class="header">
+					<h3><%= _('Hot Spot Tags')%></h3>
+				</div>
+
+				<div class="body">
+			            <%for hot_spot_tag in @hot_spot_tags%>
+			              <p>
+			                <%=link_to_function(hot_spot_tag.tag, "renew_tag_hotspot(#{@hot_spot_id},'#{escape_javascript(hot_spot_tag.tag)}');")%>(<%=hot_spot_tag.count%>)
+			              </p>
+			            <%end%>
+				</div>
+				
+				<div class="foot"></div>
+		    </div>
+		</div>
+		
+		<td width="*">
+			<div class="tag_main section"  id ="tag_main">
+			</div>
+		</td>
+		
+		<td width="25%">
+			<div class="tag_right_main"  id="tag_right_main">
+			    <div class="section" id="hot_spot">
+			    </div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<div>
+
+
+	
+</div>
+
+<% if @tag  -%>
+<%=update_page_tag do |page|     
+  page.call 'renew_tag_hotspot', @hot_spot_id, @tag
+end -%>
+<% end -%>
+
+</div>

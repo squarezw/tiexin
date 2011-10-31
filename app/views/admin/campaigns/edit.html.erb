@@ -1,0 +1,29 @@
+<% page_title "#{_('Edit Campaign')} : #{h(@campaign.name)}" 
+	include_js_file 'yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar', 'editor'
+	include_css_file 'calendar'
+	side_menu 'master_data' -%>
+	
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+		cal.select('<%= @campaign.expire_date.strftime('%m/%d/%Y')%>'); 
+		cal.cfg.setProperty('pagedate', '<%= @campaign.expire_date.strftime('%m/%Y')%>'); 
+ 	}
+
+<% end -%>
+	
+<div class="button_bar">
+	<%= link_to _('Back'), admin_campaign_path(@campaign), :class=>:button %>
+</div>
+
+<%= error_messages_for :campaign %>
+
+<% form_for :campaign, @campaign, :url=>admin_campaign_path(@campaign), :html=>{:method=>:put} do |f| %>
+<%= render :partial=>'form', :object=>f %>
+<% end %>	
+
+	

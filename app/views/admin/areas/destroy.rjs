@@ -1,0 +1,4 @@
+page.call 'remove_area_marker', @area.id
+page << "try {"
+page.remove element_id(@area)
+page << "} catch (e){}"

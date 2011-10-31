@@ -1,0 +1,3 @@
+<%= category_path_str @vendor.hot_spot_category, true %>&nbsp;&gt;&nbsp;
+<%= link_to h(localized_description(@vendor, :name)), hot_spot_path(@vendor)%>&nbsp;&gt;&nbsp;
+<%= link_to _('Products'), products_path(class_name_for_url(@vendor), @vendor)%>

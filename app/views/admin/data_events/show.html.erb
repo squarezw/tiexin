@@ -1,0 +1,15 @@
+<% page_title _('manage_events')
+   include_css_file 'event'
+   side_menu 'master_data' -%>
+<div class="navigation_bar">
+	<%= _('manage_events')%>
+</div>
+
+<div id="main_function_content">
+      <%=image_tag(@daq_evnet.picture)%>
+      <h3><%=@daq_evnet.event_name%></h3>
+      <p><%= @daq_evnet.hot_spot_name %></p>
+      <p>地址：<%=  @daq_evnet.hot_spot_address%></p>
+      <p>时间：<%=format_date @daq_evnet.start_date%> <%="- #{format_date @daq_evnet.end_date}" if @daq_evnet.end_date%></p>
+      <pre class="article"><%=@daq_evnet.event_content%></pre>
+</div>

@@ -1,0 +1,16 @@
+<% @page_title = _('Edit Brand') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   if current_is_admin?
+   		side_menu 'master_data' 
+   else
+		side_menu 'my_xnavi'
+   end-%>
+   
+<div class="button_bar">
+	<%= link_to _('Back'), brand_path(@brand), :class => :button %>
+	<%= link_to _('All Brands'), manage_brands_path, :class => :button %>
+</div>
+<%form_for :brand,:url => manage_brand_path(@brand), :html =>{:multipart => true, :method => "put"} do |f|%>
+<%=render :partial => "form",:object => f%>
+<%end -%>

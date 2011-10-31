@@ -1,0 +1,10 @@
+<div class="product_brief">
+	<% if product.photo -%>
+		<%= link_to image_tag(product.photo.thumb.url), product.photo.url, :target=>'blank' %>
+	<% else -%>
+		<%= image_tag 'default_product_photo.gif' %>
+	<% end -%>
+	
+	<p class="product_name"><%= link_to h(localized_description(product, :name)), 
+		product_path(vendor_type(@brand), @brand, product)%></p>
+</div>

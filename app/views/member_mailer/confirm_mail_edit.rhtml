@@ -1,0 +1,13 @@
+<h3><%= _('Welcome to X-Navi')%></h3>                
+
+<p><%= _('Dear %{name}') % {:name => @member.nick_name} %>
+
+<p><%= _('You have changed to E-mail address. This E-mail is to confirm your changed and the E-mail address is correct. Please click following link. If your E-mail client does not support clicking URL directly, you can also copy and paste it to the address bar of your browser. ')%></p>
+
+<%= link_to @confirm_url, @confirm_url %>
+
+<p><%= _('If you have not changed to E-mail address, please ignore this E-mail.')%></p>
+
+<p><%= _('Thanks') %></p>
+
+<p><%= _('X-Navi') %></p>

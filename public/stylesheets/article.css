@@ -1,0 +1,140 @@
+div.section div.head h3 {
+	margin: 0;
+	padding: 0;
+}
+
+div.article div.head div.day_calendar {
+	float: left;
+}
+
+div.article div.content {
+	clear: left;
+	margin: 10px 15px;
+	margin-left: 60px;
+}
+
+div.article div.content li {
+	list-style-position: inside;
+}
+
+div.article div.update_time {
+	text-align: right;
+}
+
+div.article_summary {
+	padding: 10px;
+	border-bottom: 1px dashed #B7B7B7;
+}
+
+div#main_function div.article_summary div.body {
+	background-image: none;
+	padding: 0;
+}
+
+div.article_summary div.member_logo {
+	float: left;
+	margin: 5px 10px;
+	width: 96px;
+	text-align: center;
+}
+
+
+div.article_summary div.header {
+	border: none;
+}
+
+div.with_member_logo div.header {
+	margin-left: 116px;
+}
+
+div.article_summary div.header h3 {
+	color: black;
+}
+
+div.with_member_logo div.body {
+	margin-left: 116px;
+}
+
+div.article_summary pre.article {
+	margin: 10px;
+	padding: 0px;
+	margin-top: 5px;
+}
+
+div.article_summary div.foot {
+	text-align: right;
+}
+
+span.vote_1 {
+	color: red;
+}
+
+span.vote_2 {
+	color: blue;
+}
+
+div.page_navigator a, div.page_navigator span {
+	display: inline-block;
+	padding: 0.2em 0.5em;
+	margin-right: 1px;
+}
+
+div.page_navigator span.disabled {
+	color: #999;
+	border: 1px solid #DDD;
+}
+
+div.page_navigator span.current {
+	font-weight: bold;
+	background: #2E6AB1;
+	color: white;
+	border: 1px solid #2E6AB1;
+}
+
+div.page_navigator a {
+	text-decoration: none;
+	color: #105CB6;
+	border: 1px solid #9AAFE5;
+}
+
+div.page_navigator a:hover, div.page_navigator a:focus {
+	color: #003;
+	border-color: #003;
+}
+
+div#div_comments {
+	margin-top: 10px;
+}
+
+div#div_comments h3 {
+	margin-bottom: 1em;
+}
+
+div#related_brand {
+	float: right;
+	text-align: center;
+	width: 164px;
+}
+
+div#related_brand img {
+	border: 1px solid #CFCFCF;
+	width: 162px;
+	padding: 1px;
+        margin: 5px;
+}
+
+div#related_brand img.brand_name {
+	margin: 5px;
+}
+
+div.article_list_item p.title {
+	font-size: 14px;
+}
+
+div.article_list_item {
+	margin-top: 10px;
+}
+
+div.article_list_item:first-child {
+	margin-top: 0px;
+}

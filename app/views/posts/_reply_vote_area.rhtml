@@ -1,0 +1,18 @@
+<% if reply.vote_result == 0 
+	if reply.votable_to?(@current_user) -%>
+		<span class="vote_1"<%= link_to_function _('Good!'), "vote_reply(#{reply.id}, #{Reply::VOTE_GOOD})" %>(<%= reply.good_score %>)</span>
+		<span class="vote_2"><%= link_to_function _('Water!'), "vote_reply(#{reply.id}, #{Reply::VOTE_WATER})" %>(<%= reply.water_score %>)</span>
+		<span class="vote_3"><%= link_to_function _('Hidden!'), "vote_reply(#{reply.id}, #{Reply::VOTE_HIDDEN})" %>(<%= reply.hidden_score %>)</span>
+	<% else -%>
+		<% if @message -%>
+			<%= @message %>
+		<% else -%>
+			<%= _('You can not vote now.')%>
+		<% end -%>
+		<span class="vote_1"><%=  _('Good!') %>(<%= reply.good_score %>)&nbsp;</span>
+		<span class="vote_2"><%=  _('Water!') %>(<%= reply.water_score %>)&nbsp;</span>
+		<span class="vote_3"><%=  _('Hidden!') %>(<%= reply.hidden_score %>)&nbsp;</span>					
+	<% end -%>
+<% else -%>
+	<span class="vote_<%= reply.vote_result%>"><%= user_friendly_code (:reply_vote_result, reply.vote_result) %></span>
+<% end -%>

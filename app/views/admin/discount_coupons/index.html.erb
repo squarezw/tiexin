@@ -1,0 +1,25 @@
+<% page_title _('Manage Discount Coupons') 
+   side_menu 'master_data' -%>
+
+<div class="navigation_bar">
+	<%= _('Manage Discount Coupons')%>
+</div>
+
+<div id="main_function_content">
+	<table class="data_list">
+		<tr>
+			<th widht="20%"><%= s_('Counpon|Vendor') %></th>
+			<th width="*"><%= s_('Coupon|Summary')%></th>
+			<th width="20%"><%= s_('Coupon|Expire at')%></th>
+			<th width="10%"><%= s_('Coupon|Status') %></th>
+		</tr>
+		<% for coupon in @discount_coupons -%>
+			<tr>
+				<td><%= link_to h(localized_description(coupon.vendor, :name)), coupon.vendor %></td>
+				<td><%= link_to h(coupon.summary), admin_discount_coupon_path(coupon) %></td>
+				<td><%= format_time coupon.expire_at %></td>
+				<td><%= user_friendly_code :discount_coupon_status, coupon.status %></td>
+			</tr>
+		<% end -%>
+	</table>	
+</div>

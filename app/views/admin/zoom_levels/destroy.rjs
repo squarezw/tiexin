@@ -1,0 +1,1 @@
+page.remove zoom_level_div_id(@zoom_level)

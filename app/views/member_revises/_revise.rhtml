@@ -1,0 +1,24 @@
+<div class="revise">
+	<div class="head">
+		<p><%= _('Revise to')%>:<%= link_to h(localized_description(revise.hot_spot, :name)), hot_spot_path(revise.hot_spot) %></p>
+		<p class="time"><%= s_('Revise|Created at')%>: <%= format_time revise.created_at %></p>
+	</div>
+
+	<div class="body">
+		<pre class="article"><%= h(revise.suggestion)%></pre>
+	</div>
+	
+	<% unless revise.status == Revise::STATUS_PENDING -%>
+		<p><%= user_friendly_code(:revise_status, revise.status) %>, 
+		   <%= s_('Revise|Admin')%>: <%= h(revise.administrator.nick_name)%></p>
+		<p><%= s_('Revise|Remark')%></p>
+		<% unless revise.remark.blank? -%>
+			<pre class="article"><%= h(revise.remark)%></pre>
+		<% else -%>
+			<%= _('No remark for this revise suggestion.')%>
+		<% end -%>
+	<% else -%>
+		<%= user_friendly_code(:revise_status, revise.status) %>
+	<% end -%>
+	
+</div>

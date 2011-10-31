@@ -1,0 +1,4 @@
+page.call 'HotSpotMarker.show_infor_window', 
+          @hot_spot.id, 
+          render(:partial=>'marker', :locals=>{:hot_spot => @hot_spot})
+

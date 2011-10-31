@@ -1,0 +1,9 @@
+<p><%= _('Area')%>:<%= h(localized_description(area, :name))%></p>
+<div class="button_bar">
+	<%= link_to _('Detail'), city_area_path(@current_city,area)%>
+	<% if @current_user and @current_user.has_privilege(:manage_area) -%>
+		<%= link_to_function _('Reposition'), "reposition_area(#{area.id})" %>
+		<%= link_to_function _('Edit'), "edit_area(#{area.id})" %>
+		<%= link_to_function _('Delete'), "delete_area(#{area.id})" %>
+	<% end -%>	
+</div>

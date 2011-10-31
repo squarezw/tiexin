@@ -1,0 +1,102 @@
+body {
+	background-color: #EBEBEB;
+	background-image: none;
+}
+
+div#main_wrapper {
+	background-color: white;
+}
+
+div#page_head {
+	height: 76px;
+	padding: 0 30px;
+}
+
+div#site_logo {
+	float: left;
+}
+
+div#page_head div#home_link {
+	padding:45px 0px 0px 0px;
+	margin: 0px;
+	margin-left: 120px;
+	font-size: 14px;
+}
+
+div#up_image {
+	position: relative;
+}
+
+div#title_image {
+	position: absolute;
+	left: 584px;
+	width: 366px;
+	height: 90px;
+	top: 1px;
+}
+
+div#side_bar {
+	float: right;
+	margin: 0;
+	padding: 0;
+}
+
+div#sponsor {
+	position: absolute;
+	top: 91px;
+	left: 584px;
+	width: 366px;
+}
+
+div#main_content {
+	margin-left: 20px;
+	margin-right: 480px;
+}
+
+div#main_content div.body {
+	margin-left: 30px;
+	font-size: 14px;
+}
+
+div#main_content div.body a {
+	text-decoration: underline;
+}
+
+div#main_content div.body p {
+	line-height: 2em;
+	text-indent: 2em;
+	margin-bottom: 1em;
+}
+
+div#main_content div.body ol li {
+	line-height: 2em;
+	margin-left: 20px;
+}
+
+div#main_content div.head {
+	margin: 20px 0px 10px 0px;
+}
+
+div#page_foot {
+	background-color: #B792A4;
+	height: 60px;
+	padding: 0 20px;
+}
+
+div#page_foot p {
+	line-height: 60px;
+}
+
+div#up_image {
+	position: relative;
+}
+
+div#dis_logo {
+	position: absolute;
+	display: block;
+	left: 773px;
+	top: 237px;
+	width: 177px;
+	height: 156px;
+	border: none;
+}

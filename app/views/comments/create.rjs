@@ -1,0 +1,4 @@
+page.<< remote_function(
+            :url=>comments_path(commentable_type(@commentable), @commentable.id) + "?page=#{@last_page}",
+            :update=>'div_comment_section',
+            :method=>:get)

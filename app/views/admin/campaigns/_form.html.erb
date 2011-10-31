@@ -1,0 +1,47 @@
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Compaign|Name')%></label></td>
+		<td><%= form.text_field :name, :size=>70 %>
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= s_('Campaign|Description') %></label></td>
+		<td><%= bbcode_editor :campaign_description %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :description, :rows=>15, :cols=>60 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label><%= s_('Campaign|Confirm message')%></label></td>
+		<td><%= bbcode_editor :campaign_confirm_message %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :confirm_message, :rows=>8, :cols=>60 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Campaign|Bonus')%></label></td>
+		<td><%= _('Experience')%>:<%= form.text_field :bonus_experience, :size=>6 %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= _('Credit')%>:<%= form.text_field :bonus_credit, :size=>6 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Campaign|Expire date')%></label></td>
+		<td><%= form.text_field :expire_date, :size=>10 %>
+			<%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_campaign_expire_date', :class=>'image' %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Campaign|Trigger')%></label></td>
+		<td><%= form.select :trigger, options_for_codes(Campaign::ALL_TRIGGERS, :campaign_trigger)%></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Save') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_campaign_expire_date', 
+			  :date_field=>'campaign_expire_date',
+			  :customizer=>'customize_calendar'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y'), :close=>true} %>  
+

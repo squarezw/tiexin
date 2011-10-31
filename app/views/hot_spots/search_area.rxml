@@ -1,0 +1,7 @@
+xml.result(:code=>100) do
+  @areas.each do |area|
+    xml.area(:id=>area.id, :name => localized_description(area, :name))
+    map_block = @current_city.default_map_level_for_mobile.map_block_contains(area.center)
+    to_xml_for_map_block(xml, map_block)
+  end
+end

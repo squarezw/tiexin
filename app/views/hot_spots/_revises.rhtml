@@ -1,0 +1,15 @@
+<div id="revises" class="section">
+	<div class="header">
+		<h3><%= _('Recent Revises') %></h3>
+	</div>
+	
+	<div class="body">
+		<ul id="revise_simple_list" class="list">
+			<%= render :partial => 'revise_simple', :collection=>hot_spot.pending_revises(5) %>
+		</ul>
+	</div>
+	
+	<div class="foot">
+		<%= link_to_function _('All...'), "show_revises();" %>
+	</div>
+</div>

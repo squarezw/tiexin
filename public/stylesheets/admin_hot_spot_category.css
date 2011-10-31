@@ -1,0 +1,14 @@
+div#hot_spot_category_tree {
+	width: 230px;
+	border: 1px solid #CCF;
+	overflow: auto;
+	min-height: 410px;
+	height: auto !important;
+	height: 410px;
+}                  
+
+div#div_category_form {
+	width: 450px;
+	float: right;
+}
+

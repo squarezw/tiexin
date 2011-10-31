@@ -1,0 +1,128 @@
+<% @page_title = _('Access Statistics')
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Today'), {:controller=>'admin/statistics', :action=>'index', :scope => 'today'}, {:class=>:button} %>
+	<%= link_to _('Yesterday'), {:controller=>'admin/statistics', :action=>'index', :scope => 'yesterday'}, {:class=>:button} %>
+	<%= link_to _('This week'), {:controller=>'admin/statistics', :action=>'index', :scope => 'this_week'}, {:class=>:button} %>
+	<%= link_to _('Last week'), {:controller=>'admin/statistics', :action=>'index', :scope => 'last_week'}, {:class=>:button} %>
+	<%= link_to _('This month'), {:controller=>'admin/statistics', :action=>'index', :scope => 'this_month'}, {:class=>:button} %>
+	<%= link_to _('Last month'), {:controller=>'admin/statistics', :action=>'index', :scope => 'last_month'}, {:class=>:button} %>
+</div>
+
+<div id="div_report">
+	<h2><%= _('Report') %></h2>
+	<p><%= _('From')%>:<%= format_time @start_time %>&nbsp;<%= _('To') %>&nbsp;<%= format_time @end_time%><p>
+
+	<h3><%= _('Summary')%></h3>
+	<table class="form_container">
+		<tr>
+			<td widht="30%"><label><%= _('Visit Count')%></label></td>
+			<td width="*"><%= @visit_count %></td>
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('Unqiue IP Count')%></label></td>
+			<td width="*"><%= @unique_ip_count %></td>
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('Success Count')%></label></td>
+			<td width="*"><%= @success_count %></td>
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('Mobile user')%></label></td>
+			<td width="*"><%= @mobile_count %></td>
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('Anonymous visit')%></label></td>
+			<td width="*"><%= @anonymous_count %></td>
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('From Robot')%></label></td>
+			<td width="*"><%= @robot_count %></td>
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('NaviStar Download')%></label></td>
+			<td width="*"><%= @download_count %></td>			
+		</tr>
+		<tr>
+			<td widht="30%"><label><%= _('Total Download')%></label></td>
+			<td width="*"><%= @total_download_count + 50000 %></td>			
+		</tr>
+	</table>
+	
+	<h3><%= _('Top 10 Actions')%></h3>
+	<table class="data_list">
+		<tr>
+			<th width="40%">Controller</th>
+			<th width="40%">Action</th>
+			<th width="*"><%= _('Count') %></th>
+		</tr>
+		<% for row in @top_actions -%>
+			<tr>
+				<td><%= row['controller']%></td>
+				<td><%= row['action']%></td>
+				<td><%= row['cnt']%></td>
+			</tr>
+		<% end -%>
+	</table>
+	
+	<h3><%= _('Top 10 User Agents')%></h3>
+	<table class="data_list">
+		<tr>
+			<th width="60%">User Agent</th>
+			<th width="20%"><%= _('Browser') %></th>
+			<th width="*"><%= _('Count') %></th>
+		</tr>
+		<% for row in @top_user_agents -%>
+			<tr>
+				<td><%= row['user_agent']%></td>
+				<td><%= figure_browser row['user_agent']%></td>
+				<td><%= row['cnt']%></td>
+			</tr>
+		<% end -%>
+	</table>	
+
+	<h3><%= _('Top 10 Browsers')%></h3>
+	<table class="data_list">
+		<tr>
+			<th width="60%"><%= _('Browser') %></th>
+			<th width="20%"><%= _('Version') %></th>
+			<th width="*"><%= _('Count') %></th>
+		</tr>
+		<% for row in @top_browsers -%>
+			<tr>
+				<td><%= row['browser']%></td>
+				<td><%= row['browser_version']%></td>
+				<td><%= row['cnt']%></td>
+			</tr>
+		<% end -%>
+	</table>	
+	
+	<h3><%= _('Top 10 User')%></h3>
+	<table class="data_list">
+		<tr>
+			<th width="80%">Member</th>
+			<th width="*"><%= _('Count') %></th>
+		</tr>
+		<% for row in @top_members -%>
+			<tr>
+				<td><%= Member.find(row['member_id']).nick_name %></td>
+				<td><%= row['cnt']%></td>
+			</tr>
+		<% end -%>
+	</table>
+
+        <h3><%=_('Top 10 Ip')%></h3>
+        <table class="data_list">
+		<tr>
+			<th width="80%">Ip</th>
+			<th width="*"><%= _('Count') %></th>
+		</tr>
+		<% for row in @top_ips -%>
+			<tr>
+				<td><%= row['remote_ip'] %></td>
+				<td><%= row['cnt']%></td>
+			</tr>
+		<% end -%>
+        </table>
+</div>

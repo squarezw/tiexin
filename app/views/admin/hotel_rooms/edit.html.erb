@@ -1,0 +1,7 @@
+<% page_title _('Hotel room') 
+   @js_files = ['editor']
+   side_menu 'master_data' -%>
+
+<%form_for :hotel_room,:url => admin_hotel_hotel_room_path(@hotel, @hotel_room),:html =>{:method=>:put, :multipart => true} do |f|%>
+<%=render :partial => "form",:object => f%>
+<%end -%>

@@ -1,0 +1,27 @@
+<div class="hot_spot">
+	<h3><%= link_to_function h(localized_description(hot_spot, :name)), "show_hot_spot_marker(#{hot_spot.id}, 0)" %>
+		<span class="score_image"><%=hot_spot_score_stars(hot_spot.score)%></span>
+		</h3>
+	<div class="small_hot_spot_picture">
+		<%= small_picture_tag_for_hot_spot hot_spot %>
+	</div>
+	
+	<div class="detail">
+		<p class="address"><%=s_('HotSpot|Address') %>:&nbsp;<%= h(localized_description(hot_spot, :address))%>
+			<% if hot_spot.container -%>                    
+				(<%= link_to _('In %{container}') % { :container=>h(localized_description(hot_spot.container, :name))} , 
+							hot_spot_path(hot_spot.container)%>)
+			<% end -%>
+		</a>
+		<p class="phone_number"><%= s_('HotSpot|Phone number')%>:&nbsp;<%= hot_spot.phone_number %></p>
+		<div class="detail_link">
+		<%= link_to _('Delete'), remove_hot_spot_manage_brand_path(hot_spot.id), :confirm => _('Are you sure?'), :method => :post %>
+		<%= link_to _('Detail...'), hot_spot_path(hot_spot), :target=>'_blank'%></div>
+	</div>
+	<div class="score">
+		<%= render :partial=>'/scores/score', :locals=>{:hot_spot=>hot_spot}%>
+	</div>
+</div>
+
+
+

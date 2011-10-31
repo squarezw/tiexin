@@ -1,0 +1,24 @@
+<div class="header">
+	<h3><%=_("Hot Spots has tag %{tag}") % {:tag => @tag} %></h3>
+</div>
+<div class="body">
+  <ul class="list">
+    <%for hot_spot_tag in @hot_spot_tags%>
+      <li class="post_tag">
+		<p>
+        <span class="hot_spot_name"><%=link_to localized_description(hot_spot_tag.hot_spot, :name),hot_spot_path(hot_spot_tag.hot_spot)%></span>
+        <span class="category">[<%=localized_description(hot_spot_tag.hot_spot.hot_spot_category,:name)%>]</span>
+            <% if hot_spot_tag.member == @current_user %>
+                <%= link_to _('Edit'), edit_member_posted_tag_path(@member,hot_spot_tag) %>
+                <%= link_to _('Delete'), member_posted_tag_path(@member,hot_spot_tag), :confirm => _('Are you sure?'), :method => :delete%>
+            <% end -%>
+        </p>
+        <div class="address"><%=_('Address')%>:<%=localized_description(hot_spot_tag.hot_spot,:address)%></div>
+        <p class="introduction"><%=h(hot_spot_tag.description)%></p>
+      </li>
+    <%end%>
+ </ul>
+</div>
+<div class="foot">
+<%= remote_page_navigator @hot_spot_tags, "tag_main", :get%>
+</div>

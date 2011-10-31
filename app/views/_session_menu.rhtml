@@ -1,0 +1,23 @@
+<div id="session_menu">
+	<% if @current_user -%>
+		<div id="session_infor">
+			<p><%= _('Hello ')%><%= @current_user.nick_name %></p>
+			<p><%= link_to _('My X-Navi'), member_path(@current_user) %>&nbsp;|
+				<%= link_to _('Log out'), logout_path %>
+				<% ms = Message.has_not_read_message_count(@current_user)
+				   if ms > 0 -%>
+	            |&nbsp;<%=link_to _("Unread Messages") ,has_not_read_member_messages_path(@current_user) %>(<%= ms %>)
+	            <% end -%>
+			</p>
+		</div> <!-- session_info -->
+	<% else -%>
+		<div class="button_bar">
+			<div>
+				<%= link_to _('Register Now'), new_member_path -%>&nbsp;|
+				<%= link_to _('Login'), new_session_path %>
+			</div>
+		</div> <!-- button_bar -->
+	<% end -%>
+</div><!-- session_menu -->
+
+

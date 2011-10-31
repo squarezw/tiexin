@@ -1,0 +1,16 @@
+<div class="section"> 
+	<div class="head">
+		<h3><%= _('Traffic Lines')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+		<%= render :partial=>'traffic_line', :collection=>@traffic_lines %>
+		</ul>
+	</div>
+	<% if @page  -%>
+	<div class="foot">
+		<%= remote_page_navigator @page %>
+	</div>
+	<% end -%>
+
+</div>

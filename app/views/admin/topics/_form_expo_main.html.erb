@@ -1,0 +1,49 @@
+<div style="width:604px;height: 99px; background-image: url('/images/topic/expo/bjjy.jpg');">
+        <div style="position:relative;top:70px; left:200px;">
+          <%=text_field_tag "topic_expo[exhibition_title_#{et}]",@topic_expo.blank?? "" : @topic_expo.send("exhibition_title_#{et}"), :size => 50%>
+        </div>
+      </div>
+      <div id="rec_hotspot" style="margin-left: 10px; height: 150px;">
+                <b>添加方法：</b>管理员登录后，点击任意一场馆地标，然后点击推荐到专题，选择世博专题。并将地标的标签增加一个为"家庭世博游"或"儿童世博游"等即可。
+                <table cellpadding="5" cellspacing="5">
+                  <tr>
+                    <%if recommend_hot_spots%>
+                      <%for hot_spot in recommend_hot_spots%>
+                          <td>
+                            <table style="background-color:#EFEEF1; padding:5px;">
+                              <tr>
+                                <td style="width:100px;height:100px;"><%=small_picture_tag_for_hot_spot(hot_spot)%></td>
+                              </tr>
+                              <tr><td style="background-color:#3EEDFE; text-align: center;"><%=link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target => "_blank"%></td></tr>
+                            </table>
+                          </td>
+                      <%end%>
+                    <%end%>
+                  </tr>
+                </table>
+        </div>
+        <div style="width:605px;height: 584px; background-image: url('/images/topic/expo/rb.jpg');">
+              <div id="travel_line_title" style="position:relative;top:80px; left:180px;">
+                <%=text_field_tag "topic_expo[travel_line_title_#{et}]",(@topic_expo.blank?? "" : @topic_expo.send("travel_line_title_#{et}") ), :size =>50  %>
+              </div>
+              <div id="travel_line_<%=et%>" style="width:500px ; height: 500px; top:160px; left:17px; position:relative;">
+                <div id="travel_line_<%=et%>_0" style="position:absolute;top:10px; width: 140px;">
+                  <%=text_area_tag "topic_expo[travel_line_#{et}][0]",(travel_line[0] if travel_line),:size =>"13x4"  %>
+                </div>
+                <div id="travel_line_<%=et%>_1" style="position:absolute;top:5px; left:220px; width: 140px; float: left;">
+                  <%=text_area_tag "topic_expo[travel_line_#{et}][1]",(travel_line[1] if travel_line),:size =>"13x4" %>
+                </div>
+                <div id="travel_line_<%=et%>_2" style="position:absolute;top:10px; left:430px; width: 140px; float: left;">
+                  <%=text_area_tag "topic_expo[travel_line_#{et}][2]",(travel_line[2] if travel_line),:size =>"13x4" %>
+                </div>
+                <div id="travel_line_<%=et%>_3" style="position:absolute;top:230px; left:10px; width: 140px;">
+                  <%=text_area_tag "topic_expo[travel_line_#{et}][3]",(travel_line[3] if travel_line),:size =>"13x4" %>
+                </div>
+                <div id="travel_line_<%=et%>_4" style="position:absolute;top:220px; left:220px; width: 140px; float: left;">
+                  <%=text_area_tag "topic_expo[travel_line_#{et}][4]",(travel_line[4] if travel_line),:size =>"13x4" %>
+                </div>
+                <div id="travel_line_<%=et%>_5" style="position:absolute;top:240px; left:440px; width: 140px; float: left;">
+                  <%=text_area_tag "topic_expo[travel_line_#{et}][5]",(travel_line[5] if travel_line),:size =>"13x4" %>
+                </div>
+              </div>
+        </div>

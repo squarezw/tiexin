@@ -1,0 +1,34 @@
+<div class="member_summary">
+  <p class="member_name">
+    <%= link_to h(member.nick_name), show_member_path(member) %>
+    <br/>
+    <%= safe_member_logo member %>
+    <br/>
+    <%= member_role member%>
+  </p>
+  <table width="100%" class="member_summary">
+          <tr>
+                  <td width="30%"><%= s_('Member|Experience')%></td>
+                  <td width="*"><%= member.experience %></td>
+          </tr>
+          <tr>
+                  <td><%= s_('Member|Credit')%></td>
+                  <td><%= member.credit %></td>
+          </tr>
+          <tr>
+                  <td></td>
+                  <td></td>
+          </tr>
+          <tr>
+                  <td colspan="3"><%= s_('Member|Created at')%>:<%= format_time member.created_at %></td>
+          </tr>
+  </table>
+  <% if @current_user and member != @current_user -%>
+  <div class="member_fun">
+    <ul>
+      <li id="send_message"><%= link_to _('Send message'), new_member_message_path(@current_user) + "?search_name=#{member.nick_name}", :target=>'_blank' %></li>
+      <li id="friend"><%= render :partial=>'/members/friend_infor_area', :locals=>{ :member=>member} %></li>
+    </ul>
+  </div>
+  <% end %>
+</div>

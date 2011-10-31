@@ -1,0 +1,1 @@
+page.replace_html 'hot_spot_list', :partial=>'hot_spot_list'

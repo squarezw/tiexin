@@ -1,0 +1,23 @@
+<div id="small_map_panel">
+	<div id="small_map">
+	</div>
+	<div class="tool_bar">
+		<%= link_to_function _('Zoom In'), "map.zoom_in()", :class => :button %>
+		<%= link_to_function _('Zoom Out'), "map.zoom_out()", :class => :button %>
+		<%= link_to _('Big Map'), {:controller=>'cities', :action=>:map, :id=>@area.city_id, :area_id=> @area} , {:class=>:button} %>
+	</div>
+</div>
+
+<div class="section">
+	<div class="header">
+		<h3><%= _("Neighbour Areas")%></h3>
+	</div>
+	
+	<div class="body">
+		<ul class="list">
+			<% for area in @area.nearby_areas -%>
+				<li><%= link_to h(localized_description(area, :name)), city_area_path(@current_city,area)%></li>
+			<% end -%>
+		</ul>
+	</div>
+</div>

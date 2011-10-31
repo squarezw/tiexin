@@ -1,0 +1,18 @@
+<% @page_title = _('Products posted by %{user}') % { :user => h(@member.nick_name) }
+        side_menu side_menu_for_member(@member) 
+	include_css_file 'products'
+%>
+
+<div class="products">          
+	<div class="body">       
+		<div id="products_list">
+			<%= render :partial=>'product', :collection => @products %>
+		</div>
+		
+	</div>	
+</div>                  
+
+<div id="page_left_footer">
+<%= page_navigator @products %>
+</div>
+

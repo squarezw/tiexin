@@ -1,0 +1,7 @@
+<div class="post">
+	<p>
+	<span class="author"><%= h(post.member.nick_name)%></span>:
+	<span class="content"><%= link_to h(post.title), forum_post_path(post.forum, post), :popup=>true%></span>
+	</p>
+	<p><%= h(truncate(strip_tags(post.content), 80))%></p>
+</div>

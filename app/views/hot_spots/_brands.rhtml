@@ -1,0 +1,26 @@
+<div class="section">
+	<div class="head">
+            <h3><%= _('Brand')%></h3>
+	</div>	
+	<div class="body">
+		<div class="brand_logo">
+				<%= safe_brand_icon hot_spot.brand %>
+		</div>
+		<div class="brand_name">
+			<%= link_to h(localized_description(hot_spot.brand, :name)), brand_path(hot_spot.brand), :target=>'_blank' %>
+		</div>	
+		<div class="button_bar">
+            <%= link_to_function _('Edit'), "edit_brand()" if hot_spot.modifiable_to(@current_user) %>
+		</div>
+			<h4><%= _('Hot spot of same brand')%></h4>
+            <ul id="brands_list" class="list">
+                <% for brand in HotSpot.find_all_by_brand_id_and_city_id(hot_spot.brand_id,@current_city,:limit => 5,:conditions => ["id <> ? ",hot_spot.id]) -%>
+                    <li><%= link_to h(localized_description(brand, :name)), hot_spot_path(brand)%></li>
+				<% end -%>
+            </ul>
+	</div>
+	
+	<div class="foot">
+		<%= link_to _('All'), brand_path(hot_spot.brand_id)%>
+	</div>
+</div>

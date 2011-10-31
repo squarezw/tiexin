@@ -1,0 +1,15 @@
+<div id="available_point" class="section">
+	<div class="head">
+		<h3><%= _('Available Point')%></h3>
+	</div>
+	
+	<div class="body">
+		<p><%= _('The point you can use to exhange gifts is:')%></p>
+		<p><%= _('Member|Experience')%>:<%= @current_user.available_experience %></p>
+		<p><%= _('Member|Credit')%>:<%= @current_user.available_credit %></p>		
+	</div>
+	
+	<div class="foot">
+		
+	</div>
+</div>

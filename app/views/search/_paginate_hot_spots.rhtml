@@ -1,0 +1,17 @@
+<div id="result_list_content">
+	<div class="section"> 
+		<div class="head">
+			<h3><%= _('Hot Spots')%></h3>
+		</div>
+		<div class="body">
+			<% unless @hot_spots.empty? -%>
+				<%= render :partial=>'hot_spot', :collection=>@hot_spots %>
+			<% else -%>
+				<%= _('No Result')%>		
+			<% end -%>
+		</div>
+	</div>
+</div>
+<div id="result_navigation_bar">
+	<%= remote_page_navigator @hot_spots, nil, :post, :params=>params, :inner_window=>2 %>	
+</div>

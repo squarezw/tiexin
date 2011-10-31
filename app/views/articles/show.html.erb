@@ -1,0 +1,86 @@
+<% @page_title = h(@article.subject) 
+   @js_files = ['comments', 'editor', 'map','yui/utilities', 'yui/container']
+   @css_files=['comments', 'article', 'yui/container']
+   side_menu 'article'  -%>
+<% content_for :page_scripts do -%>
+var map;
+
+<% unless @city.nil? -%>
+	<%= render :partial=>'/main/levels_data', :locals=>{:city => @city} %>
+<% end -%>
+
+function init_page () {
+        <% unless @city.nil? -%>
+				map = new Map ('small_map', {
+				city_id: <%= @city.id %>,
+				map_width: <%= @city.width %>,
+				map_height: <%= @city.height %>,
+				start_point: [<%= @hot_spot.x %>, <%= @hot_spot.y%> ],
+				zoom_levels: map_levels,
+				viewport_width: 220,
+				viewport_height: 180,
+				init_zoom_level_index: 6
+			});
+        
+		        <%= update_page do |page| 
+					add_hot_spot_marker page, @hot_spot
+				end -%>
+        <%end%>
+}
+
+function add_hot_spot_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', options.hot_spot_id);
+	if (marker)
+		return;
+	new HotSpotMarker (map, x, y, options);
+}
+
+function show_hot_spot_marker (id) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', id);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+	} else {
+		new Ajax.Request('/hot_spots/' + id + '/marker', 
+						 { method: 'get'}
+						);
+	}
+}
+<%end%>
+<% if @article.brand -%>
+  <div id="related_brand">
+    <div class="brand">
+	  <p><%= safe_brand_icon(@article.brand) %></p>
+      <p class="brand_name"><%= link_to h(localized_description(@article.brand, :name)), brand_path(@article.brand), :target=>'_blank'%></p>
+    </div>
+  </div>
+<% end -%>
+
+<div class="article">
+  <div class="head">
+		<%= render :partial=>'/day_calendar', :locals=>{:date=>@article.created_at}%>
+		<h2><%= @article.subject%></h2>
+        <% if @article.member == @current_user %>        
+		    <div class="button_bar">
+		        <%= link_to _('Edit'), edit_member_article_path(@article.member, @article), :class=>:button %>
+		        <%= link_to _('Delete'), member_article_path(@article.member, @article), :confirm=>_('Are you sure?'), :method=>:delete, :class=>:button %>
+		    </div>
+        <% end -%>
+  </div>
+  <div class="content">
+      <%= @article.content%>
+  </div>
+  <div class="update_time">
+    <%= _("Posted by")%> <%= link_to @article.member.nick_name, show_member_path(@article.member) %>
+    <%= render :partial => "/articles/article_recommend", :object => @article %>
+    <% if @article.created_at != @article.updated_at -%>
+            <%= s_('Article|Updated at')%>:<%= format_time @article.updated_at %>
+    <% end -%>
+  </div>  
+ </div> <!-- end of div article -->
+
+<div id="div_comments">
+	<h3><%= _('Comments')%></h3>
+	<div id="div_comment_section" class="comments_block">
+	    <%= javascript_tag (remote_function :url=>comments_path(commentable_type(@article), @article.id), :update => 'div_comment_section', :method=>:get) %>
+	</div>            	
+</div>  

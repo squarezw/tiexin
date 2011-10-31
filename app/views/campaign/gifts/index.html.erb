@@ -1,0 +1,40 @@
+<% page_title _('Gifts'), true
+   include_css_file 'gift'
+   side_menu 'gifts'
+   select_menu :gifts -%>
+
+<% content_for 'page_scripts' do -%>
+function user_logged_in() {
+	location.reload ();
+}
+	
+<% end -%>
+<div class="navigation_bar">
+	<%= _('Gifts')%>
+</div>
+
+<div id="main_function_content">
+	
+
+<% for gift in @gifts -%>
+<div class="gift">
+	<div class="picture">
+		<% if gift.picture -%>
+			<%= link_to image_tag(gift.picture.thumb.url), gift.picture.url, :popup=>true %>
+		<% end -%>
+	</div>
+	
+	<div class="basic_information">
+		<h3><%= link_to h(gift.name), campaign_gift_path(gift) %></h3>
+		<p class="price"><%= gift_price gift %></p>
+		<p class="introduction"><%= truncate(strip_bbcode(gift.description), 200)%></p>
+		<% if @current_user -%>
+		<div class="button_bar">
+			<%= link_to image_tag('exchange_now.gif'), {:controller=>'/campaign/gift_orders', :action=>:new, :gift_id => gift.id} %>
+		</div>
+		<% end -%>
+	</div>
+</div>
+<% end -%>
+
+</div>

@@ -1,0 +1,5 @@
+@areas.each do |area|
+  add_area_marker page, area
+end
+
+page.replace_html 'search_result_list', render(:partial=>'paginate_areas')

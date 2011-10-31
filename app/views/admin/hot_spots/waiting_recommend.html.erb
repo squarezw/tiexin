@@ -1,0 +1,129 @@
+<% page_title _('Recommend Hot Spot')
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar']
+   @css_files=['calendar'] 
+   side_menu 'master_data' -%>
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+	
+	function customize_calendar(cal) {
+		<% if params[:recommend_expire_at] -%>
+		cal.select('<%= Time.parse(params[:recommend_expire_at]).strftime('%m/%d/%Y')%>'); 
+		cal.cfg.setProperty('pagedate', '<%= Time.parse(params[:recommend_expire_at]).strftime('%m/%Y')%>'); 
+		<% end -%>
+		
+ 	}
+
+        function recommend(c){
+           var Cbox= document.getElementsByName('id[]');
+           var vas='';
+           var ids = new Array
+           if (Cbox.length != undefined){
+              for(var i=0;i<=Cbox.length-1;i++){
+                  if(Cbox[i].checked)
+                    ids.push(Cbox[i].value);
+              }
+            }
+            ids = ids.toString();
+            var url = ''
+            if(c){
+              url = '<%=recommend_manage_hot_spots_path%>'
+            }else{
+              url = '<%=cancel_recommend_manage_hot_spots_path%>'
+            }
+
+            new Ajax.Request(url,{
+              method: 'post',
+              parameters: {"id": ids},
+              onSuccess: function(transport){
+                window.location = '<%=waiting_recommend_manage_hot_spots_path%>'
+              }
+            })
+        }
+
+<% end -%>
+<div id="form_error">
+</div>
+<% form_tag waiting_recommend_manage_hot_spots_path do  -%>
+<table class="form_container" width="70%">
+	<tr>
+	  <td width="10%"><label><%= s_('HotSpot|City') %></label></td>
+	  <td><%=select :city,:id,@cities, {:selected => @city_select, :prompt => _('Select City')}%></td>
+	  <td width="10%"><label><%= s_('HotSpot|Hot spot category') %></label></td>
+	  <td><%= hot_spot_category_select :hot_spot_category, :hot_spot_category_id,{:selected => @hot_spot_category_select , :prompt => _('Select Category')}%></td>                
+	</tr>
+	<tr>
+	  <td width="10%"><label><%= s_('HotSpot|Name') %></label></td>
+	  <td><%= text_field_tag :name, params[:name], :size=>30%></td>
+	  <td width="10%"><label><%= s_('HotSpot|Expire at') %></label></td>
+          <td><%= text_field_tag :recommend_expire_at, params[:recommend_expire_at], :size=>15 %>	<%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_recommend_expire_at', :class=>'image' %>
+          <%= s_('HotSpot|Is owner') %><select name="is_owner"><%= options_for_true_false params[:is_owner]%></select></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="4">
+			<%= submit_tag _('Search')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>
+<script type="text/javascript">
+
+function checkEvent(name,allCheckId)
+{
+  var allCk=document.getElementById(allCheckId);
+  if(allCk.checked==true)
+  checkAll(name);
+  else
+  checkAllNo(name);
+
+}
+
+//全选
+function checkAll(name)
+{
+  var names=document.getElementsByName(name);
+  var len=names.length;
+  if(len>0)
+  {
+   var i=0;
+   for(i=0;i<len;i++)
+   names[i].checked=true;
+
+  }
+}
+
+//全不选
+function checkAllNo(name)
+{
+  var names=document.getElementsByName(name);
+ var len=names.length;
+ if(len>0)
+  {
+    var i=0;
+    for(i=0;i<len;i++)
+    names[i].checked=false;
+  }
+}
+</script>
+<table class="data_list">
+  <tr>
+    <th width="5%"></th>
+    <th width="30%"><%= s_('HotSpot|Name') %></th>
+    <th width="20%"><%= s_('hot spot category')%></th>
+    <th width="15%"><%= s_('HotSpot|Owner')%></th>
+    <th width="15%"><%= s_('HotSpot|Rrecommend expire at') %></th>
+    <th width="20%"><%= _('Operation') %></th>
+  </tr>
+  <%= render :partial=>'recommend_hot_spot', :collection=>@hot_spots %>
+</table>
+<input type="checkbox" id="ckall" onclick="checkEvent('id[]','ckall')" /> 全选
+<%= link_to_function _('Recommend'), "recommend(true)" , :class=>:button%>
+<%= link_to_function _('Cancel'), "recommend(false)" , :class=>:button%>
+<%= page_navigator @hot_spots, nil, :params=>params %>
+
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_recommend_expire_at', 
+			  :date_field=>'recommend_expire_at'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y')} %>  

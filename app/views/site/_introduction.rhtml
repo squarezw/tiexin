@@ -1,0 +1,10 @@
+<% include_js_file 'yui/utilities', 'yui/event', 'yui/dom', 'yui/container' 
+   include_css_file 'yui/container' -%>
+<div id="site_introduction">
+<p><%= link_to _('X-Navi'), static_path('about_us') %>是精彩的城市生活图谱，是您身边最忠实地提供旅行、娱乐、餐饮、购物等各类信息的“启明星”，让您能够通过手机、便携式电脑随时随地迅速搜索到您需要的及时讯息！快点来试试吧？</p>
+</div>
+
+<div id="download_button">
+	<%= link_to localized_image('download.jpg'), {:controller=>'static', :action=>'download'} %>
+</div>
+

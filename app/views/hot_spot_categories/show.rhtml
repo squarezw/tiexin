@@ -1,0 +1,103 @@
+<% page_title h(localized_description(@hot_spot_category, :name)), true 
+   page_keyword @hot_spot_category.keywords_array
+	include_js_file 'yui/utilities', 'yui/container', 'map.js'
+   include_css_file 'promotion','main', 'hot_spot_categories'
+-%>
+
+<% content_for 'page_scripts' do -%>
+var map;
+
+<%= render :partial=>'/main/levels_data' %>
+
+function init_page () {
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: <%= start_point %>,
+			viewport_width: 630,
+			viewport_height: 600,
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6
+		});
+		
+	map.add_event_listener('click_marker', function(event) {
+		map.set_position(this.x, this.y);
+		if (this.show_info_bubble)
+			this.show_info_bubble ();
+	});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	
+	<% @hot_spots.each do |hot_spot|
+			update_page do |page| -%>
+				<%=	add_hot_spot_marker page, hot_spot %>
+	<%		end
+	   end -%>
+}
+
+function add_hot_spot_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', options.hot_spot_id);
+	if (marker)
+		return;
+	new HotSpotMarker (map, x, y, options);
+}
+
+function show_hot_spot_marker (id) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', id);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+		map.show_bubble(marker.x, marker.y, marker.options.bubble_content);
+	} else {
+		new Ajax.Request('/hot_spots/' + id + '/marker', 
+						 { method: 'get'}
+						);
+	}
+}
+
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to _('HotSpot Categories'), hot_spot_categories_path %>&nbsp;&gt;&nbsp;
+    <%= (@hot_spot_category.ancestors.reverse.collect { |cat| link_to h(localized_description(cat, :name)), city_hot_spot_category_path(@current_city, cat) }).join (' > ') %>
+	<% if @hot_spot_category.parent -%>
+	&nbsp;&gt;&nbsp;
+	<% end -%>
+	<%= h(localized_description(@hot_spot_category, :name))%>
+</div>
+
+<div id="main_function_content">
+	
+<% unless @hot_spot_category.children.empty? -%>
+<div id="sub_categories">
+        <h3><%= _('Subcategoreis')%></h3>
+	<ul class="simple_menu">
+		<% for cat in @hot_spot_category.children -%>
+			<li><%= link_to h(localized_description(cat, :name)), city_hot_spot_category_path(@current_city, cat)%></li>
+		<% end -%>
+	</ul>
+</div>
+<% end -%>
+
+
+
+<div id="hot_spots">
+	<h3><%= _('HotSpots')%></h3>
+		<% #TODO: Enhance the position of order control. %>
+        <% form_tag city_hot_spot_category_path(@current_city, @hot_spot_category),:method=>:get do -%>
+           <%=_('Choose order by')%>:<%=select_tag(:score_type,options_for_select(HotSpotScore::SCORE_TYPE,params[:score_type])) %>
+            <%=submit_tag _('Submit')%>
+        <%end%>
+	<%= render :partial=>'/search/hot_spot', :collection=>@hot_spots %>
+	<%= page_navigator @hot_spots %>
+</div>
+
+<div id="map">
+		
+</div>
+
+</div>

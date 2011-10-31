@@ -1,0 +1,2 @@
+<div class="category_node"><%= check_box_tag "check_#{root_category.id}", root_category.id, true, :onclick=>'toggle_marker_visible(this);' %><%= safe_icon root_category %><span><%= h(localized_description(root_category, :name)) %></span></div>  
+

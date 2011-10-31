@@ -1,0 +1,7 @@
+<% @page_title = _('Message') 
+        @css_files = ['calendar']
+        side_menu side_menu_for_member(@member)
+%>
+<%form_for :message,:url => member_messages_path do |f|%>
+<%=render :partial => "form",:object => f%>
+<%end%>

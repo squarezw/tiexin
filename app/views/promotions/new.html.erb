@@ -1,0 +1,98 @@
+<% @page_title = _('New Promotion') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] -%>
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+        init_calendar_calendar2 ();
+	}
+	
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to h(localized_description(@vendor, :name)), @vendor %>&nbsp;&gt;&nbsp;<%= _("Promotions")%>&nbsp;&gt;&nbsp;<%= _('New')%>
+</div>
+
+<div id="main_function_content">
+	
+
+<%= error_messages_for 'promotion' %>
+<%form_for :promotion,:url => promotions_path(class_name_for_url(@vendor), @vendor),:html =>{:multipart => true} do |f|%>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= "#{s_('Chinese')} #{ _('Summary')}"%></label></td>
+		<td width="*"><%= f.text_field :summary_zh_cn%></td>
+	</tr>
+	<tr>
+		<td width="20%"><label class="required"><%= "#{s_('English')} #{_('Summary')}" %></label></td>
+		<td width="*"><%= f.text_field :summary_en, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= s_('Chinese') %> <%= s_('Promotion|Content') %></label></td>
+		<td><%= bbcode_editor :promotion_content_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><%= f.text_area :content_zh_cn, :rows=>10, :cols=>60 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= s_('English') %> <%= s_('Promotion|Content') %></label></td>
+		<td><%= bbcode_editor :promotion_content_en %></td>
+	</tr>
+	<tr>
+		<td><%= f.text_area :content_en, :rows=>10, :cols=>60 %></td>
+	</tr>
+	<% if @vendor.is_a? Brand -%>
+        <tr>
+           <td><%=_('Applied cities')%></td> 
+           <td>
+              <% for city in City.find(:all) %>
+                  <%= check_box_tag 'cities[]', city.id,@promotion.cities.include?(city) %> <%= h(localized_description(city, :name)) %>
+              <%end%>
+          </td>
+	</tr>
+	<% end -%>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Banner')%></label></td>
+                <td><%= f.upload_column_field 'banner'  %><%=_('help on promotion banner') %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Post')%></label></td>
+                <td><%= f.upload_column_field 'post'  %><%=_('help on promotion post.') %></td>
+	</tr>        
+	<tr>
+		<td><label class="required"><%= s_('Promotion|Begin Date')%></label></td>
+                <td><%= f.text_field :begin_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar()', :id=>'link_promotion_begin_date', :class=>'image',:href=>'javascript:void(0)' %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Promotion|End Date')%></label></td>
+                <td><%= f.text_field :end_date, :size=>20 %><%= link_to_function image_tag('calendar.gif'), 'show_calendar2()', :id=>'link_promotion_end_date', :class=>'image',:href=>'javascript:void(0)'%></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<%end -%>
+
+<%=
+if params[:vendor_type] == 'Brand'
+     "<script>Checkpi(1);document.getElementById('Brand').checked=true;</script>"
+end
+%>
+  
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_promotion_begin_date', :date_field=>'promotion_begin_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>
+<%= calendar :calendar2, 
+			 {:anchor_element=>'link_promotion_end_date', :date_field=>'promotion_end_date'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y') }
+%>
+
+</div>

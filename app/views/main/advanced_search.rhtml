@@ -1,0 +1,33 @@
+<div id="form_error">
+	
+</div>
+<% form_remote_tag :url => {:controller=>'main', :action=>'advanced_search'} do -%>
+<%= hidden_field_tag :x, @x %>
+<%= hidden_field_tag :y, @y %>
+<table class="form_container">
+	<tr>
+		<td width="30%"><%= _('Name contains') %>:</td>
+		<td width="70%"><%= text_field_tag :keyword, params[:keyword], :size=>40 %></td>
+	</tr>
+	<tr>
+		<td><%= _('Scope')%></td>
+		<td>
+		<p><%= radio_button_tag :scope_mode, 'all', @scope_mode =~ /all/i %><%= _('No limit') %></p>
+		<p>
+		<%= radio_button_tag :scope_mode, 'area', @scope_mode =~ /area/i %><%= _('In area')%>:
+		<%= text_field_tag :area, params[:area], :size => 40 %></p>
+		<p><%= radio_button_tag :scope_mode, 'nearby', @scope_mode =~ /nearby/i %><%= _('Or near the current center of map, in scope')%>:<%= scope_selector %></p></td>
+	</tr>
+	<tr>
+		<td><%= _('Hot spot category')%>:</td>
+		<td><%= hotspot_category_select_tag 'hot_spot_category_id', true, [_('All'), 'all'] %>
+		</td>
+	</tr>
+</table>
+
+
+<% end -%>
+
+<%= update_page_tag do |page|
+	page.call "dialog.show_with_title", _('Option for nearby hot spots.')
+end %>

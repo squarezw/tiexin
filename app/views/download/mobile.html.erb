@@ -1,0 +1,48 @@
+<% if @mobile_os -%>
+	<p><% if @mobile_model_name -%>
+			<%= _('The model of your mobile phone is %{model_name}.') % {:model_name => @mobile_model_name} %>
+	   <% else -%>
+			<%= _('The operation system of your mobile phone is %{mobile_os_name}.') % {:mobile_os_name=>@mobile_os.name}  %>
+	   <% end -%>
+	   <p><%= _('If it is correct, please click following link to download NaviStar.')%></p>
+	   <p><%= link_to @mobile_os.navi_star.get_version, url_for_navi_star(@mobile_os.navi_star)%>
+		<p><%= _('If it is not correct, please select the brand of your mobile phone.')%></p>
+	</p>
+<% else %>
+	<p><%= _('We can not figure out the model and operation system of your mobile phone. Plsease select the brand of your mobile phone.')%></p>
+<% end -%>
+
+<p>
+	<ul>
+  <%for mobile_brand in @mobile_brands%>
+  	<li><%=link_to mobile_brand.name,{:controller => "download", :action => "select_model", :mobile_brand_id => mobile_brand.id}%></li>
+  <%end%>
+	</ul>
+</p>
+
+<h3>“贴心掌上行”通用版</h3>
+<p>如果没有找到你的手机型号，你可以试一下“贴心掌上行”通用版，该版本尚处于Beta测试阶段，不能保证在所有手机上都能有良好表现。请选择你的手机品牌:</p>
+<ul class="list">
+	<li><a href="/navistar/NaviStar_J2ME_Nokia_0.8.0.jad">诺基亚(Nokia)</a></li>
+	<li><a href="/navistar/NaviStar_J2ME_Moto_0.8.0.jad">摩托罗拉(Motorola)</a></li>
+	<li><a href="/navistar/NaviStar_J2ME_SonyEricsson_0.8.0.jad">索尼爱立信(Sony Ericsson)</a></li>
+	<li><a href="/navistar/NaviStar_J2ME_Samsung_0.8.0.jad">三星(Samsung)</a></li>
+	<li><a href="/navistar/NaviStar_J2ME_0.8.0.jad">以上都不是</a></li>
+</ul>
+<p>您在使用中遇到任何问题，欢迎到<a href="/forums/1">“站务讨论”提出</a></p>
+
+
+<p>
+	<%= _('Or if you know the operation system of your mobile phone, you can select a suitable version of NaviStar directory.')%>
+	<ul>
+		<% for navi_star in @navi_stars -%>
+			<li><%= link_to _('NaviStar for %{mobile_os}') % {:mobile_os=>navi_star.mobile_os.name}, url_for_navi_star(navi_star) %></li>
+		<% end -%>
+	</ul>
+</p>
+
+<hr/>
+<p>合作网站:</p>
+<p><a href="http://wap.kaba365.com/wap/kaba/index11.jsp?f=1000">卡巴斯基手机版</a></p>
+<p><a href="http://wap.waptw.com/partner.asp?link=165">天网下载</a></p>
+<p><a href="http://paojiao.cn/?id=tiexinwang">泡椒网</a></p>

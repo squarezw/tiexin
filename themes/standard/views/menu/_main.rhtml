@@ -1,0 +1,176 @@
+<div id="blog_left_cont">  
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%=@blog.owner.nick_name%></div>
+  <div class="cont-3"></div>
+</div>
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2 center">
+     <div id="blog_owner_logo"><%=safe_member_logo(@blog.owner) if @blog.owner%></div>
+     <div id="visit">
+       <%=_('Visit')%>: <%=@blog.read_times%> <%=_('Times')%>
+     </div>
+  </div>
+  <div class="cont-3"></div>    
+</div>
+
+<% if @member and @member.is_merchant -%>
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%= link_to _('Owned Hot Spot'), owned_hot_spots_member_path(@member) %>:&nbsp;[<%= @member.owned_hot_spots.count %>]</div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2" id="owned_hot_spot">
+    <ul>
+    <%for hot_spot in @member.latest_owned_hot_spots%>
+        <li>
+          <div class="picture"><%= picture_tag_for_hot_spot hot_spot %></div>
+          <br/><%= link_to h(localized_description(hot_spot, :name)), hot_spot %>
+        </li>
+    <%end%>
+    </ul>
+  </div>
+  <div class="cont-3"></div>
+</div>
+
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%= link_to _('Owned Brand'), owned_brands_member_path(@member) %>:&nbsp;[<%= @member.owned_brands.count %>]</div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2" id="owned_brand">
+    <ul>
+      <%for brand in @member.owned_brands%>
+      <li>
+          <div class="picture"><%=link_to brand.pic ? safe_brand_icon(brand):"<img src='/images/nopic.jpg'>",brand_path(brand),:target => "_blank"%></div>
+      </li>
+      <%end%>
+    </ul>
+  </div>
+  <div class="cont-3"></div>
+</div>
+
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%= link_to _('Promotion'), member_promotions_path(@member) %>:&nbsp;[<%= @member.promotions.count %>]</div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2">
+    <div id="owned_promotion">
+      <%for promotion in @member.latest_owned_promotions%>
+        <%=render :partial => "/promotions/promotion", :object => promotion%>
+      <%end%>
+    </div>
+  </div>
+  <div class="cont-3"></div>
+</div>
+
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%= _('Comment')%></div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2">
+    <div id="owned_comment">
+      <%for comment in @blog.latest_comments%>
+          <%=render :partial => "/blogs/comment", :object => comment%>
+      <%end%>
+    </div>
+  </div>
+  <div class="cont-3"></div>
+</div>
+<%end%>
+
+<%if @blog.owner.folders%>
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%= _('folder')%></div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2">
+    <div id="owned_folder">
+      <ul>
+        <%for folder in @blog.owner.folders%>
+        <li>
+          <%=link_to folder.name, {:controller => "blogs", :action => "show", :folder_id => folder, :id => @blog}%>
+        </li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+  <div class="cont-3"></div>
+</div>
+<%end%>
+
+<%if @blog.owner.friend_members%>
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_owner_name"><%= _('Friends')%></div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2">
+    <div id="owned_friends">
+      <ul>
+        <%for friend in @blog.owner.friend_members.find(:all,:limit => 4)%>
+        <li>
+            <%= link_to safe_member_logo(friend),member_path(friend)%>
+        </li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+  <div class="cont-3"></div>
+</div>
+<%end%>
+
+<%if @blog.visitors%>
+<div id="blog_left_cont">
+  <div class="cont-1"></div>
+  <div class="cont-2-1" id="blog_visitors"><%= s_('Blog|Visitors')%></div>
+  <div class="cont-3"></div>  
+</div>
+
+<div id="blog_left_cont">
+<div class="cont-1"></div>
+  <div class="cont-2">
+    <div id="blog_visitors">
+      <ul>
+        <%for visitor in @blog.visitors.find(:all,:limit => 4)%>
+        <li>
+            <%= link_to safe_member_logo(visitor.member),member_path(visitor.member)%>
+        </li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+  <div class="cont-3"></div>
+</div>
+<%end%>
+
+<div id="other">
+<div class="cont-1"></div>
+  <div class="cont-2">
+    <div id="owned_folder">
+      <%=link_to image_tag("rss.png", :alt => _("RSS")), {:controller => "blogs",:action => "show", :id => @blog, :format => "rss"}, :target => "_blank"%>
+    </div>
+  </div>
+  <div class="cont-3"></div>
+</div>

@@ -1,0 +1,60 @@
+<div class="div_comment <%= class_for_owner_commented comment %>" id="<%= element_id(comment) %>" >
+	<div class="author">
+		<div class="member_logo">
+			<%= safe_member_logo comment.member %>
+		</div>
+		<p class="author_name">
+			<%= link_to h(comment.member.nick_name), member_path(comment.member_id)%>
+		</p>
+	</div>                                                   
+	
+	<div class="head">     
+		<div class="button_bar">
+			<% if can_vote?(comment)  -%>
+			<div class="agree_button">
+				<%= link_to_function "#{comment.agree}", 
+							"to_agree('#{commentable_type(comment.commentable)}', #{comment.commentable_id}, #{comment.id})",
+							:title=>s_('Comment|Agree') %>
+			</div>
+			<div class="disagree_button">
+				<%= link_to_function "#{comment.disagree}", 
+							"to_disagree('#{commentable_type(comment.commentable)}', #{comment.commentable_id}, #{comment.id})",
+							:title=>s_('Comment|Disagree')%>
+			</div>
+			<% else -%>
+				<div class="agree_button">
+					<%= "#{comment.agree}" %>
+				</div>
+				<div class="disagree_button">
+					<%= "#{comment.disagree}" %>
+				</div>
+			<% end -%>
+		</div>
+	</div>    
+	
+	<div class="body">
+		<pre class="article"><%= bbcodeize(h(comment.content))%></pre>
+	</div>
+	
+	<div class="foot">
+		<p class="time"><%= format_time(comment.created_at)%><% if @current_user -%>
+			<%= link_to_remote _('Quote'),
+			{:url=>quote_comment_path(commentable_type(comment.commentable),
+			 						 comment.commentable_id, 
+									 comment), 
+			:update=>'div_comment_form', 
+			:method=>:get } %>            
+		<% end -%>
+		<% if current_is_admin? -%>
+			<%= link_to_remote _('Delete'),
+			 {:url=>comment_path(commentable_type(comment.commentable),
+			 					comment.commentable_id, 
+								comment), 
+			 :method => :delete ,
+			 :confirm => _('Are you sure?') }  %>
+		<% end -%>
+		</p>		
+	</div>
+	
+</div>
+

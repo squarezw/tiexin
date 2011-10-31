@@ -1,0 +1,6 @@
+<% page_title _('Hot spots recommended by friends.') 
+   side_menu side_menu_for_member(@member) -%>
+
+<%= render :partial=>'recommendation', :collection => @recommendations %>
+
+<%= page_navigator @recommendations %>

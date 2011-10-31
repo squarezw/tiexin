@@ -1,0 +1,14 @@
+<% if @hot_spots and !@hot_spots.empty? -%>
+	<% if request.xhr? -%>
+	<%= update_page_tag do |page| 
+			page.call 'map.clear_markers'
+			@hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true }
+			page.call 'map.set_position', @hot_spots[0].coordinate.x, @hot_spots[0].coordinate.y unless @hot_spots.empty?
+	end %>
+	<% end -%>
+	<%= render :partial=>'hot_spot', :collection=>@hot_spots, :locals=>{:show_pic=>false} %>
+
+	<%= remote_page_navigator @hot_spots, 'hot_spot_list', request.method, params %>	
+<% else -%>
+	<%= _('There are hot spots match your condition.')%>
+<% end -%>

@@ -1,0 +1,53 @@
+<div id="form_error">
+	
+</div>
+<% form_remote_tag :url=>hot_spot_inner_hot_spots_path(@container_hot_spot)+'.js', :html=>{:id=>'hot_spot_form'} do -%>
+<% if params[:layout_map_id] -%>
+	<%= hidden_field_tag :add_from, 'layout_map' %>
+	<%= hidden_field_tag 'position[layout_map_id]', params[:layout_map_id] %>       
+	<%= hidden_field_tag 'position[x]', params[:x] %>
+	<%= hidden_field_tag 'position[y]', params[:y] %>
+	<%= hidden_field_tag :city_id, @container_hot_spot.city.id %>
+<% end -%>
+<table class="form_container" width="100%">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('HotSpot|Name')%></label></td>
+		<td><%= text_field_tag :name, ''%><span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 60 }  %></span></td>
+	</tr>                                              
+
+	<tr>
+		<td><label><%= s_('HotSpot|Address')%></label></td>
+		<td><%= text_field_tag :address, '', :size=>50 %></td>
+	</tr>                                               
+
+	<tr> 
+		<td><label><%= s_('HotSpot|Phone number')%></label></td>
+		<td><%= text_field_tag 'hot_spot[phone_number]', '', :size=>20 %></td>
+	</tr>                                       
+	<tr>
+		<td width="15%"><label><%= s_('HotSpot|Operation time') %></label></td>
+		<td><%= text_area_tag 'operation_time', '', :size=>'30x3' %></td>		
+	</tr>
+	<tr>
+		<td><label><%= s_('HotSpot|Introduction')%></label></td>
+		<td><%= text_area_tag :introduction, '', :size=>'30x5' %></td>
+	</tr>               
+	
+	<tr>
+		<td><label><%= s_('HotSpot|Hotspot category')%></label></td>
+		<td>
+			<%=hotspot_category_root_select_tag "hot_spot_category_root_id",nil,true,[_('Please select one'),""]%>
+	        <%=hotspot_category_children_select_tag "hot_spot_category_children_id",nil,true,[_('Please select one'),""]%>        
+		</td>
+    </tr>
+	<tr>
+		<td><label><%= s_('HotSpot|Brand')%></label></td>
+		<td>
+			<%= text_field_with_auto_complete :brand, "name_#{@current_lang}", { :size => 30 }, {:tokens => ' '} -%></td>
+        </tr>
+</table>
+<% end -%>          
+
+<%= update_page_tag do |page| 
+		page.call 'dialog.show_with_title', _('Create New Hot Spot.')
+    end -%>

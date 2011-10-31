@@ -1,0 +1,40 @@
+<div id="div_owner_information">
+	<%= render :partial=>'/owner_information', :locals=>{:target=>@brand} %>	
+</div>
+
+<div id="products" class="section">          
+	<div class="head">
+		<h3><%= _('Recommend Products or Services')%></h3>
+	</div>                          
+	
+	<div class="body">       
+		<div id="products_list">
+			<%= render :partial=>'product', :collection => @brand.latest_products%>
+		</div>
+		
+	</div>
+	
+	<div class="foot">
+		<%= link_to _('All...'), products_path(vendor_type(@brand), @brand) %>
+	</div>                  
+</div>
+
+<div id="promotions" class="section">
+	<div class="head">
+		<div class="tool_bar">
+			<%= link_to _('New Disount Coupon'), :controller=>'merchant/discount_coupons', :action=>'new', :vendor_type=>'Brand', :vendor_id => @brand.id %><br/>
+		</div>
+		
+		<h3><%= _('Promotion')%></h3>
+	</div>
+	
+	<div class="body">       
+		<div id="promotions_list">
+			<%= render :partial=>'/promotions/promotion_brand', :locals=>{ :brand => @brand}%>
+		</div>
+	</div>
+	
+	<div class="foot">
+		<%= link_to _('All...'), promotions_path(vendor_type(@brand), @brand) %>
+	</div>
+</div>

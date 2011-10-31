@@ -1,0 +1,61 @@
+<div class="section">
+	<div class="head">
+		<h2><%= _("Invite friend to join X-Navi")%></h2>
+	</div>
+	
+	<div class="body">
+		<h3><%= _('Method 1')%></h4>
+		<p><%= _('Please send following URL to your frind, and ask them to register to X-Navi by clicking this URL.')%>:</p>
+		<p><%= text_field_tag 'url', url_for(:controller=>'members', :action=>'new', :inviter_id=>@current_user.id, :only_path=>false), :size=>80 %></p>
+		<br/>
+		<h3><%= _('Method 2')%></h3>
+		<p><%= _('Fill following form, X-Navi will send invitation email to your friend, and instruct them to register.')%></p>
+		<% if @errors -%>
+		<div id="error_msgs" class="errorExplanation">
+			<% @errors.each do |error| -%>
+				<%= error %><br/>
+			<% end -%>
+		</div>
+		<% end %>
+
+		<% form_tag invite_member_path(@current_user) do %>
+		<table class="form_container">
+			<tr>
+				<td width="20%"><label class="required"><%= _('Invitee')%></label></td>
+				<td width="*"><%= text_area_tag :receiver, @receiver, :size=>'30x4' %></td>
+				<td width="40%" class="comment"><%= _(%q/Receiver's email address. Can be multiple addresses seperated by ','./)%>例如“abc@163.com,def@hotmail.com,ghi@hotmail.com”。
+			</tr>
+			<tr>
+				<td><label><%= _('Note') %></label></td>
+				<td><%= text_area_tag :note, params[:note], :size=>'30x6' %></td>
+				<td class="comment"><%= _('You can say something here. It will be sent to your friend as well.')%></td>
+			</tr>
+			<tr>
+				<td><label><%= _('Inviter')%></label></td>
+				<td><%= text_field_tag :inviter, @inviter, :size=>'25' %></td>
+				<td class="comment"><%= _('The name that your friend can recognized the invitation is from you.')%></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2">
+					<%= check_box_tag :add_to_friends, '1', true %><%= _('Add to my friend list automatically after they registered.')%>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2" class="comment">
+					<%= _('After your friend registered successfully, you can get 50 expereience scores.') %>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="button_bar">
+					<%= submit_tag _('Submit')%>
+					<input type="reset" />
+				</td>
+			</tr>
+		</table>
+		<% end -%>
+
+	</div>
+</div>
+

@@ -1,0 +1,32 @@
+<% page_title _('Statistics of New Hot Spot')
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Today'), {:controller=>'admin/statistics', :action=>'new_hot_spot_count', :scope => 'today'}, {:class=>:button} %>
+	<%= link_to _('Yesterday'), {:controller=>'admin/statistics', :action=>'new_hot_spot_count', :scope => 'yesterday'}, {:class=>:button} %>
+	<%= link_to _('This week'), {:controller=>'admin/statistics', :action=>'new_hot_spot_count', :scope => 'this_week'}, {:class=>:button} %>
+	<%= link_to _('Last week'), {:controller=>'admin/statistics', :action=>'new_hot_spot_count', :scope => 'last_week'}, {:class=>:button} %>
+	<%= link_to _('This month'), {:controller=>'admin/statistics', :action=>'new_hot_spot_count', :scope => 'this_month'}, {:class=>:button} %>
+	<%= link_to _('Last month'), {:controller=>'admin/statistics', :action=>'new_hot_spot_count', :scope => 'last_month'}, {:class=>:button} %>
+</div>
+
+<p><%= _('From')%>:<%= format_time @start_time %>&nbsp;<%= _('To') %>&nbsp;<%= format_time @end_time%><p>
+
+<table class="data_list">
+	<tr>
+		<th><%= _('hot spot category')%></th>
+		<% for city in @cities -%>
+			<th class="number"><%= h(localized_description(city, :name))%></th>
+		<% end -%>
+	</tr>
+	<% for row in @rows -%>
+		<tr>
+			<td><%= h(localized_description(row[0], :name))%></td>
+			<% for city in @cities -%>
+				<td class="number">
+					<%= row[1][city.id] || 0%>
+				</td>
+			<% end -%>
+		</tr>
+	<% end -%>
+</table>

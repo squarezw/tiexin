@@ -1,0 +1,29 @@
+<div id="div_detail_info"> 
+<%= render :partial=>'hot_spots/basic_info', :locals => { :hot_spot=>hot_spot } %>                      
+
+<div class="button_bar">
+	<% if hot_spot.modifiable_to(@current_user) -%>
+		<%= link_to_function _('Edit'), "edit_hot_spot(#{hot_spot.id})", :class => :button%>
+	<% end -%>
+	
+	<% if current_is_admin? -%>          
+		<% unless hot_spot.approved -%>
+			<%= link_to _('Approve'), manage_approve_hot_spot_path(hot_spot), :class=>:button, :method=> :post %>
+		<% end -%>
+		<%= link_to _('Manage Layout Maps'), manage_layout_maps_path(hot_spot), :class=>:button %>
+		<% if @hot_spot.layout_maps.empty? -%>
+			<%= link_to _('Merge'), hot_spot_merges_path(hot_spot), :class=>:button%>
+		<% end -%>
+		<%= link_to _('Delete'), manage_hot_spot_path(hot_spot), 
+			:confirm=>_('All information, including photos, comments, recommended products, layout maps, etc., of this hot spot will be deleted. Are you sure?'), :class => :button, :method => :delete %>
+	<% end -%>         
+	
+	<% unless @hot_spot.layout_maps_has_zoom_levels.blank? -%>
+		<%= link_to _('Layout Maps'), layout_maps_path(layoutable_type(@hot_spot), @hot_spot.id), :class => :button  %>      
+	<% end -%>
+</div>                     
+
+<% if @current_user and !@hot_spot.owner -%>
+<% end -%>
+
+</div>

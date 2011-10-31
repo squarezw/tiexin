@@ -1,0 +1,10 @@
+<div id="error_msgs" class="errorExplanation" style="display:none;">
+	
+</div>
+<div id="div_articles_section">
+<%=render :partial=> 'article_list', :object => @articles%>  
+</div>
+<%= update_page_tag do |page|
+  	page.call 'panel.show_with_title',_('Add related article')
+        page.call 'busy_indicator.task_end'
+end -%>

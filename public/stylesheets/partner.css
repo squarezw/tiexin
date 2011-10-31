@@ -1,0 +1,21 @@
+div#title {
+	position: absolute;
+	top: 120px;
+	left: 170px;
+}
+
+div#title h1 {
+	font-size: 26px;
+	color: #333;
+}
+
+div#page_head {
+	height: 153px;
+}
+
+div#session_menu {
+	position: absolute;
+	top: 10px;
+	left: 20px;
+	font-size: 14px;
+}

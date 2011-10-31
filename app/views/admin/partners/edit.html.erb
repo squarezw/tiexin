@@ -1,0 +1,11 @@
+<% page_title _('Edit Partner') + ":#{@partner.name}" 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), admin_partner_path(@partner), :class=>:button %>
+</div>
+<%= error_messages_for :partner %>
+
+<% form_for :partner, @partner, :url=>admin_partner_path(@partner), :html=>{:method=>:put} do |form| -%>
+	<%= render	:partial => "form", :object=>form %>
+<% end -%>

@@ -1,0 +1,213 @@
+div#main_function_content {
+	padding: 2px;
+}
+
+div#hot_spot_information_area {
+	float: left;
+	width: 427px;
+        overflow: auto;
+        height: 320px;
+	*width: 420px;
+}
+
+div#hot_spot_information_area table.layoutter td {
+	padding: 5px 2px;
+}
+
+div#hot_spot_information_area table.layoutter pre.article{
+	padding: 0;
+}
+
+div#basic_information {
+	margin-left: 145px;
+}
+
+div.detail_info_link {
+	text-align: right;
+	margin: 5px;
+}
+
+div#map_panel {
+	margin-left: 432px;   
+	*margin-left: 429px;
+}                         
+
+div#xnavi_map {
+	height: 300px;
+	width: 510px;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid #BFBFBF;
+}         
+
+div#category_navigator {
+	background-color: #ECECEC;
+	padding: 5px 10px;
+	margin-bottom: 2px;
+	min-height: 14px;
+	width: 492px;
+}
+
+div#category_navigator a {
+	color: #00315e;
+}
+
+div#search_result_panel {
+	float: left;
+	width: 432px;
+	margin-bottom: 10px;
+}
+
+div#main_function div.section {
+	margin-top: 10px;
+}
+
+div#main_function div.section div.head {
+	height: 35px;
+	line-height: 35px;
+	padding: 0px 20px 0px 20px;
+	margin: 0 0 0 0;
+}
+
+div#search_result_panel div.head {
+	background: url('../images/layout_maps/search_result_head_bg.jpg') left center no-repeat;
+}
+
+div#main_function div.section div.head h3 {
+	color: #666;
+	font-size: 14px;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+div#main_function div.section div.head a {
+	color: #666;
+}
+
+div#main_function div.section div.body {
+	padding: 5px 15px;
+	border: 1px solid #BFBFBF;
+	margin: 0px;
+}
+
+div#search_result_panel div.body {
+	height: 240px;
+	overflow: auto;
+}
+
+div#search_result_panel div.body table.data_list {
+	margin: 0px;
+}
+
+div#search_result_panel div.body table.data_list th {
+	color: black;
+	font-size: 14px;
+}
+
+div#search_result_panel div.body table.data_list td {
+	vertical-align: middle;
+}
+
+div#inner_hot_spot_detail {
+	margin-left: 438px;
+	*margin-left: 435px;
+	width: 512px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+div#inner_hot_spot_detail div.head {
+	background: url('../images/layout_maps/inner_hot_spot_infor_head_bg.jpg') left center no-repeat;
+}
+
+div#inner_hot_spot_detail div.body {
+	height: 240px;
+	overflow: auto;
+}
+
+div#main_function div#inner_hot_spot_detail div.head div.tool_bar {
+	float: right;
+	background: none;
+	height: 17px;
+	padding: 9px 0px;
+}
+
+div#inner_hot_spot_detail div.basic_information {
+	margin-left: 150px;
+        width:100px;
+        overflow: hidden;
+}
+
+div#inner_hot_spot_detail h4 {
+	font-size: 16px;
+	color: #00315E;
+	font-weight: bold;
+}
+
+div#inner_hot_spot_detail div.score_image {
+	float: right;
+}
+
+div#inner_hot_spot_detail p {
+	line-height: 1.5em;
+}
+
+div#inner_hot_spot_detail p.hot_spot_introduction {
+	clear: left;
+}
+
+div#inner_hot_spots {
+	clear: both;
+}
+
+div#inner_hot_spots div.body {
+	padding: 2px;
+	background: url('../images/full_width_section_body_bg.jpg') left bottom no-repeat;
+}
+
+div.hot_spot_simple {
+	width: 135px;
+	text-align: center;
+	float: left;
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+div.hot_spot_simple div.hot_spot_picture {
+	float: none;
+	margin: 0 auto 5px auto;
+	width: 128px !important;
+	width: 128px;
+	height: 128px;
+}
+
+div.hot_spot_simple div.hot_spot_picture td {
+	vertical-align: middle;
+	height: 128px;
+	width: 128px;
+	text-align: center;
+}
+
+div.hot_spot_simple p.hot_spot_name a {
+	color: #00315E;
+}
+
+div.hot_spot_simple p.introduction {
+	margin: 2px;
+	text-align: left;
+}
+
+div.hot_spot_simple div.address {
+	margin: 0 auto 5px auto;
+	height: 50px;
+	width: 127px;
+	overflow: hidden;
+	background-color: #F4F0E5;
+	padding: 3px;
+	text-align: left;
+}
+
+div#layout_map_selector a.yuimenuitemlabel {
+	font-size: 1em;
+}

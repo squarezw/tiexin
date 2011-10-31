@@ -1,0 +1,28 @@
+<table class="form_container">
+	<tr>
+		<td width="15%"><label><%= s_('Post|Title') %></label></td>
+		<td><%= link_to h(@post.title), forum_post_path(@forum, @post)%></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= _('Content')%></label></td>
+		<td><%= bbcode_editor :reply_content %>
+		</td>		
+	</tr>
+	<tr>
+		<td><%= form.text_area :content, :cols=>80, :rows=>20 %>
+			<p class="help"><%= _('The length must between %{minimum} and %{maximum}') % {:minimum=>5, :maximum=>10000}  %></p>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Attachment')%></label></td>
+		<td><%= upload_column_field :reply, :attachment, :size=>60 %>
+			<p class="help"><%= _('Only jpg, jpeg, png and gif file is accepted.')%></p>
+		</td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit')%>
+			<input type="reset"/>
+		</td>
+	</tr>
+</table>

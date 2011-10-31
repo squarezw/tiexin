@@ -1,0 +1,23 @@
+<% page_title _('Manage Partners') 
+   side_menu 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_partner_path, :class=>:button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="10%"><%= s_('Partner|Code') %></th>
+		<th width="*"><%= s_('Partner|Name') %></th>
+		<th width="15%"><%= s_('Partner|Contact person') %></th>
+		<th width="15%"><%= s_('Partner|Phone number')%></th>
+	</tr>
+	<% for partner in @partners -%>
+	<tr>
+		<td><%= link_to partner.code, admin_partner_path(partner) %></td>
+		<td><%= link_to partner.name, admin_partner_path(partner) %></td>
+		<td><%= partner.contact_person %></td>
+		<td><%= partner.phone_number %></td>
+	</tr>
+	<% end -%>
+</table>

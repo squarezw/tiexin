@@ -1,0 +1,11 @@
+<% page_title _('Update Forum')
+   side_menu :master_data -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), manage_forums_path, :class => :button %>
+</div>
+<%= error_messages_for :forum %>
+
+<% form_for :forum, @forum, :url=>manage_forum_path(@forum), :html=>{:method=>:put} do |f| -%>
+<%= render :partial => 'form', :object=>f %>
+<% end -%>

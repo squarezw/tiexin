@@ -1,0 +1,125 @@
+<% page_title h(@post.title), true
+   include_js_file 'tiny_mce/tiny_mce.js', 'tiny_mce/simple'
+   include_css_file 'forums' 
+   select_menu :forums -%>
+<%if @post.vote_result == 0 and @post.votable_to?(@current_user)%>
+<% content_for 'page_scripts' do -%>
+function vote_post(option) {
+	new Ajax.Updater('post_vote_area', '<%= vote_forum_post_path(@forum, @post)%>',
+		{ parameters: { option: option}});
+}
+
+function vote_reply(reply_id, option) {
+	new Ajax.Updater('vote_ele_Reply_' + reply_id, '<%= forum_post_replies_path(@forum, @post)%>/' + reply_id + '/vote',
+		{ parameters: { option: option}});
+}
+
+<% end -%>
+<% end %>
+
+<a name="top" />
+<div class="navigation_bar">
+	<%= link_to _('All Forums'), forums_path %> > <%= link_to h(@forum.name), forum_posts_path(@forum) %>
+</div>
+<h2 id="page_title"><%= h(@post.title) %></h2>
+
+<div class="button_bar">
+	<span id="top_oper_area">
+		<%= render :partial=>'/admin/posts/top_oper_area' %>
+	</span>
+	<%= link_to _('New Reply'), new_forum_post_reply_path(@forum, @post), :class=>:button unless @post.lock%>
+</div>
+
+
+<%= page_navigator @replies %>
+<% unless params[:page] and params[:page].to_i > 1 -%>
+<table class="post_container">
+	<tr>
+		<td width="180px" class="author"><%= _('Main Post')%></td>
+		<td><%= s_('Post|Created at')%>:<%= format_time @post.created_at%></td>
+	</tr>
+	<tr>
+		<td class="author">
+			<%= render :partial=>'members/summary', :locals=>{:member=>@post.member}%>
+		</td>
+		<td width="*">
+			<% if @post.deleted and !current_is_admin? -%>
+                          <p class="warning">
+                          <%= _('This post has been deleted by administrator.')%>
+                          </p>
+                        <% else -%>
+                          <div id="post_vote_area">
+                            <%= render :partial=>'post_vote_area' %>
+                          </div>
+                          <pre class="article">
+                          <%= @post.content%> <%##simple_format(@post.content)%>
+                          <%if @post.article -%>
+                          <%if @post.article.member.blog%>
+                          <%= link_to _('Read full article'), "#{blog_root_url(@post.article.member.blog)}#{article_path(@post.article)}", :target => "_blank" %>
+                          <%else%>
+                          <%= link_to _('Read full article'), "#{article_path(@post.article)}",:target => "_blank"  %>
+                          <%end%>
+                          <%end%>
+                          <% if @post.attachment -%>
+                                  <% if @current_user -%>
+                                          <%= link_to image_tag(@post.attachment.thumb.url), @post.attachment.url, :target=>'_blank'%>
+                                  <% else -%>
+                                          <%= _('You can view the attachment after you login the system.')%>
+                                  <% end -%>
+                          <% end -%>
+                          </pre>
+                          <%if @post.member.sign%>
+                          <div id="sign">
+                            <%= @post.member.sign%>
+                          </div>
+                          <%end%>
+                        <% end -%>
+		</td>
+	</tr>
+	<tr>
+		<td class="author"></td>
+		<td class="button_bar">
+			<% if @current_user -%>
+				<%= link_to _('Quote'), quote_forum_post_path(@forum, @post)%>
+				<%= link_to _('Operation Logs'), object_operation_logs_path(:post, @post.id), :target=>'_blank'%>
+			<% end -%>
+			<% if @post.member == @current_user -%>
+			<%= link_to _('Edit'), edit_forum_post_path(@forum, @post) %>
+			<% end -%>			
+			<a href="#top"><%= _('Top') %></a>
+                        <%= link_to _('New Reply'), new_forum_post_reply_path(@forum, @post) unless @post.lock%>
+                      <%if current_is_admin? or (@current_user and @current_user.is_moderator?(@post.forum))%> 
+                        <%form_tag  move_manage_post_path(@post)do -%>
+                          <%=submit_tag _('Post|Move to'), :class => "button"%>
+                          <select id="forum_select" name="forum_id">
+                            <%= options_for_select (Forum.find(:all).collect{ |forum| [forum.name, forum.id]}), @forum.id %>    
+                          </select>
+                        <%end%>
+                      <%end%>
+		</td>
+	</tr>
+</table>
+<% end -%>
+<%= render :partial=>'reply', :collection => @replies %>
+
+<%= page_navigator @replies %>
+
+<% if @current_user and !@post.lock -%>
+	<% form_for :reply, @reply, :url=>forum_post_replies_path(@forum, @post) do |f| -%>
+	<table class="form_container">
+		<tr>
+			<td width="15%"><%= _('Fast Reply')%></td>
+			<td width="*"><%= f.text_area :content, :cols=>60, :rows=>5, :class=>"mceEditor" %>
+				<p class="help"><%= _('The length must between %{minimum} and %{maximum}') % {:minimum=>5, :maximum=>10000}  %></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="button_bar">
+				<%= submit_tag _('Submit')%>
+			</td>
+		</tr>
+	</table>	
+	<% end -%>
+<% end -%>
+
+

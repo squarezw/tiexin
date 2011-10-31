@@ -1,0 +1,17 @@
+<% page_title _('Blogs') 
+   include_css_file 'blog_index'
+   side_menu 'blogs' 
+   @selected_menu = :blogs -%>
+
+<% for article in @articles -%>
+<div class="article">
+  <%= render :partial => 'author', :object=>article.member %>
+  <div class="head">
+		<%= render :partial=>'/day_calendar', :locals=>{:date=>article.created_at}%>
+		<h2><%= link_to article.subject, article_path(article)%></h2>
+  </div>
+  <div class="content">
+      <%= article.summary%>
+  </div>
+ </div> <!-- end of div article -->
+<% end -%>

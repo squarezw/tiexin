@@ -1,0 +1,24 @@
+<% page_title _('New Gift Order') 
+	@js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+	@css_files=['calendar'] 
+   select_menu :gifts -%>
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Gifts'), campaign_gifts_path %> > <%= _('New Gift Order')%>
+</div>
+
+<div id="main_function_content">
+	<% form_for :gift_order, @gift_order, :url=>campaign_gift_orders_path do |form| -%>
+	<%= render :partial=>'form', :object=>form %>
+	<% end -%>	
+</div>

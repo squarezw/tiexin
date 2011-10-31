@@ -1,0 +1,5 @@
+<% form_tag({:controller => 'blogs',  :action => 'show', :id => @blog}, {:method => 'get', :id => 'sform'}) do %>
+  <label for="q"><%= _("Search Blog Article") %></label><br />
+  <input type="text" id="q" name="q" value="<%=params[:q]%>" size="15" />
+  <input type='submit' class="submit" value='<%= _("Search") %>' />
+<% end %>

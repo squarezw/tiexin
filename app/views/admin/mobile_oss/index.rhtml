@@ -1,0 +1,13 @@
+<% @page_title = _('Manage Mobile OS')
+   @css_files=['mobile']
+   @side_menu = 'master_data' %>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_mobile_os_path, :class => :button %>
+</div>
+<div class="xnavi-mobile-os">
+    <ul>
+       <%= render :collection => @mobile_oss, :partial=>'mobile_os' %>
+    </ul>
+</div>
+<%= page_navigator @mobile_oss %>

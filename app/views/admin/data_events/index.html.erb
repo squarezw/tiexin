@@ -1,0 +1,46 @@
+<% page_title _('manage_events')
+   @css_files=['brands']
+   side_menu 'master_data'
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   use_remote_dialog
+-%>
+<script language="javascript">
+  var panel;
+
+  function init_page () {
+          panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+  }
+
+  function customize_calendar(cal) {
+          cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>';
+  }
+
+  function add_related_hot_spot (event_id) {
+         panel.retrieve('/admin/data_events/related_hot_spots/?event_id='+event_id);
+  }
+
+  function insert_related_hot_spot(hot_spot_id, daq_event_id) {
+    new Ajax.Request('<%=insert_related_admin_data_events_path%>?daq_event_id='+ daq_event_id +"&hot_spot_id=" + hot_spot_id, {method:'post'});
+//	hide_form_panel ();
+  }
+
+</script>
+<div class="navigation_bar">
+	<%= _('manage_events')%>
+</div>
+
+<div id="main_function_content">
+  <%=render :partial => "event", :object =>@daq_evnets%>
+</div>
+<div id="page_content">
+<%= page_navigator @daq_evnets unless @daq_evnets.blank?%>
+</div>
+<div id="panel">
+	<div class="hd" id="panel_head">
+
+	</div>
+
+	<div class="bd" id="panel_body">
+
+	</div>
+</div>

@@ -1,0 +1,7 @@
+<p><%= h(localized_description(@traffic_line, :name))%></p>
+<p><%= h(localized_description(@traffic_line, :introduction))%></p>
+<p><%= h(localized_description(@traffic_line, :operation))%></p>
+<p><%= _('Stops')%></p>
+<ul class="list">
+<%= render :partial=>'hot_spot', :collection=>@traffic_line.traffic_stops.collect {|stop| stop.hot_spot} %>
+</ul>

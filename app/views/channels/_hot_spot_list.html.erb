@@ -1,0 +1,37 @@
+<div class="head">
+	<div id="order_tool">
+		<% form_remote_tag :url=>formatted_city_channel_path(@current_city, @channel, :js), :method=>:get do %>
+		   <%= hidden_field_tag 'area', @area_name %>
+		   <%= hidden_field_tag :hot_spot_category_id, params[:hot_spot_category_id] %>
+		   <%= hidden_field_tag :tag, params[:tag]%>
+		   <%= hidden_field_tag :keyword, params[:keyword]%>
+		   <%= _("Order By")%>: &nbsp;
+		   <select name="order_by" onChange="this.form.onsubmit();">
+				<%= options_for_select [[s_('HotSpot|Score'), 'score'],
+										[s_('HotSpot|Price score'), 'price_score'],
+										[s_('HotSpot|Quality score'), 'quality_score'],
+										[s_('HotSpot|Service score'), 'service_score'],
+										[s_('HotSpot|Environment score'), 'environment_score'],
+										[s_('HotSpot|Name'), "name_#{@current_lang}"]],
+										params[:order_by] || "name_#{@current_lang}" %>
+		  </select>
+	    <% end -%>
+	</div>
+	<h3><%= _('Hot Spot List')%></h3>
+</div>
+<div class="body">
+	<% if @hot_spots and !@hot_spots.empty? -%>
+		<% if request.xhr? -%>
+		<%= update_page_tag do |page| 
+				page.call 'map.clear_markers'
+				@hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true }
+				page.call 'map.set_position', @hot_spots[0].coordinate.x, @hot_spots[0].coordinate.y unless @hot_spots.empty?
+		end %>
+		<% end -%>
+		<%= render :partial=>'/channels/hot_spot', :collection=>@hot_spots, :locals=>{:show_pic=>false} %>
+
+		<%= remote_page_navigator @hot_spots, nil, request.method, params %>	
+	<% else -%>
+		<%= _('There are hot spots match your condition.')%>
+	<% end -%>
+</div>

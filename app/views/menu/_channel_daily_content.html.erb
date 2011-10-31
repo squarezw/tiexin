@@ -1,0 +1,15 @@
+<div class="section">
+	<div class="head">
+		<h3><%= _('History Contents')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+		<% for content in  @daily_content.history_contents(10) -%>
+			<li><%= link_to h(content.title), channel_daily_content_path(@channel, content) %>(<%= format_date(content.display_at)%>)</li>
+		<% end -%>
+		</ul>
+	</div>
+	<div class="foot">
+		
+	</div>
+</div>

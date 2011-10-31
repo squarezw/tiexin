@@ -1,0 +1,91 @@
+<% if @hot_spot.coordinate -%>
+<div id="small_map_panel" class="section">
+	<div class="body">
+		<div id="small_map">
+		</div>		
+	</div>
+	<div class="foot" id="map_buttons">
+		<%= link_to_function _('Zoom In'), "map.zoom_in()", :id=>'zoom_in_button', :class=>"map_button" %>
+		<%= link_to_function _('Zoom Out'), "map.zoom_out()", :id=>'zoom_out_button', :class=>"map_button" %>
+		<%= link_to _('Big Map'), 
+			{:controller=>'cities', :action=>:map, :id=>@hot_spot.city_id, :hot_spot_id=> @hot_spot},
+			{:id=>'big_map_button', :class=>"map_button"} %>
+	</div>
+</div>
+
+<% end -%>
+
+<div id="div_owner_information">
+    <%= render :partial=>'/owner_information', :locals=>{:target=>@hot_spot} %>	
+</div>
+
+<% events = @hot_spot.effective_events(:page=>1, :per_page=>5) 
+   if !events.empty? or @hot_spot.can_publish_event?(@current_user) -%>
+<div id="events" class="section">
+	<div class="header">
+		<h3><%= _('Events')%></h3>
+	</div>
+	
+	<div class="body">       
+		<div id="events_list">
+			<%= render :partial=>'/hot_spots/event', :collection=>events %>
+		</div>
+	</div>
+	
+	<div class="foot">
+		<% if @current_user and 
+			  ((@hot_spot.owner and @hot_spot.owner == @current_user) or 
+			   @current_user.has_privilege(:manage_events)) -%>
+			<%= link_to _('New Event'), new_event_path(class_name_for_url(@hot_spot), @hot_spot) %><br/>
+		<% end -%>
+
+		<% if @current_user and 
+			  ((@hot_spot.owner and @hot_spot.owner == @current_user) or 
+			   @current_user.has_privilege(:manage_coupons)) -%>
+			<%= link_to _('New Disount Coupon'), :controller=>'merchant/discount_coupons', :action=>'new', :vendor_type=>'HotSpot', :vendor_id => @hot_spot.id %><br/>
+		<% end -%>
+
+		<% if events.total_entries > 1 -%>
+			<%= link_to _('All...'), events_path(class_name_for_url(@hot_spot), @hot_spot) %><br/>
+		<% end -%>
+	</div>
+</div>
+<% end -%>
+
+<div id="brand_section">
+<% if @hot_spot.brand -%>
+<%= render :partial=>'/hot_spots/brands', :locals=>{ :hot_spot => @hot_spot } %>
+<% elsif @hot_spot.modifiable_to @current_user -%>
+<div class="section">
+	<div class="header">
+          <h3><%= _('Brand')%></h3>
+	</div>	
+	<div class="body">
+		<%= link_to_function _('Edit'), "edit_brand()" %>
+	</div>
+</div>
+<% end %>
+</div>
+
+<div class="section">
+	<div class="header">
+		<h3><%= _('Access Traffic Line')%></h3>
+	</div>
+	
+	<div class="body" id="access_traffic_lines">
+		<ul class="list">
+		<% lines = @hot_spot.access_traffic_lines %>
+		<% for line in lines[0..2] -%>
+			<li><%= link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})"%></li>
+		<% end -%>
+		</ul>
+	</div>
+	
+	<div class="foot">
+		<% if lines.length > 3 -%>
+			<%= link_to_remote _("All %{no} lines...") % {:no=> lines.length},
+			  		:url => access_traffic_lines_hot_spot_path(@hot_spot), :update => 'access_traffic_lines', :method => :get %>
+		<% end -%>
+	</div>
+</div>
+<%= render :partial=>'/hot_spots/areas', :locals=>{:hot_spot => @hot_spot }%>

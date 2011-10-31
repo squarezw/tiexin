@@ -1,0 +1,2 @@
+page.insert_html :bottom, 'pictures_list', render(:partial=>'picture', :object=>@picture)
+page.visual_effect :pulsate, picture_div_id(@picture), :pulses=>1    

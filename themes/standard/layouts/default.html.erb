@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title><%=h(@blog.name) if @blog%>-<%=@page_title %></title>
+  	<%= javascript_include_tag :defaults %>
+        <%=theme_stylesheet_link_tag("application.css")%>
+	<% unless @js_files.nil? 
+		for js in @js_files.flatten -%> 
+			<%= javascript_include_tag js %>
+		<% end -%>
+	<% end -%>
+	<% unless @css_files.nil? 
+		for css_file in @css_files.flatten -%>
+			<%= stylesheet_link_tag css_file %>
+		
+	<%	end
+	   end -%>
+        <script language="javascript" type="text/javascript" >
+		var busy_indicator = null;
+		<% if @use_remote_dialog -%>
+		var dialog;
+		<% end -%>
+		
+		
+		Event.observe(window, 'load', init);
+		
+		function init() {
+			init_busy_indicator ();
+			init_page();
+			<% if @use_remote_dialog -%>
+			dialog = new RemoteFormDialog('dialog', 
+					{buttons: [{ text: "<%= _('Submit') %>",
+		                		 handler: handleSubmit, 
+		                		 isDefault: true},
+				               { text: "<%= _('Cancel')%>", 
+				                 handler: handleCancel}],
+				     busy_indicator: busy_indicator });
+			<% end %>
+		}
+		
+		function init_page () {}
+		
+		function init_busy_indicator () {
+			busy_indicator = new BusyIndicator($('img_busy_indicator'));
+		}
+		
+		<%= @content_for_page_scripts %>
+	</script>
+</head>
+
+<body>
+  	<% unless flash[:note].nil? -%>
+		<%= update_page_tag do |page| 
+			page.alert flash[:note]
+		end %>
+	<% end -%>
+
+  <%= render :partial=>"menu/head", :object => @blog if @blog %>
+
+  <div class="main-container">
+    <div id="main_border"></div>
+    <div id="main_top">
+      <div class="title">
+        <h1 class="sitename"><%= link_to "#{@blog.name}", blog_root_url(@blog) if @blog%></h1>
+        <%= blog_root_url(@blog) if @blog%>
+      </div>
+    </div>
+    <div id="main">
+         <div id="content" class="right">
+             <%= @content_for_layout %>
+         </div>
+
+        <% if @side_menu -%>
+            <div id="sidebar">
+                <%= render :partial=>"menu/#{@side_menu}" %>
+            </div>
+        <% end -%>
+		<div style="clear:both"></div>
+    </div>
+  </div>
+  <div id="footer">
+      <p>博客内容仅代表作者本人观点。与贴心网的立场和观点无关</p>
+      <p>博客空间由贴心网提供</p>
+		<% if XNavi::PLATFORM == 'production' -%>
+		<script src="http://s78.cnzz.com/stat.php?id=1455708&web_id=1455708&show=pic" language="JavaScript" charset="gb2312"></script>
+		<% end -%>
+  </div>
+
+  <% if @use_remote_dialog -%>
+	<div id="dialog">
+		<div class="hd" id="dialog_head">
+		</div>                     
+
+		<div class="bd" id="dialog_body"> 
+		</div>
+	</div>
+  <% end -%>
+</body>
+</html>

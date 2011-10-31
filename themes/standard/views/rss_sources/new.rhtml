@@ -1,0 +1,27 @@
+<% @page_title = _('Add RSS Source')
+   @side_menu = 'main' -%>
+
+<% form_for :rss_source, @rss_sources, :url=>blog_rss_sources_path(@blog), :method=>:post, :html=>{ :id=>'frm_channel' }do |f| -%>
+<table class='form_container'>
+	<tr>
+		<td><label><%=_('Address')%></label> </td>
+		<td><%= f.text_field :rss, :size => 50 %><%= image_tag 'ajaxloading.gif', :style => "display:none", :id=>'rss_hourglass' %></td>
+	</tr>
+	<tr>
+		<td><label><%=_('Folder')%></label> </td>
+		<td><%=f.collection_select :folder_id, @blog.owner.folders, :id, :name, {:prompt => _('Select a folder')}%></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<%= observe_field('rss_source_rss', :url => info_rss_sources_path, :with => '$("frm_channel").serialize("rss")', :method => :get, :before => "Element.show('rss_hourglass')", :loaded => "Element.hide('rss_hourglass')"   ) %>
+
+<div id="div_channel_info">
+
+</div>

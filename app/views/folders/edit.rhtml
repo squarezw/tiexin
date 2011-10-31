@@ -1,0 +1,11 @@
+<div id="form_error">
+	
+</div>
+
+<% remote_form_for :folder, @folder, :url=>member_folder_path(@member, @folder), :method=>:put, :html=>{:method=>:put} do |form| -%>
+<%= render :partial=>'form', :object=>form %>
+<% end -%>
+
+<%= update_page_tag do |page| 
+		page.call 'dialog.show_with_title', _('New Folder')
+	end -%>

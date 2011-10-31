@@ -1,0 +1,24 @@
+<% page_title '联系我们' 
+   include_css_file 'static'-%>
+
+<div class="navigation_bar">
+	<%=_('X-Navi')%>站点地图
+</div>
+
+<div id="main_function_content" class="site_map">
+    <% City.find(:all, :conditions => "has_map = true").each do |city| -%>
+      <ul>
+        <li class="s1"><strong><%= localized_description(city, :name) %><%=_('X-Navi')%></strong></li>
+        <li><%= link_to "#{localized_description(city, :name)}#{_('City Map')}", map_city_path(@current_city) %></li>
+        <li>
+          <% for channel in Channel.find(:all) -%>
+            <%= link_to "#{localized_description(city, :name)}#{h(localized_description(channel, :name))}", city_channel_path(city, channel) %>
+          <% end %>
+        </li>
+        <li><%= link_to "#{localized_description(city, :name)}#{_('Forum')}", forums_path%></li>
+        <li><%= link_to "#{localized_description(city, :name)}#{_('X-Navi')}#{_('Blog')}", blogs_path%></li>
+        <li><%= link_to "#{localized_description(city, :name)}#{_('Topics')}", city_topics_path(city) %></li>
+      </ul>
+    <%end%>
+</div>
+

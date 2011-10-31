@@ -1,0 +1,43 @@
+<% page_title _('Manage Gift Orders') 
+   side_menu 'master_data' -%>
+
+<% form_tag admin_gift_orders_path, :method=>:get do -%>
+<table class="form_container">
+	<tr>
+		<td width="7%"><%= s_('GiftOrder|Number')%></td>
+		<td width="15%"><%= text_field_tag :number, params[:number], :size=>10 %>
+		<td width="7%"><%= s_('GiftOrder|Name')%></td>
+		<td width="25%"><%= text_field_tag :name, params[:name], :size=>20 %>
+		<td width="7%"><%= s_('GiftOrder|Status')%></td>
+		<td width="*"><select name="status" >
+				<%= options_for_select options_for_codes(GiftOrder::ALL_STATUS, :gift_order_status, '') %>
+			</select>
+		</td>
+		<tr>
+			<td colspan="6" class="button_bar">
+				<%= submit_tag _('Search')%>
+			</td>
+		</tr>
+	</tr>
+</table>
+<% end -%>
+<table class="data_list">
+	<tr>
+		<th width="7%">#</th>
+		<th width="15%"><%= s_('GiftOrder|Name') %></th>
+		<th width="*"><%= _('Gift') %></th>
+		<th width="15%"><%= s_('GiftOrder|Confirmed at') %></th>
+		<th width="10%"><%= s_('GiftOrder|Status')%></th>
+	</tr>
+	<% for order in @orders -%>
+	<tr>
+		<td><%= link_to order.id, admin_gift_order_path(order) %></td>
+		<td><%= link_to h(order.name), admin_gift_order_path(order) %></td>
+		<td><%= h(order.gift_summary) %></td>
+		<td><%= format_time order.confirmed_at %></td>
+		<td><%= user_friendly_code :gift_order_status, order.status %>
+	</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @orders %>

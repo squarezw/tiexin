@@ -1,0 +1,96 @@
+<% @css_files=['mobile']
+    page_title '下载贴心掌上行（手机应用。手机地图）'
+%>
+<div class="download_bg_1"></div>
+<div class="download_bg_2">
+  <div class="main">
+    <div id="introduction">
+      <h4><%= _('Introduction')%></h4>
+      <p>贴心掌上行版提供手机地图查看功能，并能通过手机查询餐馆、购物、旅游等信息。目前手机应用主要支持Symbian和Windows Mobile两个平台的手机。对Java和iPhone的支持版本正在开发中，将在近期推出。届时将能支持更多型号的手机。</p>
+      <hr class="hr"/>
+    </div>
+    
+      
+    <div>
+      <img src="../images/button_2.jpg"></img>
+    </div>
+    
+    <div class="middle_menu">
+      <div class="title1 left">贴心掌上行目前支持的手机品牌</div>
+      <div class="title2 left">贴心掌上行目前支持的手机型号</div>
+    </div>
+    
+    <div class="middle_cont">
+      <div class="cont1 left">
+        <div class="xnavi-mobile-brands">
+          <ul>
+            <%= render :collection => @mobile_brands, :partial=>'/admin/mobile_brands/mobile_brand' %>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="cont2 left">
+        <div class="xnavi-mobile-models" id="xnavi-mobile-models">
+
+        </div>
+      </div>
+      
+    </div>
+	<div id="j2me_section">
+		<h3>“贴心掌上行”通用版</h3>
+		<p>如果没有找到你的手机型号，你可以试一下“贴心掌上行”通用版，</p>
+		<ul class="list">
+			<li><a href="/navistar/NaviStar_J2ME_Nokia_0.8.0.jar">诺基亚(Nokia)</a></li>
+			<li><a href="/navistar/NaviStar_J2ME_Moto_0.8.0.jar">摩托罗拉(Motorola)</a></li>
+			<li><a href="/navistar/NaviStar_J2ME_SonyEricsson_0.8.0.jar">索尼爱立信(Sony Ericsson)</a></li>
+			<li><a href="/navistar/NaviStar_J2ME_Samsung_0.8.0.jar">三星(Samsung)</a></li>
+			<li><a href="/navistar/NaviStar_J2ME_0.8.0.jar">以上都不是</a></li>
+		</ul>
+		<p>您在使用中遇到任何问题，欢迎到<a href="/forums/1">“站务讨论”提出</a></p>
+	</div>
+	
+
+    <hr class="hr clearfix" />
+    
+    <div>
+      <img src="../images/button_1.jpg"></img>
+    </div>
+	
+	<p class="introduction">如果你了解你手机使用的操作系统，则可以从以下版本中直接选择、下载</p>
+    
+    <div class="left os">
+      <h4><%= _('Mobile Operating System')%></h4>
+   
+      <div class="list">
+          <ul>
+              <%= render :collection => @mobile_oss, :partial=>'/admin/mobile_oss/mobile_os' %>
+          </ul>
+      </div>
+    </div>
+    
+    <div class="left os">
+      <h4><%= _('Operation Manual')%></h4>   
+      <div class="list">
+          <ul>
+              <%= render :collection => @mobile_oss, :partial=>'/admin/mobile_oss/operation_manual' %>
+          </ul>
+      </div>
+    </div>
+    <hr class="hr clearfix" />
+
+  </div>
+</div>
+
+<% content_for :page_scripts do -%>
+    <%= remote_function :url=>manage_mobile_brand_mobile_models_path(1), :update=>'xnavi-mobile-models', :method=>:get %>
+<%end%>
+
+<!--
+<h4 class="clearfix">注意事项（请仔细阅读）</h4>
+<ul class="list">
+<li>对中国移动用户，目前“贴心网”服务只能通过CMNET访问，所以如果您的手机（或您使用的移动服务）只提供WAP接入方式，您将不能使用“贴心网”。
+<li>通过手机使用“贴心网”移动服务将带来一定的GPRS流量。为了保护您的利益，建议您向中国移动申请GPRS包月服务，一般收费标准：30M/5元*月，150M/20元*月，具体参考中国移动各地的报价）。（友情提示：按照中国移动现行的针对非包月用户的GPRS收费标准，大概是1M/10元*月，封顶/500元*月，这会无谓地带给您高额的GPRS费用开销。）</li>
+</ul>
+
+<p class="introduction">您在使用X-NaviStar的过程中有任何问题、意见和建议请到论坛的“站务讨论”板块提出。</p>
+-->

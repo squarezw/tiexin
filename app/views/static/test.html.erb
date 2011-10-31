@@ -1,0 +1,29 @@
+<% @page_title = 'test'
+   @js_files=['yui/utilities', 'yui/button', 'yui/container', 'yui/treeview', 'remote_form_dialog']
+   @css_files=['yui/button', 'yui/container']    
+-%>
+
+<% content_for :page_scripts do -%>
+var dialog;
+
+var panel;
+
+function init_page () {
+	dialog = new RemoteFormDialog('dialog', 
+			{buttons: [{ text: "<%= _('Submit') %>",
+                		 handler: handleSubmit, 
+                		 isDefault: true},
+		               { text: "<%= _('Cancel')%>", 
+		                 handler: handleCancel} ],
+			 busy_indicator: busy_indicator });          
+    }         
+
+   function test () {
+        dialog.retrieve_remote_form('/members/1/owned_privileges');
+   }
+<%  end -%>
+
+
+<%= link_to_function 'Test', 'test()'%>
+
+

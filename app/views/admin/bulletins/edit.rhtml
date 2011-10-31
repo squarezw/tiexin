@@ -1,0 +1,25 @@
+<% @page_title = _('Edit Bulletin') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   @side_menu = 'master_data' -%>
+
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+	
+	function customize_calendar(cal) {
+		<% if @bulletin.expire_date -%>
+		cal.select('<%= @bulletin.expire_date.strftime('%m/%d/%Y')%>'); 
+		cal.cfg.setProperty('pagedate', '<%= @bulletin.expire_date.strftime('%m/%Y')%>'); 
+		<% end -%>
+		
+ 	}
+
+<% end -%>
+
+<%= error_messages_for :bulletin %>
+
+<% form_for :bulletin, @bulletin, :url=>manage_bulletin_path(@bulletin), :html=>{:method=>:put} do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>

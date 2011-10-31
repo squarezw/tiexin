@@ -1,0 +1,20 @@
+<div id="form_error" class="errors">
+	
+</div>
+<% remote_form_for :area, @area, :url=>manage_area_path(@area), :method=>:put, :html=>{:method=>:put} do |f| -%>
+<table class="form_container">
+	<tr>
+		<td width="20%" rowspan="2"><label><%= s_('Area|Name') %></label></td>
+		<td width="20%"><label><%= _('Chinese')%></label></td>
+		<td><%= f.text_field :name_zh_cn %>
+	</tr>
+	<tr>
+		<td><label><%= _('English')%></label></td>
+		<td><%= f.text_field :name_en %>
+	</tr>
+</table>
+<% end -%>
+
+<%= update_page_tag do |page| 
+		page.call 'dialog.show_with_title', _('Edit Area.') 
+	end -%>

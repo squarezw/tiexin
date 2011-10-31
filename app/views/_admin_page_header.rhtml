@@ -1,0 +1,33 @@
+<%= render :partial => '/session_menu' %>
+
+<div id="page_header">  
+	<div id="site_logo">
+		<%= image_tag 'logo.gif' %>
+	</div>
+	
+	<div class="tool_bar" id="main_menu" >
+		<ul>
+			<li class="button"><%= link_to _('Home'), city_path(@current_city) %></li>
+			<li class="button"><%= link_to _('Map'), map_city_path(@current_city)%></li>
+			<li class="button"><%= link_to _('Forums'), forums_path %></li>
+			<% if @current_user -%>
+				<li class="button"><%= link_to _('My X-Navi'), member_path(@current_user)%></li>
+			<% end -%>
+			
+		</ul>
+	</div>
+	
+	<div class="tool_bar" id="city_menu">
+		<ul>
+			<% City.find(:all).each do |city| -%>
+					<% if city.id == @current_city.id -%>
+						<li class="button pushed"><%= localized_description(city, :name) %></li>
+					<% else -%>
+						<li class="button"><%= link_to localized_description(city, :name), city_path(city) %></li>
+					<% end -%>
+				</td>
+			<% end -%>
+		</ul>
+	</div>
+</div>
+

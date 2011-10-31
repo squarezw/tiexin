@@ -1,0 +1,221 @@
+<% @page_title=h(localized_description(@brand, :name))
+	use_remote_dialog
+   include_js_file 'yui/utilities', 'yui/button', 'yui/container', 'yui/dragdrop', 'editor', 'tabbed_pane', 'map', 'map_helper'
+   include_css_file 'yui/button', 'yui/container', 'tabbed_pane', 'toolbar', 'brands','promotion'
+   page_keyword h(localized_description(@brand, :name))
+%>
+
+<% content_for :page_scripts do -%>
+  var panel;
+
+var map;
+
+var tp_more_info;
+
+<%= render :partial=>'/main/levels_data', :locals=>{:city => @current_city} %>
+
+function init_page () {
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: [<%= @start_point.x%>, <%= @start_point.y%> ],
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6,
+			viewport_width: 465,
+			viewport_height: 390
+		});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	
+	<%= update_page do |page| 
+		@hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true }
+	    end %>
+	
+	panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '800px', fixedcenter: true });
+	show_products();
+   }
+
+	function new_product() {
+		dialog.retrieve_remote_form('<%= new_product_path(class_name_for_url(@brand), @brand)%>');
+	} 
+
+	function product_created() {
+		alert ("<%= _('Recommended product has been saved.')%>");
+		show_products ();
+	}
+
+  function to_add_hot_spot () {
+     panel.retrieve ('<%= to_add_hot_spot_manage_brand_path(@brand)%>', { method: 'post'} );
+  }
+
+function show_products () {
+	<%= remote_function :url=>products_brand_path(@brand), :update=>'div_products_section', :method=>:get %>
+}
+
+function unselectall()
+{
+    if(document.myform.chkAll.checked){
+	document.myform.chkAll.checked = document.myform.chkAll.checked&0;
+    } 	
+}
+function CheckAll(form)
+{
+  for (var i=0; i<form.elements.length; i++) {
+  var e = form.elements[i];
+  if (e.Name != "chkAll"&&e.disabled==false)
+     e.checked = form.chkAll.checked;
+  }
+}
+
+<%end%>
+
+<div class="navigation_bar">
+	<div class="tools">
+		<%if @current_user and (@brand.owner == @current_user or @current_user.has_privilege(:manage_brand)) -%>
+		  <%= link_to image_tag('edit.gif', :alt=>_('Edit this brand.')), edit_manage_brand_path(@brand), :title=>_('Edit this brand.') %> 
+		  <%= link_to image_tag('delete.gif', :alt=>_('Delete this brand.')), manage_brand_path(@brand), :confirm => _('Are you sure?'), :method => :delete, :title=>_('Delete this brand.') %> 
+		<%end%>
+	</div>
+	<%= category_path_str @brand.hot_spot_category %>
+</div>
+
+<div id="main_function_content">
+	<div id="div_owner_information">
+		<%= render :partial=>'/owner_information', :locals=>{:target=>@brand} %>	
+	</div>
+
+	<h2 class="brand_name"><%= h(localized_description(@brand, :name))%></h2>
+
+	<div class="brand_banner">
+	  <%=link_to @brand.pic ? safe_brand_icon(@brand):"<img src='/images/nopic.jpg'>",brand_path(@brand),:target => "_blank"%>
+	</div>
+	
+
+	<div class="brand_detail">
+	    <ul>
+	        <li><%= image_tag 'homepage.gif', :title=>s_('HotSpot|Home page') %>&nbsp;
+				<%=link_to @brand.home_page, @brand.home_page, :target=>'_blank'%></li>
+			<li><%= image_tag 'creator.gif', :title=>s_('Brand|Creator') %>&nbsp;
+				<%= link_to @brand.creator.nick_name, show_member_path(@brand.creator) if @brand.creator %></li>
+		</ul>
+<h3><%= s_('Introduction')%></h3>
+<pre class="article"><%= bbcodeize(h(@brand.intro)) %></pre>
+	</div>
+
+	<div class="button_bar">
+		  <%= link_to _('Recommend Products or Services'), products_path(vendor_type(@brand), @brand), :class=>:button %> 
+	</div>
+	
+	<div style="clear:both;">
+	</div>
+</div>
+
+<div id="div_hot_spots_section" class="section">
+	<div class="head">
+		<div class="tool_bar">
+			<% if @current_user and (@brand.owner == @current_user or @current_user.has_privilege(:manage_brand)) -%>
+				<%= link_to_function _('Add Hot Spot'), "to_add_hot_spot()"  %>
+		  	<% end -%>
+			<%= link_to _('Big Map'), map_brand_path(@brand), :target=>'_blank'  %>
+		</div>
+		<h3><%= s_('Hot Spots')%></h3>
+	</div>
+	
+	<div class="body">
+		<div id="hot_spot_list">
+			<%= render :partial=>'hot_spot_list' %>
+		</div>
+
+		<div id="map_area">
+			<div id="map">
+
+			</div>	
+		</div>
+	</div>
+	
+	<div class="foot">
+		
+	</div>
+</div>
+
+<div id="side_menu">
+	<div id="promotions" class="section">
+		<div class="head">
+			<div class="tool_bar">
+				<% if @current_user 
+					  if @current_user == @brand.owner -%>
+					  	<%= link_to _('Add Promotion'), new_member_promotion_path(@brand.owner) %>
+					  <% elsif @current_user.has_privilege(:manage_events) -%>
+						<%= link_to _('Add Promotion'), new_promotion_path(vendor_type(@brand), @brand) %>
+				<%    end
+				  end -%>
+				<% if @current_user and (@current_user == @brand.owner or @current_user.has_privilege(:manage_coupons)) -%>
+					<%= link_to _('New Disount Coupon'), :controller=>'merchant/discount_coupons', :action=>'new', :vendor_type=>'Brand', :vendor_id => @brand.id %><br/>
+				<% end -%>
+			</div>
+
+			<h3><%= _('Promotion')%></h3>
+		</div>
+
+		<div class="body">       
+			<div id="promotions_list">
+				<%= render :partial=>'/hot_spots/event', :collection=>@brand.promotions_for_city(@current_city, 5) %>
+			</div>
+		</div>
+
+		<div class="foot">
+			<%= link_to _('All...'), promotions_path(vendor_type(@brand), @brand) %>
+		</div>
+	</div>
+</div>
+
+<div id="more_infor">
+	
+	<div id="div_products_section" class="section">
+	
+	</div>
+	
+	<div id="div_latest_articles" class="section">
+		<div class="head">
+			<h3><%= _('Latest Articles')%></h3>
+		</div>
+		
+		<div class="body">
+			<table class="layouter" width="100%">
+				<tr>
+					<td width="50%">
+						<h4><%= _('Comments')%></h4>
+						<%= render :partial => '/channels/comment', :collection => @brand.latest_comments(@current_city) %>
+					</td>
+					
+					<td widht="50%">
+						<h4><%= _('Articles')%></h4>
+						<%= render :partial => '/channels/article', :collection => @brand.latest_articles(@current_city) %>
+					</td>
+				</tr>
+			</table>
+		</div>
+	
+		<div class="foot">
+			
+		</div>
+	</div>
+
+</div>
+
+<div id="panel">
+	<div class="hd" id="panel_head">
+            <%= _('Add hot spot to brand') %>
+	</div>                     
+	
+	<div class="bd" id="panel_body"> 
+
+	</div>
+</div>
+
+
+

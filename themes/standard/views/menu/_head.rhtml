@@ -1,0 +1,41 @@
+<div id="top">
+ <div id="top_menu">
+  <div id="session_menu">
+    <% if @current_user -%>
+            <%= _('Hello ')%><%= link_to @current_user.nick_name, member_path(@current_user) %>
+            <% ms = Message.has_not_read_message_count(@current_user)
+                                       if ms > 0 -%>
+            <span class='icon_message'><%=link_to _("Unread Messages") ,has_not_read_member_messages_path(@current_user) %>&nbsp;(<%= ms %>)</span>
+            <% end%>
+            <%= link_to _('Log out'), logout_path %>
+    <% else -%>
+            <%= link_to _('Registe'), new_member_path %>
+            <%= link_to _('Login'), new_session_path %>
+    <% end-%>
+    <%= image_tag 'ajaxloading.gif', :id=>'img_busy_indicator' %>  
+  </div>
+  <div>
+      <%= link_to _('X-Navi'), "http://#{XNavi::DOMAIN_NAME}" %>
+  </div>
+ </div>
+</div>
+  
+<div id="blog_menu">
+  <ul>
+    <li class="<%= 'current_page_item' if (controller.controller_name == "blogs" and controller.action_name == "index") %>">
+        <%= link_to _("Home"), blog_root_url(head) %>
+    </li>
+    <li class=" <%= 'current_page_item' if (controller.controller_name == "pictures" and controller.action_name == "index") %>">
+        <%= link_to _("Picture"), blog_pictures_path(head)%>
+    </li>
+     <li class="<%= 'current_page_item' if (controller.controller_name == "blogs" and controller.action_name == "about")%>">
+        <%= link_to _("About"), about_blog_path(head) %>
+     </li>
+    <%if @current_user == @member%>
+      <li><%= link_to _("Config"),edit_blog_path(head) %></li>
+      <li><%= link_to _("RSS Synchronization"),blog_rss_sources_path(head) %></li>
+      <li><%= link_to _('Write Article'), new_member_article_path(@current_user)%></li>
+      <li><%= link_to _('My X-Navi'), member_path(@current_user) %></li>
+    <%end%>
+  </ul>
+</div>

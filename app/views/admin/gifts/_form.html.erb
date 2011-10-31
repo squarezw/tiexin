@@ -1,0 +1,50 @@
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Gift|Name') %></label></td>
+		<td><%= form.text_field :name, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= s_('Gift|Description') %></label></td>
+		<td><%= bbcode_editor :gift_description %></td>
+	</tr>
+	<tr>
+		<td><%= form.text_area :description, :rows=>10, :cols=>50 %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('Gift|Picture')%></label></td>
+        <td><%= form.upload_column_field 'picture' %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= _('Gift|Price') %></label></td>
+		<td><%= _('Member|Experience')%>:<%= form.text_field :experience, :size=>10 %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= _('Member|Credit')%>:<%= form.text_field :credit, :size=>10 %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= _('Gift|Cash')%>:<%= form.text_field :cash, :size=>10 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Gift|Support deliver method')%></label></td>
+		<td><%= form.select :support_deliver_method, 
+				GiftOrder::ALL_DELIVER_METHODS.collect{ |code| [user_friendly_code(:gift_order_deliver_method, code), code.to_s]} %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Gift|Reference price')%></label></td>
+		<td><%= form.text_field :reference_price, :size=>10 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Gift|Reference url')%></label></td>
+		<td><%= form.text_field :reference_url, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= _('Gift|Delivery fee')%></label></td>
+		<td><%= form.text_field :delivery_fee, :size=>10%></td>
+	</tr>
+	<tr>
+		<td><label><%= _('Partner') %></label>
+		<td><%= form.select :partner_id, (Partner.find(:all).collect { |partner| [partner.name, partner.id]}), :include_blank=>true %>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

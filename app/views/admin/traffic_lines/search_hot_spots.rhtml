@@ -1,0 +1,3 @@
+<% for hot_spot in @hot_spots -%>
+<li><%= link_to_remote h(localized_description(hot_spot, :name)), :url=>{:controller=>'admin/traffic_stops', :action=>'create', :hot_spot_id=>hot_spot.id, :traffic_line_id=>@line.id} %></li>
+<% end -%>

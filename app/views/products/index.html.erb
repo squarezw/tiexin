@@ -1,0 +1,39 @@
+<%  page_title _('Products of %{vendor}') % {:vendor => h(localized_description(@vendor.name)) }, true 
+    use_remote_dialog
+    include_css_file 'products'
+%>         
+
+<% content_for :page_scripts do -%>
+function new_product() {
+	dialog.retrieve_remote_form('<%= new_product_path(vendor_type(@vendor), @vendor)%>');
+}                           
+
+
+<% end -%>
+
+<div class="navigation_bar">
+	<div class="tools">
+		<%= link_to_function _('Recommend Products or Services'), "new_product();"  %> 
+	</div>
+	<%= render :partial=>"/products/vendor_#{vendor_type(@vendor)}_navigation_bar" %>
+</div>
+                
+<div id="main_function_content">
+<div class="products">          
+	<div class="body">       
+		<div id="products_list">
+			<%= render :partial=>'product', :collection => @products %>
+		</div>
+	</div>	
+</div>                  
+
+<% if @vendor.is_a? HotSpot and @vendor.brand 
+	brand_products = @vendor.brand.products 
+	unless brand_products.empty? -%>
+		<div class="products">
+			<h2>[<%= _('Brand')%>]<%= _('Products of %{vendor}') % {:vendor=>h(localized_description(@vendor.brand, :name))}  %></h2>
+			<%= render :partial=>'product', :collection=>brand_products %>
+		</div>
+<% end
+end -%>
+</div>

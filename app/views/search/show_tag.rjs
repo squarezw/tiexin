@@ -1,0 +1,9 @@
+@hot_spots.each do |hot_spot|
+  add_hot_spot_marker page, hot_spot if hot_spot
+end
+
+page.replace_html 'detail_infor_content', render(:partial => 'tag_hot_spots')
+
+page.hide 'search_result_list'
+
+page.visual_effect 'slide_down', 'detail_infor_pane'

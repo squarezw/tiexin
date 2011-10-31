@@ -1,0 +1,31 @@
+<div id="form_error" class="errors">
+	
+</div>                            
+<% remote_upload_form_tag :url=>member_pictures_path(@member) do -%>
+<table class="form_container">       
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Picture|Name') %></label></td>
+		<td><%= text_field :picture, :name, :size=>30, :maxlength => 100 %>
+                        <span class="comment"><%= _('No longer than %{length} characters.') % {:length=>'100'} %></span>
+                </td>
+	</tr>
+	<tr>
+		<td width="15%"><%= s_('Picture|Tag list') %></td>
+		<td><%= text_field :picture, :tag_list, :size=>30, :maxlength => 100 %>
+                       <span class="comment"><%= _('No longer than %{length} characters.') % {:length=>'100'} %></span> 
+                </td>
+	</tr>
+	<tr>
+		<td><label><%= _('Description')%></label></td>
+		<td><%= text_area :picture, :description, :cols=>35, :rows=>5, :maxlength=>1000 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Picture|Photo') %></label></td>
+		<td><%= upload_column_field :picture, :photo %></td>
+	</tr>
+</table>
+<% end -%>
+
+<%= update_page_tag do |page|
+	   page.call 'dialog.show_with_title', _('Add Picture') 
+	end -%>

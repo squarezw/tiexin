@@ -1,0 +1,45 @@
+<% @page_title=_('Login') -%>  
+
+<% form_tag sessions_path, :id=>'login_form' do -%>
+<%= hidden_field_tag :forward_to,  @forward_to %>
+
+<table class="form_container" width="99%" >
+	<tr>
+		<td width="30%"><label><%= _('Member|Login name') %></label></td>
+		<td width="*"><%= text_field_tag :login_name, params[:login_name], :size=>'30' %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('Member|Password') %></label></td>
+		<td><%= password_field_tag :password, nil, :size=>'30' %></td>
+	</tr>     
+	<tr>
+		<td></td>
+		<td>
+			<%= check_box_tag :remember_me%><%= _('Remember me in ')%>
+			<select name="expire_time">
+				<option value="0"><%= _('15 days')%></option>
+				<option value="2"><%= _('3 months')%></option>
+				<option value="3"><%= _('6 months')%></option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= _('Verification code')%></label></td>
+		<td><%= captcha_code_field %></td>	
+	</tr>
+	<tr>
+		<td></td>
+		<td><%= link_to _('I forgot my password, and want to reset one.'), forget_password_members_path %></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><%= link_to _('I have not received confirmation code for registration. Please resend it.'), request_confirmation_code_members_path %></td>
+	</td>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Login') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>

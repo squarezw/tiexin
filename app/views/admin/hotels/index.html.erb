@@ -1,0 +1,30 @@
+<% page_title _('Manage Hotels') 
+   side_menu 'master_data' -%>
+<center>
+<%= link_to _("Add hotel with no map"), new_admin_hotel_path, :class=>:button %>
+<%= link_to _("Add hotel from hot spot"), search_hot_spot_admin_hotels_path, :class=>:button %>
+</center>
+<%form_tag admin_hotels_path, :method => :get do  -%>
+  <%=select :city,:id,@cities, {:selected => @city_select, :prompt => _('Select City')}%>
+  <%= submit_tag _('Search')%>
+<%end%>
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= s_('Name') %></th>
+		<th width="15%"><%= s_('hot spot category')%></th>
+                <th width="10%"><%= s_('City') %></th>
+		<th width="25%"><%= s_('Address')%></th>
+		<th width="10%"><%= s_('HotSpot|Creator') %>/<%= s_('HotSpot|Created at') %></th>
+                <th width="15%"><%= _('Operation') %></th>
+	</tr>
+        <%for hotel in @hotels%>
+        <tr>
+          <%if hotel.hot_spot.blank?%>
+            <%= render :partial=>'hotel', :locals=>{:hotel => hotel}%>
+          <%else%>
+            <%= render :partial=>'hot_spot', :locals=>{:hot_spot => hotel.hot_spot}%>
+          <%end%>
+        </tr>
+        <%end%>
+</table>
+<%= page_navigator @hotels, nil, :params=>params %>

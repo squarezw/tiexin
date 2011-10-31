@@ -1,0 +1,53 @@
+<%@hot_spot = @article.hot_spots.first%>
+<% if @hot_spot -%>
+<div id="small_map_panel" class="section">
+        <div class="body">
+                <div id="small_map">
+                </div>		
+        </div>
+        <div class="foot" id="map_buttons">
+                <%= link_to_function _('Zoom In'), "map.zoom_in()", :id=>'zoom_in_button', :class=>"map_button" %>
+                <%= link_to_function _('Zoom Out'), "map.zoom_out()", :id=>'zoom_out_button', :class=>"map_button" %>
+                <%#= link_to _('Big Map'), 
+                        {:controller=>'cities', :action=>:map, :id=>@hot_spot.city_id, :hot_spot_id=> @hot_spot},
+                        {:id=>'big_map_button', :class=>"map_button"} %>
+        </div>
+</div>
+<% end -%>
+
+<% unless @article.hot_spots.nil? or @article.hot_spots.empty? -%>
+<div><h3><%= _('Related hot spot')%></h3></div>
+<div id="hot_spot_related">
+    <ul>
+       <%= render :partial=>'hot_spot', :collection=>@article.hot_spots %>        
+     </ul>
+</div>
+<% end -%>
+
+<% if @article.brand -%>
+<div><h3><%= _('Related brand')%></h3></div>
+<div id="brand_related">
+   <ul>
+        <li><%= safe_brand_icon(@article.brand) %></li>
+        <li><%= link_to h(localized_description(@article.brand, :name)), brand_path(@article.brand), :target=>'_blank'%></li>
+   </ul>
+</div>
+<% end -%>
+
+<h3><%= _('Comment')%></h3>
+<div id="owned_promotion">
+ <ul>
+  <%for comment in @blog.latest_comments%>
+      <%=render :partial => "/blogs/comment", :object => comment%>
+  <%end%>
+  </ul>
+</div>
+
+<% unless @articles.nil? or @articles.empty? -%>
+<div><h3><%= _('Related article')%></h3></div>
+  <div id="article_related">
+      <ul>
+        <%= render :partial=>'article_simple', :collection=>@articles %>        
+      </ul>
+  </div>
+<% end -%>

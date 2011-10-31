@@ -1,0 +1,26 @@
+<% page_title _('Manage Channels')
+   side_menu 'master_data' -%>
+
+<table class="data_list">
+	<tr>
+		<th width="15%"><%= _('Icon')%></th>
+		<th width="10%"><%= _('Name') %></th>
+		<th width="*"><%= _('Hot Spot Category')%></th>
+		<th width="40%"><%= _('Forum') %></th>
+		<th width="10%"><%= _('Operations') %></th>
+	</tr>
+	<% for channel in @channels -%>
+		<tr>
+			<td><%= image_tag channel.icon.url %></td>
+			<td><%= h(localized_description(channel, :name))%></td>
+			<td><%= h(localized_description(channel.hot_spot_category, :name))%></td>
+			<td><%= h(channel.forum.name) %></td>
+			<td><%= link_to _('Edit'), edit_admin_channel_path(channel)%>
+			    <%= link_to _('Delete'), admin_channel_path(channel), :confirm=>_('Are you sure?'), :method=>:delete %></td>
+		</tr>
+	<% end -%>
+</table>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_channel_path, :class=>:button %>
+</div>

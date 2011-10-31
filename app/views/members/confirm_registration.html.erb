@@ -1,0 +1,18 @@
+<% page_title _('Registration Confirmed') %>
+
+<p>
+<%= _('Your registration has been confirmed. You can login to the system now.') %>
+</p>
+
+<% for campaign in @campaigns -%>
+<p>
+<pre><%= bbcodeize(campaign.confirm_message)%></pre>
+<p>
+<% end -%>
+
+<p><%= _('Now your %{point_type} is %{point}') % {:point_type=>_('Member|Experience'), :point=>@member.experience}   %></p>
+<p><%= _('Now your %{point_type} is %{point}') % {:point_type=>_('Member|Credit'), :point=>@member.credit}   %></p>
+
+<div class="button_bar">
+	<%= link_to _('Login'), new_session_path, :class=>:button %>
+</div>

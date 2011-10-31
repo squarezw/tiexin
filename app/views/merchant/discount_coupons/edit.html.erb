@@ -1,0 +1,32 @@
+<% page_title _('Edit Discount Coupon') 
+	include_js_file 'yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar'
+	include_css_file 'calendar' -%>
+
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+
+	function insert_template(template) {
+		$('discount_coupon_terms').value = $('discount_coupon_terms').value + template;
+	}
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Issued Discount Coupon'), merchant_discount_coupons_path %> &gt; <%= _('Edit Discount Coupon')%>
+</div>
+
+<div id="main_function_content">
+	
+<%= error_messages_for :discount_coupon %>
+
+<% form_for :discount_coupon, @discount_coupon, :url=>merchant_discount_coupon_path(@discount_coupon), :html=>{:method=>:put} do |form| -%>
+<%= render :partial=>'form', :object=>form %>
+<% end -%>
+
+<%= calendar :calendar, 
+			 {:anchor_element=>'link_coupon_expire_at', :date_field=>'discount_coupon_expire_at'},
+			 { :minDate => Time.now.strftime('%m/%d/%Y'), :selected=> @discount_coupon.expire_at.strftime('%m/%d/%Y') }
+%>
+
+</div>

@@ -1,0 +1,15 @@
+<div id="comments" class="section">
+	<div class="header">
+		<h3><%= _('Recent Comments')%></h3>
+	</div>	
+	
+	<div class="body">
+		<ul id="comment_list" class="list">
+			<%= render :partial => 'comment_simple', :collection => hot_spot.recent_comments %>
+		</ul>
+	</div>
+	
+	<div class="foot">
+		<%= link_to_function _('All'), "show_comments();" %>
+	</div>
+</div>

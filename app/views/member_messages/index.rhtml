@@ -1,0 +1,9 @@
+<% @page_title = _(@title)
+   side_menu side_menu_for_member(@member) 
+    @css_files = ['article']
+%>
+
+<%= render :partial => 'message', :collection => @messages %>
+
+<%= page_navigator @messages %>
+

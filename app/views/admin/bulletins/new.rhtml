@@ -1,0 +1,26 @@
+<% @page_title = _('New Bulletin') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   @side_menu = 'master_data' -%>
+
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+	
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), manage_bulletins_path, :class=>:button %>
+</div>
+
+
+<%= error_messages_for :bulletin %>
+
+<% form_for :bulletin, @bulletin, :url=>manage_bulletins_path do |f| -%>
+<%= render :partial=>'form', :object => f %>
+<% end -%>

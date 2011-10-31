@@ -1,0 +1,21 @@
+<%= update_page_tag { |page| 
+	page.call 'map.clear_markers'
+	unless @hot_spot_event_map.empty? 
+		hot_spot = @hot_spot_event_map.keys[0]
+		page.call 'map.set_position', hot_spot.x, hot_spot.y
+	end
+	
+	@hot_spot_event_map.each_pair { |hot_spot, events| 
+		add_hot_spot_to_map_with_events page, hot_spot, events
+	}
+} %>
+
+<div id="calendar">
+	<%= show_calendar %>
+</div>
+
+<div id="event_list">
+	<%= render :partial=>'event', :collection=>@events %>
+
+	<%= remote_page_navigator @events, 'events_area' %>
+</div>	

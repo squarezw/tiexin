@@ -1,0 +1,11 @@
+<iframe id="upload_frame" name="upload_frame" style="display: none"></iframe>
+<% form_tag({:action => 'quick_upload'}, :multipart => true, :target => "upload_frame", :id => "upload_form" )do -%>
+    <%=file_field_tag 'NewFile',:size => 60%>
+<% end -%>
+<%#= update_page_tag do |page| 
+		page.call 'panel.show_with_title', _('Image Upload.')
+                page.call 'busy_indicator.task_end'
+    end -%>
+<%= update_page_tag do |page|
+	   page.call 'dialog.show_with_title', _('Upload Photo')
+	end -%>

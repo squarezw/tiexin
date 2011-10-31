@@ -1,0 +1,22 @@
+<% if @current_user and (current_is_admin? or @current_user.is_moderator?(@post.forum)) and !@post.is_hidden? %>
+    <%if @post.always_on_top -%>
+	<%= link_to_remote _('Remove from top'),
+	   				   {:update=>'top_oper_area', :url=>remove_from_top_manage_post_path(@post)}, 
+	   				   {:class=>:button} %>
+    <% else -%>
+	<%= link_to_remote _('Put to Top'), 
+					   {:update=>'top_oper_area', :url=>put_to_top_manage_post_path(@post)}, 
+					   {:class=>:button} %>
+    <%end%>
+    <%if @post.lock -%>
+        <%= link_to _('Remove lock'),
+	 				   remove_lock_manage_post_path(@post), 
+	   				   {:class=>:button,:method => :post} %>
+    <%  else -%>
+	<%= link_to _('lock'), 
+					   lock_manage_post_path(@post), 
+					   {:class=>:button,:method => :post} %>
+    <%end%>
+	<%= link_to_remote show_in_homepage_button_label, {:url=>show_in_homepage_manage_post_path(@post), :update=>'top_oper_area', :method=>:post}, {:class=>:button} %>
+<%end -%>
+

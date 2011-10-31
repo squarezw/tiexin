@@ -1,0 +1,11 @@
+<tr>
+	<td><%= '&nbsp;'*(level-1)*4 %><%= h(localized_description(category, :name))%></td>
+	<% for city in @cities -%>
+		<td class="number">
+			<%= @counts_map[[city.id, category.id]] || 0 %>
+		</td>
+	<% end -%>
+</tr>
+<% for cat in category.children -%>
+	<%= render :partial=>'count_of_category', :locals=>{:category=>cat, :level=>level+1}%>
+<% end %>

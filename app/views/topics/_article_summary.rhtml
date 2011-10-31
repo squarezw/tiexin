@@ -1,0 +1,22 @@
+<div class="article_summary">
+	<div class="header">
+		<h3><%= link_to h(article_summary.subject), article_path(article_summary) , :target=>'_blank'  %></h3>
+	</div>
+	
+	<div class="body">
+		<pre class="article"><%= h(article_summary.summary) %></pre>
+	</div>
+	
+	<div class="foot">
+		<p>
+			<%= link_to _('Read whole article'), article_path(article_summary), :target=>'_blank' %>
+		</p>
+		<p>
+		<% if article_summary.updated_at == article_summary.created_at -%>
+			<%= s_('Article|Created at')%>:&nbsp;<%= format_time article_summary.created_at %>
+		<% else -%>
+			<%= s_('Article|Updated at')%>:&nbsp;<%= format_time article_summary.updated_at %>
+		<% end -%>
+		</p>
+	</div>
+</div>

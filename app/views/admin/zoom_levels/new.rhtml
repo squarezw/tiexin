@@ -1,0 +1,21 @@
+<div id="form_error" class="errors">
+	
+</div>                            
+
+<% remote_upload_form_tag :url => manage_zoom_levels_path(@layout_map) do -%>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('ZoomLevel|Map file')%></label></td>
+		<td><%= upload_column_field :zoom_level, :map_file%>
+	</tr>        
+	<tr>
+		<td><label class="required"><%= s_('ZoomLevel|Scale')%></label></td>
+		<td><%= text_field :zoom_level, :scale %></td>
+	</tr>        
+	
+</table>
+<% end -%>                                     
+
+<%= update_page_tag do |page|
+	 	page.call 'dialog.show_with_title', _('Create Zoom Level')
+end -%>

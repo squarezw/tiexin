@@ -1,0 +1,28 @@
+<% page_title _('New Event'), true
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar']  -%>
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+                init_calendar_calendar2 ();
+	}
+	
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to h(localized_description(@vendor, :name)), @vendor %>&nbsp;&gt;&nbsp;
+	<%= link_to _('Events'), events_path(class_name_for_url(@vendor), @vendor)%>&nbsp;&gt;&nbsp;
+	<%= _('New Event') %>
+</div>
+
+<div id="main_function_content">
+	
+<%= error_messages_for :event %>
+<% form_for :event,:url => events_path(class_name_for_url(@vendor), @vendor),:html =>{:multipart => true} do |f|%>
+<%= render :partial => "form",:object => f%>
+<% end -%>
+</div>

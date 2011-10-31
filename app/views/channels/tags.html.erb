@@ -1,0 +1,27 @@
+<div class="head">
+	<h3><%= query_criteria_string %><%= _('Hot Spot Tag')%></h3>	
+</div>
+
+<div class="body">
+	<table class="layouter">
+		<tr>
+			<td class="previous_page">
+				<% unless (prev = @tags.previous_page).nil? -%>
+					<%= link_to_remote image_tag('left_arrow_2.gif'), :update=>'tag_area', :url=>params.merge(:page=>prev), :method=>:get %>
+				<% end -%>
+			</td>
+			<td class="content">
+				<% for tag in @tags -%>
+				 <% font_size = [1 + tag.cnt.to_i / 10, 2.0].min %>
+				 <%= link_to_function "#{h(tag.tag)}&nbsp;", "filter_with_tag('#{escape_javascript(tag.tag)}')",
+									  :style=>"font-size: #{font_size}em" %>
+				<% end -%>
+			</td>
+			<td class="next_page">
+				<% unless (nxt = @tags.next_page).nil? -%>
+					<%= link_to_remote image_tag('right_arrow_2.gif'), :update=>'tag_area', :url=>params.merge(:page=>nxt), :method=>:get %>
+				<% end -%>
+			</td>
+		</tr>
+	</table>
+</div>

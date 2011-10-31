@@ -1,0 +1,3 @@
+page.call 'replace_area_marker', @area.id, @area.center[0], @area.center[1], options_for_area_marker(@area)
+
+page.alert _('Modification has been saved.')

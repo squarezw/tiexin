@@ -1,0 +1,36 @@
+<% page_title _('Edit Channel Daily Content') 
+	use_remote_dialog
+   include_js_file 'yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar', 'fckeditor/fckeditor'
+   include_css_file 'calendar' -%>
+
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+	}
+	
+	function quick_upload () {
+          dialog.retrieve_remote_form('/fckeditor/to_quick_upload');
+    }
+
+    function insert_img(image_url,alt){
+        id = '<%= fckeditor_element_id('channel_daily_content', 'content')%>'
+        var oEditor = FCKeditorAPI.GetInstance(id) ;
+        oEditor.InsertHtml('<img src="'+image_url+'" alt="'+alt+'" >') ;
+    }
+
+<% end -%>
+
+<div class="navigation_bar">
+	<%= link_to h(localized_description(@channel, :name)), city_channel_path(@current_city, @channel) %>&nbsp;&gt;&nbsp;
+	<%= link_to h(@channel.daily_content_title), channel_daily_contents_path(@channel)%>&nbsp;&gt;&nbsp;
+	<%= _('Edit')%>
+</div>
+
+<div id="main_function_content">
+	<%= error_messages_for :channel_daily_content %>
+	<% form_for :channel_daily_content, :url=>channel_daily_content_path(@channel, @channel_daily_content), :html=>{:multipart=>true, :method=>:put} do |form| -%>
+		<%= render :partial=>'form', :object=>form %>
+	<% end -%>
+</div>
+
+

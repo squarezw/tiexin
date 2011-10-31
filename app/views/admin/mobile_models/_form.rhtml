@@ -1,0 +1,40 @@
+<%= error_messages_for 'mobile_model' %>
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('MobileModel|Name') %></label></td>
+                <td><%= form.text_field :name, :size=>30 %></td>
+	</tr>
+        <%unless @mobile_model.new_record? %>
+	<tr>
+		<td><%= _('Current Icon')%></td>
+                <td><%=link_to safe_mobile_model_icon(@mobile_model),image_path(@mobile_model.picture.url),:target => "_blank" if @mobile_model.picture%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td><%= s_('MobileModel|Picture')%></td>
+                <td><%= form.upload_column_field 'picture'  %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('MobileBrand')%></label></td>
+                <td><%= form.select :mobile_brand_id, MobileBrand.find(:all).collect {|item| [item.name,item.id]} %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('MobileOS')%></label></td>
+                <td><%= form.select :mobile_os_id, MobileOs.find(:all).collect {|item| [item.name,item.id]} %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><label class="required"><%= _('Summary')%></label></td>
+		<td><%= bbcode_editor :summary %></td>		
+	</tr>
+	<tr>
+		<td><%= form.text_area :summary, :cols=>60, :rows=>15 %>
+			<p class="help"><%= _('The length must between %{minimum} and %{maximum}') % {:minimum=>5, :maximum=>3000}  %></p>
+		</td>
+	</tr>        
+        <tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

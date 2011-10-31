@@ -1,0 +1,73 @@
+<% page_title _('Manage Gift Orders')  
+	@js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+	@css_files=['calendar'] -%>
+
+<% content_for 'page_scripts' do -%>
+function init_page () {
+	init_calendar_calendar_delivered_begin ();
+	init_calendar_calendar_delivered_end ();
+}
+
+function export_gift_orders() {
+	window.open('/partner/gift_orders/export.xls?' + $('search_form').serialize(), '');
+}
+<% end -%>
+
+<% form_tag partner_gift_orders_path, :method=>:get, :id=>'search_form' do -%>
+<table class="form_container">
+	<tr>
+		<td width="7%"><%= s_('GiftOrder|Number')%></td>
+		<td width="15%"><%= text_field_tag :number, params[:number], :size=>10 %>
+		<td width="7%"><%= s_('GiftOrder|Name')%></td>
+		<td width="25%"><%= text_field_tag :name, params[:name], :size=>20 %>
+		<td width="7%"><%= s_('GiftOrder|Status')%></td>
+		<td width="*"><select name="status" >
+				<%= options_for_select options_for_codes(GiftOrder::ALL_STATUS, :gift_order_status, '') %>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td><%= s_('GiftOrder|Delivered at')%></td>
+		<td colspan="5"><%= text_field_tag :delivered_date_begin, params[:delivered_date_begin], :size=>10, :id=>'delivered_date_begin' %>&nbsp;<%= link_to_function image_tag('calendar.gif'), 'show_calendar_delivered_begin()', :id=>'link_delivered_date_begin', :class=>'image'%>&nbsp;──&nbsp;
+			<%= text_field_tag :delivered_date_end, params[:delivered_date_end], :size=>10%>&nbsp;<%= link_to_function image_tag('calendar.gif'), 'show_calendar_delivered_end()', :id=>'link_delivered_date_end', :class=>'image'%>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6" class="button_bar">
+			<%= submit_tag _('Search')%>
+			<%= button_to_function _('Export'),  'export_gift_orders()' %>
+		</td>
+	</tr>
+</table>
+<% end -%>
+<table class="data_list">
+	<tr>
+		<th width="7%">#</th>
+		<th width="15%"><%= s_('GiftOrder|Name') %></th>
+		<th width="*"><%= _('Gift') %></th>
+		<th width="15%"><%= s_('GiftOrder|Confirmed at') %></th>
+		<th width="15%"><%= s_('GiftOrder|Delivered at') %></th>
+		<th width="10%"><%= s_('GiftOrder|Status')%></th>
+	</tr>
+	<% for order in @orders -%>
+	<tr>
+		<td><%= link_to order.id, partner_gift_order_path(order), :popup=>true %></td>
+		<td><%= link_to h(order.name), partner_gift_order_path(order), :popup=>true %></td>
+		<td><%= h(order.gift_summary) %></td>
+		<td><%= format_time order.confirmed_at %></td>
+		<td><%= format_time order.delivered_at %></td>
+		<td><%= user_friendly_code :gift_order_status, order.status %>
+	</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @orders %>
+
+<%= calendar :calendar_delivered_begin, 
+			 {:anchor_element=>'link_delivered_date_begin', :date_field=>'delivered_date_begin'},
+			 { :minDate => '01/01/2009' }
+%>
+<%= calendar :calendar_delivered_end, 
+			 {:anchor_element=>'link_delivered_date_end', :date_field=>'delivered_date_end'},
+			 { :minDate => '01/01/2009' }
+%>

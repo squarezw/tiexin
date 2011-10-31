@@ -1,0 +1,8 @@
+<tr>
+  <td><%= check_box_tag "id[]",hot_spot.id %></td>
+  <td><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target => '_blank'  %></td>
+  <td><%= h(localized_description(hot_spot.hot_spot_category, :name))%></td>
+  <td><%= h(localized_description(hot_spot, :address))%></td>
+  <td><%= link_to h(hot_spot.creator.nick_name), member_path(hot_spot.creator) %>/
+    <%= format_date(hot_spot.created_at)%></td>
+</tr>

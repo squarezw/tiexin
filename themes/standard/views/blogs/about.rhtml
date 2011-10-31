@@ -1,0 +1,36 @@
+<% @side_menu = 'main'%>
+<table class="form_container">
+	<tr>
+		<td><label><%= s_('Member|Nick name') %></label></td>
+		<td><%= h(@member.nick_name)%></td>
+	</tr>
+	<% if @member == @current_user -%>
+	<tr>
+		<td><label><%= s_('Member|Mail')%></label></td>
+		<td><%= h(@member.mail)%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Member|Mobile phone')%></label></td>
+		<td><%= h(@member.mobile_phone)%></td>
+	</tr>	
+	<% end -%>
+	<tr>
+		<td><label><%= s_('Member|Created at')%></label></td>
+		<td><%= format_time @member.created_at %></td>
+	</tr>                                            
+	<tr>
+		<td><label><%= _('Member|Experience')%></label></td>
+		<td><%= @member.experience %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('Member|Credit')%></label></td>
+		<td><%= @member.credit %></td>
+	</tr>
+	<% if @member.modifiable_to?(@current_user) -%>
+		<tr>
+			<td class="button_bar" colspan="2">
+				<%= link_to _('Edit'), edit_member_path(@member), :class => :button %>
+			</td>
+		</tr>
+	<% end -%>
+</table>

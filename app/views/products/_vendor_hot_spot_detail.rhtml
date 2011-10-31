@@ -1,0 +1,12 @@
+<div class="section">
+	<div class="header">
+		<h3><%= s_('Product|Hot spot')%></h3>
+	</div>
+	
+	<div class="body">
+		<h3><%= link_to h(localized_description(@vendor, :name)), hot_spot_path(@vendor)%></h3>
+		<p><%= _('HotSpot|Hot spot category')%>:<%= h(localized_description(@vendor.hot_spot_category, :name))%></p>
+		<p><%= _('HotSpot|Address')%>:<%= h(localized_description(@vendor.address))%></p>
+		<p><%= _('HotSpot|Phone number')%>:<%= h(@vendor.phone_number)%></p>
+	</div>
+</div>

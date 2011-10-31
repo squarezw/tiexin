@@ -1,0 +1,12 @@
+<span id="recommend">
+<%if hot_spot.recommend%>
+  <%=_('Recommend until')%>: <%=format_date(hot_spot.recommend_expire_at)%>
+<%else%>
+ <%if @current_user and @current_user.is_admin%>
+         <%= link_to_remote _('Editor Recommend'), 
+                {  :success=>"$('recommend').innerHTML='#{_('Recommend hot spot')}'",
+               :url=>recommend_manage_hot_spot_path(hot_spot) },  { :class=> :button } 
+           %>
+ <%end%>
+<%end%>
+</span>

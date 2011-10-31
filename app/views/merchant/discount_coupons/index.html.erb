@@ -1,0 +1,32 @@
+<% page_title _('Issued Discount Coupons') 
+   side_menu 'my_xnavi' -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Issued Discount Coupon'), merchant_discount_coupons_path %>
+</div>
+
+<div id="main_function_content">
+	
+<table class="data_list">
+	<tr>
+		<th widht="20%"><%= s_('Counpon|Vendor') %></th>
+		<th width="*"><%= s_('Coupon|Summary')%></th>
+		<th width="20%"><%= s_('Coupon|Expire at')%></th>
+		<th width="10%"><%= s_('Coupon|Status') %></th>
+		<th width="20%"><%= _('Operation') %></th>
+	</tr>
+	<% for coupon in @discount_coupons -%>
+		<tr>
+			<td><%= link_to h(localized_description(coupon.vendor, :name)), coupon.vendor %></td>
+			<td><%= link_to h(coupon.summary), merchant_discount_coupon_path(coupon) %></td>
+			<td><%= format_time coupon.expire_at %></td>
+			<td><%= user_friendly_code :discount_coupon_status, coupon.status %></td>
+			<td><% if coupon.modifiable? -%>
+					<%= link_to _('Edit'), edit_merchant_discount_coupon_path(coupon)%>
+				<% end -%>
+			</td>
+					
+		</tr>
+	<% end -%>
+</table>
+</div>

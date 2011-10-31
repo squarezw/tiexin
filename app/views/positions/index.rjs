@@ -1,0 +1,5 @@
+@layout_map.positions.each { |pos| 
+  page << "add_hot_spot (#{pos.hot_spot.id}, #{pos.x}, #{pos.y}, {hot_spot_id: #{pos.hot_spot_id}, tooltip: '#{escape_javascript(h(localized_description(pos.hot_spot, :name)))}', unique_id: 'hs_#{pos.hot_spot_id}', category_id: #{pos.hot_spot.hot_spot_category_id}, icon: '#{hot_spot_icon(pos.hot_spot)}', root_category_id: #{pos.hot_spot.root_category.id} , position_id: #{pos.id} } );\n"
+}
+
+

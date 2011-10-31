@@ -1,0 +1,23 @@
+<table class="data_list">
+	<tr>
+		<th width="*">
+                    <%= link_to_remote s_('HotSpot|Name'),
+ 						:url=>params.merge(:order_by=>"name_#{@current_lang}", :page=>1),
+ 						:update=> 'div_inner_hot_spots_section', :method => :get %>
+                </th>
+		<th width="30%">
+                    <%= link_to_remote s_('HotSpot|Address'),
+ 							:url=>params.merge(:order_by=>"address_#{@current_lang}", :page=>1),
+ 							:update => 'div_inner_hot_spots_section', :method => :get %>
+                </th>
+		<th width="25%">
+                    <%= link_to_remote s_('Hot Spot Category'),
+							:url=>params.merge(:order_by=>'hot_spot_category_id', :page=>1),	
+							:update => 'div_inner_hot_spots_section', :method => :get %>
+                </th>
+		<th width="10%"><%= _('Operation') %></th>
+	</tr>
+	<%= render :partial => "hot_spot_row", :collection=>@hot_spots %>
+</table>
+
+<%= remote_page_navigator @hot_spots, 'div_inner_hot_spots_section', request.method, params %>

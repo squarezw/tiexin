@@ -1,0 +1,36 @@
+<% page_title _('Received Coupons')
+   side_menu 'my_xnavi' -%>
+
+<div class="navigation_bar">
+	<%= link_to _('My X-Navi'), member_path(@current_user) %> &gt; <%= _('Received Coupons')%>
+</div>
+
+<div id="main_function_content">
+	
+<% form_tag print_received_coupons_path, :target=>'_blank' do -%>
+<table class="data_list">
+	<tr>
+		<th width="3%"></th>
+		<th width="40%"><%= s_('Coupon|Vendor') %></th>
+		<th width="*"><%= s_('Coupon|Summary')%></th>
+		<th width="15%"><%= s_('Coupon|Expire at')%></th>
+	</tr>
+	<% for rc in @received_coupons -%>
+		<tr>
+			<td><%= check_box_tag "received_coupons[#{rc.id}]"%></td>
+			<td><% if rc.coupon.vendor.respond_to?(:city) -%>
+				[<%= h(localized_description(rc.coupon.vendor.city, :name))%>]
+				<% end -%>
+			<%= link_to h(localized_description(rc.coupon.vendor, :name)), rc.coupon.vendor %></td>
+			<td><%= link_to h(rc.coupon.summary), received_coupon_path(rc) %></td>
+			<td><%= format_date rc.coupon.expire_at %></td>
+		</tr>
+	<% end %>
+</table>
+<div class="button_bar">
+	<%= submit_tag _('Print')%>
+</div>
+<% end -%>
+<%= page_navigator @received_coupons %>
+
+</div>

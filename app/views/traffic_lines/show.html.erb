@@ -1,0 +1,22 @@
+<table class="form_container">
+	<tr>
+		<td width="30%"><%= s_('TrafficLine|Name')%></td>
+		<td><%= h(localized_description(@traffic_line, :name))%></td>
+	</tr>
+	<tr>
+		<td><%= s_('TrafficLine|Type')%></td>
+		<td><%= user_friendly_code(:traffic_type, @traffic_line.line_type)%></td>
+	</tr>
+	<tr>
+		<td><%= s_('Stops/Stations')%></td>
+		<td>
+				<% for hot_spot in @traffic_line.hot_spots -%>
+					<%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :class=>class_for_traffic_stop(hot_spot)%>
+				<% end -%>
+		</td>
+	</tr>
+</table>
+
+<%= update_page_tag do |page| 
+		page.call 'panel.show_with_title', _('Traffic Line.')
+    end -%>

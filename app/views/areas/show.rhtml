@@ -1,0 +1,131 @@
+<% @page_title = h(localized_description(@area, :name)) 
+	@js_files= ['yui/yahoo', 'yui/event', 'yui/connection', 'yui/treeview', 'yui/utilities',  'yui/container', 'map' ]
+	@css_files = ['yui/treeview', 'yui/container', 'area'] 
+	@side_menu = 'area_show' -%>
+	
+<% content_for 'page_scripts' do -%>
+	var tree, current_icon_mode, category_dialog;
+
+	var map;
+	
+	function init_page () {
+		build_tree();
+		
+		<%= render :partial=>'/main/levels_data' %>
+
+		map = new Map ('small_map', {
+			city_id: <%= @area.city_id%>,
+			map_width: <%= @area.city.width %>,
+			map_height: <%= @area.city.height %>,
+			start_point: [<%= @area.center_x %>, <%= @area.center_y %> ],
+			zoom_levels: map_levels,
+			viewport_width: 210,
+			viewport_height: 180,
+			init_zoom_level_index: 6
+		});
+
+		<%= update_page do |page| 
+				add_area_marker page, @area
+			end -%>
+		
+	}                
+
+	function build_tree() {
+		tree = new YAHOO.widget.TreeView("categories_tree");
+
+		tree.setDynamicLoad (load_data);                   
+
+		<% for category in @roots -%>
+		add_root_node(<%= category.id %>, '<%= render :partial=>'/hot_spot_categories/category', :object => category   %>');
+		<% end -%>        
+		tree.draw();
+	}                     
+
+	function add_root_node(id, label) {    
+		var node = new YAHOO.widget.HTMLNode(
+			{	html: label,
+				category_id: id
+			}, tree.getRoot(), false, true);
+	}                   
+
+	function add_sub_node(parent_id, id, label, refresh_parent) {
+		var parent = tree.getNodeByProperty ('category_id', parent_id);
+		var sub = new YAHOO.widget.HTMLNode( 
+		{
+			html : label,
+			category_id : id
+		}, parent, false, true);
+		if (refresh_parent) {     
+			parent.refresh ();
+		}
+	}                                          
+
+	function add_category_to_tree(parent_id, id, html) {           
+		if (! parent_id ) {
+			add_root_node(id, html); 
+			tree.draw();
+		} else {
+			var parent = tree.getNodeByProperty('category_id', parent_id);   
+			if (parent.dynamicLoadComplete) {
+				add_sub_node(parent_id, id, html, true);
+			}                    
+			parent.expand();
+		}
+	}                            
+
+
+	function remove_category(id) {
+		var node=tree.getNodeByProperty('category_id', id);
+		tree.removeNode(node, true);
+	}
+
+	function load_data (node, fnLoadComplete) {
+		var category_id = node.data.category_id;
+		var url = '/hot_spot_categories/' + category_id + '/children';
+		var callback = {
+			success: function (response) {      
+			  try {
+			  	eval (response.responseText);
+		   	  } finally {
+			  	response.argument.fnLoadComplete();
+			  }
+			},                                   
+
+			failure: show_status_on_error, 
+
+			argument: {
+				"node" : node,
+				"fnLoadComplete" : fnLoadComplete
+			},
+
+			timeout: 7000
+		};               
+
+		YAHOO.util.Connect.asyncRequest('GET', url, callback);
+	} 
+
+	function hot_spot_category_clicked (cat_id) {
+		new Ajax.Updater('div_hot_spots', 
+			'/cities/<%= @current_city.id %>/areas/<%= @area.id %>/hot_spot_category/' + cat_id,
+			{ method: 'get' });
+	}
+	
+	
+	function add_area_to_map (x, y, options) {
+		var marker = map.get_marker_by_property_value('area_id', options.area_id);
+		if (marker)
+			return;
+		new AreaMarker (map, x, y, options);
+	}
+
+<% end -%>                          
+
+	<div id="hot_spot_category_tree">
+		<div id="categories_tree">
+
+		</div>                         
+	</div>	
+	
+	<div id="div_hot_spots">
+		
+	</div>

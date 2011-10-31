@@ -1,0 +1,16 @@
+<div class="section"> 
+	<div class="head">
+		<h3><%= _('Areas')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+		<%= render :partial=>'area', :collection=>@areas %>
+		</ul>
+	</div>
+	<% if @page  -%>
+	<div class="foot">
+		<%= remote_page_navigator @page %>
+	</div>
+	<% end -%>
+
+</div>

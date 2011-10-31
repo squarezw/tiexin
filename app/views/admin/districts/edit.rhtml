@@ -1,0 +1,11 @@
+<% @page_title = _('Edit District')
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), admin_districts_path, :class => :button %>	
+</div>
+
+<%= error_messages_for :district %>
+<% form_for :district, @district, :url=>admin_district_path(@district), :html=>{:method=>:put} do |f| -%>
+	<%= render :partial => "form", :object=>f %>
+<% end -%>

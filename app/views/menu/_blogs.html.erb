@@ -1,0 +1,27 @@
+<div class="section">
+	<div class="head">
+		<h3><%= _('Most Active Authors')%></h3>
+	</div>
+	<div class="body">
+		<% for member in Blog.most_active_blog_author %>
+			<%= render :partial=>'author', :object=> member %>
+		<% end -%>
+	</div>
+	<div class="foot">
+		
+	</div>
+</div>
+
+<div class="section">
+	<div class="head">
+		<h3><%= _('Most Populor Authors')%></h3>
+	</div>
+	<div class="body">
+		<% for blog in Blog.most_popular_blog %>
+			<%= render :partial=>'author', :object=> blog.owner %>
+		<% end -%>
+	</div>
+	<div class="foot">
+		
+	</div>
+</div>

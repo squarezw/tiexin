@@ -1,0 +1,5 @@
+<% @page_title = _('Edit Tag')
+   side_menu side_menu_for_member(@member) -%>
+<% form_for :hot_spot_tag, @hot_spot_tag, :url=>member_posted_tag_path(@member,@hot_spot_tag), :html=>{:method=>:put} do |f| -%>
+<%=render :partial => "form",:object => f%>
+<% end -%>

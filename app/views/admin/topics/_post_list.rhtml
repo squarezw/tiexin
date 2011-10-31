@@ -1,0 +1,16 @@
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('Post|Title')%></th>
+		<th width="20%"><%= s_('Post|Member')%></th>
+		<th width="20%"><%= s_('Post|Created at') %></th>
+	</tr>
+	<% for post in @posts -%>
+	<tr>
+		<td><%= link_to_function h(post.title), "insert_related_post(#{post.id},'#{post.title}','/articles/#{post.id}')"%></td>
+		<td><%= link_to h(post.member.nick_name), show_member_path(post.member), :target=>'_blank'%>
+		<td><%= format_time post.created_at %>
+	</tr>
+	<% end -%>
+</table>
+
+<%= remote_page_navigator @posts, 'div_posts_section', :get %>

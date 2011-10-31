@@ -1,0 +1,31 @@
+<% if pages.item_count > 0 -%>
+<div class="page_navigator">
+  <% link_render ||= proc { |label, url| link_to label, url }
+	   unless pages.nil? -%>
+		<%= _('Total %{page_count} pages') % {:page_count=>pages.page_count } %>:
+		<% first = [pages.current.to_i - 5, 1].max
+		   last = [pages.current.to_i + 5, pages.last.to_i].min
+		-%>                                       
+		<% if pages.first.to_i < first -%>
+			<%= link_render.call('<<', url_for(params.merge(:page=>pages.first, :escape=>false)) ) %>
+		<% end -%>                             
+	
+		<% if pages.current.previous -%>
+			<% (first..pages.current.previous.to_i).each do |page| -%>
+				<%= link_render.call(page, url_for( params.merge(:page=>page, :escape=>false)) ) %>&nbsp;
+			<% end -%>
+		<% end -%>
+			<%= pages.current.to_i %>&nbsp;
+		<% if pages.current.next -%>
+			<% ((pages.current.next.to_i)..last).each do |page| -%>
+			   <%= link_render.call(page, url_for(params.merge(:page=>page, :escape=>false)) ) %>&nbsp; 
+			<% end -%>
+		<% end -%>
+
+		<% if pages.last.to_i > last %>
+			<%= link_render.call('>>', url_for(params.merge(:page=>pages.last, :escape=>false)) ) %>
+		<% end -%>
+	<% end -%>
+</div>  
+ 
+<% end -%>

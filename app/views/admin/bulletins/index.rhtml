@@ -1,0 +1,31 @@
+<% @page_title=_('Manage Bulletins') 
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_bulletin_path, :class => :button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('Bulletin|Title')%></th>
+		<th width="10%"><%= s_('Bulletin|Language')%></th>
+		<th width="15%"><%= s_('Bulletin|Expire date')%></th>
+		<th widht="20%"><%= s_('Bulletin|Created at') %></th>
+		<th width="25%"><%= _('Operation') %></th>
+	</tr>
+	<% for bulletin in @bulletins -%>
+		<tr>
+			<td><%= h(bulletin.title)%></td>
+			<td><%= _(bulletin.language)%></td>
+			<td><%= format_date bulletin.expire_date %></td>
+			<td><%= format_time bulletin.created_at %></td>
+			<td>
+				<%= link_to _('Show'), bulletin_path(bulletin), :target=>'_blank' %>
+				<%= link_to _('Edit'), edit_manage_bulletin_path(bulletin) %>
+				<%= link_to _('Delete'), manage_bulletin_path(bulletin), :method=>:delete, :confirm=>_('Are you sure?') %>
+				<%= link_to _('Publish by Email'), publish_manage_bulletin_path(bulletin), :method=>:post, :confirm=>_('Will send email to all members to inform this bulletin. Are you sure?')%>
+			</td>
+		</tr>
+	<% end -%>
+</table>
+<%= page_navigator @bulletins %>

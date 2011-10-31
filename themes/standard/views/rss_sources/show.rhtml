@@ -1,0 +1,19 @@
+<% @page_title = _('RSS Source')
+   @side_menu = 'main' -%>
+<%= render :partial=>'info', :object=>@rss_source %>
+
+<div class="button_bar">
+<%#= link_to '现在同步！', syndicate_channel_path(@rss_sources), :method => :post, :class => :button  %>
+</div>
+
+<div id="div_item_list">
+	<%#= javascript_tag remote_function(:update=>'div_item_list', :url=>member_articles_path(@rss_source.blog.owner), :method=>:get ) %>
+
+<% for article in @articles -%>
+<div class="atomentry">
+  <%= render :partial => "/articles/article", :object => article %>
+</div>
+<% end -%>
+</div>
+
+<p id="pagination"><%= will_paginate @articles %></p>

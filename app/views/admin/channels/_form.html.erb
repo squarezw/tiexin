@@ -1,0 +1,35 @@
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('Channel|Name zh cn') %></label></td>
+		<td width="*"><%= form.text_field :name_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('Channel|Name en') %></label></td>
+		<td><%= form.text_field :name_en %></td>
+	</tr>
+	<tr>
+		<td width="20%"><label class="required"><%= _('Hot Spot Category')%></label></td>
+		<td width="*"><%= root_category_select :channel, :hot_spot_category_id %>
+	</tr>
+	<tr>
+		<td><label class="required"><%= _('Forum') %></label></td>
+		<td><%= form.select :forum_id, @forums.collect { |forum| [forum.name, forum.id]} %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= _('Icon')%></label></td>
+		<td><%= upload_column_field :channel, :icon %></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><%= form.check_box :has_daily_content %><%= s_('Channel|Has daily content')%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Channel|Daily content title')%></label></td>
+		<td><%= form.text_field :daily_content_title, :size=>10 %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag %>
+		</td>
+	</tr>
+</table>

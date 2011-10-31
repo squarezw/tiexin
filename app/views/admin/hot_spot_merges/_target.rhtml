@@ -1,0 +1,5 @@
+<div class="merge_target">
+	<p><%= link_to h(localized_description(target, :name)), {:controller=>'admin/hot_spot_merges', :action => 'preview', :hot_spot_id => @hot_spot, :target_id=>target.id} %>
+		<span class="category">[<%= h(localized_description(target.hot_spot_category, :name))%>]</span>
+	<span class="address"><%= h(localized_description(target, :address))%></span></p>
+</div>

@@ -1,0 +1,34 @@
+<% page_title _('My X-Navi') 
+   side_menu 'my_xnavi' -%>
+
+<div class="button_bar">
+	<% if @current_user -%>
+    	<%= link_to _('Write Article'), new_member_article_path(@current_user), :class=>:button %>
+	<% end -%>
+	<% if @current_user.is_merchant -%>
+       <%= link_to _('Add Promotion'), new_member_promotion_path(@current_user),:class => :button%>
+	<% end -%>
+    <%= link_to _('Send Message'), new_member_message_path(@current_user),:class => :button%>
+</div>
+
+
+<ul class="list">
+	<% if (count = @current_user.received_box.size) > 0 -%>
+		<li><%= _('You have %{count} messages in <a href="%{url}">Inbox</a>. ') % {:count=>count, :url=>received_member_messages_path(@current_user)} %>
+			<% if (ur_count = @current_user.has_not_read_count) > 0 -%>
+				<%= _('Among them %{count} have not been read, ') % {:count=>ur_count} %><%= link_to _('Read them now.'), has_not_read_member_messages_path(@current_user)%>
+			<% end -%>
+		</li>
+	<% end -%>
+	
+	<% if (count = @current_user.pending_be_friends.count) > 0 -%>
+		<li><%= _('There are %{count} member want to add you to friend list. ') % {:count=>count} %><%= link_to _('View them now.'), pending_friends_path %>
+		</li>
+	<% end -%>
+	
+	<% if (count = @current_user.new_friend_recommendations.count) > 0 -%>
+		<li><%= _('There are %{count} new hot_spots recommended by your friend or other member. ') % {:count=>count} %>
+			<%= link_to _('View them now.'), recommended_hot_spots_path %>
+		</li>
+	<% end -%>
+</ul>

@@ -1,0 +1,19 @@
+<div class="section">
+	<div class="head">
+		<h3><%= _("Other products of this vendor") % {:vendor=>h(localized_description(@vendor, :name))}  %></h3>
+	</div>
+	
+	<div class="body">
+		<ul class="list">
+			<% for product in @vendor.latest_products -%>
+				<li id="<%= element_id product %>"><%= link_to h(localized_description(product, :name)), product_path(vendor_type(@vendor), @vendor, product) %>
+			<% end -%>
+		</ul>
+	</div>
+	
+	<div class="foot">
+		<%= link_to _('All...'), products_path(vendor_type(@vendor), @vendor) %>
+	</div>
+</div>
+
+<!-- TODO: Other vendor provide same product/service. -->

@@ -1,0 +1,8 @@
+<%if monderator.members%>
+<ul class="monderator">
+  <%for mond in  monderator.members%>
+    <li><%=mond.nick_name%> 
+<%=link_to "[X]", del_moderator_manage_forum_path(monderator, :member_id => mond), :method => :post, :confirm => _('Are you sure?')%></li>
+  <%end%>
+</ul>
+<%end%>

@@ -1,0 +1,16 @@
+<tr> 
+	<td><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target => '_blank'  %></td>
+	<td><%= h(localized_description(hot_spot.hot_spot_category, :name))%></td>
+        <td><%= h(localized_description(hot_spot.city, :name))%></td>
+	<td><%= h(localized_description(hot_spot, :address))%></td>
+	<td><%= link_to h(hot_spot.creator.nick_name), member_path(hot_spot.creator) %>/
+		<%= format_date(hot_spot.created_at)%></td>
+        <td>
+                <%unless hot_spot.hotel%>
+                    <%=link_to_remote s_('Hotel|Add to reserve hotel'), :url => admin_hotels_path + "?hot_spot_id=#{hot_spot.id}", :confirm=> _('Are you sure?'), :method => :post%>
+                <%else%>
+                    <%= link_to s_('Manage hotel room'), admin_hotel_hotel_rooms_path(hot_spot.hotel)%> | 
+                    <%= link_to s_('Delete'), admin_hotel_path(hot_spot.hotel), :confirm => _('Are you sure?'), :method => :delete%>
+                <%end%>
+        </td>
+</tr>

@@ -1,0 +1,22 @@
+<% @page_title = _('Member registered') 
+   @hide_page_title = true -%>     
+
+<% content_for 'page_scripts' do -%>
+	function redirect () {
+		new PeriodicalExecuter(function (pe) {
+			document.location="/";
+		}, 10);
+	}
+
+	Event.observe(window, 'load', redirect);
+<% end -%>
+
+<p>
+<%= _('The page will return to home page in 10 seconds. If it does not redirect automatically, please click following link.')%>
+</p>
+
+<center>
+	<%= link_to _('Home'), city_path(@current_city) %>
+</center>
+                                      
+

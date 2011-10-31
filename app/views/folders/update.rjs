@@ -1,0 +1,2 @@
+page.replace element_id(@folder), :partial => 'folder', :object => @folder
+page.visual_effect :pulsate, element_id(@folder), :pulses=>1    

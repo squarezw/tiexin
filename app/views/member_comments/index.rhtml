@@ -1,0 +1,9 @@
+<% @page_title = _('Comments posted by %{user}') % { :user => h(@member.nick_name) }
+   @css_files = ['comments']
+   side_menu side_menu_for_member(@member)  -%>
+
+<div id="comment_list">
+	<%= render :partial=>'comment', :collection => @comments %>
+
+	<%= page_navigator @comments %>	
+</div>

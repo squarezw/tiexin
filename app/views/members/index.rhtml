@@ -1,0 +1,65 @@
+<% @page_title = _('Manage Members') 
+   @side_menu = 'master_data' 
+   use_remote_dialog
+-%>
+<% content_for :page_scripts do -%>
+var panel;
+
+   function modify_privilege (id) {
+        dialog.retrieve_remote_form('/members/' + id + '/owned_privileges');
+   }
+<%  end -%>
+<% form_tag search_members_path do -%>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label><%= _('Login name or nick name contains') %></label></td>
+		<td width="*"><%= text_field_tag :keyword, params[:keyword], :size=>30 %></td>
+		<td width="12%"><label><%= s_('Member|Is staff')%></label></td>
+		<td width="12%"><select name="is_staff">
+				<%= options_for_true_false params[:is_staff]%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Member|Is admin')%></label></td>
+		<td width="25%"><select name="is_admin">
+				<%= options_for_true_false params[:is_admin]%>
+			</select>
+		</td>
+		<td width="25%"><label><%= s_('Member|Locked')%></label></td>
+		<td width="25%"><select name="is_locked">
+				<%= options_for_true_false params[:is_locked]%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="4">
+			<%= submit_tag _('Search')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= s_('Member|Login name')%></th>
+		<th width="20%"><%= s_('Member|Nick name')%></th>
+		<th width="10%"><%= s_('Member|Role')%></th> 
+		<th width="7%"><%= s_('Member|Confirmed') %></th>
+        <th width="7%"><%= s_('Member|Privilege') %></th>
+		<th width="*%"><%= s_('Member|Created at')%></th>
+		<th width="7%"><%= s_('Member|Locked') %></th>
+		<th width="5%"><%= _('E/C') %></th>
+	</tr>             
+	<%= render :partial=>'member', :collection=>@members %>
+</table>   
+
+<%= page_navigator @members, nil, :params=>params %>
+
+<p class="introduction"><%=_('member')%> <b><%=@members.size %></b> 人 <br/><%= _('Description for member role.')%><br/>
+A:<%= _('Administrator')%><br/>
+S:<%= _('Sunto Staff')%><br/>
+M:<%= _('Merchant Member')%><br/>
+</p>
+

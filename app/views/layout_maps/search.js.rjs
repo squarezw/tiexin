@@ -1,0 +1,6 @@
+unless @positions.empty?
+	pos = @positions[0]
+	page.call "show_position", pos.layout_map_id, pos.hot_spot_id, pos.x, pos.y
+end
+
+page.replace_html 'search_result', :partial=>'search_result'

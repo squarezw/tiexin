@@ -1,0 +1,32 @@
+div.article {
+	clear: left;
+	margin-bottom: 2em;
+}
+
+div.article div.head div.day_calendar {
+	float: right;
+}
+
+div.article div.author {
+	float: left;
+	text-align: center;
+	width: 96px;
+	margin: 5px 10px 0px 0px;
+}
+
+div.article div.content {
+	margin-left: 106px;
+	margin-right: 60px;
+}
+
+div.side_menu div.author {
+	float: left;
+	width: 109;
+	text-align: center;
+}
+
+div.side_menu div.author div.member_icon {
+	min-height: 96px;
+}
+
+

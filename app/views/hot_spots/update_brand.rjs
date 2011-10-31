@@ -1,0 +1,1 @@
+page.replace_html 'brand_section', :partial=>'brand', :locals => { :hot_spot=>@hot_spot } 

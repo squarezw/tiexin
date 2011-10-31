@@ -1,0 +1,6 @@
+<div class="event_simple">
+	<p class="hot_spot_name">
+		<%= link_to h(localized_description(event_simple.vendor, :name)), event_simple.vendor %>
+	</p>
+	<p class="event_name"><%= link_to h(localized_description(event_simple, :summary)), event_path(class_name_for_url(event_simple.vendor), event_simple.vendor, event_simple) %></p>
+</div>

@@ -1,0 +1,22 @@
+<div id="<%= product_div_id(product)%>" class="product <%= class_for_owner_recommended product %>">  
+	<div class="product_photo">
+		<% if product.photo -%>
+			<%= link_to image_tag(product.photo.thumb.url), product.photo.url, :target=>'blank' %>
+		<% else -%>
+			<%= image_tag 'nopic.jpg' %>
+		<% end -%>                                  
+	</div>                                            
+	
+	<div class="detail_info">
+		<h4><%= link_to h(localized_description(product, :name)), product_path(vendor_type(product.vendor), product.vendor_id, product)%></h4>
+                <p class="introduction"><%="#{s_('Product|Price')}: #{product.price}"%></p>
+		<p class="introduction"><%= truncate h(localized_description(product, :introduction)), 30 %></p>
+		<p><% if product.owner_recommended? -%>
+				<%= _('Recommened by owner')%>
+			<% else -%>
+				<%= _('Recommended by')%>:<%= link_to h(product.creator.nick_name), member_path(product.creator) %>
+			<% end -%>
+		</p>
+	</div>
+</div>
+

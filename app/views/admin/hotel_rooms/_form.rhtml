@@ -1,0 +1,51 @@
+<%= error_messages_for 'hotel_room' %>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('HotelRoom|Name') %></label></td>
+		<td><%= form.text_field :name, :size=>25 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('HotelRoom|Price')%></label></td>
+                <td><%= form.text_field :price,  :size=>10 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('HotelRoom|Discount price')%></label></td>
+                <td><%= form.text_field :discount_price,  :size=>10 %></td>
+	</tr>        
+	<tr>
+		<td><%= s_('HotelRoom|Bed')%></td>
+                <td><%= form.text_field :bed,  :size=>15 %></td>
+	</tr>        
+	<tr>
+		<td><label class="required"><%= s_('HotelRoom|Breakfast')%></label></td>
+                <td><select name="hotel_room[breakfast]"><%= options_for_true_false @breakfast, false%></select></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('HotelRoom|Network')%></label></td>
+                <td><select name="hotel_room[network]"><%= options_for_true_false @network, false%></select></td>
+	</tr>        
+        <%unless @hotel_room.new_record? %>
+	<tr>
+		<td><%= _('Current Icon')%></td>
+        <td><%=link_to safe_hotel_room_icon(@hotel_room),image_path(@hotel_room.pic.url),:target => "_blank" if @hotel_room.pic%></td>
+	</tr>
+        <%end%>
+	<tr>
+		<td><%= s_('HotelRoom|Pic')%></td>
+                <td><%= form.upload_column_field 'pic'  %></td>
+	</tr>
+	<tr>
+		<td rowspan="2"><%= s_('HotelRoom|Memo') %></td>
+		<td><%= bbcode_editor :hotel_room_memo %></td>
+	</tr>
+	<tr>
+                
+		<td><%= form.text_area :memo, :rows=>10, :cols=>50 %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

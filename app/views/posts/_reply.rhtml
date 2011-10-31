@@ -1,0 +1,58 @@
+<table class="post_container">
+	<tr>
+		<td width="180px" class="author"><%= _('Floor %{floor}') % {:floor=>reply.position} %>
+			<% if reply.vote_result == Reply::VOTE_GOOD -%>
+				<%= image_tag 'good.gif'%>
+			<% end -%>
+		</td>
+		<td><%= s_('Post|Created at')%>:<%= format_time reply.created_at%></td>
+	</tr>
+	<tr>
+		<td class="author">
+			<%= render :partial=>'members/summary', :locals=>{:member=>reply.member}%>			
+		</td>
+		<td width="*">
+			<% if reply.deleted -%>
+				<p class="warning"><%= _('This reply has been deleted by administrator.')%></p>
+			<% elsif reply.check_status == Reply::STATUS_PENDDING -%>
+				<p class="warning"><%= _('This reply are waiting to be manual checked.')%></p>
+			<% elsif reply.check_status == Reply::STATUS_CHECK_FAILED -%>
+				<p class="warning"><%= _('This reply are disapproved by administrator because it contains taboo word.')%></p>
+			<% elsif reply.vote_result == Reply::VOTE_HIDDEN -%>
+				<p class="warning"><%= _('This reply has been voted to be hidden.')%></p>
+			<% else -%>
+<pre class="article"><%= reply.content%></pre>
+			<% end -%>
+			
+			<% if reply.attachment -%>
+				<% if @current_user -%>
+					<%= link_to image_tag(reply.attachment.thumb.url), reply.attachment.url, :target=>'_blank'%>
+				<% else -%>
+					<%= _('You can view the attachment after you login the system.')%>
+				<% end -%>
+			<% end -%>
+                        <%if reply.member.sign%>
+                        <div id="sign">
+                          <%= reply.member.sign%>
+                        </div>
+                        <%end%>
+		</td>
+	</tr>
+	<tr>
+		<td class="author"></td>
+		<td class="button_bar">
+			<span id="<%= 'vote_' + element_id(reply)%>">
+				<%= render :partial => 'reply_vote_area', :locals=>{:reply => reply} %>
+			</span>
+			<% if @current_user -%>
+				<%= link_to _('Quote'), quote_forum_post_reply_path(@forum, @post, reply)%>
+				<%= link_to _('Operation Logs'), object_operation_logs_path(object_type(reply), reply.id), :target=>'_blank'%>
+			<% end %>
+			<% if reply.member == @current_user -%>
+				<%= link_to _('Edit'), edit_forum_post_reply_path(@forum, @post, reply)%>
+			<% end -%>
+			<a href="#top"><%= _('Top') %></a>
+		</td>
+	</tr>
+
+</table>

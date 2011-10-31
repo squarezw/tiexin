@@ -1,0 +1,10 @@
+<% page_title _('Reply') + ':' + h(@post.title) 
+   include_js_file 'editor'
+   include_css_file 'forums', 'editor'
+   select_menu :forums -%>
+
+<%= error_messages_for :reply %>
+
+<% form_for :reply, @reply, :url=>forum_post_reply_path(@forum, @post, @reply), :html=>{:multipart=>true, :method=>:put} do |f| -%>
+	<%= render :partial=>'form', :object=>f %>
+<% end -%>

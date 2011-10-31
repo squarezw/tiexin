@@ -1,0 +1,7 @@
+<% page_title _('Revises posted by %{user}') % { :user => h(@member.nick_name) }
+   side_menu side_menu_for_member(@member) 
+   include_css_file 'revise' %>
+
+<%= render :partial => 'revise', :collection => @revises %>
+
+<%= page_navigator @revises %>

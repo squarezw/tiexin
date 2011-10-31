@@ -1,0 +1,62 @@
+<% @page_title=_(%[Preview of merge of '%{source}' and '%{target}'.]) % 
+		{:source=>h(localized_description(@brand, :name)),
+		 :target=>h(localized_description(@target, :name)) }  -%>
+		
+<div class="button_bar">
+	<%= link_to _('Cancel Merge'), brand_path(@brand), :class=>:button %>
+	<%= link_to _('Redo search'), manage_brand_merges_path(@brand), :class=>:button%>
+</div>
+
+<p class="comment">
+	<%= _('Prompt for merge brand.')%>
+</p>
+<%= error_messages_for 'target' %>
+<% form_for :target, @target, :url=>manage_brand_merges_path(@brand) do |f| -%>
+<%= hidden_field_tag :target_id, @target.id %>
+<table class="form_container" >
+	<tr>
+		<th width="20%" colspan="2"><%= _('Fields') %></th>
+		<th width="25%"><%= _('Source') %></th>
+		<th width="25%"><%= _('Target') %></th>
+		<th width="30%"><%= _('After Merge') %></th>
+	</tr>
+	<tr>
+		<td width="10%" rowspan="2"><label class="required"><%= s_('Brand|Name') %></label></td>
+		<td width="10%"><label><%= _('Chinese') %></label></td>
+		<td><%= h(@brand.name.zh_cn)%></td>
+		<td><%= h(@target.name.zh_cn)%></td>
+		<td><%= f.text_field :name_zh_cn %></td>
+	</tr>
+	<tr>
+		<td><label><%= _('English') %></label></td>
+		<td><%= h(@brand.name.en)%></td>
+		<td><%= h(@target.name.en)%></td>
+		<td><%= f.text_field :name_en %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label class="required"><%= s_('Brand|Category')%></label></td>
+		<td><%= h(localized_description(@brand.hot_spot_category, :name))%></td>
+		<td><%= h(localized_description(@target.hot_spot_category, :name))%></td>
+		<td><%= hot_spot_category_select :target, :hot_spot_category_id %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('HotSpot|Introduction') %></label></td>
+		<td><label><%= _('Chinese') %></label></td>
+		<td><pre><%= h(@brand.intro)%></pre></td>
+		<td><pre><%= h(@target.intro)%></pre></td>
+		<td><%= f.text_area :intro, :size => "30x10" %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label><%= s_('HotSpot|Home page') %></label></td>
+		<td><pre><%= h(@brand.home_page)%></pre></td>
+		<td><pre><%= h(@target.home_page)%></pre></td>
+		<td><%= f.text_field :home_page, :size=>"30" %></td>		
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="5">
+			<%= submit_tag _('Merge') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>

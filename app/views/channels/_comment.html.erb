@@ -1,0 +1,4 @@
+<div class="comment">
+	<p class="hot_spot_name"><%= link_to h(localized_description(comment.commentable, :name)), comment.commentable, :popup=>true %></p>
+	<p><span class="author"><%= h(comment.member.nick_name) %></span>:&nbsp;<span class="content"><%= h(truncate(strip_bbcode(comment.content), 50))%></span></p>
+</div>

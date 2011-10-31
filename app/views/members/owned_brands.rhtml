@@ -1,0 +1,9 @@
+<% page_title _('Brands owned by %{name}') % {:name=>h(@member.nick_name)} 
+   side_menu side_menu_for_member(@member) 
+   include_css_file 'brands' -%>
+
+<%= render :partial=>'/brands/brand', :collection=>@brands %>
+
+<div id="page_left_footer">
+<%= page_navigator @brands, nil, :params=>params %>
+</div>

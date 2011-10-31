@@ -1,0 +1,28 @@
+<% page_title _('My Friends')
+   side_menu side_menu_for_member(@current_user) %>
+
+<div class="button_bar">
+	<%= link_to _('Pending Request (%{count})') % {:count=>@current_user.pending_be_friends.size}, 
+				pending_friends_path, :class=>:button %>
+</div>
+
+<% form_remote_tag :url=>quick_add_friends_path do -%>
+<table class="form_container">
+	<tr>
+		<td width="25%"></td>
+		<td width="*"><%= text_field_with_auto_complete 'member', 'nick_name', {:size=>20}, 
+								{:url=>{:controller=>'members', :action=>'auto_complete_for_member_nick_name'}} %></td>
+		<td width="15%"><%= submit_tag _('Quick Add')%></td>
+		<td width="25%"></td>
+	</tr>
+</table>
+<p>
+<% end -%>
+
+<div id="friends_list">
+	<%= render :partial=>'friend', :collection => @friends %>	
+</div>
+
+<div class="page_left_footer">
+	<%= page_navigator @friends %>		
+</div>

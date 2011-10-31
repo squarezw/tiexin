@@ -1,0 +1,14 @@
+<table class="data_list">
+	<tr>
+		<th width="*"><%= s_('Article|Subject')%></th>
+		<th width="20%"><%= s_('Article|Created at') %></th>
+	</tr>
+	<% for article in @articles -%>
+	<tr>
+		<td><%= link_to h(article.subject), member_article_path(article.member, article), :target=>'_blank'%></td>
+		<td><%= format_time article.created_at %>
+	</tr>
+	<% end -%>
+</table>
+
+<%= remote_page_navigator @page, 'div_articles_section', :get %>

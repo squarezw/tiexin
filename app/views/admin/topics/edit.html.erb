@@ -1,0 +1,21 @@
+<% page_title _('Modify Topic')
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   use_remote_dialog
+   @css_files<<['calendar']
+   side_menu 'master_data' -%>
+
+<%= error_messages_for :topic %>
+
+<% form_for :topic, @topic, :url=>admin_topic_path(@topic), :html=>{:method=>:put, :multipart=>true} do |f| -%>
+	<%= render :partial => "form", :object=>f %>
+<% end -%>
+
+<div id="panel">
+	<div class="hd" id="panel_head">
+
+	</div>
+
+	<div class="bd" id="panel_body">
+
+	</div>
+</div>

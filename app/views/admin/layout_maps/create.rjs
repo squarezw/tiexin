@@ -1,0 +1,4 @@
+page.insert_html :bottom, 
+                 'layout_map_list', 
+                 render(:partial=>'layout_map', :object => @layout_map) 
+page.visual_effect :pulsate, layout_map_div_id(@layout_map), :pulses=>1

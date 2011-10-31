@@ -1,0 +1,63 @@
+<% page_title h(@forum.name), true
+   include_css_file 'forums'
+   select_menu :forums -%>
+
+<div class="navigation_bar">
+	<%= link_to _('All Forums'), forums_path %> > <%= h(@forum.name) %>
+</div>
+
+<div class="button_bar">
+        <%if @forum.members%>
+             <%=_('Moderator')%>:<%=@forum.members.collect{|member| member.nick_name}.join(",")%>
+        <%end%>
+	<% if @current_user -%>
+		<%= link_to _('New Post'), new_forum_post_path(@forum), :class=>:button %>
+	<% end -%>
+</div>
+
+<%= render :partial=>'post_menu' %>
+
+<h3 class="clearfix"><%= _('Post List')%></h3>
+<table class="data_list">
+	<tr>
+		<th width="3%"></th>
+		<th width="*"><%= s_('Post|Title')%></th>
+		<th width="8%"><%= _('Author') %></th>
+		<th width="13%"><%= _('Post|Created at') %></th>
+		<th width="8%"><%= _('Reply') %>/<%= _('View') %></th>
+		<th width="18%"><%= _('Last Reply') %></th>
+	</tr>
+	<%= render :partial=>'post', :collection=>@posts %>
+</table>
+
+<%= page_navigator @posts %>
+
+<div id="forum_switch">
+	<%= _('Swtich to Forum')%>: <select id="forum_select">
+		<%= options_for_select (Forum.find(:all).collect{ |forum| [forum.name, forum.id]}), @forum.id %>
+	</select>
+	<%= observe_field 'forum_select', :function=>"document.location = '/forums/' + value + '/posts'; "%>
+	
+</div>
+
+<% if @current_user 
+ 	form_tag set_option_forum_posts_path(@forum) do -%>
+<table width="20%">
+	<tr>
+		<td><%= check_box_tag :hide_water_post, '1', @hide_water_post %><%= _('Hide water post.')%></td>
+	</tr>
+	<tr>
+		<td><%= check_box_tag :hide_water_reply, '1', @hide_water_reply %><%= _('Hide water reply.')%></td>
+	</tr>
+	<tr>
+		<td class="button_bar">
+			<%= submit_tag _('Submit')%>
+		</td>
+	</tr>
+</table>
+<% end 
+end -%>
+
+<div id="helper_links">
+	<p><%= link_to _('Score policy and forum rules.'), '/static/point_rules'%>
+</div>

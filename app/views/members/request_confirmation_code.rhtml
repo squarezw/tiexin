@@ -1,0 +1,21 @@
+<% @page_title = _('Request to send confirmation code again.') -%>
+
+<% form_tag resend_confirmation_code_members_path do -%>
+<table class="form_container" width="80%">
+	<tr>
+		<td width="20%"><label><%= _('Member|Login name')%></label></td>
+		<td><%= text_field_tag :login_name, params[:login_name], :size=>20 %></td>
+	</tr>
+	<tr>
+		<td width="20%"><label><%= _('Member|Mail')%></label></td>
+		<td><%= text_field_tag :mail, params[:mail], :size=>20 %>
+			<%= _('If you want to change your email address, please input new one. Otherwise leave it as blank.')%></td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>

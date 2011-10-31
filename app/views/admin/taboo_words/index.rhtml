@@ -1,0 +1,45 @@
+<% @page_title = _('Taboo Words')
+   @side_menu = 'master_data' -%>      
+	
+<% content_for 'page_scripts' do -%>    
+	function init_page() {
+		<%= remote_function :url=>new_taboo_word_path, :update => 'div_form', :method => :get %>
+	}                                
+                                     
+	
+	function doTest (form) {
+		new Ajax.Updater('test_phase_result', 
+						'<%= test_taboo_words_path %>',
+						{
+							method : 'post',
+							parameters: form.serialize()
+						});
+	}   
+
+<% end -%>	              
+
+<div class="button_bar">
+	<%= link_to_remote(_('New'), 
+					   { :url=>new_taboo_word_path, 
+					     :update=>'div_form', 
+					     :method=>:get }, 
+					   {:class => :button}) %>
+</div>
+
+<table class="data_list" width="95%" >
+	<tbody id="tbl_taboo_words">
+		<tr>
+			<th width="40%"><%= s_('TabooWord|Word') %></th>
+			<th width="40%"><%= s_('TabooWord|Regular Expression') %></th>  
+			<th width="7%"><%= s_('TabooWord|Active') %></th>
+			<th width="13%"><%= _('Operation') %></th> 
+		</tr>   
+		
+		<%= render :partial=>'taboo_word', :collection => @taboo_words %>
+	</tbody>
+</table>   
+                      
+<div id="div_form">
+	
+</div>
+

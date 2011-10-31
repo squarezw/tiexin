@@ -1,0 +1,49 @@
+<% page_title _('My Point') 
+   side_menu 'my_xnavi' -%>
+
+<h2 class="page_title"><%= _('My Point')%></h2>
+<table class="form_container">
+	<tr>
+		<td><%= _("Current Point")%></td>
+		<td><%= s_('Member|Experience')%></td>
+		<td><%= @current_user.experience %></td>
+		<td><%= s_('Member|Credit')%></td>
+		<td><%= @current_user.credit %></td>
+	</tr>
+	<tr>
+		<td><%= _("Used Point")%></td>
+		<td><%= s_('Member|Experience')%></td>
+		<td><%= @current_user.used_experience %></td>
+		<td><%= s_('Member|Credit')%></td>
+		<td><%= @current_user.used_credit %></td>
+	</tr>
+	<tr>
+		<td><%= _("Available Point")%></td>
+		<td><%= s_('Member|Experience')%></td>
+		<td><%= @current_user.available_experience %></td>
+		<td><%= s_('Member|Credit')%></td>
+		<td><%= @current_user.available_credit %></td>
+	</tr>
+</table>
+
+<h3><%= _('Point exchange record')%></h3>
+<table class="data_list">
+	<tr>
+		<th width="7%">#</th>
+		<th width="*"><%= _('Gift') %></th>
+		<th width="20%"><%= s_('GiftOrder|Used point') %></th>
+		<th width="15%"><%= s_('GiftOrder|Confirmed at') %></th>
+		<th width="10%"><%= s_('GiftOrder|Status')%></th>
+	</tr>
+	<% for order in @orders -%>
+	<tr>
+		<td><%= link_to order.id, campaign_gift_order_path(order) %></td>
+		<td><%= h(order.gift_summary) %></td>
+		<td><%= gift_order_used_point order %></td>
+		<td><%= format_time order.confirmed_at %></td>
+		<td><%= user_friendly_code :gift_order_status, order.status %>
+	</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @orders %>

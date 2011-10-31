@@ -1,0 +1,36 @@
+<% page_title h(localized_description(@product, :name)), true
+   use_remote_dialog
+   include_js_file 'editor'
+   include_css_file 'comments', 'toolbar', 'products'
+   @side_menu = 'product_detail' %>
+
+<% content_for :page_scripts do -%>
+function edit_product(id) {
+	dialog.retrieve_remote_form('/vendor/<%=  vendor_type(@vendor) %>/<%= @vendor.id.to_s %>/products/' + id + "/edit");
+}                                                           
+
+<% end -%>
+
+<div class="navigation_bar">
+	<div class="tools"> 
+		<% if @product.modifiable_to?(@current_user) -%>
+			<%= link_to_function image_tag('edit.gif', :alt=>_('Edit this product.')), "edit_product(#{@product.id}); ", :title=>_('Edit this product.') %>
+		<% end -%>        
+		<% if current_is_admin? -%>
+			<%= link_to image_tag('delete.gif', :alt=>_('Delete this product') ), 
+						product_path(vendor_type(@vendor), @vendor, @product), 
+						:method=>:delete, :confirm=>_('Are you sure?'), :title=>_('Delete this product') %>
+		<% end -%>
+	</div>                 
+	
+	<%= render :partial=>"/products/vendor_#{vendor_type(@vendor)}_navigation_bar" %>	
+</div>
+
+<div id="main_function_content">
+	<h2 id="page_title"><%= h(localized_description(@product, :name))%></h2>
+	<%= render :partial=>'product_detail', :locals => { :product=>@product }  %>
+</div>
+
+<div id="div_comment_section" class="comments_block">
+		<%= javascript_tag (remote_function :url=>comments_path(commentable_type(@product), @product.id), :update => 'div_comment_section', :method=>:get) %>
+</div>

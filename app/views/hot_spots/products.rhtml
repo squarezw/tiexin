@@ -1,0 +1,33 @@
+<div class="section">
+	<div class="head">
+		<div class="tool_bar">
+			<%= link_to_function _('Recommend Products or Services'), "new_product();"  if @current_user %> 
+			<%= link_to _('All...'), products_path(vendor_type(@hot_spot), @hot_spot) unless @products.empty? %>
+		</div>
+		
+		<h3><%= _('Products')%></h3>
+	</div>
+	
+	<div class="body">
+		<table class="layouter">
+			<tr>
+				<td width="20px">
+					<% unless (prev = @products.previous_page).nil? -%>
+						<%= link_to_remote image_tag('large_scroll_left.jpg'), :update=>'div_products_section', :url=>params.merge(:page=>prev), :method=>:get %>
+					<% end -%>				
+				</td>
+				<td width="635px" id="products_list" align="center"><%= render :partial=>'/products/product_simple', :collection => @products %></td>
+				<td width="20px">
+					<% unless (nxt = @products.next_page).nil? -%>
+						<%= link_to_remote image_tag('large_scroll_right.jpg'), :update=>'div_products_section', :url=>params.merge(:page=>nxt), :method=>:get %>
+					<% end -%>				
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+</div>
+
+
+
+ 

@@ -1,0 +1,21 @@
+<% @page_title = _('Manage NaviStar')
+   @css_files=['mobile']
+   @side_menu = 'master_data' %>
+
+<div class="button_bar">
+	<%= link_to _('Release'), new_manage_navi_star_path, :class => :button %>
+</div>
+<% for navi_star in @navi_stars %>
+    <div class="xnavi-mobile-navi-star">
+        <ul>
+          <li><%= navi_star.mobile_os.name %></li>
+          <li><%= link_to navi_star.filename, url_for(:controller=>'/download', :action=>'download', :platform => navi_star.mobile_os.name,
+        :release => navi_star.release, :major => navi_star.major,:minor => navi_star.minor, :suffix => navi_star.suffix),:target => "_blank" %></li>
+          <li><%=format_date navi_star.updated_at %></li>  
+          <li><%= link_to _('Edit'), edit_manage_navi_star_path(navi_star) %>
+            <%= link_to _('Delete'), manage_navi_star_path(navi_star), :confirm => _('Are you sure?'), :method => :delete %>
+          </li>
+        </ul>
+    </div>
+<% end %>
+<%= page_navigator @navi_stars %>

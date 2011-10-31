@@ -1,0 +1,345 @@
+<% @page_title='XNavi' 
+   @show_title= false   
+	@js_files=['yui/utilities', 'yui/event', 'yui/dom', 'yui/button', 'yui/container', 'remote_form_dialog','map' ]
+   @css_files=['main', 'yui/button', 'yui/container', 'toolbar']
+   @hide_page_title = true
+-%>
+
+<% content_for 'page_scripts' do -%>
+var big_map_page = true;
+
+var map;
+
+var operation = null;
+
+var area_nw = null;
+
+var area_to_reposition = null;
+
+<%= render :partial=>'/main/levels_data' %>
+	
+function init_page () {
+	build_tool_bar ();
+	
+	dialog = new RemoteFormDialog('div_dialog', 
+			{buttons: [{ text: "<%= _('Submit') %>",
+                		 handler: handleSubmit, 
+                		 isDefault: true},
+		               { text: "<%= _('Cancel')%>", 
+		                 handler: handleCancel}],
+		     busy_indicator: busy_indicator });
+	
+	map = new Map('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: <%= start_point %>,
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6
+		});
+	
+	<% if @hot_spot -%>
+	<%= update_page do |page|
+			add_hot_spot_marker page, @hot_spot
+		end %>
+	<% end -%>
+	
+	<% if @area -%>
+	<%= update_page do |page|
+			add_area_marker page, @area
+		end %>	
+	<% end -%>
+	
+	map.add_event_listener('click', function(event) {  
+//		alert ("on click: " + area_to_reposition);
+		if (operation != null) {
+			operation.call (map, event);
+		}
+	});
+	
+	map.add_event_listener('click_marker', function(event) {
+		map.set_position(this.x, this.y);
+		if (this.show_info_bubble)
+			this.show_info_bubble ();
+	});
+	
+	<% if current_is_admin? -%>
+		map.enable_move_marker ();          
+		map.add_event_listener('marker_moved', function(event) {
+			if (this.options.hot_spot_id) {
+					new Ajax.Request('/hot_spots/' + this.options.hot_spot_id + '.js;move', {
+						method : 'post',
+						parameters : { x : event.map_x, y: event.map_y }
+				});
+			}
+		});
+	<% end -%>
+	
+	<% if @has_search_result -%>
+		<%= update_page do |page| 
+			show_hot_spot_markers page, @hot_spots
+			show_area_markers page, @areas
+			page.replace_html 'search_result_list', render(:partial=>'search_result')	
+		end -%>
+	<% end -%>
+
+}
+
+function build_tool_bar ()  {	
+
+	if ($('but_new_hot_spot') != null) {
+		new YAHOO.widget.Tooltip ('tooltip_but_new_hot_spot', 
+				{
+					context: 'but_new_hot_spot', 
+					text: "<%= _('Click on the map to create a new Hot Spot at that position.') %>",
+					zIndex: 255
+				});
+
+	
+		if ($('but_new_area') != null) {
+			new YAHOO.widget.Tooltip ('tooltip_but_new_area', 
+					{
+						context: 'but_new_area', 
+						text: "<%= _('Click on the map to create a new Area by define the northwest and southeast point of the area.') %>",
+						zIndex: 255
+					});
+		}	
+	}
+	
+	new YAHOO.widget.Tooltip ('tooltip_but_advanced_search', 
+			{
+				context: 'but_advanced_search', 
+				text: "<%= _('Advanced search.') %>",
+				zIndex: 255
+			});
+
+	new YAHOO.widget.Tooltip ('tooltip_but_clear_markers', 
+			{
+				context: 'but_clear_markers', 
+				text: "<%= _('Clear all markers of hot spots or areas on the map.') %>",
+				zIndex: 255
+			});
+}
+
+
+
+function on_new_hot_spot() {
+	operation = new_hot_spot;
+	map.set_cursor('crosshair');
+}
+
+function new_hot_spot (event) {
+	dialog.retrieve_remote_form(
+		'<%= new_hot_spot_path %>',
+		{
+			parameters: {x: event.map_x,
+			 			 y: event.map_y},
+			busy_indicator: busy_indicator
+		});
+	operation = null;
+}
+
+function add_hot_spot_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', options.hot_spot_id);
+	if (marker)
+		return;
+	new HotSpotMarker (map, x, y, options);
+}
+
+function show_hot_spot_marker (id) {
+	var marker = map.get_marker_by_property_value('hot_spot_id', id);
+//	alert ("Founded marker " + marker);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+		map.show_bubble(marker.x, marker.y, marker.options.bubble_content);
+	} else {
+		new Ajax.Request('/hot_spots/' + id + '/marker', 
+						 { method: 'get'}
+						);
+	}
+}
+
+function on_new_area () {
+	operation = new_area_step_1;   
+	map.set_cursor("crosshair");
+	window.status = "<%= _('Click on map to speficy the northwest point of the area.')%>";
+}
+
+function new_area_step_1(event) {
+	area_nw = [event.map_x, event.map_y];
+	map.set_cursor("crosshair");
+	operation = new_area_step_2;
+	window.status = "<%= _('Click on map again to define the southeast point of the area.')%>";
+}
+
+function new_area_step_2(event) {
+	if (!area_nw)
+		return;    
+	
+	dialog.retrieve_remote_form('<%= new_manage_area_path %>',
+		{
+			method : 'get',
+			parameters : {
+				'x[]' : [area_nw[0],event.map_x],
+				'y[]' : [area_nw[1],event.map_y]
+			}
+		}
+	);
+	operation = null;
+	area_nw = null;      
+	window.status = '';
+	map.set_cursor("wait");
+}
+
+function reposition_area(area_id) {
+//	alert ('reposition_area');
+	map.hide_bubble();
+	area_to_reposition = area_id;
+	operation=reposition_area_step_0;
+	map.set_cursor("crosshair");
+	window.status = "<%= _('Click on map to speficy the northwest point of the area.')%>";
+}
+
+function reposition_area_step_0 () {
+	operation = reposition_area_step_1;
+}
+
+function reposition_area_step_1(event) {
+//	alert ('reposition_area_step_1');
+	area_nw = [event.map_x, event.map_y];
+	map.set_cursor("crosshair");
+	operation = reposition_area_step_2;
+	window.status = "<%= _('Click on map again to define the southeast point of the area.')%>";
+}
+
+function reposition_area_step_2(event) {
+//	alert ('reposition_area_step_2');
+	if (!(area_nw && area_to_reposition))
+		return;    
+	
+	new Ajax.Request('/admin/areas/' + area_to_reposition + '/reposition', 
+									{
+										method : 'post',
+										parameters : {
+											'x[]' : [area_nw[0],event.map_x],
+											'y[]' : [area_nw[1],event.map_y]
+									    }
+									}
+					);
+
+	operation = null;
+	area_nw = null;      
+	area_to_reposition = null;
+	window.status = '';
+	map.set_cursor("wait");
+}
+
+function add_area_to_map (x, y, options) {
+	var marker = map.get_marker_by_property_value('area_id', options.area_id);
+	if (marker)
+		return;
+	new AreaMarker (map, x, y, options);
+}
+
+function show_area_marker (id) {
+	var marker = map.get_marker_by_property_value('area_id', id);
+	if (marker) {
+		map.set_position(marker.x, marker.y);
+		map.show_bubble(marker.x, marker.y, marker.options.bubble_content);
+	}
+}
+
+function on_advanced_search() {
+	var center = map.get_position ();
+	dialog.retrieve_remote_form('<%= url_for :controller=>'main', :action=>'advanced_search' %>',
+		{
+			method : 'get',
+			parameters : {
+				x: center[0],
+				y: center[1]
+			}
+		});
+}
+
+function show_traffic_line (id) {
+	new Ajax.Request('/main/traffic_line/' + id, { method: 'get' });
+}
+
+function clear_markers () {
+	map.clear_markers ();
+}
+
+function area_repositioned (unique_id, x, y, width, height) {
+	var marker= map.get_marker_by_property_value('unique_id', unique_id);
+	if (marker)
+		marker.repositioned(x,y,width, height);
+}
+
+function edit_area(area_id) {
+	map.hide_bubble ();
+	dialog.retrieve_remote_form('/admin/areas/' + area_id + '/edit', 
+								{method: 'get'});
+}
+
+function replace_area_marker (area_id, x, y, options) {
+	remove_area_marker(area_id);
+	new AreaMarker (map, x, y, options);	
+}
+
+function delete_area(id) {
+	map.hide_bubble ();
+	new Ajax.Request('/admin/areas/' + id, 
+					 { method: 'delete' });
+}
+
+function remove_area_marker (area_id) {
+	var marker = map.get_marker_by_property_value('area_id', area_id);
+	if (marker)
+		map.remove_marker(marker);	
+}
+
+<% end -%>
+
+<div id="search_result">
+	<div id="search_result_list">
+
+	</div>
+	<div id="traffic_line_detail" style="display:none;">
+		<div id="traffic_stops_list">
+			
+		</div>
+		<%= link_to_function _('Hide'), '$("traffic_line_detail").hide(); new Effect.SlideDown("search_result_list");'%>
+	</div>
+</div>      
+
+
+<div id="map_area">
+	<div class="tool_bar">
+		<% if @current_user -%>
+			<%= link_to_function image_tag('new_hot_spot.gif'), "on_new_hot_spot()", :id=>'but_new_hot_spot' %>
+			<% if current_is_admin? %>
+				<%= link_to_function image_tag('new_area.gif'), "on_new_area()", :id=>'but_new_area' %>
+			<% end -%>
+		<% end -%>
+
+		<%= link_to_function image_tag('nearby_hot_spot.gif'), "on_advanced_search()", :id=>'but_advanced_search' %>
+		<%= link_to_function image_tag('clear.gif'), 'clear_markers()', :id=>'but_clear_markers' %>
+		<%= link_to_function image_tag('zoom_in.gif'), "map.zoom_in()" %>
+		<%= link_to_function image_tag('zoom_out.gif'), "map.zoom_out()" %>
+	</div>
+
+	<div id="map">
+
+	</div>                 
+</div>
+
+<div id="div_dialog">
+	<div class="hd" id="dialog_head">
+		XXX
+	</div>        
+	
+	<div class="bd" id="dialog_body">
+		
+	</div>
+</div>

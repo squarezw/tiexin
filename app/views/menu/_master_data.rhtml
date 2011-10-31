@@ -1,0 +1,74 @@
+<div class="section">
+	<div class="head_no_title">	</div>
+	
+	<div class="body">
+		
+		<ul class="side_menu">
+			<li class="menu_item"><%= link_to _('Cities'), manage_cities_path %></li>
+                        <li class="menu_item"><%= link_to _('Districts'), admin_districts_path %></li>
+			<li class="menu_item"><%= link_to _('Hot Spot Categories'), manage_hot_spot_categories_path %></li> 
+			<li class="menu_item"><%= link_to _('Taboo Words'), taboo_words_path %></li>          
+			<li class="menu_item"><%= _('Hot Spots') %></li>
+				<% if @current_user.has_privilege :approve_hot_spot -%>
+					<li class="level_2"><%= link_to _('Waiting approve'), waiting_approve_manage_hot_spots_path %></li>
+				<% end -%>
+                          <li class="level_2"><%= link_to _('revise'),manage_revises_path %></li>
+                          <li class="level_2"><%= link_to _('Recommend Tag'), admin_recommended_tags_path %></li>
+		          <li class="level_2"><%= link_to _('Recommend Hot Spot'),waiting_recommend_manage_hot_spots_path %></li>
+		          <li class="level_2"><%= link_to _('Recommend Hot Spot for brand'), :controller => 'admin/hot_spots', :action=>'waiting_recommend_for_brand'  %></li>
+		          <li class="level_2"><%= link_to _('Recommend Hot Spot for tag'), :controller => 'admin/hot_spots', :action=>'waiting_recommend_for_tag'  %></li>
+			<li class="menu_item"><%= link_to _('Traffic Lines'), manage_traffic_lines_path %></li>
+			<li class="menu_item"><%= link_to _('Check Comments'), waiting_check_comments_path %></li>
+			<% if @current_user.has_privilege :manage_member -%>
+				<li class="menu_item"><%= link_to _('Manage Members'), members_path %></li>
+			<% end -%>
+			<li class="menu_item"><%= link_to _('Bulletins'), manage_bulletins_path %></li>
+		        <% if @current_user.has_privilege :manage_brand -%>
+		           <li class="menu_item"><%= link_to _('Brands'), manage_brands_path %></li>
+		        <%end%>
+			<li class="menu_item"><%= link_to _('Owner Applications'), owner_applications_path %></li>
+			<li class="menu_item"><%= link_to _('Channles'), admin_channels_path %></li>
+			<% if @current_user.has_privilege :manage_forum -%>
+		                <li class="menu_item"><%= link_to _('Forum'), manage_forums_path %></li>
+		        <%end%>
+				<li class="level_2"><%= link_to _('Manage Posts'), manage_posts_path %></li>
+				<li class="level_2"><%= link_to _('Manage Replies'), manage_replies_path %></li>
+		                <li class="level_2"><%= link_to _('Manage Moderator'), moderator_manage_forums_path %></li>
+		    <% if @current_user.has_privilege :manage_blog -%>
+				<li class="menu_item"><%= link_to _('Manage Blog Articles'), admin_articles_path %></li>
+			<% end -%>
+			<li class="menu_item"><%= link_to _('Partners'), admin_partners_path %></li>
+			<li class="menu_item"><%= link_to _('Campaigns'), admin_campaigns_path %></li>
+		        <li class="menu_item"><%= link_to _('Topics'), admin_topics_path %></li>
+                                <li class="level_2"><%= link_to _('Expo'), expo_admin_topics_path %></li>
+			<li class="menu_item"><%= link_to _('Gifts'), admin_gifts_path %></li>
+				<% if @current_user.has_privilege :manage_gift_orders -%>
+				<li class="level_2"><%= link_to _('Gift Orders'), admin_gift_orders_path %></li>
+				<% end -%>
+			<% if @current_user.has_privilege :manage_coupons -%>
+				<li class="menu_item"><%= link_to _('Discount Coupons'), admin_discount_coupons_path %></li>
+			<% end -%>
+			<li class="menu_item"><%= link_to _('Coupont Templates'), admin_coupon_templates_path %></li>
+                        <li class="menu_item"><%= link_to _('Hot Topics'), admin_hot_topics_path %></li>
+                        <li class="menu_item"><%= _('Hotel')%></li>
+                        <li class="level_2"><%= link_to _('Hotel Manage'), admin_hotels_path  %></li>                        
+			<li class="menu_item"><%= _('Mobile Application')%></li>
+			<li class="level_2"><%= link_to _('Mobile Brand & Model'), manage_mobile_brands_path  %></li>
+			<li class="level_2"><%= link_to _('Mobile OS'), manage_mobile_oss_path %></li>
+			<li class="level_2"><%= link_to _('NaviStar'), manage_navi_stars_path %></li>
+                        <li class="menu_item"><%= _('数据采集')%></li>
+                        <li class="level_2"><%= link_to _('活动信息数据'), admin_data_events_path %></li>
+		        <li class="menu_item"><%= link_to _('友情链接'), admin_friend_links_path%></li>
+		        <li class="menu_item"><%= _('Statistics')%></li>
+			<li class="level_2"><%= link_to _('Access Statistics'), :controller => 'admin/statistics', :action=>'index'  %></li>
+			<li class="level_2"><%= link_to _('Asset Statistics'), :controller=>'admin/statistics', :action=>'assets' %></li>
+			<li class="level_2"><%= link_to _('HotSpot Statistics'), :controller=>'admin/statistics', :action=>'hot_spot_detail' %></li>
+			<li class="level_2"><%= link_to _('New Hot Spot Count'), :controller=>'admin/statistics', :action=>'new_hot_spot_count' %></li>
+		</ul>
+
+	</div>
+	
+	<div class="foot">
+		
+	</div>
+</div>

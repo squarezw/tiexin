@@ -1,0 +1,36 @@
+<% @page_title = _('Promotion created by %{user}') % { :user => h(@member.nick_name) } 
+   @css_files=['promotion']
+   side_menu side_menu_for_member(@member) -%>
+
+<div class="button_bar">
+        <% if @member.is_merchant -%>
+	<%= link_to _('New'), new_member_promotion_path,:class => :button %>
+        <%end%>
+</div>
+
+<% for  promotion in @promotions %>
+<div class="xnavi_promotionlist">
+      <%=render :partial =>"/promotions/promotion", :locals=>{ :promotion => promotion}%>
+    <div class="xnavi_promotionlist_content">
+        <ul>
+          <li> [<%=_(promotion.vendor.class.to_s.underscore.humanize.downcase)%>]
+                    <%=link_to promotion.vendor.name[@current_lang],hot_spot_path(promotion.vendor),:target => "_blank" if promotion.vendor.class.to_s == 'HotSpot'%>
+                    <%=link_to promotion.vendor.name[@current_lang],brand_path(promotion.vendor),:target => "_blank" if promotion.vendor.class.to_s == 'Brand'%>
+            </li>
+          <li><%=h(localized_description(promotion, :summary))%></li>
+          <li><%=format_date(promotion.begin_date)%> <%=_('to')%> <%=format_date(promotion.end_date)%></li>  
+          <li><%=link_to _('Detail'),promotion_path(promotion.vendor_type,promotion.vendor_id,promotion),:target => '_blank'%></ii>
+                <%if promotion.member == @current_user or current_is_admin?%>
+                <%if promotion.member == @current_user%>
+                <%= link_to _('Edit'), {:controller=>'member_promotions', :action=>'edit', :member_id=>promotion.member, :id => promotion,:vendor_type => promotion.vendor_type,:vendor_id => promotion.vendor_id }%>
+                <%end%>
+                <%= link_to _('Delete'), member_promotion_path(promotion.member, promotion), :confirm => _('Are you sure?'), :method => :delete %>
+                <%end%>
+          </li>
+          <li><%=h(truncate(strip_bbcode(localized_description(promotion, :content)),100))%></li>
+        </ul>
+    </div>
+</div>
+<% end %>
+
+<%= page_navigator @promotions %>

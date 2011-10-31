@@ -1,0 +1,9 @@
+<span id="article_<%=article_recommend.id%>" class="<%="warn" if article_recommend.recommended%>">
+<% if @current_user and (@current_user.is_admin or @current_user.has_privilege(:manage_blog)) %>
+   <%if article_recommend.recommended%>
+    <%= _('Recommended')%> <%= link_to_remote _('Cancel'), :update => "article_#{article_recommend.id}" , :url => cancel_recommend_article_path(article_recommend) %>
+   <%else%>
+    <%= link_to_remote _('Recommend'), :update => "article_#{article_recommend.id}" , :url => recommend_article_path(article_recommend) %>
+   <%end%>
+<%end%>
+</span>

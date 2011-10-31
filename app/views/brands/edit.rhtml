@@ -1,0 +1,13 @@
+<% form_remote_tag :url => brand_path(@brand),:html =>{:method => "put"} do -%>
+  <table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Brand|Name')%></label></td>
+		<td><%= text_field_with_auto_complete :brand, :name_zh_cn, { :size => 50 }, {:tokens => ' '} -%></td>
+	</tr>
+  </table>
+<% end -%>
+
+<%= update_page_tag do |page|
+  	page.call 'dialog.show_with_title', _('Edit') 
+	page.call 'busy_indicator.task_end'
+end -%>

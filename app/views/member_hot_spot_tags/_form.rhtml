@@ -1,0 +1,17 @@
+<%= error_messages_for 'hot_spot_tag' %>
+  <table class="form_container">
+    <tr>
+      <td width="15%"><label class="required"><%= s_('HotSpot|Tag')%></label></td>
+      <td><%= form.text_field :tag,:size => 50 %></td>
+    </tr>
+    <tr>
+      <td width="15%"><label class="required"><%= s_('HotSpot|Description')%></label></td>      
+      <td><%= form.text_area :description, :cols => 50, :rows => 4 %></td>
+    </tr>
+    <tr>
+	<td colspan="2" class="button_bar">
+		<%= submit_tag _('Submit')%>
+		<input type="reset" />
+	</td>
+    </tr>    
+  </table>

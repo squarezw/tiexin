@@ -1,0 +1,9 @@
+<% @page_title =_('Bulletins') %>
+
+<ul class="list">
+	<% for bulletin in @bulletins -%>
+		<li><%= link_to h(bulletin.title), bulletin_path(bulletin), :target => '_blank' %>&nbsp;(<%= format_time bulletin.created_at %>)</li>
+	<% end -%>
+</ul>
+
+<%= page_navigator @bulletins %>

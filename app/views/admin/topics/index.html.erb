@@ -1,0 +1,29 @@
+<% page_title _('Manage Topics')
+   side_menu 'master_data' -%>
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_topic_path, :class=>:button %>
+</div>
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= _('Title')%></th>
+		<th width="*%"><%= _('Summary') %></th>
+		<th width="20%"><%= _('Template') %></th>
+                <th width="10%"><%= _('Expire date') %></th>
+		<th width="25%"><%= _('Operations') %></th>
+	</tr>
+	<% for topic in @topics -%>
+		<tr>
+			<td><%= link_to topic.title, city_topic_path(@current_city,topic), :target => '_blank'%></td>
+			<td><%= topic.summary%></td>
+			<td><%= topic.template%></td>
+                        <td><%= format_date topic.expire_date %></td>
+			<td><%= link_to _('Edit'), edit_admin_topic_path(topic)%>
+			    <%= link_to _('Delete'), admin_topic_path(topic), :confirm=>_('Are you sure?'), :method=>:delete %>
+                            <%= link_to _('Photo'), photos_path(owner_type(topic), topic.id)%>
+			   <%= link_to _('Send Email'), publish_admin_topic_path(topic), :confirm=>_('System will send email to all registered member to inform this topic. Are you sure?'), :method=>:post %>
+            </td>
+		</tr>
+	<% end -%>
+</table>
+
+<%= page_navigator @topics %>

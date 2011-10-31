@@ -1,0 +1,14 @@
+<div class="section"> 
+	<div class="head">
+		<h3><%= _('Tags')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+			<%= render :partial=>'tag', :collection=>@tags %>
+		</ul>
+	</div>
+	<div class="foot">
+		<%= remote_page_navigator @tags, nil, :post, :params=>{:keyword=>@keyword} %>
+	</div>
+
+</div>

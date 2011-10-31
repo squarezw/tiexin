@@ -1,0 +1,46 @@
+<% @page_title = _('Manage Moderator') 
+    use_remote_dialog
+    side_menu :master_data
+-%>
+
+<% content_for :page_scripts do -%>
+var panel;
+
+function add_moderator (id) {
+       panel.retrieve('/admin/forums/' + id + '/add_moderator');
+}
+
+function init_page () {
+	panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+}      
+
+<% end -%>
+
+<table class="data_list">
+	<tr>
+		<th width="20%"><%= s_('Forum|Name')%></th>
+		<th width="30%"><%= s_('Forum|Description')%></th>
+                <th width="30%"><%= _('Moderator') %></th>
+		<th width="20%"><%= _('Operation') %></th>               
+	</tr>
+	<% for forum in @forums -%>
+	<tr>
+		<td><%= link_to h(forum.name), edit_manage_forum_path(forum.id) %></td>
+		<td><%= h truncate(forum.description, 30)%></td>
+                <td id="f_members_<%=forum.id%>"><%=render :partial => "monderator", :object => forum%></td>
+		<td>
+                <%= link_to_function _('Add Moderator'), "add_moderator(#{forum.id})"%>
+                <%#= link_to_remote _('Add Moderator'), add_moderator_manage_forum_path(forum.id) %></td>
+	</tr>
+	<% end -%>
+</table>
+
+<div id="panel">
+	<div class="hd" id="panel_head">
+
+	</div>
+
+	<div class="bd" id="panel_body">
+
+	</div>
+</div>

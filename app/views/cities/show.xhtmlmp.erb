@@ -1,0 +1,28 @@
+<% page_title h(localized_description(@current_city, :name)) -%>
+
+<% if @current_user -%>
+<p><%= _('Hello ')%><%= @current_user.nick_name %>&nbsp;<%= link_to _('Log out'), logout_path %>
+</p>
+<% else -%>
+<p><%= link_to _('Login'), new_session_path %></p>
+<% end -%>
+<p><%= _('Current City:')%><%= h(localized_description(@current_city, :name))%>。<%= _('Other cities...')%></p>
+
+<hr/>
+<h2><%= _('Search')%></h2>
+<form action="<%= url_for :controller=>'/search', :action=>'search', :id=>@current_city.id %>" method="post" id="frm_fast_search" onsubmit="return fast_search(this); "  onkeydown="if(event.keycode==13) this.submit();">
+	<p><%= _('Around')%>:&nbsp;<input type="text" size="5" name="area[name]" />&nbsp;<%= s_('SearchBar|Search')%>
+	<input type="text" size="15" name="keyword" id="fast_search_key_word" class="search_text_field" /></p>
+	<p>	<%= submit_tag _('Search') %></p>
+</form>
+
+<hr/>
+<h2><%= _('Events of Today')%></h2>
+<ul>
+	<% for event in Event.events_of_today(@current_city) -%>
+		<li><%= link_to event_name_with_category(event), event_path(class_name_for_url(event.vendor), event.vendor, event)%>──<%= h(localized_description(event.vendor, :name))%></li>
+	<% end -%>
+</ul>
+
+<hr/>
+<%= link_to _('Download Mobile Application'), '/download/mobile' %>

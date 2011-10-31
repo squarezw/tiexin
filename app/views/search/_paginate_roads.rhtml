@@ -1,0 +1,17 @@
+<div class="section" id="result_list_content"> 
+	<div class="head">
+		<h3><%= _('Roads')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+			<% for road in @roads -%>
+				<% middle_point = road.middle_point %>
+				<li><%= link_to_function h(localized_description(road, :name)), "goto_position(#{road.id}, #{middle_point.x}, #{middle_point.y})"%></li>
+			<% end -%>
+		</ul>
+	</div>
+	<div class="foot">
+		<%= remote_page_navigator @roads, '', :post, :params=>{:keyword=>params[:keyword]} %>
+	</div>
+
+</div>

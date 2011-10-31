@@ -1,0 +1,15 @@
+<% page_title _('Hot Spot Statistics by Category and City') 
+   side_menu 'master_data' -%>
+
+<table class="data_list">
+	<tr>
+		<th><%= _('hot spot category')%></th>
+		<% for city in @cities -%>
+			<th class="number"><%= h(localized_description(city, :name))%>
+		<% end -%>
+	</tr>
+	<%  level = 1
+		for cat in HotSpotCategory.roots -%>
+			<%= render :partial=>'count_of_category', :locals=>{:category=>cat, :level=>level} %>
+	<% end -%>
+</table>

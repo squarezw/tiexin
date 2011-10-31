@@ -1,0 +1,26 @@
+<% page_title _('Hot Spots has tag %{tag}' % {:tag=>@tag}) 
+   include_css_file 'tags'
+%>
+<%for tag in @tags%>
+  <div class="tag_hot_spot">
+    <ul class="list">
+	<li>
+          <div class="hot_spot">
+                <span class="name">
+                <%= link_to h(localized_description(tag.hot_spot, :name)), hot_spot_path(tag.hot_spot), :target => '_blank' %> [<%=tag.member.nick_name%>]
+                </span>
+                <% if tag.hot_spot.container -%>
+                        (<%= link_to _('In %{container}') % { :container=>h(localized_description(tag.hot_spot.container, :name))}, hot_spot_path(tag.hot_spot.container), :target=>'_blank'%>)
+                <% end -%>
+                <p class="address"><%= h(localized_description(tag.hot_spot, :address))%></p>
+         </div>
+	</li>
+    </ul>
+  </div>
+<%end%>
+
+<% if @tags_pages  -%>
+    <div id="page_left_footer">
+         <%= page_navigator @tags_pages,"hot_spot"%>
+    </div>
+<% end -%>

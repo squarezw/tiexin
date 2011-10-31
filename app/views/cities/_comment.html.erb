@@ -1,0 +1,8 @@
+<div class="comment">
+	<p class="hot_spot_name">
+		<% if comment.commentable.respond_to?(:hot_spot_category) -%>
+			[<%= h(localized_description(comment.commentable.hot_spot_category.root, :name))%>]
+		<% end -%>
+		<%= link_to h(localized_description(comment.commentable, :name)), comment.commentable, :popup=>true %></p>
+	<p><span class="author"><%= h(comment.member.nick_name) %></span>:&nbsp;<span class="content"><%= h(truncate(strip_bbcode(comment.content), 50))%></span></p>
+</div>

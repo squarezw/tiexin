@@ -1,0 +1,114 @@
+<% page_title @topic.title, true 
+   include_js_file 'yui/utilities', 'yui/event', 'yui/dom', 'yui/button', 'yui/container', 'map', 'map_helper', 'marquee'
+   include_css_file 'yui/button', 'yui/container', 'topic'
+ -%>
+<% content_for 'page_scripts' do -%>
+var map;
+
+<%= render :partial=>'/main/levels_data', :locals=>{:city => @current_city} %>
+
+function init_page () {
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: [<%= @start_point.x%>, <%= @start_point.y%> ],
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6,
+			viewport_width: 465,
+			viewport_height: 390
+		});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	
+	<%= update_page do |page| 
+		@hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true } if @hot_spots
+	    end %>
+	
+}
+<%end%>
+
+<div id="title" class="section">
+	<div class="banner">
+		<%=image_tag(@topic.banner.url) if @topic.banner%>
+	</div>
+	<div class="summary">
+		<%=@topic.summary%>
+	</div>
+</div>
+
+<div id="result_and_map" class="section">
+	<div class="head">
+		<h3><%= _('Search Result')%></h3>
+	</div>
+	<div id="hot_spot_list">
+		<%= render :partial=>'hot_spot_list' %>
+	</div>
+
+	<div id="map_area">
+		<div id="map">
+
+		</div>	
+	</div>
+</div>
+
+<%if @photos%>
+<div id="photo_list">
+	<%= render :partial=>'/member_photos/photo', :collection => @photos,:locals => { :show_buttons=>false }  %>
+</div>
+<%end%>
+
+<div id="bbs" class="section">
+	<div class="head">
+		<h3><%= _('BBS')%></h3>
+	</div>
+	
+	<div class="body">
+		<%= render :partial=>'post', :collection=>@posts %>
+	</div>
+</div>
+
+<div id="promotions" class="section">
+	<div class="head">
+		<h3><%= _('Promotions')%></h3>
+	</div>
+	
+	<div class="body">
+          <div id="events_list">
+		<%= render :partial=>'/hot_spots/event', :collection=>@events if @events %>
+          </div>
+	</div>
+</div>
+
+<div id="back_topics" class="section">
+	<div class="head">
+		<h3><%= _('Back topics')%></h3>
+	</div>
+	
+	<div class="body">
+                <%= render :partial=>'back_topic', :collection=>Topic.back_topics(@current_city) %>
+	</div>
+</div>
+
+<div id="articles" class="section">
+	<div class="head">
+		<h3><%= _('Articles')%></h3>
+	</div>
+	
+	<div class="body">
+                <%= render :partial=>'article_summary', :collection=>@articles %>
+	</div>
+</div>
+
+<div id="comments" class="section">
+	<div class="head">
+		<h3><%= _('Comments')%></h3>
+	</div>
+	
+	<div class="body">
+                <%= render :partial=>'comment', :collection=>@comments %>
+	</div>
+</div>

@@ -1,0 +1,6 @@
+<% page_title _('Hot Spots owned by %{name}') % {:name=>h(@member.nick_name)} 
+   side_menu side_menu_for_member(@member) -%>
+
+<% for hot_spot in @hot_spots %>
+<%= render :partial=>'/hot_spots/summary_detail', :locals=>{ :hot_spot=>hot_spot } %>
+<% end -%>

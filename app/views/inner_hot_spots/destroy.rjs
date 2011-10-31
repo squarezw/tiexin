@@ -1,0 +1,1 @@
+page.call 'remove_inner_hot_spot', @hot_spot.id, @hot_spot.hot_spot_category.root.id

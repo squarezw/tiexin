@@ -1,0 +1,43 @@
+div#nav_path {
+	margin: 0 10px;
+}
+
+div#main_function_content {
+	padding: 2px;
+}
+
+div#sub_categories ul {
+	margin: 10px 2em;
+}
+
+div.hot_spot {
+	margin: 5px 20px 10px 20px;
+}
+
+div.hot_spot span.name {
+	font-size: 1.1em;
+}
+
+div.hot_spot p.address {
+	margin: 0 2em;
+}
+
+div#map {
+	border: 1px solid #E3E6E9;
+	margin-left: 5px;
+	position: relative;
+	overflow: hidden;
+}
+
+div#hot_spots {
+	float: right;
+	width: 290px;
+	padding: 5px;
+	border: 1px solid #BFBFBF;
+	height: 590px;
+	overflow: auto;
+}
+
+div#hot_spots li {
+	margin-bottom: 1em;
+}

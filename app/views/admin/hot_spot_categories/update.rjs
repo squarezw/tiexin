@@ -1,0 +1,2 @@
+page.replace node_id(@category), :partial=>'category', :object=>@category
+page.replace_html 'div_category_form', ''

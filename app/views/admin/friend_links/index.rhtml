@@ -1,0 +1,32 @@
+<% @page_title=_('Manage Friend Links')
+   @side_menu = 'master_data' -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_admin_friend_link_path, :class => :button %>
+</div>
+
+<table class="data_list">
+	<tr>
+		<th width="15%"><%= s_('友情链接|Logo')%></th>
+		<th width="*"><%= s_('友情链接|链接地址')%></th>
+                <th width="10%"><%= _('channel')%></th>
+		<th widht="5%"><%= s_('友情链接|创建时间') %></th>
+		<th width="10%"><%= _('Operation') %></th>
+	</tr>
+	<% for friend_link in @friend_links -%>
+        <tr>
+                <td><%= image_tag(friend_link.pic.logo.url) if friend_link.pic%></td>
+                <td><%= link_to friend_link.title,friend_link.link%></td>
+                <td>
+                  <%= link_to localized_description(friend_link.channel, :name), city_channel_path(@current_city, friend_link.channel) if friend_link.channel%>
+                  <%= _("#{friend_link.vendor_type.capitalize}") if friend_link.vendor_type and FriendLink::VendorType.include?(friend_link.vendor_type) %>
+                </td>
+                <td><%= format_time friend_link.created_at %></td>
+                <td>
+                        <%= link_to _('Edit'), edit_admin_friend_link_path(friend_link) %>
+                        <%= link_to _('Delete'), admin_friend_link_path(friend_link), :method=>:delete, :confirm=>_('Are you sure?') %>
+                </td>
+        </tr>
+	<% end -%>
+</table>
+<%= page_navigator @friend_links %>

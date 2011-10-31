@@ -1,0 +1,2 @@
+module ChannelDailyContentsHelper
+end

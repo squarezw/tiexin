@@ -1,0 +1,10 @@
+page << %q/if ($('photo_list')) {/
+page.insert_html :bottom, 
+            'photo_list', 
+            render(:partial=>'photo', :object => @photo, :locals => {:show_buttons=>true} )     
+page.visual_effect :pulsate, element_id(@photo), :pulses=>1             
+page << '} else {'
+page.alert _('The photo has been uploaded.')
+page << '}'
+
+page.call "busy_indicator.task_end"

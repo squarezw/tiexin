@@ -1,0 +1,196 @@
+<% unless @current_user -%>
+<div class="section" id="fast_login_form">
+	<div class="body">
+	<% form_tag sessions_path, :id=>'login_form' do -%>
+	<table width="99%" border="0" cellSpacing="2">
+		<tr>
+			<td width="27%"></td>
+			<td width="*"></td>
+			<td width="30%"></td>
+		</tr>
+		<tr>
+			<td><label><%= _('Member|Login name') %></label></td>
+			<td colspan="2"><%= text_field_tag :login_name, nil, :style=>'width: 80px;' %></td>
+		</tr>
+		<tr>
+			<td><label><%= _('Member|Password') %></label></td>
+			<td colspan="2"><%= password_field_tag :password, nil, :style=>'width: 80px;' %>
+			<%= link_to _('Forget password?'), forget_password_members_path %></td>
+		</tr>     
+		<tr>
+			<td valign="middle"><label><%= _('Verification code')%></label></td>
+			<td valign="middle"><%= text_field_tag :captcha_code, nil, :size=>6 %><br/>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td ><%= link_to_function _('Unrecognizable?'), 'refresh_captcha_img()' %></td>
+			<td colspan="2"><%= image_tag '/captcha.jpg', :size=>'140x50', :alt=>'CAPTCHA code', :id=>'img_captcha' %></td>
+			
+		</tr>
+		<tr>
+			<td colspan="3" class="button_bar">
+				<%= link_to_function image_tag('login.gif'), '$("login_form").submit()' %>
+				<%= link_to image_tag('reg.gif'), new_member_path %>
+			</td>
+		</tr>
+	</table>
+	<% end -%>	
+	</div>
+</div>
+<% end -%>
+
+<% @events = Event.random_events(@current_city, 5)
+   unless @events.empty? -%>
+<div  class="section">
+  <div class="header">
+    <h3><%= _('Events')%></h3>
+  </div>
+
+  <div class="body">
+     <%=render :partial =>"/events/event_simple", :collection=>@events %>  	
+  </div>
+
+  <div class="foot">
+  	<%= link_to image_tag('more.jpg'), city_city_events_path(@current_city) %>
+  </div>
+</div>
+<% end -%>
+
+<div class="section" id="section_bulletin">
+  <div class="header">
+    <h3><%= _('Bulletins')%></h3>
+  </div>
+  
+  <div class="body">
+    <% @bulletins = Bulletin.latest_bulletin(@current_lang) 
+    unless @bulletins.empty? -%>
+      <ul class="list">
+        <% for bulletin in @bulletins -%>
+          <li><%= link_to h(bulletin.title), bulletin_path(bulletin), :target=>'_blank'%></li>
+        <% end -%>
+      </ul>
+    <% else -%>
+      <%= _('No Bulletin')%>
+    <% end -%>
+  </div>
+  
+  <div class="foot">
+    <%= link_to image_tag('more.jpg'), bulletins_path %>
+  </div>
+</div>
+
+
+<% articles = Article.articles_for_city(@current_city, :per_page=>5)
+   unless articles.empty? -%>
+<div class="section">
+	<div class="header">
+      <h3><%= _('Latest Blog Articles')%></h3>		
+	</div>
+	
+	<div class="body">
+		<ul class="list">
+			<% for article in articles -%>
+				<li><%= link_to h(article.subject), member_article_path(article.member, article), :popup=>true %></li>
+			<% end -%>
+		</ul>
+	</div>
+	
+	<div class="foot">
+    	<%= link_to image_tag('more.jpg'), city_articles_path(@current_city) %>
+  	</div>
+	
+</div>
+<% end -%>
+
+<% if @current_user -%>
+  <div class="section">
+    <div class="header">
+      <h3><%= _('You recently visted hot spots')%></h3>
+    </div>
+  
+    <div class="body">
+      <ul class="list">
+        <% for hot_spot in @current_user.recent_access_hot_spots(@current_city) -%>
+          <li><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot) %>
+            [<%= h(localized_description(hot_spot.hot_spot_category, :name))%>]
+          </li>
+        <% end -%>
+      </ul>
+    </div>
+  </div>
+<% end -%>
+
+<div class="section" id="section_latest_hot_spots">
+	<div class="header">
+		<h3><%= _('Latest Hot Spots')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+			<%= render :partial=>'top_hot_spot', :collection => @current_city.latest_hot_spot(5) %>
+		</ul>
+	</div>
+</div>
+
+<div class="section">
+  <div class="header">
+    <h3><%= _('Most Popular Areas')%></h3>
+  </div>
+  
+  <div class="body">
+    <ul class="list">
+      <% for area in @current_city.hotest_areas -%>
+        <li><%= link_to h(localized_description(area, :name)), city_area_path(@current_city,area)%></li>
+      <% end -%>
+    </ul>
+  </div>
+  
+  <div class="foot">
+    <%= link_to image_tag('more.jpg'), city_areas_path(@current_city) %>
+  </div>
+</div>
+
+<div class="section">
+  <div class="header">
+    <h3><%= _('Brands Show')%></h3>
+  </div>
+  
+  <div class="body">
+      <% for brand in Brand.find(:all, :limit => 5, :order=>'id desc') -%>
+		<% if brand.pic -%>
+			<div class="brand_pic">
+				<%= link_to image_tag(brand.pic.url), brand_path(brand) %>				
+			</div>
+		<% else -%>
+			<div class="brand_fake_pic">
+				<%= link_to h(localized_description(brand, :name)), brand_path(brand)%>					
+			</div>
+		<% end -%> 
+      <% end -%>
+    </ul>
+  </div>
+  
+  <div class="foot">
+    <%= link_to image_tag('more.jpg'), brands_path %>
+  </div>
+</div>
+
+<div class="section">
+	<div class="header">
+		<h3><%= _('Partner Site')%></h3>
+	</div>
+	
+	<div class="body">
+		<%= link_to image_tag('star_ticket_logo.gif', :alt=>'演唱会、文艺演出、体育比赛、展览会、旅游景点门票'), 'http://tickets.gatacare.com', :title=>'演唱会、文艺演出、体育比赛、展览会、旅游景点门票'%>
+	</div>
+</div>
+
+<% if @current_user -%>
+<div id="recommend_section">
+	<div>
+		<%= link_to _('Invite friend to join X-Navi'), to_invite_member_path(@current_user) %>			
+	</div>
+</div>
+<% end -%>
+
+	

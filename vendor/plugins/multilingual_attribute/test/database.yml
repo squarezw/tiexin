@@ -1,0 +1,7 @@
+mysql:
+  :adapter: mysql
+  :host: localhost
+  :username: soc_test  
+  :password: soc_test
+  :database: soc_test
+

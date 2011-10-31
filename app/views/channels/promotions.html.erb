@@ -1,0 +1,3 @@
+<%= render :partial => "promotion", :collection=>@promotions %>
+
+<%= remote_page_navigator @promotions, 'events_body', request.method, params %>	

@@ -1,0 +1,7 @@
+page.insert_html :bottom, 
+                   'lst_traffic_stops',
+                   :partial=>'/admin/traffic_lines/traffic_stop',
+                   :object=>@stop
+              
+page << "Sortable.destroy ('lst_traffic_stops');"
+page << "Sortable.create('lst_traffic_stops', {onUpdate:function(){new Ajax.Request('#{sort_manage_traffic_line_stops_path(@traffic_line)}', {asynchronous:true, evalScripts:true, method:'post', parameters:Sortable.serialize('lst_traffic_stops')})}})"

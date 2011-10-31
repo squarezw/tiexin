@@ -1,0 +1,32 @@
+<div class="head">
+	<table class="layouter">
+		<tr>
+			<td><%= link_to_function image_tag('homepage/previous_month.gif'), "show_month('#{date.last_month.to_formatted_s(:db)}')" %></td>
+			<td class="calendar_date"><%= _('%{month}, Year %{year}') % {:month=>_(Date::ABBR_MONTHNAMES[date.month]), :year=>date.year} %><br/>
+				</td>
+			<td><%= link_to_function image_tag('homepage/next_month.gif'), "show_month('#{date.next_month.to_formatted_s(:db)}')"%></td>
+		</tr>
+	</table>
+</div>
+<table class="calendar">
+	<tr>
+		<% [1,2,3,4,5,6,0].each do |day| -%>
+			<th><%= _(Date::ABBR_DAYNAMES[day]) %></th>
+		<% end -%>
+	</tr>
+	<% begin_date = date.beginning_of_month.beginning_of_week 
+	   end_date = date.end_of_month.end_of_week 
+	   day = begin_date 
+	   month = date.month 
+	   while day <= end_date -%>
+		<tr> 
+		 <% (1..7).each do -%>
+			<td class="<%= class_for_calendar_day day, month %>">
+				<% day_renderer ||= proc { |day| day.day} -%>
+				<%= day_renderer.call day %>
+			</td>
+		 <% day = day + 1
+		   end -%>
+		</tr>
+	<% end -%>
+</table>

@@ -1,0 +1,13 @@
+<table class="data_list">
+	<tbody id='<%= "tbl_inner_hot_spots_#{category.id}"%>'>
+	<tr>
+		<th width="*"><%= s_('HotSpot|Name')%></th>
+		<th width="15%"><%= _('Hot Spot Category')%></th>
+		<th width="20%"><%= s_('HotSpot|Address')%></th>
+		<th width="20%"><%= s_('Score') %>(<%= s_('HotSpot|Score')%>/<%= s_('HotSpot|Scores count')%>)</th>
+		<th width="7%"></th>
+	</tr>
+	<% for hot_spot in hot_spots_by_category -%>
+		<%= render :partial=>'hot_spot_row', :locals=>{:hot_spot=>hot_spot, :container=>@layoutable}%>
+	<% end -%>
+</table>

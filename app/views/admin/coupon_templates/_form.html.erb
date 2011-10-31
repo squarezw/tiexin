@@ -1,0 +1,14 @@
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('CouponTemplate|Content') %></label></td>
+		<td><%= form.text_field :content, :size=>30 %>
+			<p class="help"><%= _('No longer than %{length} characters.') % {:length=>30} %></p>
+		</td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit') %>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,24 @@
+<% page_title _('Recommend Tag') 
+   side_menu 'master_data' -%>
+
+<div id="form_error">
+</div>
+<% remote_form_for @recommended_tag, :url=>formatted_admin_recommended_tags_path(:js) do |f| %>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= s_('RecommendedTag|Tag') %></label></td>
+		<td width="*"><%= f.text_field :tag, :size=>50 %></td>
+		<td width="20%"><%= submit_tag _('Recommend') %></td>
+	</tr>
+</table>
+<% end -%>	
+
+<table class="data_list">
+	<tbody id="tag_list">
+	<tr>
+		<th width="80%"><%= s_('RecommendedTag|Tag') %></th>
+		<th width="20%"><%= _('Operation')%></th>
+	</tr>
+	<%= render :partial=>'tag', :collection=>@tags %>
+	</tbody>
+</table>

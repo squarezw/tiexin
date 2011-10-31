@@ -1,0 +1,46 @@
+<div id="form_error" class="errors">
+	
+</div>
+<% remote_form_for :hot_spot, @hot_spot, :url=>formatted_hot_spots_path(:js) do |f| -%>
+<%= hidden_field_tag :add_from, 'map' %>
+<%= f.hidden_field :x %>
+<%= f.hidden_field :y %>
+<%= f.hidden_field :city_id %>
+<table class="form_container" width="300px">
+	<tr>
+		<td width="15%"><label><%= s_('HotSpot|Name') %></label></td>
+                 <td><%= text_field_tag 'name', '', :size=>30, :maxlength=>60 %><span class="help"><%= _('Can not longer than %{length} characters.') % { :length => 60 }  %></span></td>
+	</tr>
+	<tr>
+		<td width="15%"><label><%= s_('HotSpot|Address') %></label></td>
+		<td><%= text_field_tag 'address', '', :size=>30, :maxlength=>60 %></td>
+	</tr>                           
+	<tr>
+		<td width="15%"><label><%= s_('HotSpot|Phone number') %></label></td>
+		<td><%= f.text_field :phone_number, :size=>30, :maxlength=>60 %></td>
+	</tr>
+	<tr>
+		<td width="15%"><label><%= s_('HotSpot|Operation time') %></label></td>
+		<td><%= text_area_tag 'operation_time', '', :size=>'30x3' %></td>		
+	</tr>
+	<tr>
+		<td width="15%"><label><%= s_('HotSpot|Introduction') %></label></td>
+		<td><%= text_area_tag 'introduction', '', :size=>'30x5' %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('HotSpot|Hotspot category')%></label></td>
+		<td>
+            <%=hotspot_category_root_select_tag "hot_spot_category_root_id",nil,true,[_('Please select one'),""]%>
+            <%=hotspot_category_children_select_tag "hot_spot_category_children_id",nil,true,[_('Please select one'),""]%>
+		</td>
+        </tr>
+	<tr>
+		<td><label><%= s_('HotSpot|Brand')%></label></td>
+		<td><%= text_field_with_auto_complete :brand, "name_#{@current_lang}", { :size => 30 }, {:tokens => ' '} -%></td>
+        </tr>
+  </table>                                                           
+<% end -%> 
+
+<%= update_page_tag do |page| 
+		page.call 'dialog.show_with_title', _('Create New Hot Spot.')
+    end -%>

@@ -1,0 +1,5 @@
+<ul class="list">
+<% for line in @hot_spot.access_traffic_lines -%>
+	<li><%= link_to_function h(localized_description(line, :name)), "show_traffic_line(#{line.id})"%></li>
+<% end -%>
+<ul class="list">

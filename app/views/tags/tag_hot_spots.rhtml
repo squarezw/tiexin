@@ -1,0 +1,14 @@
+<div class="header">
+	<h3><%=_("Other Hot Spots tag of %{tag}") % {:tag => params[:tag]} %></h3>
+</div>
+<div class="body">
+    <%for hot_spot in @hot_spots%>
+  		<div class="hot_spot">
+        <p><%=link_to localized_description(hot_spot, :name),hot_spot_path(hot_spot)%>[<%=localized_description(hot_spot.hot_spot_category,:name)%>]</p>
+        <p class="address"><%=localized_description(hot_spot,:address)%></p>
+      </div>
+    <%end%>
+</div>
+<div class="foot">
+<%= remote_page_navigator @hot_spots, "hot_spot", :get %>
+</div>

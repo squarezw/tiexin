@@ -1,0 +1,35 @@
+<%
+tmp_list_title = "#{%Q[hot_spot_list_title_cat_#{cat.id}]}"
+tmp_cat_id = "#{%Q[hot_spot_list_cat_#{cat.id}]}"
+tmp_cat_id_score = "#{%Q[hot_spot_list_cat_#{cat.id}_score]}"
+tmp_rc = _('Recent popular - %{cat}') % {:cat=>h(localized_description(cat, :name))}
+tmp_ts = _('Top Score - %{cat}') % {:cat=>h(localized_description(cat, :name))}
+%>
+
+<td class="hot_spot_list box">
+    <div class="<%= %Q[top_hot_spot_list hot_spot_list_cat_#{cat.id}] %>" >
+		<div class="header">
+           <div class="tools">
+                <%= link_to_function image_tag('Popular_order.gif',:alt=>_('Popular order'), :method=> :post, :title=>_('Popular order')),  "ChangeList('#{tmp_cat_id}','#{tmp_cat_id_score}','#{tmp_list_title}','#{tmp_rc}') ",:href => "javascript:void(0)"%>
+                <%= link_to_function image_tag('score_order.gif',:alt=>_('Score order'), :method=> :post, :title=>_('Score order')),  "ChangeList('#{tmp_cat_id_score}','#{tmp_cat_id}','#{tmp_list_title}','#{tmp_ts}') ",:href => "javascript:void(0)" %>
+           </div>
+		
+           <div class="title"><h3 id="<%= tmp_list_title %>"><%= tmp_rc %></h3></div>
+		</div>
+		
+	     <div class="body" id="<%= tmp_cat_id %>">
+	             <% for hot_spot in @current_city.recent_hotest_hot_spots(cat,3) -%>
+	             <%= render :partial=>'/hot_spots/summary_detail', :locals=>{:hot_spot=>hot_spot} %>
+	             <% end -%>
+	     </div>
+	     <div class="body" id="<%= tmp_cat_id_score %>" style="display:none">
+	             <% for hot_spot in @current_city.recent_hotest_hot_spots(cat,3,"score desc") -%>
+	             <%= render :partial=>'/hot_spots/summary_detail', :locals=>{:hot_spot=>hot_spot} %>
+	             <% end -%>			
+	     </div>
+	
+		<div class="foot">
+			<%= link_to_channel_of_category cat %>
+		</div>
+    </div>
+</td>

@@ -1,0 +1,6 @@
+<ul>
+  <%= render :collection => @mobile_models, :partial=>'/admin/mobile_models/mobile_model' %>
+</ul>
+<div class="clearfix">
+ <%= remote_page_navigator @mobile_models,'xnavi-mobile-models' %>
+</div>

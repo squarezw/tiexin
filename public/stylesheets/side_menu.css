@@ -1,0 +1,122 @@
+div.side_menu {
+	float: right;
+	width: 245px;
+	margin-bottom: 5px;	   
+}                          
+                   
+div.navigation_bar {
+	background: url('../images/half_width_section_head_bg.jpg') top center no-repeat;
+}
+                
+div#main_function {
+	width: 689px;
+}                                  
+
+div#side_menu ul.side_menu {
+}                    
+
+div#side_menu ul.side_menu li {
+	list-style: none;      
+	margin-left: 1em;      
+	line-height: 2em;            
+}                  
+
+div#side_menu ul.side_menu li.menu_item {
+	height: 27px;
+	line-height: 27px;
+	color: #333;
+	font-size: 14px;
+}
+
+div#side_menu ul.side_menu li.menu_item a:hover {
+}
+
+div#side_menu ul.side_menu li.menu_item:hover {
+}
+
+div#side_menu ul.side_menu li.level_2 {
+	padding-left: 3em;
+}
+
+ul.side_menu a {
+	text-decoration: none;
+}              
+
+div#side_menu div.section {
+	width: 245px;
+	margin-bottom: 10px;
+	overflow: hidden;
+}                          
+
+div#side_menu div.section div.head_no_title {
+	background: url('../images/section_head_no_title_bg.jpg') top center no-repeat;
+	min-height: 10px;
+}
+
+div#side_menu div.section div.head {
+	background: url('../images/section_head_title_bg.jpg') top left no-repeat;
+	width: 225px;
+	padding: 0px 10px;
+	height: 31px;
+	line-height: 31px;
+	border: none;
+}
+
+div#side_menu div.section div.head h3 {
+	font-size: 1.3em;
+	color: #003267;
+	margin: 0px;
+	margin-left: 20px;
+}                          
+
+div#side_menu div.section div.body {
+	padding: 5px 10px;
+	border: none;
+	border-left: 1px solid #BFBFBF;
+	border-right: 1px solid #BFBFBF;
+}
+
+div#side_menu div.section div.foot {
+	background: url('../images/round_corner_box_bottom.jpg') bottom left no-repeat;
+	text-align: right;
+	padding: 5px;
+	padding-right: 20px;
+}
+
+div#side_menu div.section div.foot div.l {
+	float:left;
+        width:75px;
+        clear:both;
+}
+
+div#side_menu div.body ul.list {
+	margin-left: 10px;
+}
+
+div#side_menu div.body ul.list li {
+	margin-bottom: 1em;
+	list-style-image: none;
+	list-style-type: none;
+	margin-left: 0em;
+}
+
+div.section div.body h4 {
+	text-align: center;
+}
+
+div#side_menu div.section div.head div.tool_bar {
+	float: right;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 0px !important;
+	background: none;
+	height: 31px;
+	line-height: 31px;
+}
+
+div#side_menu div.section div.head div.tool_bar a {
+	color: #003267;
+	text-decoration: underline;
+}
+
+

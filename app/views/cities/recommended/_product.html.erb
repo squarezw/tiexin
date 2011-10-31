@@ -1,0 +1,9 @@
+<div class="block">
+	<div class="picture">
+		<table border="0" cellspacing="0" cellpadding="0">
+				<tr><td align="center"><%= image_tag product.photo.thumb.url%></td></tr>
+		</table>
+		
+	</div>
+<h3><%= link_to h(localized_description(product, :name)), product_path(class_name_for_url(product.vendor), product.vendor, product)%></h3>
+</div>

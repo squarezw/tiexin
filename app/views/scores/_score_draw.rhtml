@@ -1,0 +1,19 @@
+<label id="star"><%=hot_spot_score_stars(hot_spot.avg_score)%></label> <span class="cscore"><%=format('%.1f',hot_spot.score)%></span>
+  <%= "(#{@hot_spot.score_count}#{_('人评价')})" unless @hot_spot.score_count.zero?%><br/>
+  <div style="margin-left: 16px;margin-top: 5px;">
+  <%
+  sc = hot_spot.score_count
+  unless sc.zero?
+    s5 = hot_spot_score_percent(HotSpotScore.count_score(5, hot_spot),sc)
+    s4 = hot_spot_score_percent(HotSpotScore.count_score(4, hot_spot),sc)
+    s3 = hot_spot_score_percent(HotSpotScore.count_score(3, hot_spot),sc)
+    s2 = hot_spot_score_percent(HotSpotScore.count_score(2, hot_spot),sc)
+    s1 = hot_spot_score_percent(HotSpotScore.count_score(1, hot_spot),sc)
+  end
+  %>
+  <%=hot_spot_score_stars(25.0)%><%=s5%><br/>
+  <%=hot_spot_score_stars(20.0)%><%=s4%><br/>
+  <%=hot_spot_score_stars(15.0)%><%=s3%><br/>
+  <%=hot_spot_score_stars(10.0)%><%=s2%><br/>
+  <%=hot_spot_score_stars(5.0)%><%=s1%><br/>
+  </div>

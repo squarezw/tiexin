@@ -1,0 +1,12 @@
+<div id="form_error">
+	
+</div>             
+
+<% remote_form_for :layout_map, @layout_map, :url=>manage_layout_map_path(@hot_spot, @layout_map), :method => :put, :html => {:method=>:put}  do |f| -%>
+<%= render :partial => 'form', :locals=>{:f => f}%>
+<% end -%>            
+
+<%= update_page_tag do |page|
+		page.call 'dialog.show_with_title', _('Edit Layout Map')
+	end -%>
+

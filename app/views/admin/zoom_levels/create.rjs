@@ -1,0 +1,4 @@
+page.insert_html :bottom, 
+                 layout_map_div_id(@layout_map),
+                 render(:partial=>'zoom_level', :object=>@zoom_level, :locals => { :layout_map=>@layout_map} )
+page.visual_effect :pulsate, zoom_level_div_id(@zoom_level), :pulses=>1    

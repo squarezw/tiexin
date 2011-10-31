@@ -1,0 +1,109 @@
+<% @page_title = h(@member.nick_name) 
+   side_menu side_menu_for_member(@member) -%>
+
+<table class="form_container">
+	<tr>
+		<td width="25%"><label><%= s_('Member|Login name') %></label></td>
+		<td><%= h(@member.login_name)%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Member|Nick name') %></label></td>
+		<td><%= h(@member.nick_name)%></td>
+	</tr>
+	<% if @member == @current_user -%>
+	<tr>
+		<td><label><%= s_('Member|Mail')%></label></td>
+		<td><%= h(@member.mail)%></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Member|Mobile phone')%></label></td>
+		<td><%= h(@member.mobile_phone)%></td>
+	</tr>	
+	<% end -%>
+	<tr>
+		<td><label><%= s_('Member|Created at')%></label></td>
+		<td><%= format_time @member.created_at %></td>
+	</tr>                                            
+	<tr>
+		<td><label><%= s_('Member|Is admin')%></label></td>
+		<td><%= _(@member.is_admin.to_s) %>
+			  <% if current_is_admin? and @current_user != @member
+				     if @member.is_admin -%>
+						<%= link_to _('Revoke Admin Privilege'), revoke_admin_member_path(@member), :method=>:post, :class=>:button %>   
+			  		 <% else -%>
+						<%= link_to _('Grant Admin Privilege'), grant_admin_member_path(@member), :method=>:post, :class=>:button %>   
+					<% end -%>
+			<% end -%>
+			</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Member|Is staff')%></label></td>
+		<td><%= _(@member.is_staff.to_s) %>
+                    <% if current_is_admin? and @current_user != @member and @current_user.has_privilege :manage_member
+                               if @member.is_staff -%>
+                                          <%= link_to _('Revoke Staff Privilege'), revoke_staff_member_path(@member), :method=>:post, :class=>:button %>
+                                   <% else -%>
+                                          <%= link_to _('Grant Staff Privilege'), grant_staff_member_path(@member), :method=>:post, :class=>:button %>
+                                  <% end -%>
+                    <% end -%>
+		</td>
+	</tr>        
+	<tr>
+		<td><label><%= s_('Member|Favorite lang')%></label></td>
+		<td><%= _(@member.favorite_lang) %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Member|Locked')%></label></td>
+		<td><% if @member.locked? -%>
+				<%= _('Until ')%>
+				<%= format_time (@member.locked_until)%>
+				<% unless @member == @current_user -%>
+					<%= link_to _('Unlock!'), unlock_member_path(@member), :method=>:post, :class => :button %>
+				<% end -%>
+			<% else -%>
+				<%= _('Has not been locked.')%>
+				<% if current_is_admin? and !(@member == @current_user)-%>
+					<% form_tag lock_member_path(@member) do -%>
+						<%= submit_tag _('Lock')%>
+						<select name="time">
+							<%= options_for_select Member::LOCK_TIME_OPTIONS, Member::DEFAULT_LOCK_TIME %>
+						</select>
+					<% end -%>
+				<% end %>
+			<% end -%>
+		</td>
+	</tr>
+	<% if current_is_admin? -%>
+		<tr>
+			<td><label><%= s_('Member|Confirmed')%></label></td>
+			<td><%= _(@member.confirmed.to_s) %>
+                           <% if !@member.confirmed and current_is_admin? and @current_user != @member and @current_user.has_privilege :manage_member-%>
+                               <%= link_to _('confirm'), {:action => "confirm_registration",:id => @member}, :class=>:button %>
+                           <% end -%>
+                        </td>
+		</tr>
+	<% end -%>    
+	<% if @member == @current_user -%>
+		<tr>
+			<td><label><%= s_('Favorite open option')%></label></td>
+			<td>
+                            <% form_tag open_option_member_path(@member) do -%>
+                                <%= submit_tag _('Set')%>
+                                <select name="open_option">
+					<%= options_for_select Member::FAVORITE_OPEN_OPTIONS, @member.favorite_open_option %>
+				</select>
+                            <%end%>
+                        </td>
+		</tr>
+	<% end -%>
+
+	<% if @member.modifiable_to?(@current_user) -%>
+		<tr>
+			<td class="button_bar" colspan="2">
+				<%= link_to _('Edit'), edit_member_path(@member), :class => :button %>
+			</td>
+		</tr>
+	<% end -%>
+</table>
+
+

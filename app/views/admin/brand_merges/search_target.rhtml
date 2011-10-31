@@ -1,0 +1,2 @@
+<%= render :collection => @targets, :partial=>'target' %>
+<%= remote_page_navigator @targets, 'candidate_targets', request.method, :params=>params %>

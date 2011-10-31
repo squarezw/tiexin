@@ -1,0 +1,56 @@
+<% @page_title = _('Manage Brands')
+   @css_files=['brands']
+   @side_menu = 'master_data' %>
+
+<% form_tag search_manage_brands_path,:method => 'get' do  -%>
+<table class="form_container" width="70%">
+	<tr>
+		<td><label><%= s_('Brand|Name') %></label></td>
+		<td width="35%"><%= text_field_with_auto_complete :brand, :name_zh_cn, { :size => 25,:value => @keyword_exp }, {:tokens => ' '} -%></td>
+		<td><label><%= s_('Brand|Creator') %></label></td>
+		<td width="35%"><%= text_field_with_auto_complete :member, :nick_name, { :size => 25,:value => @nick_name }, {:tokens => ' '} -%></td>
+        </tr>
+	<tr>
+		<td class="button_bar" colspan="4">
+			<%= submit_tag _('Search')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+<% end -%>
+
+<div class="button_bar">
+	<%= link_to _('New'), new_manage_brand_path, :class => :button %>
+</div>
+<%form_for :brand,:url => merge_new_manage_brand_path do -%>
+<div class="xnavi_brandlist_area">
+<% for brand in @brands %>
+<div class="xnavi_brandlist">
+    <div class="xnavi_brandlist_pic">
+        <%=link_to safe_brand_icon(brand),image_path(brand.pic.url),:target => "_blank" if brand.pic%>
+    </div>
+    <div class="xnavi_brandlist_content">
+        <ul>
+          <li><%= link_to h(localized_description(brand, :name)), brand_path(brand),:target => "_blank" %></li>
+          <li><%= brand.owner.login_name if brand.owner%></li>
+          <li><%= h(truncate(strip_bbcode(brand.intro), 100)) if brand.intro%></li>
+          <li><%= image_tag 'creator.gif', :title=>s_('Brand|Creator') %>&nbsp;<%= link_to brand.creator.nick_name, show_member_path(brand.creator) if brand.creator %>
+                <%=format_date brand.created_at %></li>  
+          <li><%= link_to _('Edit'), edit_manage_brand_path(brand) %>
+            <%= link_to _('Delete'), manage_brand_path(brand), :confirm => _('Are you sure?'), :method => :delete %>
+            <%= link_to _('Merge'), manage_brand_merges_path(brand)%>
+            <%= check_box_tag "checkbox[]",brand.id %><%= s_('Merge') %>        
+            <%= "#{_('hot spot')} [#{brand.hot_spots.count}]"%> <%= "#{_('visit')} [#{brand.visit_count}]"%>
+          </li>
+        </ul>
+    </div>
+</div>
+<% end %>
+<div class="button_bar">
+<%=submit_tag _('Merge'),:name =>"merge" unless @brands.empty?%>
+</div>
+</div>
+<%end -%>
+<div id="page_content">
+<%= page_navigator @brands unless @brands.blank?%>
+</div>

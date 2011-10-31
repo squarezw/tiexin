@@ -1,0 +1,13 @@
+<div class="section"> 
+	<div class="head">
+		<h3><%= _('Traffic Lines')%></h3>
+	</div>
+	<div class="body">
+		<ul class="list">
+		<%= render :partial=>'traffic_line', :collection=>@traffic_lines %>
+		</ul>
+	</div>
+	<div class="foot">
+		<%= remote_page_navigator @traffic_lines, '', :post, :params=>{:keyword=>params[:keyword]} %>
+	</div>
+</div>

@@ -1,0 +1,2 @@
+<%=@hot_spot_tags.collect{|t| "#{link_to_function(t.tag,"show_tag_description('#{t.tag})'")}(#{t.ct})"}.join(', ')%> 
+<%=link_to _('All'),hot_spot_tags_path(@hot_spot.id) unless @hot_spot_tags.size.zero?%>

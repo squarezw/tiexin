@@ -1,0 +1,13 @@
+  <table class="form_container">
+    <tr>
+      <td width="15%"><label class="required"><%= s_('HotSpot|Tag')%></label></td>
+      <td><p><%= form.text_field :tag,:size => 50 %>
+		  <%= _('Can not be longer than %{length}') % {:length=>50} %></p>
+		   <p><%= _('You can input multiple tags, seperated by comma or space, without description, at the same time.')%>
+	  </td>
+    </tr>
+    <tr>
+      <td width="15%"><label><%= s_('HotSpot|Description')%></label></td>      
+      <td><%= form.text_area :description, :cols => 50, :rows => 4 %></td>
+    </tr>
+  </table>

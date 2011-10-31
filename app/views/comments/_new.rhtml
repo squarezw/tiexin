@@ -1,0 +1,21 @@
+<%= error_messages_for :comment %>
+
+<% remote_form_for :comment, @comment, :url => comments_path(commentable_type(@commentable), @commentable.id), :html => { :id=>'comment_form' }  do |f|  -%>
+<table class="form_container">
+	<tr>
+		<td width="15%" rowspan="2"><h3><%= _('My Comment') %></h3></td>
+		<td width="85%"><%= bbcode_editor :comment_content %></td>
+	</tr>
+    <tr>
+		<td><%= f.text_area :content, :rows=>10, :cols=>60 %>
+		<p class="help"><%= _('Can not short than %{length} characters.') % {:length=>10}  %></p>
+		</td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Comment') %>
+		</td>
+	</tr>
+</table>
+<% end -%>
+

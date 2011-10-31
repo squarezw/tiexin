@@ -1,0 +1,24 @@
+<div class="photo <%= class_for_merchant_uploaded photo %>" id="<%= element_id(photo)%>">        
+        <div class="head">           
+		<% if show_buttons and photo.modifiable_to?(@current_user)-%>          
+			<%= link_to_function _('Edit'), "edit_photo('#{owner_type(photo.owner)}', #{photo.owner_id}, #{photo.id});" %>
+			<%= link_to_remote _('X'), :url => photo_path(owner_type(photo.owner), photo.owner_id, photo), :method=>:delete, :confirm=> _('Are you sure?') %>
+		<% end -%>
+	</div>          
+	
+	<div class="photo_thumb">
+		<%= link_to image_tag(photo.photo.thumb.url), photo_path(owner_type(photo.owner), photo.owner_id, photo), :target=>'_blank' %>   
+	</div>
+        <div class="photo_note">
+                <%=_(photo.owner_type.to_s.underscore.humanize.downcase)%>
+                <%=link_to h(localized_description(photo.owner, :name)),hot_spot_path(photo.owner),:target => "_blank" if photo.owner.class.to_s == 'HotSpot'%>
+                <%=link_to h(localized_description(photo.owner, :name)),brand_path(photo.owner),:target => "_blank" if photo.owner.class.to_s == 'Brand'%>
+        </div>
+	<p class="photo_note"><%= truncate(h(photo.subject), 10) %></p>
+	<p><% if photo.owner_uploaded? -%>
+		<%= _('Uploaded by owner.')%>
+		<% else -%>
+		<%= _('Uploaded by')%>:<%= link_to h(photo.uploader.nick_name), member_path(photo.uploader)%></p>
+		<% end -%>
+</div>
+

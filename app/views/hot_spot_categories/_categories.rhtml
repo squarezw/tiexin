@@ -1,0 +1,10 @@
+	<% for cat in HotSpotCategory.roots -%>
+		<div class="hot_spot_category">
+		<h4><%= safe_icon(cat) %>&nbsp;<%= link_to h(localized_description(cat, :name)), city_hot_spot_category_path(@current_city, cat) %></h4>
+		<ul class="simple_menu">
+			<% for cat2 in cat.children -%>
+				<li><%= link_to h(localized_description(cat2, :name)), city_hot_spot_category_path(@current_city, cat2)%></li>
+			<% end -%>
+		</ul>
+		</div>
+	<% end -%>

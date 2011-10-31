@@ -1,0 +1,17 @@
+<div class="section">
+	<div class="header">
+		<h3><%= _('Other hot spot marked by %{name}') % { :name=>h(hot_spot.creator.nick_name) } %></h3>
+	</div>
+	
+	<div class="body">
+	  <ul class="list">
+		<% for h in HotSpot.find_created_by(hot_spot.creator, hot_spot) -%>
+			<li><%= link_to h(localized_description(h, :name)), hot_spot_path(h), :target => '_blank' %></li>
+		<% end -%>
+	  </ul>
+	</div>
+	
+	<div class="foot">
+		<%= link_to _('All...'), member_created_hot_spots_path(hot_spot.creator_id)%>
+	</div>
+</div>

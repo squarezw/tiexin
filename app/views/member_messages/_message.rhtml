@@ -1,0 +1,28 @@
+<div class="article_summary">
+	<div class="header">
+        <% if message.from_id == @member.id %>
+        <%= _('Receiver')%> : <%=link_to message.member_to.nick_name,member_path(message.to_id)%>
+        <% elsif message.to_id == @member.id %>
+        <%= _('Sender')%> : <%=link_to message.member_from.nick_name,member_path(message.from_id)%>
+        <% end %>
+		<% if message.updated_at == message.created_at -%>
+			<%= s_('Message|Created at')%>:&nbsp;<%= format_time message.created_at %>
+		<% else -%>
+			<%= s_('Message|Updated at')%>:&nbsp;<%= format_time message.updated_at %>
+		<% end -%>
+                <h3><%= link_to h(message.title), member_message_path(@member.id,message) , :target=>'_blank'  %></h3> 
+	</div>
+	
+	<div class="body">
+		<pre class="article"><%= h(truncate(strip_bbcode(message.content), 100)) %></pre>
+	</div>
+	
+	<div class="foot">
+		<p>
+                        <%if message.to_id == @member.id%>
+                            [<%if message.readed == false%><%=_('Has not read')%><%else%><%=_('readed')%><%end%>]
+                        <%end%>
+			<%= link_to _('Read whole article'), member_message_path(@member.id, message), :target=>'_blank' %>
+		</p>
+	</div>
+</div>

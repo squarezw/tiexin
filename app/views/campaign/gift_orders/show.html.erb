@@ -1,0 +1,113 @@
+<% page_title _('Gift Order')
+   select_menu :gifts -%>
+
+<div class="navigation_bar">
+	<%= link_to _('Gifts'), campaign_gifts_path %> &nbsp;&gt;&nbsp; <%= _('Order Information') %>─ <%= _('Order Number')%>:<%= @order.id %>(<%= user_friendly_code :gift_order_status, @order.status %>)
+</div>
+
+<div id="main_function_content">
+	
+<div class="button_bar">
+	<% if @current_partner -%>
+		<%= link_to _('Partner Gift Orders'), partner_gift_orders_path, :class=>'button' %>
+	<% end -%>
+</div>
+
+<table class="form_container">
+	<tr>
+		<td width="12%"><label><%= s_('GiftOrder|Name')%></label></td>
+		<td width="21%"><%= h(@order.name) %></td>
+		<td width="12%"><label><%= s_('GiftOrder|Phone number')%></label></td>
+		<td width="21%"><%= @order.phone_number%></td>
+		<td width="12%"><label><%= s_('GiftOrder|Phone number 2')%></label></td>
+		<td width="21%"><%= @order.phone_number2 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Deliver method')%></label></td>
+		<td colspan="3"><%= user_friendly_code :gift_order_deliver_method, @order.deliver_method %></td>
+		<td><label><%= s_('GiftOrder|Delivery fee')%></label></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|City')%></label></td>
+		<td><%= h @order.city %></td>
+		<td><label><%= s_('GiftOrder|Address')%></label></td>
+		<td colspan="3" ><%= h(@order.address) %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Post code')%></label></td>
+		<td colspan="5"><%= @order.post_code %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Certificate type')%></label></td>
+		<td><%= @order.certificate_type %></td>
+		<td><label><%= s_('GiftOrder|Certificate no')%></label></td>
+		<td><%= @order.certificate_no %></td>
+		<td><label><%= s_('GiftOrder|Plan fetch date')%></label></td>
+		<td><%= format_date @order.plan_fetch_date %></td>
+	</tr>	
+	<tr>
+		<td><label><%= s_('GiftOrder|Payment method')%></label></td>
+		<td colspan="5"><%= user_friendly_code :gift_order_payment_method, @order.payment_method %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Recommender')%></label></td>
+		<td colspan="5"><%= @order.recommender %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('GiftOrder|Created at')%></label></td>
+		<td><%= format_time @order.created_at %></td>
+		<td><label><%= s_('GiftOrder|Confirmed at')%></label></td>
+		<td><%= format_time @order.confirmed_at %></td>
+		<td><label><%= s_('GiftOrder|Delivered at')%></label></td>
+		<td><%= format_time @order.delivered_at %></td>
+	</tr>
+	
+</table>
+
+<h3><%= _('Order Item')%></h3>
+<table class="data_list">
+	<tr>
+		<th width="*"><%= _('Gift|Name')%></th>
+		<th width="20%"><%= _('Gift|Price') %></th>
+		<th width="20%"><%= _('GiftOrderItem|Quantity') %></th>
+	</tr>
+	<% for item in @order.gift_order_items
+	     gift = item.gift -%>
+		<tr>
+			<td><%= link_to h(gift.name), campaign_gift_path(gift), :popup=>true %></td>
+			<td><%= gift.experience %><%= s_('Member|Experience')%> + 
+				<%= gift.credit %><%= s_('Member|Credit')%> + 
+				<%= format_currency gift.cash %><%= s_('Gift|Cash')%>
+			</td>
+			<td class="number"><%= item.quantity %></td>
+		</tr>
+	<% end -%>
+	<tr>
+		<td><%= _('Total Price')%></td>
+		<td colspan="2"><%= _('Member|Experience') %>: <%= @order.used_experience %> <br/>
+			<%= _('Member|Credit') %>: <%= @order.used_credit %> <br/>
+			<%= _('GiftOrder|Cash') %>: <%= format_currency @order.cash %> <br/>
+		</tr>
+	</tr>
+</table>
+
+
+<div class="button_bar">
+	<% if @order.status == GiftOrder::STATUS_NEW -%>
+		<% if @order.modifiable_to? @current_user -%>
+			<%= link_to _('Edit'), edit_campaign_gift_order_path(@order), :class=>:button %>
+		<% end -%>
+		<% if @order.member == @current_user -%>
+			<%= link_to _('Confirm'), confirm_campaign_gift_order_path(@order), :class=>:button %>
+		<% end -%>
+	<% end -%>
+		
+	<% if @order.can_deliver_by @current_user, @current_partner and 
+		  @order.can_deliver? -%>
+		<%= link_to _('Delivered'), deliver_campaign_gift_order_path(@order), :class=>:button %>
+	<% end -%>
+</div>
+
+</div>
+

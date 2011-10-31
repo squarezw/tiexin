@@ -1,0 +1,23 @@
+<% form_remote_tag :url=>formatted_search_layout_maps_path(class_name_for_url(@layoutable), @layoutable, :js) do -%>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label><%= _('Keyword') %></label></td>
+		<td width="*"><%= text_field_tag :keyword, params[:keyword], :size=>30 %></td>
+	</tr>
+	<tr>
+		<td><label><%= s_('HotSpot|Hotspot category')%></label></td>
+		<td>
+            <%=hotspot_category_root_select_tag "hot_spot_category_root_id",nil,true,[_('Please select one'),""]%>
+            <%=hotspot_category_children_select_tag "hot_spot_category_children_id",nil,true,[_('Please select one'),""]%>
+		</td>
+    </tr>
+	<tr>
+		<td><label><%= _('Tag')%></label></td>
+		<td><%= text_field_tag :tag, params[:tag], :size=>30 %></td>
+	</tr>
+</table>
+<% end -%>
+
+<%= update_page_tag do |page| 
+		page.call "dialog.show_with_title", _('Search')
+	end -%>

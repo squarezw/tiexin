@@ -1,0 +1,36 @@
+<table class="form_container">
+	<tr>
+		<td width="15%"><label class="required"><%= s_('Post|Title')%></label></td>
+		<td><%= form.text_field :title, :size=>80 %> <%= form.check_box :original %> <%=_('Post|Original')%>
+			<p class="help"><%= _('Can not be longer than %{length}') % {:length=>100}  %></p>
+                        
+		</td>
+	</tr>
+	<tr>
+		<td width="15%"><label class="required"><%= _('Tags')%></label></td>
+		<td><%= text_field_with_auto_complete :tag, :tag, { :size => 30,:value => @tags_string}, {:tokens => ',',:method=>:get} -%><p class="help"><%= _('Help for post tags.')%></p></td>
+	</tr>        
+	<tr>
+		<td rowspan="2"><label class="required"><%= _('Content')%></label></td>
+		<td>
+                  <%= form.text_area(:content, :size=> "90x20",:class=>"mceEditor") %>
+                </td>
+	</tr>
+	<tr>
+		<td>
+                  <p class="help"><%= _('The length must between %{minimum} and %{maximum}') % {:minimum=>5, :maximum=>10000}  %></p>
+		</td>
+	</tr>
+	<tr>
+		<td><label><%= s_('Post|Attachment')%></label></td>
+		<td><%= upload_column_field :post, :attachment, :size=>60 %>
+			<p class="help"><%= _('Only jpg, jpeg, png and gif file is accepted.')%></p>
+		</td>
+	</tr>
+	<tr>
+		<td class="button_bar" colspan="2">
+			<%= submit_tag _('Submit')%>
+			<input type="reset"/>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,28 @@
+<div>
+	<% unless (pic = picture_for_hot_spot(hot_spot)).nil? -%>
+	<div class="hot_spot_picture">
+		<%= image_tag pic.url %>		
+	</div>
+	<% end -%>
+	
+	<p><span class="hot_spot_name"><%= link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot), :target=>'_blank' %></span><span class="category">[<%= h(localized_description(hot_spot.hot_spot_category, :name)) %>]</span>
+	</p>
+	<p class="address">
+	<% if hot_spot.container -%>
+	<%= h(localized_description(hot_spot.container, :address))%> - <%= link_to h(localized_description(hot_spot.container, :name)), hot_spot_path(hot_spot.container), :target=>'_blank' %> -
+	<% end -%>
+	<%= h(localized_description(hot_spot, :address))%>
+	</p>
+
+
+	<p><%= h(hot_spot.phone_number)%></p>
+
+	<p><%= _('HotSpotTag|Tag')%>:&nbsp;<%= most_frequent_tags_of_hot_spot hot_spot%></p>
+	
+	<ul class="list">
+		<% for event in events %>
+			<li><%= link_to h(localized_description(event, :summary)), event_path(class_name_for_url(event.vendor), event.vendor, event), :popup=>true%><span class="time"><%= date_range_str event.begin_date, event.end_date %></span></li>
+		<% end -%>
+	</ul>
+</div>
+

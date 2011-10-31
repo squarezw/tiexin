@@ -1,0 +1,200 @@
+<% page_title @topic.title, true 
+   include_js_file 'yui/utilities', 'yui/event', 'yui/dom', 'yui/button', 'yui/container', 'map', 'map_helper', 'marquee'
+   include_css_file 'yui/button', 'yui/container', 'topic'
+ -%>
+<% content_for 'page_scripts' do -%>
+  var map;
+
+  <%= render :partial=>'/main/levels_data', :locals=>{:city => @current_city} %>
+
+   function init_page () {
+        map = new Map ('map',
+                {
+                        city_id: <%= @current_city.id %>,
+                        map_width: <%= @current_city.width %>,
+                        map_height: <%= @current_city.height %>,
+                        start_point: [<%= @start_point.x%>, <%= @start_point.y%> ],
+                        zoom_levels: map_levels,
+                        init_zoom_level_index: 6,
+                        viewport_width: 640,
+                        viewport_height: 390
+                });
+
+        var slide_control = new SlideControl(map);
+        map.add_control (slide_control);
+        slide_control.set_zoom_level_index (6);
+
+        <%= update_page do |page|
+                @hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true } if @hot_spots
+            end %>
+    }
+
+    function show_calendar_at_date(date) {
+            new Ajax.Updater ('event_calendar', '<%= "/topics/event_calendar" %>',
+                    { method: 'get',
+                      parameters: { date: date },
+                      evalScripts : true });
+    }
+<%end%>
+<style>
+  div#expo_top{
+    border:1px solid #DDDDDD
+  }
+  div#hot_spot_list{
+    width:300px !important;
+    padding:0px;
+    margin-top: 0px;
+
+  }
+  div#map_area{
+    background:none repeat scroll 0 0 white;
+    margin-left:305px !important;
+    padding-top:0px;
+    width:640px;
+  }
+</style>
+<img src="/images/topic/expo/top.jpg" />
+<div id="expo_top">
+          <div id="hot_spot_list">
+                  <%= render :partial=>'hot_spot_list' %>
+          </div>
+
+          <div id="map_area">
+                  <div id="map">
+
+                  </div>
+          </div>
+</div>
+<table cellpadding="0px" cellspacing="0px">
+  <tr>
+    <td>
+      <!--left-->
+      <table style="width:309px" cellpadding="0px" cellspacing="0px">
+        <tr>
+          <td style="height: 300px; background-image: url('/images/topic/expo/sbxw.jpg');">
+            <div style="position:relative;top:66px; left:12px; width: 280px; overflow: hidden; height: 200px">
+              <ul>
+                <%for article in @articles%>
+                <li style="line-height: 20px;"><%= link_to h(article.subject), article_path(article), :target=>'_blank'%></li>
+                <%end%>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="height: 250px; background-image: url('/images/topic/expo/jtts.jpg');">
+            <div id="traffic_title" style="position:relative;top:46px; left:104px;">
+              <%=@topic_expo.traffic_title if @topic_expo%>
+            </div>
+            <div id="traffic_content" style="position:relative;top:86px; left:12px; width: 280px;">
+              <%=@topic_expo.traffic_content if @topic_expo%>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="height: 47px; background-image: url('/images/topic/expo/sbhdzzd.jpg');">
+
+          </td>
+        </tr>
+        <tr>
+          <td style="height: 150px;">
+             <div id="event_calendar">
+                 <%= render :partial=>'event_calendar', :locals=>{:date=>Date.today} %>
+             </div>
+          </td>
+        </tr>
+      </table>
+      <!--end-->
+    </td>
+    <td>
+      <!--right-->
+<script>
+function show_s(obj,show){
+    obj = document.getElementById(obj)
+    obj.style.display = show
+}
+function zin(obj){
+	var top = 5
+	for(i=1;i<top;i++){
+		a = document.getElementById("a"+i)
+		if(i==obj){
+			document.getElementById("a"+obj).style.zIndex=top;
+                        show_s("i"+i,'')
+		}else{
+			if(a){
+				a.style.zIndex=i
+                                show_s("i"+i,'none')
+			}
+		}
+
+	}
+}
+</script>
+<div style="width:740px;height:80px;overflow:hidden;">
+    <div id="a1" style="width:183px; height:83px; float:left; position:relative; z-index:4; background-image:url('/images/topic/expo/expo_bt_1.jpg')" onclick="zin(1)"></div>
+    <div id="a2" style="width:183px; height:83px; float:left; position:relative; left:-30px; z-index:3; background-image:url('/images/topic/expo/expo_bt_2.jpg')" onclick="zin(2)"></div>
+    <div id="a3" style="width:183px; height:83px; float:left; position:relative; left:-60px; z-index:2; background-image:url('/images/topic/expo/expo_bt_3.jpg')" onclick="zin(3)"></div>
+    <div id="a4" style="width:183px; height:83px; float:left; position:relative; left:-90px; z-index:1; background-image:url('/images/topic/expo/expo_bt_4.jpg')" onclick="zin(4)"></div>
+</div>
+<div style="clear:both;"></div>
+<div style="width:640px;height:881px;border: solid 2px #FFCC66" id="i1">
+   <%=render :partial => "expo_main", :locals => {:et => "family", :recommend_hot_spots => @recommend_hot_spots_family, :travel_line => @travel_line_family}%>
+</div>
+<div style="width:640px;height:881px;;border: solid 2px #FF66FF;display:none" id="i2">
+   <%=render :partial => "expo_main", :locals => {:et => "sweet", :recommend_hot_spots => @recommend_hot_spots_sweet, :travel_line => @travel_line_sweet}%>
+</div>
+<div style="width:640px;height:881px;;border: solid 2px #009900;display:none" id="i3">
+  <%=render :partial => "expo_main", :locals => {:et => "grandparent", :recommend_hot_spots => @recommend_hot_spots_grandparent, :travel_line => @travel_line_grandparent}%>
+</div>
+<div style="width:640px;height:881px;;border: solid 2px #00CCFF;display:none" id="i4">
+  <%=render :partial => "expo_main", :locals => {:et => "child", :recommend_hot_spots => @recommend_hot_spots_child, :travel_line => @travel_line_child}%>
+</div>
+<div style="width:605px;height: 248px; background-image: url('/images/topic/expo/rb2.jpg');">
+    <div id="re_post" style="position:relative;top:50px; left:15px; width: 240px; overflow: hidden; float:left;">
+        <ul>
+          <%for post in @posts%>
+          <li style="line-height: 20px;"><%= link_to h(post.title), forum_post_path(post.forum, post), :target=>'_blank', :class=>"white"%></li>
+          <%end%>
+        </ul>
+    </div>
+    <div id="txsbx_post" style="position:relative;top:50px; left:88px; width: 260px; overflow: hidden; ">
+        <ul>
+          <%for txsbx in @txsbxs%>
+          <li style="line-height: 20px;"><%= link_to h(txsbx.title), forum_post_path(txsbx.forum, txsbx), :target=>'_blank', :class=>"white"%></li>
+          <%end%>
+        </ul>
+    </div>
+</div>
+
+
+<div style="width:610px;height: 33px; background-image: url('/images/topic/expo/sbms_r_t.jpg'); padding-left: 12px;">
+
+</div>
+      <!--end-->
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td style="width:950px; height: 233px; background-image: url('/images/topic/expo/sbms.jpg');">
+      <div id="food" style="position:relative;top:20px; left:200px;width: 730px; overflow: hidden">
+            <table cellpadding="5" cellspacing="5">
+                <tr>
+                  <%if @food_hot_spots%>
+                    <%for hot_spot in @food_hot_spots%>
+                        <td>
+                          <table>
+                            <tr>
+                              <td style="padding:3px;border:1px solid #ddd;text-align: center; height:100px;"><%=small_picture_tag_for_hot_spot(hot_spot)%></td>
+                            </tr>
+                            <tr><td style="text-align: center;"><%=link_to h(localized_description(hot_spot, :name)), hot_spot_path(hot_spot)%></td></tr>
+                          </table>
+                        </td>
+                    <%end%>
+                  <%end%>
+                </tr>
+            </table>
+      </div>
+    </td>
+  </tr>
+</table>

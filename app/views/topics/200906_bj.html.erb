@@ -1,0 +1,359 @@
+<% 
+   page_title @topic.title
+   include_js_file 'yui/utilities', 'yui/event', 'yui/dom', 'yui/button', 'yui/container', 'map', 'map_helper', 'marquee'
+   include_css_file 'yui/button', 'yui/container'
+-%>
+
+<% content_for 'page_scripts' do -%>
+var map;
+
+<%= render :partial=>'/main/levels_data', :locals=>{:city => @current_city} %>
+
+function init_page () {
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: [<%= @start_point.x%>, <%= @start_point.y%> ],
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6,
+			viewport_width: 572,
+			viewport_height: 282
+		});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	
+	<%= update_page do |page| 
+		@hot_spots.each { |hot_spot| add_hot_spot_marker page, hot_spot, :no_bubble=>true }
+	    end %>
+
+}
+
+function filter_with_tag (tag) {
+	new Ajax.Request('<%= formatted_city_channel_path(@current_city, @channel, :js) %>',
+					 { parameters: { tag: tag},
+					   method: 'get' });
+}
+
+function load_contracted_hot_spots () {
+	<%= remote_function :update=>'contracted_hot_spots', :url=>contracted_hot_spots_city_channel_path(@current_city, @channel), :method=>:get %>
+}
+
+<% end -%>
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+
+<title>簋街</title>
+
+<style type="text/css">
+
+<!--
+
+body {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+	text-align: center;
+
+	margin: 0px;
+
+	padding: 0px;
+
+}
+.left{ float:left}
+
+div#result_and_map {
+	margin: 0px;
+	margin-top: 8px;
+	clear: both;
+	width: 598px;
+	height: 297px;
+	overflow: hidden;
+}
+
+div#map_area {
+	margin-left: 23px !important;
+	*margin-left: 23px;
+	width: 600px;
+	padding-top: 13px;
+}
+
+div#map {
+	position: relative;
+	border: 1px solid #D7CFCC;
+	overflow: hidden;
+	margin: 0;
+}
+
+-->
+
+</style>
+
+</head>
+
+
+
+<body>
+
+<table width="953" border="0" cellspacing="0" cellpadding="0">
+
+  <tr>
+
+    <td><img src="/images/topic/200906/img_03.jpg" width="953" height="283" /></td>
+
+  </tr>
+
+  <tr>
+
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+      <tr>
+
+        <td width="324"><img src="/images/topic/200906/img_05.jpg" width="324" height="323" /></td>
+
+        <td background="/images/topic/200906/img_06.jpg">
+
+        <div id="result_and_map" class="section">
+            <div id="map_area">
+		<div id="map">
+
+		</div>	
+            </div>
+        </div>
+          
+        </td>
+
+      </tr>
+
+    </table></td>
+
+  </tr>
+
+  <tr>
+
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+      <tr>
+
+        <td><img src="/images/topic/200906/img_07.jpg" width="244" height="809" border="0" usemap="#Map" /></td>
+
+        <td><img src="/images/topic/200906/img_08.jpg" width="234" height="809" border="0" usemap="#Map2" /></td>
+
+        <td><img src="/images/topic/200906/img_09.jpg" width="233" height="809" border="0" usemap="#Map3" />
+
+          <map name="Map3" id="Map3">
+
+            <area shape="rect" coords="21,119,210,278" href="http://www.x-navi.cn/hot_spots/192752" target="_blank" />
+
+            <area shape="rect" coords="67,290,163,313" href="http://www.x-navi.cn/hot_spots/192752" target="_blank" />
+
+            <area shape="rect" coords="20,334,210,495" href="http://www.x-navi.cn/hot_spots/192643" target="_blank" />
+
+            <area shape="rect" coords="51,505,181,530" href="http://www.x-navi.cn/hot_spots/192643" target="_blank" />
+
+          <area shape="rect" coords="21,549,212,714" href="http://www.x-navi.cn/hot_spots/136555" target="_blank" />
+
+          <area shape="rect" coords="48,720,184,746" href="http://www.x-navi.cn/hot_spots/136555" target="_blank" />
+
+          </map>          </td>
+
+        <td><img src="/images/topic/200906/img_10.jpg" width="242" height="809" border="0" usemap="#Map4" /></td>
+
+      </tr>
+
+    </table></td>
+
+  </tr>
+
+  <tr>
+
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+      <tr>
+
+        <td><img src="/images/topic/200906/img_11.jpg" width="337" height="730" border="0" usemap="#Map5" /></td>
+
+        <td><img src="/images/topic/200906/img_12.jpg" width="298" height="730" border="0" usemap="#Map6" /></td>
+
+        <td><img src="/images/topic/200906/img_13.jpg" width="318" height="730" border="0" usemap="#Map7" /></td>
+
+      </tr>
+
+    </table></td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+	
+	<div class="left"><img src="/images/topic/200906/img_14.jpg" width="647" height="600" border="0" usemap="#Map8" /></div>
+	<div><img src="/images/topic/200906/img_15.jpg" width="306" height="600" border="0" usemap="#Map9" /></div>
+	
+          <map name="Map8" id="Map8">
+
+          <area shape="rect" coords="184,216,311,240" href="http://www.x-navi.cn/hot_spots/156270" target="_blank" />
+
+          <area shape="rect" coords="186,248,313,269" href="http://www.x-navi.cn/hot_spots/196218" target="_blank" />
+
+          <area shape="rect" coords="187,277,325,299" href="http://www.x-navi.cn/hot_spots/196222" target="_blank" />
+
+          <area shape="rect" coords="180,309,323,329" href="http://www.x-navi.cn/hot_spots/69122" target="_blank" />
+
+          <area shape="rect" coords="342,218,407,235" href="http://www.x-navi.cn/hot_spots/17275" target="_blank" />
+
+          <area shape="rect" coords="343,238,484,259" href="http://www.x-navi.cn/hot_spots/143212" target="_blank" />
+
+          <area shape="rect" coords="347,263,482,284" href="http://www.x-navi.cn/hot_spots/17218" target="_blank" />
+
+          <area shape="rect" coords="345,285,436,304" href="http://www.x-navi.cn/hot_spots/19698" target="_blank" />
+
+          <area shape="rect" coords="341,306,445,327" href="http://www.x-navi.cn/hot_spots/131170" target="_blank" />
+
+          <area shape="rect" coords="342,329,455,349" href="http://www.x-navi.cn/hot_spots/79260" target="_blank" />
+
+          <area shape="rect" coords="338,402,482,424" href="http://www.x-navi.cn/hot_spots/132872" target="_blank" />
+
+          <area shape="rect" coords="337,428,455,447" href="http://www.x-navi.cn/hot_spots/142047" target="_blank" />
+
+          <area shape="rect" coords="340,454,401,472" href="http://www.x-navi.cn/hot_spots/194806" target="_blank" />
+
+          <area shape="rect" coords="335,477,483,497" href="http://www.x-navi.cn/hot_spots/194807" target="_blank" />
+
+          <area shape="rect" coords="186,404,247,422" href="http://www.x-navi.cn/hot_spots/183527" target="_blank" />
+
+          <area shape="rect" coords="189,513,291,530" href="http://www.x-navi.cn/hot_spots/194808" target="_blank" />
+
+          </map>
+	
+	</td>
+
+  </tr>
+
+  <tr>
+
+    <td><img src="/images/topic/200906/img_16.jpg" width="953" height="175" /></td>
+
+  </tr>
+
+</table>
+
+
+
+<map name="Map" id="Map"><area shape="rect" coords="32,118,222,282" href="http://www.x-navi.cn/hot_spots/192860" target="_blank" />
+
+<area shape="rect" coords="89,290,162,313" href="http://www.x-navi.cn/hot_spots/192860" target="_blank" />
+
+<area shape="rect" coords="33,334,222,496" href="http://www.x-navi.cn/hot_spots/19717" target="_blank" />
+
+<area shape="rect" coords="90,507,164,528" href="http://www.x-navi.cn/hot_spots/19717" target="_blank" />
+
+<area shape="rect" coords="33,550,220,714" href="http://www.x-navi.cn/hot_spots/81122" target="_blank" />
+
+<area shape="rect" coords="82,723,172,747" href="http://www.x-navi.cn/hot_spots/81122" target="_blank" />
+
+</map>
+
+<map name="Map2" id="Map2"><area shape="rect" coords="22,118,210,280" href="http://www.x-navi.cn/hot_spots/192756" target="_blank" />
+
+<area shape="rect" coords="92,292,146,315" href="http://www.x-navi.cn/hot_spots/192756" target="_blank" />
+
+<area shape="rect" coords="22,334,211,496" href="http://www.x-navi.cn/hot_spots/194759" target="_blank" />
+
+<area shape="rect" coords="71,507,163,527" href="http://www.x-navi.cn/hot_spots/194759" target="_blank" />
+
+<area shape="rect" coords="23,550,212,712" href="http://www.x-navi.cn/hot_spots/81120" target="_blank" />
+
+<area shape="rect" coords="89,723,147,745" href="http://www.x-navi.cn/hot_spots/81120" target="_blank" />
+
+</map>
+
+
+
+<map name="Map4" id="Map4"><area shape="rect" coords="22,119,210,282" href="http://www.x-navi.cn/hot_spots/145780" target="_blank" />
+
+<area shape="rect" coords="87,291,146,314" href="http://www.x-navi.cn/hot_spots/145780" target="_blank" />
+
+<area shape="rect" coords="22,332,209,497" href="http://www.x-navi.cn/hot_spots/192856" target="_blank" />
+
+<area shape="rect" coords="58,505,175,531" href="http://www.x-navi.cn/hot_spots/192856" target="_blank" />
+
+<area shape="rect" coords="22,550,212,713" href="http://www.x-navi.cn/hot_spots/192764" target="_blank" />
+
+<area shape="rect" coords="79,723,156,746" href="http://www.x-navi.cn/hot_spots/192764" target="_blank" />
+
+</map>
+
+<map name="Map5" id="Map5"><area shape="rect" coords="47,92,241,119" href="http://www.x-navi.cn/hot_spots/145547" target="_blank" />
+
+<area shape="rect" coords="51,120,174,248" href="http://www.x-navi.cn/hot_spots/145547" target="_blank" />
+
+<area shape="rect" coords="51,291,243,316" href="http://www.x-navi.cn/hot_spots/192656" target="_blank" />
+
+<area shape="rect" coords="53,321,172,447" href="http://www.x-navi.cn/hot_spots/192656" target="_blank" />
+
+<area shape="rect" coords="50,487,185,512" href="http://www.x-navi.cn/hot_spots/152530" target="_blank" />
+
+<area shape="rect" coords="51,518,174,645" href="http://www.x-navi.cn/hot_spots/152530" target="_blank" />
+
+</map>
+
+<map name="Map6" id="Map6"><area shape="rect" coords="13,92,206,119" href="http://www.x-navi.cn/hot_spots/151989" target="_blank" />
+
+<area shape="rect" coords="16,124,138,249" href="http://www.x-navi.cn/hot_spots/151989" target="_blank" />
+
+<area shape="rect" coords="15,291,149,316" href="http://www.x-navi.cn/hot_spots/88331" target="_blank" />
+
+<area shape="rect" coords="14,321,138,448" href="http://www.x-navi.cn/hot_spots/88331" target="_blank" />
+
+<area shape="rect" coords="14,487,208,514" href="http://www.x-navi.cn/hot_spots/194787" target="_blank" />
+
+<area shape="rect" coords="17,518,139,645" href="http://www.x-navi.cn/hot_spots/194787" target="_blank" />
+
+</map>
+
+<map name="Map7" id="Map7"><area shape="rect" coords="13,93,171,118" href="http://www.x-navi.cn/hot_spots/192755" target="_blank" />
+
+<area shape="rect" coords="17,123,138,250" href="http://www.x-navi.cn/hot_spots/192755" target="_blank" />
+
+<area shape="rect" coords="11,289,209,314" href="http://www.x-navi.cn/hot_spots/151117" target="_blank" />
+
+<area shape="rect" coords="18,321,140,447" href="http://www.x-navi.cn/hot_spots/151117" target="_blank" />
+
+<area shape="rect" coords="16,485,206,513" href="http://www.x-navi.cn/hot_spots/194799" target="_blank" />
+
+<area shape="rect" coords="19,517,139,645" href="http://www.x-navi.cn/hot_spots/194799" target="_blank" />
+
+</map>
+
+
+
+<map name="Map9" id="Map9"><area shape="rect" coords="18,102,170,128" href="http://www.x-navi.cn/forums/6/posts/376" target="_blank" />
+
+<area shape="rect" coords="101,203,123,216" href="http://www.x-navi.cn/forums/6/posts/376" target="_blank" />
+
+<area shape="rect" coords="18,229,92,254" href="http://www.x-navi.cn/forums/6/posts/197" target="_blank" />
+
+<area shape="rect" coords="15,316,232,344" href="http://www.x-navi.cn/forums/6/posts/198" target="_blank" />
+
+<area shape="rect" coords="119,362,120,363" href="#" /><area shape="rect" coords="15,351,122,379" href="http://www.x-navi.cn/forums/6/posts/193" target="_blank" />
+
+<area shape="rect" coords="18,386,263,432" href="http://www.x-navi.cn/forums/6/posts/196" target="_blank" />
+
+<area shape="rect" coords="18,443,161,472" href="http://www.x-navi.cn/forums/6/posts/191" target="_blank" />
+
+</map></body>
+
+</html>
+

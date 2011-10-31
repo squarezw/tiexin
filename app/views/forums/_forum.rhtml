@@ -1,0 +1,33 @@
+<% content_for :page_scripts do -%>
+var panel;
+
+function blacklist (id) {
+       panel.retrieve('/forums/' + id + '/add_blacklist');
+}
+
+function init_page () {
+	panel = new RemotePanel ('panel', { body: 'panel_body', head: 'panel_head', width: '400px', fixedcenter: true });
+}      
+
+<% end -%>
+<tr>
+	<td><p><%= link_to h(forum.name), forum_posts_path(forum) %></p>
+		<p><%= h forum.description %></p>
+                <%if forum.members%>
+                <p><%=_('Moderator')%>:
+                    <%=forum.members.collect{|member| member.nick_name}.join(",")%>
+                </p>
+                <%end%>
+	</td>
+	<td><%= forum.visible_posts_count %></td>
+	<td><%= forum.today_post_count %></td>
+	<td>
+		<% if post = forum.latest_post -%>
+		<p><%= link_to h(truncate(post.title, 20)), forum_post_path(forum, post) %></p>
+		<p><%= _('Author')%>:&nbsp;<%= link_to h(post.member.nick_name), member_path(post.member), :target=>'_blank'%>&nbsp;<%= _('At')%>:&nbsp;<%= format_time post.created_at %></p>
+		<% end -%>
+                <% if @current_user and @current_user.is_moderator?(forum) %>
+                   <%=button_to_function _('Blacklist Manage'), "blacklist(#{forum.id})"%>
+                <%  end%>
+	</td>
+</tr>

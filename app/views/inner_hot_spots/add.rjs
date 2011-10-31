@@ -1,0 +1,5 @@
+page.<< "$('sr_#{element_id(@hot_spot)}').remove();"
+
+page.call 'show_inner_hot_spots'
+
+

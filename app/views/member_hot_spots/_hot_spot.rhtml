@@ -1,0 +1,4 @@
+<li id="<%= "sr_#{element_id(hot_spot)}" %>">
+<%= link_to_function h(localized_description(hot_spot, :name)), "insert_hot_spot('#{h(localized_description(hot_spot, :name))}','/hot_spots/#{hot_spot.id}',#{hot_spot.id})" %>
+&nbsp;&nbsp;&nbsp;&nbsp;[<%= h(localized_description(hot_spot.hot_spot_category, :name))%>]<br/>
+	<%= h(localized_description(hot_spot, :address))%></li>

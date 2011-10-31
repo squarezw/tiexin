@@ -1,0 +1,18 @@
+<% @page_title = _('New Promotion') 
+   @js_files = ['yui/yahoo', 'yui/event', 'yui/dom', 'yui/calendar','editor']
+   @css_files=['calendar'] 
+   side_menu side_menu_for_member(@member) -%>
+<% content_for 'page_scripts' do -%>
+	function init_page () {
+		init_calendar_calendar ();
+                init_calendar_calendar2 ();
+	}
+	
+	function customize_calendar(cal) {
+		cal.cfg.minDate='<%= Time.now.strftime('%m/%d/%Y')%>'; 
+ 	}
+
+<% end -%>
+<%form_for :promotion,:url => member_promotions_path(@member),:html =>{:multipart => true} do |f|%>
+<%=render :partial => "/member_promotions/form",:object => f%>
+<%end -%>

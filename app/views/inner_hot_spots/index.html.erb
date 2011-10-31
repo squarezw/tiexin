@@ -1,0 +1,30 @@
+	<div id="inner_hot_spot_list">
+	<%= render :partial=>'search_form' %>
+
+	<div id="inner_hot_spots_table">	
+		<table class="data_list" width="98%">
+			<tr>
+				<th width="*">
+		                    <%= link_to_remote s_('HotSpot|Name'), :url=>hot_spot_inner_hot_spots_path(params[:hot_spot_id])+"?order_by=name_#{@current_lang}", :update => 'div_inner_hot_spots_section', :method => :get %>
+		                </th>
+				<th width="30%">
+		                    <%= link_to_remote s_('HotSpot|Address'), :url=>hot_spot_inner_hot_spots_path(params[:hot_spot_id])+"?order_by=address_#{@current_lang}", :update => 'div_inner_hot_spots_section', :method => :get %>
+		                </th>
+				<th width="25%">
+		                    <%= link_to_remote s_('Hot Spot Category'), :url=>hot_spot_inner_hot_spots_path(params[:hot_spot_id])+"?order_by=hot_spot_category_id", :update => 'div_inner_hot_spots_section', :method => :get %>
+		                </th>
+				<th width="10%"><%= _('Operation') %></th>
+			</tr>
+			<%= render :partial => "hot_spot_row", :collection=>@hot_spots %>
+		</table>
+		<%= remote_page_navigator @hot_spots, 'div_inner_hot_spots_section', :get %>
+
+	</div>
+
+	<% if @current_user -%>
+	<div class="button_bar">
+		<%= link_to_function _('Add Existing Hot Spot'), "search_for_add_existing_hot_spot()", :class=>:button%>
+		<%= link_to_function _('New Hot Spot'), "new_hot_spot();", :class => :button %>
+	</div>
+	<% end -%>
+	</div>

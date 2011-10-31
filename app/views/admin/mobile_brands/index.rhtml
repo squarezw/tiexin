@@ -1,0 +1,8 @@
+<% @page_title = _('Manage Mobile Brands')
+   @css_files=['mobile']
+   @side_menu = 'master_data' %>
+<div class="button_bar">
+	<%= link_to _('New Mobile Brand'), new_manage_mobile_brand_path, :class => :button %>
+</div>
+<%= render :partial => 'list'%>
+<%= page_navigator @mobile_brands %>

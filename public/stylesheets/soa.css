@@ -1,0 +1,75 @@
+body {
+	background: url('../images/soa/bodybg.jpg') repeat-x top;
+	background-color: #EEF9FB;
+	color: #336699;
+	font-size: 14px;
+}
+
+div#page_head * {
+	position: relative;
+	border: none;
+}
+
+div#page_head a {
+	border: none;
+}
+
+div#main_wrapper {
+	width: 799px;
+}
+
+div#home_link {
+	position: absolute;
+	top: 3px;
+	left:5px;
+	*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=crop, src='/images/soa/home.png');
+}
+
+div#page_content {
+	width: 799px;
+}
+
+div#side_menu {
+	width: 226px;
+	float: left;
+}
+
+div#main {
+	margin-left: 226px;
+	background: url('../images/soa/right.jpg') top no-repeat;
+	padding: 10px 10px 10px 15px;
+}
+
+h2 {
+	text-align: center;
+	color: #FF004E;
+}
+
+div#main div.section {
+	margin: 20px 0px;
+}
+
+div#main h3 {
+	margin: 1em;
+}
+
+div#main p {
+	padding: 0px 10px;
+	text-indent: 2em;
+}
+
+div#main div.foot {
+	text-align: right;
+}
+
+table#product_list th {
+	text-align: center;
+	background-color: #CFCFCF;
+	border: 1px solid #CFCFCF;
+	padding: 5px;
+}
+
+table#product_list td {
+	border: 1px solid #CFCFCF;
+	padding: 5px;
+}

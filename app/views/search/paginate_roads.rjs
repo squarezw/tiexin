@@ -1,0 +1,1 @@
+page.replace_html 'search_result_list', render(:partial=>'paginate_roads')

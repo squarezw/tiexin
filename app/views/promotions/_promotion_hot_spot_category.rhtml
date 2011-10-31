@@ -1,0 +1,4 @@
+<% @promotion = Promotion.cur_hot_spot_category(@hot_spot_category, @current_city, 10) %>
+<% if @promotion %>
+<%= render :partial =>"/promotions/promotion", :collection=> @promotion%>
+<% end %>

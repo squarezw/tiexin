@@ -1,0 +1,6 @@
+<p><%= _("Hot Spots has tag %{tag}") % {:tag => @tag} %></p>
+<ul class="list">
+<%= render :partial=>'hot_spot', :collection=>@hot_spots %>
+</ul>
+
+<%= remote_page_navigator @hot_spots, '', :get %>

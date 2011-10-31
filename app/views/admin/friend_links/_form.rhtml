@@ -1,0 +1,67 @@
+<script>
+function setVT(obj)
+{
+  var myradio=obj
+  for(i=0;i<myradio.length;i++)
+  {
+    myradio[i].checked = false
+  }
+}
+function cset(obj)
+{
+  var obj_n = 0
+  var myselect=$(obj)
+  for (var i=0; i<myselect.options.length; i++){
+   if (myselect.options[i].value==""){
+    myselect[i].selected = true
+    obj_n = 1
+    break
+   }
+  }
+  if(obj_n==0){seladd(obj);cset(obj)}
+}
+function seladd(obj){
+  var myselect=$(obj)
+  myselect.add(new Option("<%=_('Please select one')%>", ""),  null)
+}
+</script>
+<table class="form_container">
+	<tr>
+		<td width="20%"><label class="required"><%= _('Title') %></label></td>
+		<td width="*"><%= form.text_field :title, :size=>50 %></td>
+	</tr>
+	<tr>
+		<td><label class="required"><%= s_('友情链接|链接地址') %></label></td>
+		<td>
+                  <%if @friend_link.new_record?%>
+                    <%= form.text_field :link, :size=>60, :value=> "http://" %>
+                  <%else%>
+                    <%= form.text_field :link, :size=>60 %>
+                  <%end%>
+                </td>
+        </tr>
+        <tr>
+		<td><label><%= s_('友情链接|Logo')%></label></td>
+		<td><%= "#{image_tag(@friend_link.pic.logo.url)}<br/>" unless @friend_link.new_record? or @friend_link.pic.nil?%>
+                    <%= form.upload_column_field 'pic'  %>
+                </td>
+	</tr>
+        <tr>
+		<td></td>
+		<td><%=_('发布到')%> <%= radio_button "friend_link","vendor_type","home",:onclick => "cset('friend_link_channel_id')",:id=>"fv"%><%=_('Home')%>
+                     <%= radio_button "friend_link","vendor_type","blog",:onclick => "cset('friend_link_channel_id')",:id=>"fv"%><%=_('Blog')%>
+                     <%= radio_button "friend_link","vendor_type","forum",:onclick => "cset('friend_link_channel_id')",:id=>"fv" %><%=_('forum')%>
+                </td>
+        </tr>
+	<tr>
+		<td><%= _('channel') %></td>
+		<td><%= form.select :channel_id, @channels, {:prompt => _('Please select one')},{:onChange=>"setVT(this.form.fv)"}%></td>
+        </tr>
+	<tr>
+		<td colspan="2" class="button_bar">
+			<%= submit_tag _('Submit')%>
+			<input type="reset" />
+		</td>
+	</tr>
+</table>
+			

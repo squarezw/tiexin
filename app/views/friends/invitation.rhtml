@@ -1,0 +1,15 @@
+<% page_title _('Request to add as friend.') 
+    side_menu side_menu_for_member(@member) %>
+
+<p class="introduction"><%= _('%{name} request to add you to his(her) friend list. You can:') % {:name=>@friend.owner.nick_name} %></p>
+
+<% form_tag friend_path, :method=>:put do -%>
+<ul class="list">
+	<li><%= radio_button_tag :option, 'agree', false %><%= _('Agree!')%></li>
+	<li><%= radio_button_tag :option, 'agree_and_add', true %><%= _('Agree, and add him(her) to my friend list.')%></li>
+	<li><%= radio_button_tag :option, 'reject', false%><%= _('Reject!')%></li>
+</ul>
+<div class="button_bar">
+	<%= submit_tag _('Submit')%>
+</div>
+<% end -%>

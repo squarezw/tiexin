@@ -1,0 +1,21 @@
+<% page_title h(@daily_content.title) 
+   side_menu 'channel_daily_content' -%>
+
+<div class="navigation_bar">
+	<% if @current_user and @current_user.has_privilege(:edit_daily_content) -%>
+	<div class="tools">
+		<%= link_to image_tag('edit.gif', :alt=>_('Edit')), edit_channel_daily_content_path(@channel, @daily_content), :title=>_('Edit') %>
+		<%= link_to image_tag('delete.gif', :alt=>_('Delete')), channel_daily_content_path(@channel, @daily_content), :method=>:delete, :confirm=>_('Are you sure?'), :title=>_('Delete')%>
+	</div>
+	<% end -%>
+	
+	<%= link_to h(localized_description(@channel, :name)), city_channel_path(@current_city, @channel) %>&nbsp;&gt;&nbsp;
+	<%= link_to h(@channel.daily_content_title), channel_daily_contents_path(@channel)%>
+</div>
+
+<div id="main_function_content">
+	<h2><%= h(@daily_content.title)%></h2>
+	<div class="article">
+		<%= @daily_content.content %>
+	</div>
+</div>

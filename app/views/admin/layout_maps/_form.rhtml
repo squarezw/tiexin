@@ -1,0 +1,26 @@
+<table class="form_container">
+	<tr>
+		<td width="10%" rowspan="2"><label class="required"><%= s_('LayoutMap|Name') %></label></td>
+		<td width="10%"><label><%= _('Chinese') %></label></td>
+	    <td><%= f.text_field :name_zh_cn %>
+			<p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></p></td>
+	</tr>                               
+	<tr>
+		<td><label><%= _("English")%></label></td>
+		<td><%= f.text_field :name_en %>
+			<p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 20 }  %></p></td>
+	</tr>
+	<tr>
+		<td width="10%" rowspan="2"><label><%= s_('LayoutMap|Introduction') %></label></td>
+		<td width="10%"><label><%= _('Chinese') %></label></td>
+	    <td><%= f.text_area :introduction_zh_cn, :size=>'40x3' %>
+			<p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 1000 }  %></p></td>
+	</tr>                               
+	<tr>
+		<td><label><%= _("English")%></label></td>
+		<td><%= f.text_area :introduction_en, :size=>'40x3' %>
+			<p class="help"><%= _('Can not longer than %{length} characters.') % { :length => 1000 }  %></p></td>
+	</tr>
+</table>
+
+

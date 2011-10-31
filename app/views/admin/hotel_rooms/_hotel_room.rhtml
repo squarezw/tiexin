@@ -1,0 +1,9 @@
+<tr> 
+	<td><%= link_to hotel_room.name, hotel_room_path(hotel_room), :target => '_blank'  %></td>
+	<td><%= hotel_room.price%></td>
+	<td><%= _("#{hotel_room.breakfast}")%></td>
+	<td><%= _("#{hotel_room.network}")%></td>
+        <td><%= link_to s_('Edit hotel room'), edit_admin_hotel_hotel_room_path(@hotel,hotel_room) %>
+               <%= link_to s_('Delete'), admin_hotel_hotel_room_path(@hotel,hotel_room), :confirm => _('Are you sure?'), :method => :delete %>
+        </td>
+</tr>

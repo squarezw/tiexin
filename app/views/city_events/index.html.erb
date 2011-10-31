@@ -1,0 +1,135 @@
+<% page_title h(localized_description(@current_city, :name)) + "─" + _('Events'), true 
+   include_js_file 'yui/utilities', 'yui/event', 'yui/dom', 'yui/button', 'yui/container', 'map', 'map_helper' 
+   include_css_file 'yui/button', 'yui/container', 'city_events' -%>
+
+<% content_for 'page_scripts' do -%>
+var map;
+
+var current_event_category = null;
+
+var current_tag_id = null;
+
+var current_month = null;
+
+<%= render :partial=>'/main/levels_data' %>
+
+function init_page() {
+	map = new Map ('map', 
+		{
+			city_id: <%= @current_city.id %>,
+			map_width: <%= @current_city.width %>,
+			map_height: <%= @current_city.height %>,
+			start_point: [<%= @start_point.x%>, <%= @start_point.y%> ],
+			zoom_levels: map_levels,
+			init_zoom_level_index: 6,
+			viewport_width: 640,
+			viewport_height: 600
+		});
+		
+	var slide_control = new SlideControl(map);
+	map.add_control (slide_control);
+	slide_control.set_zoom_level_index (6);
+	register_listener_to_show_bubble(map);
+	
+	<%= add_events_to_map @hot_spot_event_map %>
+}
+
+function show_date(date) {
+	new Ajax.Updater ('event_list', '<%= for_date_city_city_events_path @current_city %>', 
+				     {  method: 'get', 
+						parameters: { date: date,
+							 		  event_category_id: current_event_category,
+							 		  tag_id: current_tag_id},
+						evalScripts: true
+				     }
+					);
+}
+
+function show_month(date) {
+	new Ajax.Updater ('events_area', '<%= for_month_city_city_events_path @current_city %>', 
+				     {  method: 'get', 
+						parameters: { date: date,
+							 		  event_category_id: current_event_category,
+							 		  tag_id: current_tag_id },
+						evalScripts: true
+				     }
+					);
+    new Ajax.Updater ('tags_area', '<%= formatted_tags_city_city_events_path @current_city, :html %>', 
+					{ method: 'get', 
+					  parameters: {event_category_id: current_event_category, 
+								   month: date }
+					});
+	current_month = date;					
+}
+
+function show_category(cat_id) {
+	if (current_event_category == cat_id)
+		return;
+	old_menu_id = 'event_category_menu_' + current_event_category;
+	new_menu_id = 'event_category_menu_' + cat_id;
+	if (current_event_category == null) {
+		$('event_category_menu_all').removeClassName('selected');
+	} else {
+		$(old_menu_id).removeClassName('selected');
+	}
+	if (cat_id == null) {
+		$('event_category_menu_all').addClassName('selected');
+	} else {
+		$(new_menu_id).addClassName('selected');
+	}
+	current_event_category = cat_id;
+	current_tag_id = null;
+	new Ajax.Updater ('events_area', '<%= for_month_city_city_events_path @current_city %>',
+					{ method: 'get',
+					  parameters: { event_category_id: current_event_category}});
+    new Ajax.Updater ('tags_area', '<%= formatted_tags_city_city_events_path @current_city, :html %>', 
+					{ method: 'get', 
+					  parameters: {event_category_id: current_event_category}});
+}
+
+function show_tag(id) {
+	current_tag_id = id;
+	new Ajax.Updater ('events_area', '<%= for_month_city_city_events_path @current_city %>', 
+				     {  method: 'get', 
+						parameters: { tag_id: id,
+							 		  event_category_id: current_event_category,
+							 		  date: current_month },
+						evalScripts: true
+				     }
+					);	
+}
+<% end -%>
+
+<div id="map_area">
+	<div class="head">
+		<ul class="simple_menu">
+			<% for cat in EventCategory.find :all -%>
+				<li id='<%= "event_category_menu_#{cat.id}"%>'><%= link_to_function h(localized_description(cat, :name)), "show_category(#{cat.id})"%></li>
+			<% end -%>
+			<li id="event_category_menu_all" class="selected"><%= link_to_function _('All'), "show_category(null)" %></li>
+		</ul>
+	</div>
+	<div id="tags_area">
+		<% for tag in @tags -%>
+			<%= link_to_function h(tag.tag), "show_tag(#{tag.id})"%>&nbsp;&nbsp;
+		<% end -%>
+	</div>
+	
+	<div class="body">
+		<div id="map" class="map">
+
+		</div>	
+	</div>
+</div>
+
+<div id="events_area">
+	<div id="calendar">
+		<%= show_calendar %>
+	</div>
+
+	<div id="event_list">
+		<%= render :partial=>'event', :collection=>@events %>
+
+		<%= remote_page_navigator @events, 'event_list' %>
+	</div>	
+</div>

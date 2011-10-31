@@ -1,0 +1,20 @@
+<li>
+<% if ! hot_spot.container -%>
+<p>
+	<%= link_to_function h(localized_description(hot_spot, :name)), "show_hot_spot_marker(#{hot_spot.id})"%>
+	<span class="category">[&nbsp;<%= localized_description(hot_spot.hot_spot_category, :name)%>&nbsp;]</span>
+	<%= link_to _('Detail'), hot_spot_path(hot_spot), :target => '_blank'  %>
+</p>
+<p class="address"><%= h(localized_description(hot_spot, :address))%></p>
+<% elsif hot_spot.container.x -%>
+<p>
+	<%= h(localized_description(hot_spot, :name)) %>(<%= link_to_function h(localized_description(hot_spot.container, :name)), "show_hot_spot_marker(#{hot_spot.container.id}, #{hot_spot.container.x}, #{hot_spot.container.y})" %>
+	)
+	<span class="category">[&nbsp;<%= localized_description(hot_spot.hot_spot_category, :name)%>&nbsp;]</span>
+	<%= link_to _('Detail'), hot_spot_path(hot_spot), :target => '_blank' %>
+</p>
+<p class="address"><%= h(localized_description(hot_spot.container, :address))%> - <%= h(localized_description(hot_spot, :address))%></p>
+<% end -%>
+</li>
+
+

@@ -1,0 +1,9 @@
+<tr id="<%= element_id hot_spot_row %>">
+	<td><%= link_to strip_branch_name(hot_spot_row), hot_spot_path(hot_spot_row) %></td>
+	<td><%= h(localized_description(hot_spot_row, :address))%></td>
+	<td><%= category_path_str(hot_spot_row.hot_spot_category) %></td>
+	<td>
+		<% if @current_user -%>
+			<%= link_to_remote _('Remove'), :url=>hot_spot_inner_hot_spot_path(hot_spot_row.container, hot_spot_row), :confirm=>_('Are you sure?'), :method=>:delete %>
+		<% end -%>
+</tr>

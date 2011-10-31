@@ -1,0 +1,23 @@
+<% @page_title = _('Write Article')
+   include_js_file 'tiny_mce/tiny_mce.js', 'tiny_mce/compress'
+   use_remote_dialog
+   side_menu side_menu_for_member(@member) -%>
+
+<div class="button_bar">
+	<%= link_to _('Back'), @back_url, :class=>:button %>	
+</div>
+<%= error_messages_for :article %>
+
+<% form_for :article, @article, :url=>@submit_url do |f| -%>
+<%= render :partial => 'form', :object => f  %>
+<% end -%>
+<div id="panel">
+	<div class="hd" id="panel_head">
+
+	</div>
+
+	<div class="bd" id="panel_body">
+
+	</div>
+</div>
+									
