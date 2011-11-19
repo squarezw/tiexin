@@ -36,11 +36,21 @@ function init_page () {
 			init_zoom_level_index: 6
 		});
         */
-        map = new GMap2($('map'));
-	map.setCenter(new GLatLng(<%=start_point_for_gmap%>), 15)
-        map.addControl(new GLargeMapControl());
-        map.addControl(new GOverviewMapControl());
-        map.addControl(new GMapTypeControl());
+    var latlng = new google.maps.LatLng(<%=start_point_for_gmap%>);
+    var myOptions = {
+      zoom: 8,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map($('map'), myOptions);
+
+
+        // var map = new google.maps.LatLng(-34.397, 150.644);
+        // map = new google.maps.Map2($('map'));
+	// map.setCenter(new GLatLng(<%=start_point_for_gmap%>), 15)
+        // map.addControl(new GLargeMapControl());
+        // map.addControl(new GOverviewMapControl());
+        // map.addControl(new GMapTypeControl());
 	<% if @hide_search_result -%>
 		hide_search_result ();
 	<% else -%>
