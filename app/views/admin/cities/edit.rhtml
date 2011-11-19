@@ -51,6 +51,17 @@
 		<td><label>Y</label></td>
 		<td><%= text_field :city, :start_point_y, :size=> 30 %></td>
 	</tr>
+
+        <tr>
+		<td rowspan="2"><label class="required"><%= _('Google Map')%></label></td>
+		<td><label>latitude</label></td>
+		<td><%= text_field :city, :latitude, :size=>30 %></td>
+	</tr>
+	<tr>
+		<td><label>longitude</label></td>
+		<td><%= text_field :city, :longitude, :size=> 30 %></td>
+	</tr>
+
 	<tr>
 		<td colspan="2"><label class="required"><%= s_('City|Photo') %></label></td>
 		<td><%= upload_column_field :city, :photo %>
