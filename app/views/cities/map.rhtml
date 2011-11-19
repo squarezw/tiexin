@@ -1,6 +1,7 @@
 <% @show_title= false   
    use_remote_dialog
-   include_js_file 'yui/event', 'yui/dom', 'map' 
+   use_google_map
+   include_js_file 'yui/event', 'yui/dom', 'google_map'
    include_css_file 'main', 'toolbar'
    @hide_page_title = true
    select_menu :map
@@ -22,7 +23,8 @@ var area_to_reposition = null;
 var city_id = <%= @current_city.id %>;
 	
 function init_page () {	
-	map = new Map ('map', 
+	/*
+        map = new Map ('map',
 		{
 			city_id: <%= @current_city.id %>,
 			map_width: <%= @current_city.width %>,
@@ -33,11 +35,12 @@ function init_page () {
 			viewport_height: 480,
 			init_zoom_level_index: 6
 		});
-		
-	var slide_control = new SlideControl(map);
-	map.add_control (slide_control);
-	slide_control.set_zoom_level_index (6);
-	
+        */
+        map = new GMap2($('map'));
+	map.setCenter(new GLatLng(<%=start_point_for_gmap%>), 15)
+        map.addControl(new GLargeMapControl());
+        map.addControl(new GOverviewMapControl());
+        map.addControl(new GMapTypeControl());
 	<% if @hide_search_result -%>
 		hide_search_result ();
 	<% else -%>
@@ -46,21 +49,16 @@ function init_page () {
 	
 	<% if @hot_spot -%>
 	<%= update_page do |page|
-			add_hot_spot_marker page, @hot_spot
+			add_hot_spot_gmarker page, @hot_spot
 		end %>
 	<% end -%>
-	
-	<% if @hot_spots
-		@hot_spots.each do |hot_spot| -%>
-			<%= update_page do |page| 
-				add_hot_spot_marker page, hot_spot 
-			end %>
-	<%  end %>
-		<%= update_page do |page|
-				page.call 'show_hot_spot_marker', @hot_spots[0].id unless @hot_spots.nil? or @hot_spots.empty?
-			end %>
-    <% end -%>
-	
+
+	<%if @hot_spots%>
+        <%= update_page do |page|
+                @hot_spots.each { |res| add_hot_spot_gmarker page, res }
+        end %>
+	<%end%>
+
 	<% if @area -%>
 	<%= update_page do |page|
 			add_area_marker page, @area
@@ -74,22 +72,15 @@ function init_page () {
 		end %>
 	<%  end
 	end -%>
-	
-	map.add_event_listener('click', function(event) {  
-//		alert ("on click: " + area_to_reposition);
-		if (operation != null) {
-			operation.call (map, event);
-		}
-	});
-	
-	map.add_event_listener('click_marker', function(event) {
-		map.set_position(this.x, this.y);
-		if (this.show_info_bubble)
-			this.show_info_bubble ();
-	});
-	
+
+        GEvent.addListener(map, 'click', function(overlay, latlng) {
+                 if (overlay) {
+                          overlay_clicked(overlay);
+                }
+        });
+        
 	<% if @current_user and @current_user.has_privilege(:modify_hot_spot) -%>
-		map.enable_move_marker ();          
+		/*map.enable_move_marker ();
 		map.add_event_listener('marker_moved', function(event) {
 			if (this.options.hot_spot_id) {
 					new Ajax.Request('/hot_spots/' + this.options.hot_spot_id + '/move.js', {
@@ -98,13 +89,24 @@ function init_page () {
 				});
 				map.move_bubble_to(event.map_x, event.map_y);
 			}
-		});
+		});*/
 	<% end -%>
 	
 	<% if @show_brand_map -%>
 		show_brand(<%= @brands[0].id %>);
 	<% end %>
-}
+      }
+
+      function overlay_clicked(overlay) {
+              if (overlay.model) {
+                      select_marker(overlay.model);
+              }
+      }
+
+      function select_marker(marker) {
+              map.panTo(marker.marker.getLatLng());
+              marker.open_infor_window({maxWidth: 300});
+      }
 
 function on_new_hot_spot() {
 	operation = new_hot_spot;
@@ -131,11 +133,9 @@ function add_hot_spot_to_map (x, y, options) {
 }
 
 function show_hot_spot_marker (id) {
-	var marker = map.get_marker_by_property_value('hot_spot_id', id);
-//	alert ("Founded marker " + marker);
+        var marker = ModelMarkerManager.marker_of_id('hotspot_'+id);
 	if (marker) {
-		map.set_position(marker.x, marker.y);
-		map.show_bubble(marker.x, marker.y, marker.options.bubble_content);
+		select_marker(marker)
 	} else {
 		new Ajax.Request('/hot_spots/' + id + '/marker', 
 						 { method: 'get'}
@@ -296,14 +296,14 @@ function goto_position (level, x, y) {
 
 function show_search_result () {
 	$('map_area').setStyle({ width: '642px' })
-	map.resize(640, 480);
+	GSize(640, 480);
 	$('search_result').show();
 }
 
 function hide_search_result () {
 	$('search_result').hide();
 	$('map_area').setStyle({ width: '942px' })
-	map.resize(942, 480);
+	GSize(942, 480);
 }
 
 function search_nearby (hot_spot_id) {
@@ -330,7 +330,7 @@ function search_keyword(keyword) {
 
 
 <div id="search_bar">                 
-	<form action="<%= url_for :controller=>'/search', :action=>'search', :id=>@current_city.id %>" method="post" id="frm_fast_search" onsubmit="return fast_search(this); "  onkeydown="if(event.keycode==13) this.submit();">
+	<form action="<%= url_for :controller=>'/search', :action=>'search', :id=>@current_city.id %>" method="post" id="frm_fast_search" onkeydown="if(event.keycode==13) this.submit();">
 		<table border="0" cellspacing="0" cellpadding="0" width="100%">
 			<tr>
 				<td width="100%" align="center">
